@@ -9,7 +9,7 @@ function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();
   return (
     <NavigationContainer>
-      <StatusBar />
+      <StatusBar backgroundColor="#F3F3F3" barStyle="dark-content" />
       <Stack.Navigator
         screenOptions={{
           headerShown: false,

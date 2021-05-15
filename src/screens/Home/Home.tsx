@@ -1,20 +1,26 @@
 import React from 'react';
 
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import Header from '../../components/Header';
+import SearchBar from '../../components/SearchBar';
+import { PADDING_SAFE, PRIMARY_COLORS } from '../../constants';
 
 const Home: React.FC = function (_) {
   return (
-    <View style={styles.root}>
-      <Text>Home Screen</Text>
-    </View>
+    <>
+      <Header />
+      <View style={styles.root}>
+        <SearchBar />
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: PRIMARY_COLORS.bgColor,
+    paddingHorizontal: PADDING_SAFE,
   },
 });
 
