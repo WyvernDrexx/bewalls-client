@@ -45,12 +45,13 @@ const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: PRIMARY_COLORS.bgColor,
     // backgroundColor: 'pink',
-    paddingVertical: heightPercentageToDP('3%'),
+    paddingVertical: heightPercentageToDP('2%'),
     paddingHorizontal: widthPercentageToDP('4%'),
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingBottom: heightPercentageToDP(3),
   },
   appNameContainer: {},
   appNamePrefix: {

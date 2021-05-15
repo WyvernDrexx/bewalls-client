@@ -1,9 +1,10 @@
 import React from 'react';
 
 import { View, StyleSheet } from 'react-native';
+import Carousel from '../../components/Carousel';
 import Header from '../../components/Header';
 import SearchBar from '../../components/SearchBar';
-import { PADDING_SAFE, PRIMARY_COLORS } from '../../constants';
+import { PADDING_SAFE } from '../../constants';
 
 const Home: React.FC = function (_) {
   return (
@@ -11,6 +12,7 @@ const Home: React.FC = function (_) {
       <Header />
       <View style={styles.root}>
         <SearchBar />
+        <Carousel />
       </View>
     </>
   );
@@ -19,7 +21,7 @@ const Home: React.FC = function (_) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: PRIMARY_COLORS.bgColor,
+    backgroundColor: 'white',
     paddingHorizontal: PADDING_SAFE,
   },
 });

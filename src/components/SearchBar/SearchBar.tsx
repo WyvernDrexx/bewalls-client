@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
   searchContainer: {
     backgroundColor: PRIMARY_COLORS.bgColor,
     borderRadius: widthPercentageToDP('3'),
-    marginTop: heightPercentageToDP('3'),
     paddingHorizontal: widthPercentageToDP('4'),
     paddingVertical: heightPercentageToDP('1'),
     shadowColor: '#000',
