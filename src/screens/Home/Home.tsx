@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { View, StyleSheet } from 'react-native';
+import BottomDragMenu from '../../components/BottomDragMenu';
 import Carousel from '../../components/Carousel';
 import Header from '../../components/Header';
 import SearchBar from '../../components/SearchBar';
@@ -13,6 +14,7 @@ const Home: React.FC = function (_) {
       <View style={styles.root}>
         <SearchBar />
         <Carousel />
+        <BottomDragMenu />
       </View>
     </>
   );

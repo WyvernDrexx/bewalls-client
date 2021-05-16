@@ -4,7 +4,6 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { STYLES } from '../../styles';
 import { CarouselItemType } from './Carousel';
 
 type CarouselItemProps = {
@@ -40,13 +39,22 @@ const CarouselItem = function (prop: CarouselItemProps) {
 };
 
 const styles = StyleSheet.create({
-  root: {
-    backgroundColor: 'white',
-  },
+  root: {},
   imageView: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.53,
+    shadowRadius: 13.97,
+    elevation: 21,
+    borderRadius: heightPercentageToDP(5),
+    marginBottom: heightPercentageToDP(6),
   },
   titleView: {
     position: 'absolute',
@@ -68,6 +76,7 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP('65'),
     height: heightPercentageToDP('60'),
     resizeMode: 'cover',
+    backgroundColor: 'white',
   },
 });
 
