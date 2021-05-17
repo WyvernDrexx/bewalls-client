@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { StyleSheet, TextInput, View, Text } from 'react-native';
+import React, { createRef, useState } from 'react';
+import { StyleSheet, TextInput, View, Text, Keyboard } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, {
   interpolate,
   useAnimatedStyle,
   useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
 import {
   heightPercentageToDP,
@@ -21,22 +22,34 @@ type SearchBarProps = {
 };
 
 const SearchBar: React.FC<SearchBarProps> = function (props) {
-  const [isEditable, setIsEditable] = useState(false);
   const activeSearch = useSharedValue(0);
+  let inputRef = createRef<TextInput>();
+
+  const headerHeight = heightPercentageToDP(9);
+  const searchBarOffsetY = -(headerHeight - heightPercentageToDP(2));
+  const placeholderOffset = heightPercentageToDP(3.7);
+
   const onPressHandler = () => {
-    setIsEditable(true);
-    props.onSearchBarActive();
-    activeSearch.value = 1;
+    if (!activeSearch.value) {
+      props.onSearchBarActive();
+      activeSearch.value = 1;
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 500);
+    }
   };
 
   const onReleaseHandler = () => {
-    setIsEditable(false);
     props.onSearchBarRelease();
     activeSearch.value = 0;
   };
 
   const animatedStyle = useAnimatedStyle(() => {
-    const offsetY = interpolate(activeSearch.value, [0, 1], [0, -50]);
+    const offsetY = interpolate(
+      activeSearch.value,
+      [0, 1],
+      [0, searchBarOffsetY],
+    );
     return {
       transform: [
         {
@@ -47,15 +60,51 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
   });
 
   const backgroundViewStyle = useAnimatedStyle(() => {
-    const offsetY = interpolate(activeSearch.value, [0, 1], [0, -10]);
     return {
       transform: [
         {
-          translateY: Animated.withTiming(offsetY),
+          translateY: Animated.withTiming(-headerHeight),
         },
       ],
       opacity: Animated.withTiming(activeSearch.value),
       zIndex: activeSearch.value,
+    };
+  });
+
+  const textInputStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          scale: withTiming(activeSearch.value),
+        },
+      ],
+    };
+  });
+
+  const placeholderTextStyle = useAnimatedStyle(() => {
+    const offsetY = interpolate(
+      activeSearch.value,
+      [0, 1],
+      [0, -placeholderOffset],
+    );
+    const scale = interpolate(activeSearch.value, [0, 1], [1, 0.6]);
+    const offsetX = interpolate(
+      activeSearch.value,
+      [0, 1],
+      [0, -placeholderOffset],
+    );
+    return {
+      transform: [
+        {
+          scale: withTiming(scale),
+        },
+        {
+          translateY: withTiming(offsetY),
+        },
+        {
+          translateX: withTiming(offsetX),
+        },
+      ],
     };
   });
 
@@ -69,8 +118,15 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
           style={styles.searchContainer}>
           <View style={[STYLES.flexRowCenter]}>
             <View style={[styles.searchTextView, STYLES.flexRowCenter]}>
-              <Text style={styles.placeholderText}>Search Devices</Text>
-              <TextInput editable={isEditable} />
+              <Animated.Text
+                style={[placeholderTextStyle, styles.placeholderText]}>
+                Search Devices
+              </Animated.Text>
+              <Animated.View style={textInputStyle}>
+                <TouchableOpacity onPress={onPressHandler}>
+                  <TextInput ref={inputRef} style={styles.searchInput} />
+                </TouchableOpacity>
+              </Animated.View>
             </View>
             <View>
               <Search
@@ -96,11 +152,12 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     zIndex: 100,
+    height: heightPercentageToDP(8),
   },
   searchContainer: {
     backgroundColor: PRIMARY_COLORS.bgColor,
     borderRadius: widthPercentageToDP('3'),
-    paddingHorizontal: widthPercentageToDP('4'),
+    paddingHorizontal: widthPercentageToDP('3.5'),
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -111,7 +168,10 @@ const styles = StyleSheet.create({
     elevation: 24,
   },
   searchInput: {
-    fontSize: heightPercentageToDP('2.5'),
+    fontSize: heightPercentageToDP('2'),
+    margin: 0,
+    width: widthPercentageToDP(76),
+    color: 'black',
   },
   searchTextView: {},
   placeholderText: {
@@ -122,14 +182,14 @@ const styles = StyleSheet.create({
     height: heightPercentageToDP(100),
     width: widthPercentageToDP(100),
     position: 'absolute',
-    top: 0,
     zIndex: 1,
     backgroundColor: 'white',
     opacity: 1,
+    paddingTop: heightPercentageToDP(11),
+    paddingHorizontal: widthPercentageToDP(5),
   },
   searchResultsView: {
     // backgroundColor: 'tomato',
-    padding: 20,
   },
 });
 

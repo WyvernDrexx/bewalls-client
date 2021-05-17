@@ -46,7 +46,9 @@ const Header: React.FC<HeaderProps> = function (props) {
 };
 
 const styles = StyleSheet.create({
-  root: {},
+  root: {
+    height: heightPercentageToDP(9),
+  },
   headerContainer: {
     backgroundColor: PRIMARY_COLORS.bgColor,
     // backgroundColor: 'pink',

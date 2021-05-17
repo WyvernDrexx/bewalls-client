@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Keyboard } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedStyle,
@@ -34,6 +34,9 @@ const Home: React.FC = function (_) {
 
   const onSearchBarRelease = function () {
     searchBarActive.value = 0;
+    setTimeout(() => {
+      Keyboard.dismiss();
+    }, 250);
   };
 
   return (

@@ -50,7 +50,9 @@ const Carousel = function () {
       <Animated.ScrollView
         onScroll={scrollHandler}
         showsHorizontalScrollIndicator={false}
-        horizontal={true}>
+        horizontal={true}
+        alwaysBounceHorizontal={false}
+        bounces={false}>
         {CAROUSEL_ITEMS.map((item, i) => {
           return (
             <CarouselItem
