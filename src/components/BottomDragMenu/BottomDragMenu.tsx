@@ -1,5 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -8,6 +13,11 @@ import {
 import Fire from './fire.svg';
 import Heart from './heart.svg';
 import Download from './download.svg';
+import Animated from 'react-native-reanimated';
+
+type BottomDragMenuProps = {
+  animatedStyle?: StyleProp<ViewStyle>;
+};
 
 const iconSize = heightPercentageToDP(4);
 
@@ -49,9 +59,13 @@ const renderActionButtons = () => {
   });
 };
 
-const BottomDragMenu = function () {
+const BottomDragMenu: React.FC<BottomDragMenuProps> = function (props) {
   // const transX = index * 8 + (index + 1) * 17.5;
-  return <View style={styles.root}>{renderActionButtons()}</View>;
+  return (
+    <Animated.View style={[props.animatedStyle, styles.root]}>
+      {renderActionButtons()}
+    </Animated.View>
+  );
 };
 
 const styles = StyleSheet.create({

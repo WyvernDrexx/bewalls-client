@@ -33,21 +33,6 @@ const CAROUSEL_ITEMS: CarouselItemType[] = [
     subTitle: 'Wallpapers',
     image: require('./3.jpg'),
   },
-  {
-    title: 'OnePlus',
-    subTitle: 'Wallpapers',
-    image: require('./1.jpg'),
-  },
-  {
-    title: 'Samsung',
-    subTitle: 'Wallpapers',
-    image: require('./2.jpg'),
-  },
-  {
-    title: 'Realme',
-    subTitle: 'Wallpapers',
-    image: require('./3.jpg'),
-  },
 ];
 
 const Carousel = function () {

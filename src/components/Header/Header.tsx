@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
   heightPercentageToDP,
@@ -10,12 +10,17 @@ import { STYLES } from '../../styles';
 import MenuIcon from './menu.svg';
 import Diamond from './diamond.svg';
 import { PRIMARY_COLORS } from '../../constants';
+import Animated from 'react-native-reanimated';
 
-const Header: React.FC = function () {
+type HeaderProps = {
+  animatedStyle?: StyleProp<ViewStyle>;
+};
+
+const Header: React.FC<HeaderProps> = function (props) {
   const diamondCount = 0;
 
   return (
-    <View style={styles.root}>
+    <Animated.View style={[props.animatedStyle, styles.root]}>
       <View style={styles.headerContainer}>
         <TouchableOpacity activeOpacity={0.6}>
           <MenuIcon
@@ -36,7 +41,7 @@ const Header: React.FC = function () {
           <Text>{diamondCount}</Text>
         </View>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 
