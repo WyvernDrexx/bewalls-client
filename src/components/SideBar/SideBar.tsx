@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
 } from 'react-native-reanimated';
 import {
   heightPercentageToDP,
@@ -18,8 +17,31 @@ type SideBarProps = {
 };
 
 const SideBar: React.FC<SideBarProps> = function (props) {
+  const sideBarWidth = widthPercentageToDP(75);
+  const sideBarShown = useSharedValue(props.isShown);
+
+  useEffect(() => {
+    sideBarShown.value = props.isShown;
+  }, [props.isShown, sideBarShown]);
+
+  const sideBarStyle = useAnimatedStyle(() => {
+    const offsetX = interpolate(
+      Number(sideBarShown.value),
+      [0, 1],
+      [-sideBarWidth, 0],
+    );
+
+    return {
+      transform: [
+        {
+          translateX: Animated.withTiming(offsetX),
+        },
+      ],
+    };
+  });
+
   return (
-    <Animated.View style={[props.animatedStyle, styles.root]}>
+    <Animated.View style={[sideBarStyle, styles.root]}>
       <Text>SideBar</Text>
     </Animated.View>
   );
