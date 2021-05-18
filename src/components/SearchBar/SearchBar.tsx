@@ -1,5 +1,5 @@
-import React, { createRef, useState } from 'react';
-import { StyleSheet, TextInput, View, Text, Keyboard } from 'react-native';
+import React, { createRef } from 'react';
+import { StyleSheet, TextInput, View, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, {
   interpolate,
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     height: heightPercentageToDP(100),
     width: widthPercentageToDP(100),
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 0,
     backgroundColor: 'white',
     opacity: 1,
     paddingTop: heightPercentageToDP(11),
