@@ -14,15 +14,22 @@ import Animated from 'react-native-reanimated';
 
 type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
+  onMenuClick?: () => void;
 };
 
 const Header: React.FC<HeaderProps> = function (props) {
   const diamondCount = 0;
 
+  const onMenuClickHandler = () => {
+    if (typeof props.onMenuClick !== 'undefined') {
+      props.onMenuClick();
+    }
+  };
+
   return (
     <Animated.View style={[props.animatedStyle, styles.root]}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity activeOpacity={0.6}>
+        <TouchableOpacity onPress={onMenuClickHandler} activeOpacity={0.6}>
           <MenuIcon
             width={widthPercentageToDP('6%')}
             height={heightPercentageToDP('2')}

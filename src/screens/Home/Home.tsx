@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { View, StyleSheet, Keyboard } from 'react-native';
 import Animated, {
@@ -6,14 +6,18 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import BottomDragMenu from '../../components/BottomDragMenu';
 import Carousel from '../../components/Carousel';
 import Header from '../../components/Header';
 import SearchBar from '../../components/SearchBar';
+import SideBar from '../../components/SideBar';
 import { PADDING_SAFE } from '../../constants';
 
 const Home: React.FC = function (_) {
   const searchBarActive = useSharedValue(0);
+  const sideBarWidth = widthPercentageToDP(75);
+  const sideBarShown = useSharedValue(0);
   const headerStyle = useAnimatedStyle(() => {
     const offsetY = interpolate(searchBarActive.value, [0, 1], [0, -100]);
     return {
@@ -39,9 +43,26 @@ const Home: React.FC = function (_) {
     }, 250);
   };
 
+  const onMenuClick = () => {
+    sideBarShown.value = 1;
+  };
+
+  const sideBarStyle = useAnimatedStyle(() => {
+    const offsetX = interpolate(sideBarShown.value, [0, 1], [-sideBarWidth, 0]);
+
+    return {
+      transform: [
+        {
+          translateX: Animated.withTiming(offsetX),
+        },
+      ],
+    };
+  });
+
   return (
     <>
-      <Header animatedStyle={headerStyle} />
+      <SideBar animatedStyle={sideBarStyle} />
+      <Header onMenuClick={onMenuClick} animatedStyle={headerStyle} />
       <View style={styles.root}>
         <SearchBar
           onSearchBarActive={onSearchBarActive}
