@@ -15,7 +15,8 @@ import { PADDING_SAFE } from '../../constants';
 
 const Home: React.FC = function (_) {
   const searchBarActive = useSharedValue(0);
-  const [isShown, setisShown] = useState(false);
+  const [isSideBarShown, setIsSideBarShown] = useState(false);
+
   const headerStyle = useAnimatedStyle(() => {
     const offsetY = interpolate(searchBarActive.value, [0, 1], [0, -100]);
     return {
@@ -42,12 +43,16 @@ const Home: React.FC = function (_) {
   };
 
   const onMenuClick = () => {
-    setisShown(true);
+    setIsSideBarShown(true);
+  };
+
+  const onMenuClose = () => {
+    setIsSideBarShown(false);
   };
 
   return (
     <>
-      <SideBar isShown={isShown} />
+      <SideBar onMenuClose={onMenuClose} isShown={isSideBarShown} />
       <Header onMenuClick={onMenuClick} animatedStyle={headerStyle} />
       <View style={styles.root}>
         <SearchBar
