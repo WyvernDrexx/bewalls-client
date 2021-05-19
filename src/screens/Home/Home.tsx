@@ -12,10 +12,12 @@ import Header from '../../components/Header';
 import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
 import { PADDING_SAFE } from '../../constants';
+import getColorScheme from '../../utilities/getColorScheme';
 
 const Home: React.FC = function (_) {
   const searchBarActive = useSharedValue(0);
   const [isSideBarShown, setIsSideBarShown] = useState(false);
+  const COLORS = getColorScheme();
 
   const headerStyle = useAnimatedStyle(() => {
     const offsetY = interpolate(searchBarActive.value, [0, 1], [0, -100]);
@@ -50,6 +52,14 @@ const Home: React.FC = function (_) {
     setIsSideBarShown(false);
   };
 
+  const styles = StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: COLORS.primary,
+      paddingHorizontal: PADDING_SAFE,
+    },
+  });
+
   return (
     <>
       <SideBar onMenuClose={onMenuClose} isShown={isSideBarShown} />
@@ -65,13 +75,5 @@ const Home: React.FC = function (_) {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingHorizontal: PADDING_SAFE,
-  },
-});
 
 export default Home;

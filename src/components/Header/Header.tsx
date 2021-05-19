@@ -1,25 +1,32 @@
 import React from 'react';
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { STYLES } from '../../styles';
 
-import MenuIcon from './menu.svg';
-import Diamond from './diamond.svg';
-import { PRIMARY_COLORS } from '../../constants';
 import Animated from 'react-native-reanimated';
+import getColorScheme from '../../utilities/getColorScheme';
+
+import ProfileImage from './profile.svg';
+import MoonImage from './moon.svg';
+import SunImage from './sun.svg';
 
 type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
   onMenuClick?: () => void;
 };
 
-const Header: React.FC<HeaderProps> = function (props) {
-  const diamondCount = 0;
+const COLORS = getColorScheme();
 
+const Header: React.FC<HeaderProps> = function (props) {
   const onMenuClickHandler = () => {
     if (typeof props.onMenuClick !== 'undefined') {
       props.onMenuClick();
@@ -29,24 +36,37 @@ const Header: React.FC<HeaderProps> = function (props) {
   return (
     <Animated.View style={[props.animatedStyle, styles.root]}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={onMenuClickHandler} activeOpacity={0.6}>
-          <MenuIcon
-            width={widthPercentageToDP('6%')}
-            height={heightPercentageToDP('2')}
-          />
+        <TouchableOpacity
+          style={styles.userInfo}
+          onPress={onMenuClickHandler}
+          activeOpacity={0.6}>
+          <View>
+            <ProfileImage
+              fill="black"
+              width={widthPercentageToDP(12)}
+              height={widthPercentageToDP(12)}
+            />
+          </View>
+          <View style={styles.welcomeView}>
+            <Text style={styles.welcomeText}>Welcome,</Text>
+            <Text style={styles.nameText}>John</Text>
+          </View>
         </TouchableOpacity>
-        <View style={[STYLES.flexRowCenter, styles.appNameContainer]}>
-          <Text style={styles.appNamePrefix}>Stock</Text>
-          <Text style={styles.appNamePostfix}>Walls</Text>
-        </View>
-        <View style={[STYLES.flexRowCenter]}>
-          <Diamond
-            fill="black"
-            width={widthPercentageToDP('6%')}
-            height={heightPercentageToDP('4')}
-          />
-          <Text>{diamondCount}</Text>
-        </View>
+        <TouchableOpacity>
+          {true ? (
+            <MoonImage
+              fill="black"
+              width={widthPercentageToDP(6)}
+              height={widthPercentageToDP(6)}
+            />
+          ) : (
+            <SunImage
+              fill="#FFD347"
+              width={widthPercentageToDP(7)}
+              height={widthPercentageToDP(7)}
+            />
+          )}
+        </TouchableOpacity>
       </View>
     </Animated.View>
   );
@@ -57,23 +77,33 @@ const styles = StyleSheet.create({
     height: heightPercentageToDP(9),
   },
   headerContainer: {
-    backgroundColor: PRIMARY_COLORS.bgColor,
-    // backgroundColor: 'pink',
-    paddingVertical: heightPercentageToDP('2%'),
+    backgroundColor: COLORS.primary,
     paddingHorizontal: widthPercentageToDP('4%'),
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom: heightPercentageToDP(3),
+    color: COLORS.secondary,
+    width: widthPercentageToDP(100),
+    paddingBottom: heightPercentageToDP(2),
   },
-  appNameContainer: {},
-  appNamePrefix: {
+  userInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  welcomeText: {
+    color: 'gray',
+    fontSize: heightPercentageToDP(2),
+  },
+  nameText: {
+    color: COLORS.secondary,
     fontWeight: 'bold',
-    fontSize: heightPercentageToDP('3.2'),
+    fontSize: heightPercentageToDP(2.5),
   },
-  appNamePostfix: {
-    fontSize: heightPercentageToDP('3.2'),
+  welcomeView: {
+    paddingLeft: widthPercentageToDP(2),
   },
 });
 
