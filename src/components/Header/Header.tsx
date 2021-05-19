@@ -74,7 +74,7 @@ const Header: React.FC<HeaderProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    height: heightPercentageToDP(9),
+    backgroundColor: 'white',
   },
   headerContainer: {
     backgroundColor: COLORS.primary,
