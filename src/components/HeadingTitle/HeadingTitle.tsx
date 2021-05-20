@@ -1,5 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import getColorScheme from '../../utilities/getColorScheme';
 
@@ -7,6 +15,8 @@ type HeadingTitleProps = {
   title: string;
   more?: string;
   onMoreClick?: () => void;
+  viewStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 };
 
 const HeadingTitle: React.FC<HeadingTitleProps> = function (props) {
@@ -19,10 +29,12 @@ const HeadingTitle: React.FC<HeadingTitleProps> = function (props) {
   };
 
   return (
-    <View style={styles.root}>
-      <Text style={styles.headingText}>{props.title}</Text>
+    <View style={[styles.root, props.viewStyle]}>
+      <Text style={[styles.headingText, props.textStyle]}>{props.title}</Text>
       <TouchableOpacity onPress={onClickHandler}>
-        <Text style={styles.moreText}>{props.more || 'MORE'}</Text>
+        <Text style={[styles.moreText, props.textStyle]}>
+          {props.more || 'MORE'}
+        </Text>
       </TouchableOpacity>
     </View>
   );
