@@ -3,12 +3,26 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import getColorScheme from '../../utilities/getColorScheme';
 
-const HeadingTitle = function () {
+type HeadingTitleProps = {
+  title: string;
+  more?: string;
+  onMoreClick?: () => void;
+};
+
+const HeadingTitle: React.FC<HeadingTitleProps> = function (props) {
+  const onClickHandler = () => {
+    if (props.onMoreClick) {
+      return props.onMoreClick();
+    } else {
+      console.log(props.title, 'MORE Clicked!');
+    }
+  };
+
   return (
     <View style={styles.root}>
-      <Text style={styles.headingText}>Trending Now</Text>
-      <TouchableOpacity>
-        <Text style={styles.moreText}>MORE</Text>
+      <Text style={styles.headingText}>{props.title}</Text>
+      <TouchableOpacity onPress={onClickHandler}>
+        <Text style={styles.moreText}>{props.more || 'MORE'}</Text>
       </TouchableOpacity>
     </View>
   );

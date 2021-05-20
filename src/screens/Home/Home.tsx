@@ -61,7 +61,7 @@ const Home: React.FC = function (_) {
           onSearchBarActive={onSearchBarActive}
           onSearchBarRelease={onSearchBarRelease}
         />
-        <HeadingTitle />
+        <HeadingTitle title="Trending Now" />
       </View>
     </>
   );
