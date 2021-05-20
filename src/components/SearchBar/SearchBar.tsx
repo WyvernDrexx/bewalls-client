@@ -44,12 +44,15 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
 };
 
 const styles = StyleSheet.create({
-  root: {},
+  root: {
+    paddingHorizontal: widthPercentageToDP(2),
+  },
   searchContainer: {
     backgroundColor: COLORS.light,
     paddingHorizontal: widthPercentageToDP(4),
     paddingVertical: heightPercentageToDP(3),
     marginVertical: heightPercentageToDP(2),
+    borderRadius: heightPercentageToDP(1.5),
     marginBottom: 0,
   },
   searchInput: {

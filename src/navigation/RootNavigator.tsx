@@ -19,11 +19,7 @@ function RootNavigator() {
           },
         }}>
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen
-          options={{ headerShown: true, headerTitle: '' }}
-          name="Search"
-          component={Search}
-        />
+        <Stack.Screen name="Search" component={Search} />
       </Stack.Navigator>
     </NavigationContainer>
   );
