@@ -6,8 +6,9 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { CardData } from '../../components/Card/Card';
-import { MediumSizeCarousel } from '../../components/Carousel';
+import { Box, Boxes, MediumSizeCarousel } from '../../components/Carousel';
 import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
 import SearchBar from '../../components/SearchBar';
@@ -36,6 +37,29 @@ const Home: React.FC = function (_) {
       title: 'Samsung',
       subTitle: 'Wallpapers',
       image: require('./2.jpg'),
+    },
+  ];
+
+  const CATEGORIES: Box[] = [
+    {
+      title: 'All',
+      backgroundColor: 'black',
+    },
+    {
+      title: 'Abstract',
+      backgroundColor: 'tomato',
+    },
+    {
+      title: 'Cars',
+      backgroundColor: 'crimson',
+    },
+    {
+      title: '3D',
+      backgroundColor: 'teal',
+    },
+    {
+      title: 'Stock',
+      backgroundColor: 'orange',
     },
   ];
 
@@ -70,8 +94,9 @@ const Home: React.FC = function (_) {
       flex: 1,
       backgroundColor: COLORS.primary,
       paddingHorizontal: PADDING_SAFE,
+      paddingTop: heightPercentageToDP(2),
     },
-    trendingView: {
+    noBorderFrame: {
       marginHorizontal: -PADDING_SAFE,
     },
   });
@@ -87,9 +112,11 @@ const Home: React.FC = function (_) {
         />
         <HeadingTitle title="Trending Now" />
         <MediumSizeCarousel
-          style={styles.trendingView}
+          style={styles.noBorderFrame}
           items={CAROUSEL_ITEMS}
         />
+        <HeadingTitle title="Categories" />
+        <Boxes style={styles.noBorderFrame} items={CATEGORIES} />
       </View>
     </>
   );

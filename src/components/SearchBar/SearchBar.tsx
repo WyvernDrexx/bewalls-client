@@ -158,12 +158,12 @@ const styles = StyleSheet.create({
   root: {
     zIndex: 100,
     paddingTop: heightPercentageToDP(2),
+    height: heightPercentageToDP(8),
   },
   searchContainer: {
     backgroundColor: COLORS.light,
     borderRadius: widthPercentageToDP('3'),
     paddingHorizontal: widthPercentageToDP(4),
-    paddingVertical: widthPercentageToDP(2),
   },
   searchInput: {
     margin: 0,
