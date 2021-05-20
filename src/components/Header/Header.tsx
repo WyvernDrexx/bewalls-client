@@ -4,8 +4,8 @@ import {
   StyleSheet,
   View,
   ViewStyle,
-  TouchableOpacity,
   Text,
+  TouchableOpacity,
 } from 'react-native';
 import {
   heightPercentageToDP,
@@ -18,6 +18,7 @@ import getColorScheme from '../../utilities/getColorScheme';
 import ProfileImage from './profile.svg';
 import MoonImage from './moon.svg';
 import SunImage from './sun.svg';
+import { PADDING_SAFE } from '../../constants';
 
 type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
@@ -35,39 +36,34 @@ const Header: React.FC<HeaderProps> = function (props) {
 
   return (
     <Animated.View style={[props.animatedStyle, styles.root]}>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity
-          style={styles.userInfo}
-          onPress={onMenuClickHandler}
-          activeOpacity={0.6}>
-          <View>
-            <ProfileImage
-              fill="black"
-              width={widthPercentageToDP(12)}
-              height={widthPercentageToDP(12)}
-            />
-          </View>
+      <TouchableOpacity onPress={onMenuClickHandler} activeOpacity={0.6}>
+        <View style={styles.userInfo}>
+          <ProfileImage
+            fill="black"
+            width={widthPercentageToDP(12)}
+            height={widthPercentageToDP(12)}
+          />
           <View style={styles.welcomeView}>
             <Text style={styles.welcomeText}>Welcome,</Text>
             <Text style={styles.nameText}>John</Text>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          {true ? (
-            <MoonImage
-              fill="black"
-              width={widthPercentageToDP(6)}
-              height={widthPercentageToDP(6)}
-            />
-          ) : (
-            <SunImage
-              fill="#FFD347"
-              width={widthPercentageToDP(7)}
-              height={widthPercentageToDP(7)}
-            />
-          )}
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        {true ? (
+          <MoonImage
+            fill="black"
+            width={widthPercentageToDP(6)}
+            height={widthPercentageToDP(6)}
+          />
+        ) : (
+          <SunImage
+            fill="#FFD347"
+            width={widthPercentageToDP(7)}
+            height={widthPercentageToDP(7)}
+          />
+        )}
+      </TouchableOpacity>
     </Animated.View>
   );
 };
@@ -75,9 +71,7 @@ const Header: React.FC<HeaderProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     backgroundColor: 'white',
-  },
-  headerContainer: {
-    backgroundColor: COLORS.primary,
+    paddingHorizontal: PADDING_SAFE,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -85,6 +79,7 @@ const styles = StyleSheet.create({
     color: COLORS.secondary,
     paddingBottom: heightPercentageToDP(2),
   },
+  headerContainer: {},
   userInfo: {
     display: 'flex',
     flexDirection: 'row',

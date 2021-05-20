@@ -9,6 +9,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
+import { PADDING_SAFE } from '../../constants';
 import getColorScheme from '../../utilities/getColorScheme';
 
 type HeadingTitleProps = {
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     flexDirection: 'row',
     paddingVertical: heightPercentageToDP(2),
+    paddingHorizontal: PADDING_SAFE,
   },
   headingText: {
     color: COLORS.secondary,

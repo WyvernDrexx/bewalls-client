@@ -16,6 +16,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import { PADDING_SAFE } from '../../constants';
 import { STYLES } from '../../styles';
 import getColorScheme from '../../utilities/getColorScheme';
 
@@ -70,7 +71,7 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
   const backgroundViewStyle = useAnimatedStyle(() => {
     return {
       opacity: Animated.withTiming(activeSearch.value),
-      zIndex: activeSearch.value,
+      zIndex: activeSearch.value || -1,
     };
   });
 
@@ -159,6 +160,7 @@ const styles = StyleSheet.create({
     zIndex: 100,
     paddingTop: heightPercentageToDP(2),
     height: heightPercentageToDP(8),
+    paddingHorizontal: PADDING_SAFE,
   },
   searchContainer: {
     backgroundColor: COLORS.light,
@@ -188,7 +190,7 @@ const styles = StyleSheet.create({
     height: heightPercentageToDP(100),
     width: widthPercentageToDP(100),
     position: 'absolute',
-    zIndex: 0,
+    zIndex: -1,
     backgroundColor: COLORS.primary,
     opacity: 1,
     paddingTop: heightPercentageToDP(11),
