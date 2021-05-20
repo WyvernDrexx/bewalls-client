@@ -118,7 +118,10 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     <>
       <View style={styles.root}>
         <SideBar onMenuClose={onMenuClose} isShown={isSideBarShown} />
-        <ScrollView style={styles.scrollView}>
+        <ScrollView
+          overScrollMode="never"
+          showsVerticalScrollIndicator={false}
+          style={styles.scrollView}>
           <Header onMenuClick={onMenuClick} animatedStyle={headerStyle} />
           <SearchBar onSearchBarActive={onSearchBarActive} />
           <HeadingTitle title="Trending Now" />

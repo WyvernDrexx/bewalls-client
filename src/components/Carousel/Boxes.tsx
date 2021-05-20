@@ -50,7 +50,10 @@ const Box: React.FC<BoxProps> = function (props) {
 const Boxes: React.FC<BoxesProps> = function (props) {
   return (
     <View style={[styles.root, props.style]}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal
+        overScrollMode="never"
+        showsHorizontalScrollIndicator={false}>
         {props.items.map((item, index) => {
           return (
             <Box

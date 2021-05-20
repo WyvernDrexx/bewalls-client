@@ -19,6 +19,7 @@ const MediumSizeCarousel: React.FC<MediumSizeCarouselProps> = function (props) {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         style={[props.style]}
+        overScrollMode="never"
         horizontal>
         {props.items.map((item, index) => {
           return (

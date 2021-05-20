@@ -13,7 +13,10 @@ type StretchedProps = {
 const Stretched: React.FC<StretchedProps> = function (props) {
   return (
     <View style={styles.root}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal
+        overScrollMode="never"
+        showsHorizontalScrollIndicator={false}>
         {props.items.map((item, index) => {
           return (
             <Card
