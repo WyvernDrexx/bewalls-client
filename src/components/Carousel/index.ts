@@ -1,2 +1,1 @@
-export { default } from './Carousel';
-export { CarouselItem } from './CarouselItem';
+export * from './Medium';
