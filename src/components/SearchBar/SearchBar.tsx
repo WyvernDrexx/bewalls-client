@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthPercentageToDP(4),
     paddingVertical: heightPercentageToDP(3),
     marginVertical: heightPercentageToDP(2),
+    marginBottom: 0,
   },
   searchInput: {
     margin: 0,
@@ -69,19 +70,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: widthPercentageToDP(10),
     fontSize: heightPercentageToDP(2),
-  },
-  searchBarBackground: {
-    height: heightPercentageToDP(100),
-    width: widthPercentageToDP(100),
-    position: 'absolute',
-    zIndex: -1,
-    backgroundColor: COLORS.primary,
-    opacity: 1,
-    paddingTop: heightPercentageToDP(11),
-    paddingHorizontal: widthPercentageToDP(5),
-  },
-  searchResultsView: {
-    // backgroundColor: 'tomato',
   },
 });
 

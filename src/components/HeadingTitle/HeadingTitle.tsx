@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: heightPercentageToDP(2),
     paddingHorizontal: PADDING_SAFE,
+    paddingTop: heightPercentageToDP(4),
   },
   headingText: {
     color: COLORS.secondary,

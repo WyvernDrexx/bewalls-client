@@ -8,7 +8,12 @@ import Animated, {
 } from 'react-native-reanimated';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { CardData } from '../../components/Card/Card';
-import { Box, Boxes, MediumSizeCarousel } from '../../components/Carousel';
+import {
+  Box,
+  Boxes,
+  MediumSizeCarousel,
+  Stretched,
+} from '../../components/Carousel';
 import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
 import SearchBar from '../../components/SearchBar';
@@ -63,6 +68,22 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     },
   ];
 
+  const BRANDS: CardData[] = [
+    {
+      title: 'Apple',
+      image: require('./apple.jpg'),
+    },
+
+    {
+      title: 'OnePlus',
+      image: require('./oneplus.png'),
+    },
+    {
+      title: 'Realme',
+      image: require('./realme.jpg'),
+    },
+  ];
+
   const headerStyle = useAnimatedStyle(() => {
     const offsetY = interpolate(searchBarActive.value, [0, 1], [0, -100]);
     return {
@@ -96,15 +117,16 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   return (
     <>
       <View style={styles.root}>
-        <Header onMenuClick={onMenuClick} animatedStyle={headerStyle} />
         <SideBar onMenuClose={onMenuClose} isShown={isSideBarShown} />
-        <SearchBar onSearchBarActive={onSearchBarActive} />
         <ScrollView style={styles.scrollView}>
+          <Header onMenuClick={onMenuClick} animatedStyle={headerStyle} />
+          <SearchBar onSearchBarActive={onSearchBarActive} />
           <HeadingTitle title="Trending Now" />
           <MediumSizeCarousel items={CAROUSEL_ITEMS} />
           <HeadingTitle title="Categories" />
           <Boxes items={CATEGORIES} />
           <HeadingTitle title="Smartphone Brands" />
+          <Stretched items={BRANDS} />
         </ScrollView>
       </View>
     </>

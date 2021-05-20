@@ -56,8 +56,12 @@ const Card: React.FC<CardProps> = function (props) {
           source={props.cardData.image}
         />
         <View style={styles.titleView}>
-          <Text style={styles.title}>{props.cardData.title}</Text>
-          <Text style={styles.subTitle}>{props.cardData.subTitle}</Text>
+          {props.cardData.title ? (
+            <Text style={styles.title}>{props.cardData.title}</Text>
+          ) : null}
+          {props.cardData.subTitle ? (
+            <Text style={styles.subTitle}>{props.cardData.subTitle}</Text>
+          ) : null}
         </View>
       </Animated.View>
     </TouchableOpacity>
