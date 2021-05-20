@@ -5,4 +5,4 @@ export const PRIMARY_COLORS = {
   statusBarBgColor: '#F3F3F3',
 };
 
-export const PADDING_SAFE = widthPercentageToDP('4%');
+export const PADDING_SAFE = widthPercentageToDP('3.5%');

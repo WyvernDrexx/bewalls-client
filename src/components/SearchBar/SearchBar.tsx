@@ -69,11 +69,6 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
 
   const backgroundViewStyle = useAnimatedStyle(() => {
     return {
-      transform: [
-        {
-          translateY: Animated.withTiming(-headerHeight),
-        },
-      ],
       opacity: Animated.withTiming(activeSearch.value),
       zIndex: activeSearch.value,
     };
@@ -196,7 +191,7 @@ const styles = StyleSheet.create({
     zIndex: 0,
     backgroundColor: COLORS.primary,
     opacity: 1,
-    paddingTop: heightPercentageToDP(14),
+    paddingTop: heightPercentageToDP(11),
     paddingHorizontal: widthPercentageToDP(5),
   },
   searchResultsView: {

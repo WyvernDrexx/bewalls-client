@@ -78,13 +78,11 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     backgroundColor: COLORS.primary,
-    paddingHorizontal: widthPercentageToDP('4%'),
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     color: COLORS.secondary,
-    width: widthPercentageToDP(100),
     paddingBottom: heightPercentageToDP(2),
   },
   userInfo: {

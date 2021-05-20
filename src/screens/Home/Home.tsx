@@ -6,9 +6,8 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import BottomDragMenu from '../../components/BottomDragMenu';
-import Carousel from '../../components/Carousel';
 import Header from '../../components/Header';
+import HeadingTitle from '../../components/HeadingTitle';
 import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
 import { PADDING_SAFE } from '../../constants';
@@ -21,13 +20,6 @@ const Home: React.FC = function (_) {
 
   const headerStyle = useAnimatedStyle(() => {
     const offsetY = interpolate(searchBarActive.value, [0, 1], [0, -100]);
-    return {
-      transform: [{ translateY: Animated.withTiming(offsetY) }],
-    };
-  });
-
-  const bottomDragMenuStyle = useAnimatedStyle(() => {
-    const offsetY = interpolate(searchBarActive.value, [0, 1], [0, 100]);
     return {
       transform: [{ translateY: Animated.withTiming(offsetY) }],
     };
@@ -62,15 +54,14 @@ const Home: React.FC = function (_) {
 
   return (
     <>
-      <SideBar onMenuClose={onMenuClose} isShown={isSideBarShown} />
-      <Header onMenuClick={onMenuClick} animatedStyle={headerStyle} />
       <View style={styles.root}>
+        <SideBar onMenuClose={onMenuClose} isShown={isSideBarShown} />
+        <Header onMenuClick={onMenuClick} animatedStyle={headerStyle} />
         <SearchBar
           onSearchBarActive={onSearchBarActive}
           onSearchBarRelease={onSearchBarRelease}
         />
-        <Carousel />
-        <BottomDragMenu animatedStyle={bottomDragMenuStyle} />
+        <HeadingTitle />
       </View>
     </>
   );
