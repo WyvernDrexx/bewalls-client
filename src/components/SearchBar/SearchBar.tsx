@@ -1,22 +1,9 @@
-import React, { createRef } from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import React from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { PADDING_SAFE } from '../../constants';
 import { STYLES } from '../../styles';
 import getColorScheme from '../../utilities/getColorScheme';
 
@@ -26,98 +13,18 @@ const COLORS = getColorScheme();
 
 type SearchBarProps = {
   onSearchBarActive: () => void;
-  onSearchBarRelease: () => void;
 };
 
 const SearchBar: React.FC<SearchBarProps> = function (props) {
-  const activeSearch = useSharedValue(0);
-  let inputRef = createRef<TextInput>();
-
-  const headerHeight = heightPercentageToDP(9);
-  const searchBarOffsetY = -(headerHeight - heightPercentageToDP(2));
-  const placeholderOffsetX = heightPercentageToDP(5);
-  const placeholderOffsetY = heightPercentageToDP(4.3);
-
   const onPressHandler = () => {
-    if (!activeSearch.value) {
-      props.onSearchBarActive();
-      activeSearch.value = 1;
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 500);
-    }
+    props.onSearchBarActive();
   };
-
-  const onReleaseHandler = () => {
-    props.onSearchBarRelease();
-    activeSearch.value = 0;
-  };
-
-  const animatedStyle = useAnimatedStyle(() => {
-    const offsetY = interpolate(
-      activeSearch.value,
-      [0, 1],
-      [0, searchBarOffsetY],
-    );
-    return {
-      transform: [
-        {
-          translateY: Animated.withTiming(offsetY),
-        },
-      ],
-    };
-  });
-
-  const backgroundViewStyle = useAnimatedStyle(() => {
-    return {
-      opacity: Animated.withTiming(activeSearch.value),
-      zIndex: activeSearch.value || -1,
-    };
-  });
-
-  const textInputStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: withTiming(activeSearch.value),
-        },
-      ],
-    };
-  });
-
-  const placeholderTextStyle = useAnimatedStyle(() => {
-    const offsetY = interpolate(
-      activeSearch.value,
-      [0, 1],
-      [0, -placeholderOffsetY],
-    );
-    const scale = interpolate(activeSearch.value, [0, 1], [1, 0.6]);
-    const offsetX = interpolate(
-      activeSearch.value,
-      [0, 1],
-      [0, -placeholderOffsetX],
-    );
-    return {
-      transform: [
-        {
-          scale: withTiming(scale),
-        },
-        {
-          translateY: withTiming(offsetY),
-        },
-        {
-          translateX: withTiming(offsetX),
-        },
-      ],
-    };
-  });
 
   return (
     <>
-      <Animated.View style={[animatedStyle, styles.root]}>
+      <View style={[styles.root]}>
         <TouchableOpacity
           onPress={onPressHandler}
-          onLongPress={onReleaseHandler}
           activeOpacity={0.8}
           style={styles.searchContainer}>
           <View style={[STYLES.flexRowCenter]}>
@@ -127,45 +34,22 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
                 height={heightPercentageToDP('3')}
                 width={heightPercentageToDP('3')}
               />
-              <Animated.Text
-                style={[placeholderTextStyle, styles.placeholderText]}>
-                Search Devices
-              </Animated.Text>
-              <Animated.View style={textInputStyle}>
-                <TouchableOpacity onPress={onPressHandler}>
-                  <TextInput
-                    selectionColor={COLORS.secondary}
-                    ref={inputRef}
-                    style={styles.searchInput}
-                  />
-                </TouchableOpacity>
-              </Animated.View>
+              <Text style={[styles.placeholderText]}>Search Devices</Text>
             </View>
           </View>
         </TouchableOpacity>
-      </Animated.View>
-      <Animated.View style={[backgroundViewStyle, styles.searchBarBackground]}>
-        <TouchableOpacity onPress={onReleaseHandler}>
-          <View style={styles.searchResultsView}>
-            <Text>Hello world</Text>
-          </View>
-        </TouchableOpacity>
-      </Animated.View>
+      </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  root: {
-    zIndex: 100,
-    paddingTop: heightPercentageToDP(2),
-    height: heightPercentageToDP(8),
-    paddingHorizontal: PADDING_SAFE,
-  },
+  root: {},
   searchContainer: {
     backgroundColor: COLORS.light,
-    borderRadius: widthPercentageToDP('3'),
     paddingHorizontal: widthPercentageToDP(4),
+    paddingVertical: heightPercentageToDP(3),
+    marginVertical: heightPercentageToDP(2),
   },
   searchInput: {
     margin: 0,
@@ -176,7 +60,7 @@ const styles = StyleSheet.create({
   },
   searchTextView: {
     display: 'flex',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-evenly',
     flexDirection: 'row',
     alignItems: 'center',
   },

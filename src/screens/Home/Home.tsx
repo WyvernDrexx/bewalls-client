@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { View, StyleSheet, Keyboard, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedStyle,
@@ -13,9 +13,10 @@ import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
 import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
+import { HomeScreenProps } from '../../navigation/types';
 import getColorScheme from '../../utilities/getColorScheme';
 
-const Home: React.FC = function (_) {
+const Home: React.FC<HomeScreenProps> = function (props) {
   const searchBarActive = useSharedValue(0);
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const COLORS = getColorScheme();
@@ -70,14 +71,7 @@ const Home: React.FC = function (_) {
   });
 
   const onSearchBarActive = () => {
-    searchBarActive.value = 1;
-  };
-
-  const onSearchBarRelease = function () {
-    searchBarActive.value = 0;
-    setTimeout(() => {
-      Keyboard.dismiss();
-    }, 250);
+    props.navigation.navigate('Search');
   };
 
   const onMenuClick = () => {
@@ -104,10 +98,7 @@ const Home: React.FC = function (_) {
       <View style={styles.root}>
         <Header onMenuClick={onMenuClick} animatedStyle={headerStyle} />
         <SideBar onMenuClose={onMenuClose} isShown={isSideBarShown} />
-        <SearchBar
-          onSearchBarActive={onSearchBarActive}
-          onSearchBarRelease={onSearchBarRelease}
-        />
+        <SearchBar onSearchBarActive={onSearchBarActive} />
         <ScrollView style={styles.scrollView}>
           <HeadingTitle title="Trending Now" />
           <MediumSizeCarousel items={CAROUSEL_ITEMS} />
@@ -120,4 +111,4 @@ const Home: React.FC = function (_) {
   );
 };
 
-export default Home;
+export { Home };
