@@ -17,6 +17,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import { useThemeStyles } from '../../hooks';
 
 type SideBarProps = {
   isShown?: boolean;
@@ -27,6 +28,7 @@ type SideBarProps = {
 const SideBar: React.FC<SideBarProps> = function (props) {
   const sideBarWidth = widthPercentageToDP(100);
   const sideBarShown = useSharedValue(props.isShown);
+  const themeStyles = useThemeStyles();
 
   useEffect(() => {
     sideBarShown.value = props.isShown;
@@ -61,7 +63,7 @@ const SideBar: React.FC<SideBarProps> = function (props) {
 
   return (
     <Animated.View style={[sideBarStyle, styles.root]}>
-      <View style={styles.sideBarItemsView}>
+      <View style={[styles.sideBarItemsView, themeStyles.bg]}>
         <Text>Entries</Text>
       </View>
       <TouchableWithoutFeedback onPress={onMenuCloseHandler}>
@@ -92,7 +94,6 @@ const styles = StyleSheet.create({
   },
   sideBarItemsView: {
     width: widthPercentageToDP(78),
-    backgroundColor: 'white',
     padding: heightPercentageToDP(3),
   },
   transparentView: {

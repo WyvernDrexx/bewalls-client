@@ -18,14 +18,13 @@ import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
 import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
+import { useThemeStyles } from '../../hooks';
 import { HomeScreenProps } from '../../navigation/types';
-import getColorScheme from '../../utilities/getColorScheme';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const searchBarActive = useSharedValue(0);
   const [isSideBarShown, setIsSideBarShown] = useState(false);
-  const COLORS = getColorScheme();
-
+  const themeStyles = useThemeStyles();
   const CAROUSEL_ITEMS: CardData[] = [
     {
       title: 'OnePlus',
@@ -36,7 +35,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     {
       title: 'Realme',
       subTitle: 'Wallpapers',
-      image: require('./3.jpg'),
+      image: require('./3.png'),
     },
     {
       title: 'Samsung',
@@ -103,20 +102,9 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     setIsSideBarShown(false);
   };
 
-  const styles = StyleSheet.create({
-    root: {
-      flex: 1,
-      backgroundColor: COLORS.primary,
-      paddingTop: heightPercentageToDP(2),
-    },
-    scrollView: {
-      margin: 0,
-    },
-  });
-
   return (
     <>
-      <View style={styles.root}>
+      <View style={[styles.root, themeStyles.bg]}>
         <SideBar onMenuClose={onMenuClose} isShown={isSideBarShown} />
         <ScrollView
           overScrollMode="never"
@@ -135,5 +123,13 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     </>
   );
 };
-
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    paddingTop: heightPercentageToDP(2),
+  },
+  scrollView: {
+    margin: 0,
+  },
+});
 export { Home };

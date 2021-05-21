@@ -4,12 +4,10 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import { useTheme, useThemeStyles } from '../../hooks';
 import { STYLES } from '../../styles';
-import getColorScheme from '../../utilities/getColorScheme';
 
 import Search from './search.svg';
-
-const COLORS = getColorScheme();
 
 type SearchBarProps = {
   onSearchBarActive: () => void;
@@ -20,21 +18,26 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
     props.onSearchBarActive();
   };
 
+  const themeStyles = useThemeStyles();
+  const theme = useTheme();
+
   return (
     <>
       <View style={[styles.root]}>
         <TouchableOpacity
           onPress={onPressHandler}
           activeOpacity={0.8}
-          style={styles.searchContainer}>
+          style={[styles.searchContainer, themeStyles.bgLight]}>
           <View style={[STYLES.flexRowCenter]}>
             <View style={[styles.searchTextView]}>
               <Search
-                fill={'gray'}
+                fill={theme.colors.secondary}
                 height={heightPercentageToDP('3')}
                 width={heightPercentageToDP('3')}
               />
-              <Text style={[styles.placeholderText]}>Search Devices</Text>
+              <Text style={[styles.placeholderText, themeStyles.text]}>
+                Search Devices
+              </Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -48,7 +51,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthPercentageToDP(2),
   },
   searchContainer: {
-    backgroundColor: COLORS.light,
     display: 'flex',
     justifyContent: 'center',
     paddingHorizontal: widthPercentageToDP(4),

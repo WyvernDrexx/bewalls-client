@@ -14,6 +14,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import { useThemeStyles } from '../../hooks';
 
 export type CardData = {
   title?: string;
@@ -34,11 +35,14 @@ const Card: React.FC<CardProps> = function (props) {
     if (props.onClick) props.onClick();
   };
 
+  const themeStyles = useThemeStyles();
+
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={onClickHandler}>
       <Animated.View
         style={[
           styles.imageView,
+          themeStyles.bg,
           {
             height: heightPercentageToDP(props.height),
             width: widthPercentageToDP(props.width),
@@ -57,10 +61,14 @@ const Card: React.FC<CardProps> = function (props) {
         />
         <View style={styles.titleView}>
           {props.cardData.title ? (
-            <Text style={styles.title}>{props.cardData.title}</Text>
+            <Text style={[styles.title, themeStyles.text]}>
+              {props.cardData.title}
+            </Text>
           ) : null}
           {props.cardData.subTitle ? (
-            <Text style={styles.subTitle}>{props.cardData.subTitle}</Text>
+            <Text style={[styles.subTitle, themeStyles.text]}>
+              {props.cardData.subTitle}
+            </Text>
           ) : null}
         </View>
       </Animated.View>
@@ -74,7 +82,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
     borderRadius: widthPercentageToDP(2.5),
     marginLeft: widthPercentageToDP(4),
   },

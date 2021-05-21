@@ -2,14 +2,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { StatusBar } from 'react-native';
+import { useTheme } from '../hooks';
 import { Home, Search } from '../screens';
 import { RootStackParamList } from './types';
 
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();
+  const theme = useTheme();
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor="white" barStyle="dark-content" />
+      <StatusBar
+        backgroundColor={theme.colors.primary}
+        barStyle={theme.mode === 'dark' ? 'light-content' : 'dark-content'}
+      />
       <Stack.Navigator
         screenOptions={{
           headerShown: false,

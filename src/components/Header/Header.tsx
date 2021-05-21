@@ -55,13 +55,13 @@ const Header: React.FC<HeaderProps> = function (props) {
       <TouchableOpacity onPress={onMenuClickHandler} activeOpacity={0.6}>
         <View style={styles.userInfo}>
           <ProfileImage
-            fill="black"
+            fill={theme.colors.secondary}
             width={widthPercentageToDP(12)}
             height={widthPercentageToDP(12)}
           />
           <View style={styles.welcomeView}>
-            <Text style={styles.welcomeText}>Welcome,</Text>
-            <Text style={styles.nameText}>John</Text>
+            <Text style={[styles.welcomeText, themeStyles.text]}>Welcome,</Text>
+            <Text style={[styles.nameText, themeStyles.text]}>John</Text>
           </View>
         </View>
       </TouchableOpacity>

@@ -4,6 +4,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import { useThemeStyles } from '../../hooks';
 import getColorScheme from '../../utilities/getColorScheme';
 
 export type SearchTerm = {
@@ -20,9 +21,11 @@ const HotSearches: React.FC<HotSearchesProps> = function (props) {
     props.onSearchTermClick(searchTerm);
   };
 
+  const themeStyles = useThemeStyles();
+
   return (
     <View style={styles.root}>
-      <Text>Hot Searches</Text>
+      <Text style={themeStyles.text}>Hot Searches</Text>
       <View style={styles.searchTermsContainer}>
         {props.searchTerms.map((item, index) => {
           return (
@@ -30,7 +33,14 @@ const HotSearches: React.FC<HotSearchesProps> = function (props) {
               activeOpacity={0.5}
               onPress={() => onTermClickHandler(item)}
               key={index}>
-              <Text style={styles.searchTerm}>{item.term}</Text>
+              <Text
+                style={[
+                  styles.searchTerm,
+                  themeStyles.bgLight,
+                  themeStyles.text,
+                ]}>
+                {item.term}
+              </Text>
             </TouchableOpacity>
           );
         })}

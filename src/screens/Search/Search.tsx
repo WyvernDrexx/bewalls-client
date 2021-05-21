@@ -11,9 +11,9 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import { useTheme, useThemeStyles } from '../../hooks';
 import { SearchScreenProps } from '../../navigation/types';
 import { STYLES } from '../../styles';
-import getColorScheme from '../../utilities/getColorScheme';
 import HotSearches, { SearchTerm } from './HotSearches';
 
 import SearchIcon from './search.svg';
@@ -62,6 +62,8 @@ const SEARCHES_TERM: SearchTerm[] = [
 
 const Search: React.FC<SearchScreenProps> = function () {
   const inputRef = useRef<TextInput>(null);
+  const themeStyles = useThemeStyles();
+  const theme = useTheme();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -76,19 +78,20 @@ const Search: React.FC<SearchScreenProps> = function () {
   };
 
   return (
-    <View style={styles.root}>
-      <View style={styles.searchContainer}>
+    <View style={[styles.root, themeStyles.bg]}>
+      <View style={[styles.searchContainer, themeStyles.bgLight]}>
         <View style={[STYLES.flexRowCenter]}>
           <View style={[styles.searchTextView]}>
             <SearchIcon
-              fill={'gray'}
+              fill={theme.colors.secondary}
               height={heightPercentageToDP('3')}
               width={heightPercentageToDP('3')}
             />
             <TextInput
               ref={inputRef}
-              selectionColor={COLORS.secondary}
-              style={styles.searchInput}
+              selectionColor={theme.colors.secondary}
+              style={[styles.searchInput, themeStyles.text]}
+              placeholderTextColor={theme.colors.secondary}
               placeholder="Search Devices"
             />
           </View>
@@ -96,10 +99,10 @@ const Search: React.FC<SearchScreenProps> = function () {
       </View>
       <View style={styles.instaBannerView}>
         <Image style={styles.instaImage} source={require('./insta.webp')} />
-        <Text style={styles.instaText}>Follow Us On Instagram</Text>
+        <Text style={[styles.instaText]}>Follow Us On Instagram</Text>
       </View>
       <View style={styles.colorsView}>
-        <Text style={styles.colorsText}>Colours</Text>
+        <Text style={[styles.colorsText, themeStyles.text]}>Colours</Text>
         <View style={styles.colorsContainer}>
           {COLORS_BOX.map((item, index) => {
             return (
@@ -130,16 +133,12 @@ const Search: React.FC<SearchScreenProps> = function () {
   );
 };
 
-const COLORS = getColorScheme();
-
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: COLORS.primary,
     padding: widthPercentageToDP(2),
   },
   searchContainer: {
-    backgroundColor: COLORS.light,
     paddingHorizontal: widthPercentageToDP(4),
     marginVertical: heightPercentageToDP(2),
     marginBottom: 0,
@@ -150,7 +149,6 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     width: widthPercentageToDP(76),
-    color: 'black',
     fontSize: heightPercentageToDP(2),
     marginLeft: widthPercentageToDP(3),
   },
@@ -161,7 +159,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   placeholderText: {
-    color: 'gray',
     position: 'absolute',
     left: widthPercentageToDP(10),
     fontSize: heightPercentageToDP(2),

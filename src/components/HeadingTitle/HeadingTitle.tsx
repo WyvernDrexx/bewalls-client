@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { PADDING_SAFE } from '../../constants';
-import getColorScheme from '../../utilities/getColorScheme';
+import { useThemeStyles } from '../../hooks';
 
 type HeadingTitleProps = {
   title: string;
@@ -28,10 +28,12 @@ const HeadingTitle: React.FC<HeadingTitleProps> = function (props) {
       console.log(props.title, 'MORE Clicked!');
     }
   };
-
+  const themeStyles = useThemeStyles();
   return (
     <View style={[styles.root, props.viewStyle]}>
-      <Text style={[styles.headingText, props.textStyle]}>{props.title}</Text>
+      <Text style={[styles.headingText, themeStyles.text, props.textStyle]}>
+        {props.title}
+      </Text>
       <TouchableOpacity onPress={onClickHandler}>
         <Text style={[styles.moreText, props.textStyle]}>
           {props.more || 'MORE'}
@@ -40,8 +42,6 @@ const HeadingTitle: React.FC<HeadingTitleProps> = function (props) {
     </View>
   );
 };
-
-const COLORS = getColorScheme();
 
 const styles = StyleSheet.create({
   root: {
@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
     paddingTop: heightPercentageToDP(4),
   },
   headingText: {
-    color: COLORS.secondary,
     fontSize: heightPercentageToDP(3),
     fontWeight: 'bold',
   },
