@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type Theme = {
+export type Colors = {
   primary: string;
   secondary: string;
   dark: string;
@@ -9,17 +9,17 @@ export type Theme = {
 
 type ThemeState = {
   mode: 'dark' | 'light';
-  theme: Theme;
+  colors: Colors;
 };
 
-const LIGHT_THEME: Theme = {
+const LIGHT_THEME: Colors = {
   primary: 'white',
   secondary: 'black',
   light: '#F7F7F7',
   dark: 'black',
 };
 
-const DARK_THEME: Theme = {
+const DARK_THEME: Colors = {
   primary: '#293064',
   secondary: '#AFCADE',
   light: '#505DAC',
@@ -28,7 +28,7 @@ const DARK_THEME: Theme = {
 
 const initialState: ThemeState = {
   mode: 'light',
-  theme: LIGHT_THEME,
+  colors: LIGHT_THEME,
 };
 
 const themeSlice = createSlice({
@@ -37,7 +37,7 @@ const themeSlice = createSlice({
   reducers: {
     changeTheme(state, action: PayloadAction<'light' | 'dark'>) {
       state.mode = action.payload;
-      state.theme = action.payload === 'dark' ? DARK_THEME : LIGHT_THEME;
+      state.colors = action.payload === 'dark' ? DARK_THEME : LIGHT_THEME;
     },
   },
 });

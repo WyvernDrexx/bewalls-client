@@ -19,8 +19,9 @@ import ProfileImage from './profile.svg';
 import MoonImage from './moon.svg';
 import SunImage from './sun.svg';
 import { PADDING_SAFE } from '../../constants';
-import { useAppDispatch, useAppSelector } from '../../store';
+import { useAppDispatch } from '../../store';
 import { changeTheme } from '../../store/theme';
+import { useTheme } from '../../hooks';
 
 type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
@@ -31,7 +32,7 @@ const COLORS = getColorScheme();
 
 const Header: React.FC<HeaderProps> = function (props) {
   const dispatch = useAppDispatch();
-  const theme = useAppSelector(state => state.theme);
+  const theme = useTheme();
 
   const changeThemeHandler = () => {
     if (theme.mode === 'dark') {
@@ -40,7 +41,7 @@ const Header: React.FC<HeaderProps> = function (props) {
       dispatch(changeTheme('dark'));
     }
   };
-  console.log(theme.theme);
+
   const onMenuClickHandler = () => {
     if (typeof props.onMenuClick !== 'undefined') {
       props.onMenuClick();
