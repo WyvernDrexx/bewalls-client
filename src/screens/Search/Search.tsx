@@ -1,5 +1,12 @@
 import React, { useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, TextInput, Image } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -10,12 +17,37 @@ import getColorScheme from '../../utilities/getColorScheme';
 
 import SearchIcon from './search.svg';
 
+const COLORS_BOX = [
+  {
+    color: '#00D3FF',
+  },
+  {
+    color: '#FF002B',
+  },
+  {
+    color: '#5B5BFF',
+  },
+  {
+    color: '#E6D111',
+  },
+  {
+    color: '#000000',
+  },
+  {
+    color: '#26C741',
+  },
+];
+
 const Search: React.FC<SearchScreenProps> = function () {
   const inputRef = useRef<TextInput>(null);
 
   useEffect(() => {
     inputRef.current?.focus();
   }, [inputRef]);
+
+  const onColorBoxClickHandler = (color: string) => {
+    console.log('Clicked Color', color);
+  };
 
   return (
     <View style={styles.root}>
@@ -39,6 +71,28 @@ const Search: React.FC<SearchScreenProps> = function () {
       <View style={styles.instaBannerView}>
         <Image style={styles.instaImage} source={require('./insta.webp')} />
         <Text style={styles.instaText}>Follow Us On Instagram</Text>
+      </View>
+      <View style={styles.colorsView}>
+        <Text style={styles.colorsText}>Colours</Text>
+        <View style={styles.colorsContainer}>
+          {COLORS_BOX.map((item, index) => {
+            return (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => onColorBoxClickHandler(item.color)}>
+                <View
+                  key={index}
+                  style={[
+                    styles.colorBox,
+                    {
+                      backgroundColor: item.color,
+                    },
+                  ]}
+                />
+              </TouchableOpacity>
+            );
+          })}
+        </View>
       </View>
     </View>
   );
@@ -99,6 +153,23 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP(96),
     textAlign: 'center',
     padding: heightPercentageToDP(2),
+  },
+  colorsView: {
+    marginTop: heightPercentageToDP(4),
+  },
+  colorsText: {
+    fontSize: heightPercentageToDP(2),
+  },
+  colorsContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: heightPercentageToDP(3),
+  },
+  colorBox: {
+    padding: heightPercentageToDP(1.5),
+    borderRadius: widthPercentageToDP(100),
   },
 });
 
