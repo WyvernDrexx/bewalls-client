@@ -21,7 +21,7 @@ import SunImage from './sun.svg';
 import { PADDING_SAFE } from '../../constants';
 import { useAppDispatch } from '../../store';
 import { changeTheme } from '../../store/theme';
-import { useTheme } from '../../hooks';
+import { useTheme, useThemeStyles } from '../../hooks';
 
 type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
@@ -33,6 +33,7 @@ const COLORS = getColorScheme();
 const Header: React.FC<HeaderProps> = function (props) {
   const dispatch = useAppDispatch();
   const theme = useTheme();
+  const themeStyles = useThemeStyles();
 
   const changeThemeHandler = () => {
     if (theme.mode === 'dark') {
@@ -49,7 +50,8 @@ const Header: React.FC<HeaderProps> = function (props) {
   };
 
   return (
-    <Animated.View style={[props.animatedStyle, styles.root]}>
+    <Animated.View
+      style={[props.animatedStyle, styles.root, themeStyles.bgAndText]}>
       <TouchableOpacity onPress={onMenuClickHandler} activeOpacity={0.6}>
         <View style={styles.userInfo}>
           <ProfileImage
@@ -84,13 +86,11 @@ const Header: React.FC<HeaderProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: 'white',
     paddingHorizontal: PADDING_SAFE,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    color: COLORS.secondary,
     paddingBottom: heightPercentageToDP(2),
   },
   headerContainer: {},
