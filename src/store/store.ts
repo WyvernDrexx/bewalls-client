@@ -1,7 +1,9 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
+import themeReducer from './theme';
+
 const reducer = combineReducers({
-  default: () => 12,
+  theme: themeReducer,
 });
 
 export const store = configureStore({
