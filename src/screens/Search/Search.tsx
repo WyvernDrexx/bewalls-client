@@ -14,6 +14,7 @@ import {
 import { SearchScreenProps } from '../../navigation/types';
 import { STYLES } from '../../styles';
 import getColorScheme from '../../utilities/getColorScheme';
+import HotSearches, { SearchTerm } from './HotSearches';
 
 import SearchIcon from './search.svg';
 
@@ -38,6 +39,27 @@ const COLORS_BOX = [
   },
 ];
 
+const SEARCHES_TERM: SearchTerm[] = [
+  {
+    term: 'COOL',
+  },
+  {
+    term: '3D',
+  },
+  {
+    term: 'APPLE',
+  },
+  {
+    term: 'ONEPLUS',
+  },
+  {
+    term: 'OPPO',
+  },
+  {
+    term: 'REALME',
+  },
+];
+
 const Search: React.FC<SearchScreenProps> = function () {
   const inputRef = useRef<TextInput>(null);
 
@@ -47,6 +69,10 @@ const Search: React.FC<SearchScreenProps> = function () {
 
   const onColorBoxClickHandler = (color: string) => {
     console.log('Clicked Color', color);
+  };
+
+  const onSearchTermClick = (searchTerm: SearchTerm) => {
+    console.log('Clicked', searchTerm.term);
   };
 
   return (
@@ -79,9 +105,9 @@ const Search: React.FC<SearchScreenProps> = function () {
             return (
               <TouchableOpacity
                 activeOpacity={0.8}
+                key={index}
                 onPress={() => onColorBoxClickHandler(item.color)}>
                 <View
-                  key={index}
                   style={[
                     styles.colorBox,
                     {
@@ -93,6 +119,12 @@ const Search: React.FC<SearchScreenProps> = function () {
             );
           })}
         </View>
+      </View>
+      <View>
+        <HotSearches
+          onSearchTermClick={onSearchTermClick}
+          searchTerms={SEARCHES_TERM}
+        />
       </View>
     </View>
   );

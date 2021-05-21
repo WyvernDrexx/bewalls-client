@@ -49,11 +49,13 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     backgroundColor: COLORS.light,
+    display: 'flex',
+    justifyContent: 'center',
     paddingHorizontal: widthPercentageToDP(4),
-    paddingVertical: heightPercentageToDP(3),
     marginVertical: heightPercentageToDP(2),
     borderRadius: heightPercentageToDP(1.5),
     marginBottom: 0,
+    height: heightPercentageToDP(8),
   },
   searchInput: {
     margin: 0,
