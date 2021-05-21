@@ -1,4 +1,3 @@
-/* eslint-disable curly */
 import React from 'react';
 import {
   Text,
@@ -31,11 +30,11 @@ export type CardProps = {
 };
 
 const Card: React.FC<CardProps> = function (props) {
+  const themeStyles = useThemeStyles();
+
   const onClickHandler = () => {
     if (props.onClick) props.onClick();
   };
-
-  const themeStyles = useThemeStyles();
 
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={onClickHandler}>
@@ -61,14 +60,10 @@ const Card: React.FC<CardProps> = function (props) {
         />
         <View style={styles.titleView}>
           {props.cardData.title ? (
-            <Text style={[styles.title, themeStyles.text]}>
-              {props.cardData.title}
-            </Text>
+            <Text style={[styles.title]}>{props.cardData.title}</Text>
           ) : null}
           {props.cardData.subTitle ? (
-            <Text style={[styles.subTitle, themeStyles.text]}>
-              {props.cardData.subTitle}
-            </Text>
+            <Text style={styles.subTitle}>{props.cardData.subTitle}</Text>
           ) : null}
         </View>
       </Animated.View>

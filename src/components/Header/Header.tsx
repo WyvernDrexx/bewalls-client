@@ -13,11 +13,11 @@ import {
 } from 'react-native-responsive-screen';
 
 import Animated from 'react-native-reanimated';
-import getColorScheme from '../../utilities/getColorScheme';
 
 import ProfileImage from './profile.svg';
 import MoonImage from './moon.svg';
 import SunImage from './sun.svg';
+
 import { PADDING_SAFE } from '../../constants';
 import { useAppDispatch } from '../../store';
 import { changeTheme } from '../../store/theme';
@@ -27,8 +27,6 @@ type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
   onMenuClick?: () => void;
 };
-
-const COLORS = getColorScheme();
 
 const Header: React.FC<HeaderProps> = function (props) {
   const dispatch = useAppDispatch();
@@ -105,7 +103,6 @@ const styles = StyleSheet.create({
     fontSize: heightPercentageToDP(2),
   },
   nameText: {
-    color: COLORS.secondary,
     fontWeight: 'bold',
     fontSize: heightPercentageToDP(2.5),
   },
