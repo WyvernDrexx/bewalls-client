@@ -7,13 +7,9 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
+import { Cards } from '../../components/Card';
 import { CardData } from '../../components/Card/Card';
-import {
-  Box,
-  Boxes,
-  MediumSizeCarousel,
-  Stretched,
-} from '../../components/Carousel';
+import { Box, Boxes } from '../../components/Carousel';
 import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
 import SearchBar from '../../components/SearchBar';
@@ -117,20 +113,31 @@ const Home: React.FC<HomeScreenProps> = function (props) {
           <Header onMenuClick={onMenuClick} animatedStyle={headerStyle} />
           <SearchBar onSearchBarActive={onSearchBarActive} />
           <HeadingTitle title="Trending Now" />
-          <MediumSizeCarousel items={CAROUSEL_ITEMS} />
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            overScrollMode="never">
+            <Cards items={CAROUSEL_ITEMS} height="35" width="42" />
+          </ScrollView>
           <HeadingTitle onMoreClick={onMoreClick} title="Categories" />
           <Boxes items={CATEGORIES} />
           <HeadingTitle title="Smartphone Brands" />
-          <Stretched items={BRANDS} />
+          <ScrollView
+            style={{ marginBottom: heightPercentageToDP(4) }}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            overScrollMode="never">
+            <Cards items={BRANDS} height="15" width="55" />
+          </ScrollView>
         </ScrollView>
       </View>
     </>
   );
 };
+
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    paddingTop: heightPercentageToDP(2),
   },
   scrollView: {
     margin: 0,

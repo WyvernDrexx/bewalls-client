@@ -7,7 +7,8 @@ type CardProps = {
   items: CardData[];
   height: string | number;
   width: string | number;
-  styles?: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
+  disableLastMargin?: boolean;
 };
 
 const Cards: React.FC<CardProps> = function (props) {
@@ -18,8 +19,8 @@ const Cards: React.FC<CardProps> = function (props) {
           <Card
             key={index}
             style={[
-              props.styles,
-              index === props.items.length - 1
+              props.style,
+              index === props.items.length - 1 && !props.disableLastMargin
                 ? { marginRight: widthPercentageToDP(4) }
                 : {},
             ]}
