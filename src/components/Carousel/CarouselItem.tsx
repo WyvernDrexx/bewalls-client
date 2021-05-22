@@ -24,17 +24,22 @@ type CarouselItemProps = {
   lastIndex: number;
   style: StyleProp<ViewStyle>;
   x: Animated.SharedValue<number>;
+  disableText?: boolean;
 };
 
-const CarouselItem = function (prop: CarouselItemProps) {
+const CarouselItem = function (props: CarouselItemProps) {
   const width = widthPercentageToDP(67);
   const animatedStyle = useAnimatedStyle(() => {
     console.log(
-      `Start:${prop.index * width} | End:${width * (prop.index + 1)}`,
+      `Start:${props.index * width} | End:${width * (props.index + 1)}`,
     );
     const scale = interpolate(
-      prop.x.value,
-      [(prop.index - 1) * width, width * prop.index, width * (prop.index + 1)],
+      props.x.value,
+      [
+        (props.index - 1) * width,
+        width * props.index,
+        width * (props.index + 1),
+      ],
       [0.8, 1, 0.8],
       Extrapolate.CLAMP,
     );
@@ -49,26 +54,30 @@ const CarouselItem = function (prop: CarouselItemProps) {
         // eslint-disable-next-line react-native/no-inline-styles
         {
           paddingLeft:
-            prop.index === 0
+            props.index === 0
               ? widthPercentageToDP('17.5')
               : widthPercentageToDP(1),
           paddingRight:
-            prop.index === prop.lastIndex ? widthPercentageToDP(17.5) : 0,
+            props.index === props.lastIndex ? widthPercentageToDP(17.5) : 0,
         },
       ]}>
       <Animated.View style={[animatedStyle, styles.imageView]}>
-        <Image style={styles.image} source={prop.data.image} />
-        <View style={styles.titleView}>
-          <Text style={styles.title}>{prop.data.title}</Text>
-          <Text style={styles.subTitle}>{prop.data.subTitle}</Text>
-        </View>
+        <Image style={styles.image} source={props.data.image} />
+        {!props.disableText ? (
+          <View style={styles.titleView}>
+            <Text style={styles.title}>{props.data.title}</Text>
+            <Text style={styles.subTitle}>{props.data.subTitle}</Text>
+          </View>
+        ) : null}
       </Animated.View>
     </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
-  root: {},
+  root: {
+    marginTop: heightPercentageToDP(4),
+  },
   imageView: {
     display: 'flex',
     justifyContent: 'center',
@@ -77,7 +86,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 10,
+      height: 5,
     },
     shadowOpacity: 0.53,
     shadowRadius: 13.97,
@@ -102,8 +111,8 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: heightPercentageToDP(5),
-    width: widthPercentageToDP('65'),
-    height: heightPercentageToDP('60'),
+    width: widthPercentageToDP('75'),
+    height: heightPercentageToDP('75'),
     resizeMode: 'cover',
     backgroundColor: 'white',
   },

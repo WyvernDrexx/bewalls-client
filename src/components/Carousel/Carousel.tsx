@@ -1,15 +1,13 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { CarouselItem } from './CarouselItem';
 
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
 } from 'react-native-reanimated';
+import { useThemeStyles } from '../../hooks';
 
 export type CarouselItemType = {
   title: string;
@@ -35,9 +33,13 @@ const CAROUSEL_ITEMS: CarouselItemType[] = [
   },
 ];
 
-const Carousel = function () {
-  const scrollOffsetX = useSharedValue(0);
+type CarouselProps = {
+  disableText?: boolean;
+};
 
+const Carousel: React.FC<CarouselProps> = function (props) {
+  const scrollOffsetX = useSharedValue(0);
+  const themeStyles = useThemeStyles();
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: event => {
       const x = event.contentOffset.x;
@@ -46,12 +48,13 @@ const Carousel = function () {
   });
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, themeStyles.bg]}>
       <Animated.ScrollView
         onScroll={scrollHandler}
         showsHorizontalScrollIndicator={false}
         horizontal={true}
         alwaysBounceHorizontal={false}
+        overScrollMode="never"
         bounces={false}>
         {CAROUSEL_ITEMS.map((item, i) => {
           return (
@@ -62,6 +65,7 @@ const Carousel = function () {
               index={i}
               key={i}
               data={item}
+              disableText={props.disableText}
             />
           );
         })}
@@ -72,9 +76,7 @@ const Carousel = function () {
 
 const styles = StyleSheet.create({
   root: {
-    marginTop: heightPercentageToDP('6%'),
     marginHorizontal: widthPercentageToDP('-4'),
-    backgroundColor: 'white',
   },
 });
 

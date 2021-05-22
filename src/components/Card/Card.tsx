@@ -19,6 +19,7 @@ export type CardData = {
   title?: string;
   subTitle?: string;
   image: object;
+  id?: string | number;
 };
 
 type CardProps = {
