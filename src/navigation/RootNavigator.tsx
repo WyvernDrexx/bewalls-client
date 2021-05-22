@@ -21,8 +21,10 @@ function RootNavigator() {
           headerShown: false,
           headerStyle: {
             elevation: 0, // remove shadow on Android
-            shadowOpacity: 0, // remove shadow on iOS
+            shadowOpacity: 0, // remove shadow on iOS,
+            backgroundColor: theme.colors.primary,
           },
+          headerTintColor: theme.colors.secondary,
         }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Search" component={Search} />

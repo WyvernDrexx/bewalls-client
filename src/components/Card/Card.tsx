@@ -23,7 +23,7 @@ export type CardData = {
 
 type CardProps = {
   cardData: CardData;
-  onClick?: () => void;
+  onClick?: (select: CardData) => void;
   height: string | number;
   width: string | number;
   style?: StyleProp<ViewStyle>;
@@ -33,7 +33,7 @@ const Card: React.FC<CardProps> = function (props) {
   const themeStyles = useThemeStyles();
 
   const onClickHandler = () => {
-    if (props.onClick) props.onClick();
+    if (props.onClick) props.onClick(props.cardData);
   };
 
   return (

@@ -9,6 +9,7 @@ type CardProps = {
   width: string | number;
   style?: StyleProp<ViewStyle>;
   disableLastMargin?: boolean;
+  onClick?: (select: CardData) => void;
 };
 
 const Cards: React.FC<CardProps> = function (props) {
@@ -27,6 +28,7 @@ const Cards: React.FC<CardProps> = function (props) {
             cardData={item}
             height={props.height}
             width={props.width}
+            onClick={props.onClick}
           />
         );
       })}

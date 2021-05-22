@@ -102,6 +102,10 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Categories');
   };
 
+  const onCardClick = (select: CardData) => {
+    props.navigation.navigate('Selection', { select: select.title! });
+  };
+
   return (
     <>
       <View style={[styles.root, themeStyles.bg]}>
@@ -127,7 +131,12 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             horizontal
             showsHorizontalScrollIndicator={false}
             overScrollMode="never">
-            <Cards items={BRANDS} height="15" width="55" />
+            <Cards
+              items={BRANDS}
+              onClick={onCardClick}
+              height="15"
+              width="55"
+            />
           </ScrollView>
         </ScrollView>
       </View>
