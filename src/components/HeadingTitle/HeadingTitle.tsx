@@ -15,6 +15,7 @@ import { useThemeStyles } from '../../hooks';
 type HeadingTitleProps = {
   title: string;
   more?: string;
+  disableMore?: boolean;
   onMoreClick?: () => void;
   viewStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
@@ -34,11 +35,13 @@ const HeadingTitle: React.FC<HeadingTitleProps> = function (props) {
       <Text style={[styles.headingText, themeStyles.text, props.textStyle]}>
         {props.title}
       </Text>
-      <TouchableOpacity onPress={onClickHandler}>
-        <Text style={[styles.moreText, props.textStyle]}>
-          {props.more || 'MORE'}
-        </Text>
-      </TouchableOpacity>
+      {!props.disableMore ? (
+        <TouchableOpacity onPress={onClickHandler}>
+          <Text style={[styles.moreText, props.textStyle]}>
+            {props.more || 'MORE'}
+          </Text>
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };

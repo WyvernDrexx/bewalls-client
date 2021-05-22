@@ -21,7 +21,7 @@ export type CardData = {
   image: object;
 };
 
-export type CardProps = {
+type CardProps = {
   cardData: CardData;
   onClick?: () => void;
   height: string | number;
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: widthPercentageToDP(2.5),
+    borderRadius: widthPercentageToDP(1.5),
     marginLeft: widthPercentageToDP(4),
   },
   titleView: {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   image: {
-    borderRadius: heightPercentageToDP(2.5),
+    borderRadius: heightPercentageToDP(1.5),
     width: widthPercentageToDP('65'),
     height: heightPercentageToDP('60'),
     resizeMode: 'cover',
