@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useThemeStyles } from '../../hooks';
 import { SelectionScreenProps } from '../../navigation/types';
 

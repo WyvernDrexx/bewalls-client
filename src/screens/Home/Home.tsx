@@ -106,6 +106,10 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Selection', { select: select.title! });
   };
 
+  const onBoxClick = (select: string) => {
+    props.navigation.navigate('Selection', { select });
+  };
+
   return (
     <>
       <View style={[styles.root, themeStyles.bg]}>
@@ -121,10 +125,15 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             horizontal
             showsHorizontalScrollIndicator={false}
             overScrollMode="never">
-            <Cards items={CAROUSEL_ITEMS} height="35" width="42" />
+            <Cards
+              items={CAROUSEL_ITEMS}
+              onClick={onCardClick}
+              height="35"
+              width="42"
+            />
           </ScrollView>
           <HeadingTitle onMoreClick={onMoreClick} title="Categories" />
-          <Boxes items={CATEGORIES} />
+          <Boxes onClick={onBoxClick} items={CATEGORIES} />
           <HeadingTitle title="Smartphone Brands" />
           <ScrollView
             style={{ marginBottom: heightPercentageToDP(4) }}

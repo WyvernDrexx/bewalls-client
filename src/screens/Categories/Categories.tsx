@@ -8,7 +8,7 @@ import { CategoriesScreenProps } from '../../navigation/types';
 import HeadingTitle from '../../components/HeadingTitle';
 import { Box, Boxes } from '../../components/Carousel';
 
-const Categories: React.FC<CategoriesScreenProps> = function () {
+const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const themeStyles = useThemeStyles();
 
   const BRANDS: CardData[] = [
@@ -49,6 +49,13 @@ const Categories: React.FC<CategoriesScreenProps> = function () {
       backgroundColor: 'orange',
     },
   ];
+  const onCardClick = (select: CardData) => {
+    props.navigation.navigate('Selection', { select: select.title! });
+  };
+
+  const onBoxClick = (select: string) => {
+    props.navigation.navigate('Selection', { select });
+  };
 
   return (
     <View style={[styles.root, themeStyles.bg]}>
@@ -58,17 +65,18 @@ const Categories: React.FC<CategoriesScreenProps> = function () {
           showsHorizontalScrollIndicator={false}
           style={styles.brandsView}
           overScrollMode="never">
-          <Cards items={BRANDS} height="8" width="38" />
+          <Cards onClick={onCardClick} items={BRANDS} height="8" width="38" />
         </ScrollView>
         <HeadingTitle disableMore={true} title="Choose your favourite" />
         <Boxes items={CATEGORIES} />
         <View style={{ paddingTop: heightPercentageToDP(2) }}>
-          <Boxes items={CATEGORIES} />
+          <Boxes onClick={onBoxClick} items={CATEGORIES} />
         </View>
         <HeadingTitle title="Trending" disableMore />
         <Cards
           items={BRANDS}
           height="14"
+          onClick={onCardClick}
           width="92"
           style={{ marginBottom: heightPercentageToDP(2) }}
         />

@@ -16,23 +16,28 @@ import {
 type BoxesProps = {
   items: Box[];
   style?: StyleProp<ViewStyle>;
+  onClick?: (select: string) => void;
 };
 
 export type Box = {
   title: string;
   backgroundColor: string;
   textColor?: string;
-  onClick?: () => void;
 };
 
 type BoxProps = {
   data: Box;
   style?: StyleProp<ViewStyle>;
+  onClick?: (select: string) => void;
 };
 
 const Box: React.FC<BoxProps> = function (props) {
+  const onClickHandler = () => {
+    if (props.onClick) props.onClick(props.data.title);
+  };
+
   return (
-    <TouchableOpacity onPress={props.data.onClick} activeOpacity={0.8}>
+    <TouchableOpacity onPress={onClickHandler} activeOpacity={0.8}>
       <View
         style={[
           boxStyles.box,
@@ -59,6 +64,7 @@ const Boxes: React.FC<BoxesProps> = function (props) {
             <Box
               style={index === props.items.length - 1 ? styles.lastBox : {}}
               key={index}
+              onClick={props.onClick}
               data={item}
             />
           );
