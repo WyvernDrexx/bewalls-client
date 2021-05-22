@@ -1,9 +1,10 @@
+import React from 'react';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
 import { StatusBar } from 'react-native';
 import { useTheme } from '../hooks';
-import { Home, Search } from '../screens';
+import { Home, Search, Categories } from '../screens';
 import { RootStackParamList } from './types';
 
 function RootNavigator() {
@@ -25,6 +26,11 @@ function RootNavigator() {
         }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Search" component={Search} />
+        <Stack.Screen
+          options={{ headerShown: true, headerTitleAlign: 'center' }}
+          name="Categories"
+          component={Categories}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

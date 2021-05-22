@@ -102,6 +102,10 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     setIsSideBarShown(false);
   };
 
+  const onMoreClick = () => {
+    props.navigation.navigate('Categories');
+  };
+
   return (
     <>
       <View style={[styles.root, themeStyles.bg]}>
@@ -114,7 +118,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
           <SearchBar onSearchBarActive={onSearchBarActive} />
           <HeadingTitle title="Trending Now" />
           <MediumSizeCarousel items={CAROUSEL_ITEMS} />
-          <HeadingTitle title="Categories" />
+          <HeadingTitle onMoreClick={onMoreClick} title="Categories" />
           <Boxes items={CATEGORIES} />
           <HeadingTitle title="Smartphone Brands" />
           <Stretched items={BRANDS} />
