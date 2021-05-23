@@ -129,6 +129,8 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   useEffect(() => {
     if (displayWallpaper) {
       props.navigation.setOptions({ headerShown: false });
+    } else {
+      props.navigation.setOptions({ headerShown: true });
     }
   }, [displayWallpaper]);
 
