@@ -11,7 +11,12 @@ import { SelectionScreenProps } from '../../navigation/types';
 import GridSvg from './grid.svg';
 import CarouselSvg from './carousel.svg';
 import { CardData, Cards } from '../../components/Card';
-import Animated from 'react-native-reanimated';
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
+import WallpaperView from '../../components/WallpaperView';
 
 const BRANDS: CardData[] = [
   {
@@ -66,6 +71,24 @@ const BRANDS: CardData[] = [
 
 const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
+  const [displayWallpaper, setDisplayWallpaper] = useState(false);
+  const [activeWallpaper, setActiveWallpaper] = useState<number>(0);
+
+  const screenHeight = heightPercentageToDP(100);
+  const offsetY = useSharedValue(screenHeight);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(offsetY.value, [0, screenHeight], [1, 0]);
+
+    return {
+      transform: [
+        {
+          translateY: Animated.withTiming(offsetY.value),
+        },
+      ],
+      opacity: Animated.withTiming(opacity, { duration: 500 }),
+    };
+  });
 
   const themeStyles = useThemeStyles();
   useEffect(() => {
@@ -74,13 +97,26 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
       headerTitle: props.route.params.select,
       headerTitleAlign: 'center',
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.route.params.select]);
+
+  const onCardClick = (_: unknown, index: number) => {
+    offsetY.value = 0;
+    setActiveWallpaper(index);
+    setDisplayWallpaper(true);
+  };
+
+  const onClose = () => {
+    offsetY.value = screenHeight;
+    setTimeout(() => {
+      setDisplayWallpaper(false);
+    }, 500);
+  };
 
   const renderCards = () => {
     return (
       <View style={styles.gridView}>
         <Cards
+          onClick={onCardClick}
           items={BRANDS}
           height="34"
           width="44"
@@ -90,12 +126,18 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     );
   };
 
+  useEffect(() => {
+    if (displayWallpaper) {
+      props.navigation.setOptions({ headerShown: false });
+    }
+  }, [displayWallpaper]);
+
   return (
     <View style={[styles.root, themeStyles.bg]}>
       <Animated.ScrollView style={[]}>
         <View style={styles.displaySelection}>
           <View>
-            <Text>Sort by Date</Text>
+            <Text style={themeStyles.text}>Sort by Date</Text>
           </View>
           <View style={styles.displayLayout}>
             <TouchableOpacity
@@ -120,6 +162,13 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
         </View>
         {viewMode === 'carousel' ? <Carousel disableText /> : renderCards()}
       </Animated.ScrollView>
+      {displayWallpaper ? (
+        <WallpaperView
+          image={BRANDS[activeWallpaper].image}
+          onCloseClick={onClose}
+          animatedStyle={animatedStyle}
+        />
+      ) : null}
     </View>
   );
 };
@@ -127,6 +176,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor: 'red',
   },
   displaySelection: {
     display: 'flex',

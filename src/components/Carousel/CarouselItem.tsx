@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -114,7 +113,6 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP('75'),
     height: heightPercentageToDP('75'),
     resizeMode: 'cover',
-    backgroundColor: 'white',
   },
 });
 

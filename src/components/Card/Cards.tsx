@@ -9,7 +9,7 @@ type CardProps = {
   width: string | number;
   style?: StyleProp<ViewStyle>;
   disableLastMargin?: boolean;
-  onClick?: (select: CardData) => void;
+  onClick?: (select: CardData, index: number) => void;
   useFlatList?: boolean;
 };
 
@@ -50,6 +50,7 @@ const Cards: React.FC<CardProps> = function (props) {
             cardData={item}
             height={props.height}
             width={props.width}
+            index={index}
             onClick={props.onClick}
           />
         );

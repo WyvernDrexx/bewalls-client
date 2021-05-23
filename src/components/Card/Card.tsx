@@ -24,17 +24,18 @@ export type CardData = {
 
 type CardProps = {
   cardData: CardData;
-  onClick?: (select: CardData) => void;
+  onClick?: (select: CardData, index: number) => void;
   height: string | number;
   width: string | number;
   style?: StyleProp<ViewStyle>;
+  index?: number;
 };
 
 const Card: React.FC<CardProps> = function (props) {
   const themeStyles = useThemeStyles();
 
   const onClickHandler = () => {
-    if (props.onClick) props.onClick(props.cardData);
+    if (props.onClick) props.onClick(props.cardData, props.index!);
   };
 
   return (
@@ -101,7 +102,6 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP('65'),
     height: heightPercentageToDP('60'),
     resizeMode: 'cover',
-    backgroundColor: 'white',
   },
 });
 
