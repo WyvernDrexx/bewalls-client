@@ -10,64 +10,14 @@ import { SelectionScreenProps } from '../../navigation/types';
 
 import GridSvg from './grid.svg';
 import CarouselSvg from './carousel.svg';
-import { CardData, Cards } from '../../components/Card';
+import { Cards } from '../../components/Card';
 import Animated, {
   interpolate,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
 import WallpaperView from '../../components/WallpaperView';
-
-const BRANDS: CardData[] = [
-  {
-    title: '',
-    image: require('./apple.jpg'),
-    id: 1,
-  },
-
-  {
-    title: '',
-    image: require('./oneplus.png'),
-    id: 2,
-  },
-  {
-    title: '',
-    image: require('./realme.jpg'),
-    id: 3,
-  },
-  {
-    title: '',
-    image: require('./apple.jpg'),
-    id: 4,
-  },
-
-  {
-    title: '',
-    image: require('./oneplus.png'),
-    id: 5,
-  },
-  {
-    title: '',
-    image: require('./realme.jpg'),
-    id: 6,
-  },
-  {
-    title: '',
-    image: require('./apple.jpg'),
-    id: 7,
-  },
-
-  {
-    title: '',
-    image: require('./oneplus.png'),
-    id: 8,
-  },
-  {
-    title: '',
-    image: require('./realme.jpg'),
-    id: 9,
-  },
-];
+import { BRANDS } from '../../sample/sampleData';
 
 const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
@@ -118,21 +68,15 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
         <Cards
           onClick={onCardClick}
           items={BRANDS}
+          disableText
           height="34"
           width="44"
+          disableLastMargin
           style={{ marginBottom: heightPercentageToDP(2) }}
         />
       </View>
     );
   };
-
-  useEffect(() => {
-    if (displayWallpaper) {
-      props.navigation.setOptions({ headerShown: false });
-    } else {
-      props.navigation.setOptions({ headerShown: true });
-    }
-  }, [displayWallpaper]);
 
   return (
     <View style={[styles.root, themeStyles.bg]}>
@@ -162,11 +106,18 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
             </TouchableOpacity>
           </View>
         </View>
-        {viewMode === 'carousel' ? <Carousel disableText /> : renderCards()}
+        {viewMode === 'carousel' ? (
+          <Carousel onClick={onCardClick} items={BRANDS} disableText />
+        ) : (
+          renderCards()
+        )}
       </Animated.ScrollView>
       {displayWallpaper ? (
         <WallpaperView
-          image={BRANDS[activeWallpaper].image}
+          image={
+            BRANDS[activeWallpaper].imageSource! ||
+            BRANDS[activeWallpaper].imageUri!
+          }
           onCloseClick={onClose}
           animatedStyle={animatedStyle}
         />

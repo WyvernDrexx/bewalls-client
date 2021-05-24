@@ -8,7 +8,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { Cards } from '../../components/Card';
-import { CardData } from '../../components/Card/Card';
 import { Box, Boxes } from '../../components/Carousel';
 import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
@@ -16,29 +15,13 @@ import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
 import { useThemeStyles } from '../../hooks';
 import { HomeScreenProps } from '../../navigation/types';
+import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
+import { Wallpaper } from '../../types';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const searchBarActive = useSharedValue(0);
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const themeStyles = useThemeStyles();
-  const CAROUSEL_ITEMS: CardData[] = [
-    {
-      title: 'OnePlus',
-      subTitle: 'Wallpapers',
-      image: require('./1.jpg'),
-    },
-
-    {
-      title: 'Realme',
-      subTitle: 'Wallpapers',
-      image: require('./3.png'),
-    },
-    {
-      title: 'Samsung',
-      subTitle: 'Wallpapers',
-      image: require('./2.jpg'),
-    },
-  ];
 
   const CATEGORIES: Box[] = [
     {
@@ -60,22 +43,6 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     {
       title: 'Stock',
       backgroundColor: 'orange',
-    },
-  ];
-
-  const BRANDS: CardData[] = [
-    {
-      title: 'Apple',
-      image: require('./apple.jpg'),
-    },
-
-    {
-      title: 'OnePlus',
-      image: require('./oneplus.png'),
-    },
-    {
-      title: 'Realme',
-      image: require('./realme.jpg'),
     },
   ];
 
@@ -102,7 +69,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Categories');
   };
 
-  const onCardClick = (select: CardData) => {
+  const onCardClick = (select: Wallpaper) => {
     props.navigation.navigate('Selection', { select: select.title! });
   };
 
@@ -126,7 +93,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             showsHorizontalScrollIndicator={false}
             overScrollMode="never">
             <Cards
-              items={CAROUSEL_ITEMS}
+              items={TRENDING_NOW}
               onClick={onCardClick}
               height="35"
               width="42"

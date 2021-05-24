@@ -8,33 +8,12 @@ import Animated, {
   useAnimatedScrollHandler,
 } from 'react-native-reanimated';
 import { useThemeStyles } from '../../hooks';
-
-export type CarouselItemType = {
-  title: string;
-  subTitle: string;
-  image: object;
-};
-
-const CAROUSEL_ITEMS: CarouselItemType[] = [
-  {
-    title: 'OnePlus',
-    subTitle: 'Wallpapers',
-    image: require('./1.jpg'),
-  },
-  {
-    title: 'Samsung',
-    subTitle: 'Wallpapers',
-    image: require('./2.jpg'),
-  },
-  {
-    title: 'Realme',
-    subTitle: 'Wallpapers',
-    image: require('./3.jpg'),
-  },
-];
+import { Wallpaper } from '../../types';
 
 type CarouselProps = {
   disableText?: boolean;
+  onClick?: (select: Wallpaper, index: number) => void;
+  items: Wallpaper[];
 };
 
 const Carousel: React.FC<CarouselProps> = function (props) {
@@ -56,16 +35,17 @@ const Carousel: React.FC<CarouselProps> = function (props) {
         alwaysBounceHorizontal={false}
         overScrollMode="never"
         bounces={false}>
-        {CAROUSEL_ITEMS.map((item, i) => {
+        {props.items.map((item, i) => {
           return (
             <CarouselItem
               x={scrollOffsetX}
               style={{}}
-              lastIndex={CAROUSEL_ITEMS.length - 1}
+              lastIndex={props.items.length - 1}
               index={i}
               key={i}
               data={item}
               disableText={props.disableText}
+              onClick={props.onClick}
             />
           );
         })}

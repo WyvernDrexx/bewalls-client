@@ -14,28 +14,23 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import { useThemeStyles } from '../../hooks';
-
-export type CardData = {
-  title?: string;
-  subTitle?: string;
-  image: object;
-  id?: string | number;
-};
+import { Wallpaper } from '../../types';
 
 type CardProps = {
-  cardData: CardData;
-  onClick?: (select: CardData, index: number) => void;
+  wallpaper: Wallpaper;
+  onClick?: (select: Wallpaper, index: number) => void;
   height: string | number;
   width: string | number;
   style?: StyleProp<ViewStyle>;
   index?: number;
+  disableText?: boolean;
 };
 
 const Card: React.FC<CardProps> = function (props) {
   const themeStyles = useThemeStyles();
 
   const onClickHandler = () => {
-    if (props.onClick) props.onClick(props.cardData, props.index!);
+    if (props.onClick) props.onClick(props.wallpaper, props.index!);
   };
 
   return (
@@ -58,16 +53,18 @@ const Card: React.FC<CardProps> = function (props) {
               width: widthPercentageToDP(props.width),
             },
           ]}
-          source={props.cardData.image}
+          source={props.wallpaper.imageSource! || props.wallpaper.imageUri!}
         />
-        <View style={styles.titleView}>
-          {props.cardData.title ? (
-            <Text style={[styles.title]}>{props.cardData.title}</Text>
-          ) : null}
-          {props.cardData.subTitle ? (
-            <Text style={styles.subTitle}>{props.cardData.subTitle}</Text>
-          ) : null}
-        </View>
+        {!props.disableText ? (
+          <View style={styles.titleView}>
+            {props.wallpaper.title ? (
+              <Text style={[styles.title]}>{props.wallpaper.title}</Text>
+            ) : null}
+            {props.wallpaper.brand ? (
+              <Text style={styles.subTitle}>Wallpapers</Text>
+            ) : null}
+          </View>
+        ) : null}
       </Animated.View>
     </TouchableOpacity>
   );

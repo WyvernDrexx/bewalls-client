@@ -7,6 +7,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -16,15 +17,16 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { CarouselItemType } from './Carousel';
+import { Wallpaper } from '../../types';
 
 type CarouselItemProps = {
-  data: CarouselItemType;
+  data: Wallpaper;
   index: number;
   lastIndex: number;
   style: StyleProp<ViewStyle>;
   x: Animated.SharedValue<number>;
   disableText?: boolean;
+  onClick?: (select: Wallpaper, index: number) => void;
 };
 
 const CarouselItem = function (props: CarouselItemProps) {
@@ -44,6 +46,10 @@ const CarouselItem = function (props: CarouselItemProps) {
     return { transform: [{ scale }] };
   });
 
+  const onClickHandler = () => {
+    if (props.onClick) props.onClick(props.data, props.index);
+  };
+
   return (
     <Animated.View
       style={[
@@ -58,15 +64,20 @@ const CarouselItem = function (props: CarouselItemProps) {
             props.index === props.lastIndex ? widthPercentageToDP(17.5) : 0,
         },
       ]}>
-      <Animated.View style={[animatedStyle, styles.imageView]}>
-        <Image style={styles.image} source={props.data.image} />
-        {!props.disableText ? (
-          <View style={styles.titleView}>
-            <Text style={styles.title}>{props.data.title}</Text>
-            <Text style={styles.subTitle}>{props.data.subTitle}</Text>
-          </View>
-        ) : null}
-      </Animated.View>
+      <TouchableOpacity activeOpacity={0.8} onPress={onClickHandler}>
+        <Animated.View style={[animatedStyle, styles.imageView]}>
+          <Image
+            style={styles.image}
+            source={props.data.imageSource! || props.data.imageUri!}
+          />
+          {!props.disableText ? (
+            <View style={styles.titleView}>
+              <Text style={styles.title}>{props.data.title}</Text>
+              <Text style={styles.subTitle}>Wallpapers</Text>
+            </View>
+          ) : null}
+        </Animated.View>
+      </TouchableOpacity>
     </Animated.View>
   );
 };
@@ -88,7 +99,8 @@ const styles = StyleSheet.create({
     shadowRadius: 13.97,
     elevation: 21,
     borderRadius: heightPercentageToDP(5),
-    marginBottom: heightPercentageToDP(6),
+    width: widthPercentageToDP('75'),
+    height: heightPercentageToDP('75'),
   },
   titleView: {
     position: 'absolute',

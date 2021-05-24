@@ -1,31 +1,17 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
-import { Cards, CardData } from '../../components/Card';
+import { Cards } from '../../components/Card';
 import { useThemeStyles } from '../../hooks';
 import { CategoriesScreenProps } from '../../navigation/types';
 
 import HeadingTitle from '../../components/HeadingTitle';
 import { Box, Boxes } from '../../components/Carousel';
+import { Wallpaper } from '../../types';
+import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
 
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const themeStyles = useThemeStyles();
-
-  const BRANDS: CardData[] = [
-    {
-      title: 'Apple',
-      image: require('./apple.jpg'),
-    },
-
-    {
-      title: 'OnePlus',
-      image: require('./oneplus.png'),
-    },
-    {
-      title: 'Realme',
-      image: require('./realme.jpg'),
-    },
-  ];
 
   const CATEGORIES: Box[] = [
     {
@@ -49,7 +35,8 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
       backgroundColor: 'orange',
     },
   ];
-  const onCardClick = (select: CardData) => {
+
+  const onCardClick = (select: Wallpaper) => {
     props.navigation.navigate('Selection', { select: select.title! });
   };
 
@@ -74,7 +61,7 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
         </View>
         <HeadingTitle title="Trending" disableMore />
         <Cards
-          items={BRANDS}
+          items={TRENDING_NOW}
           height="14"
           onClick={onCardClick}
           width="92"
