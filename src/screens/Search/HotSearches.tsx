@@ -5,7 +5,6 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import { useThemeStyles } from '../../hooks';
-import getColorScheme from '../../utilities/getColorScheme';
 
 export type SearchTerm = {
   term: string;
@@ -49,7 +48,6 @@ const HotSearches: React.FC<HotSearchesProps> = function (props) {
   );
 };
 
-const COLORS = getColorScheme();
 const styles = StyleSheet.create({
   root: {
     paddingVertical: heightPercentageToDP(4),
@@ -62,7 +60,6 @@ const styles = StyleSheet.create({
   searchTerm: {
     paddingHorizontal: widthPercentageToDP(4),
     paddingVertical: heightPercentageToDP(1),
-    backgroundColor: COLORS.light,
     marginRight: heightPercentageToDP(3),
     marginTop: heightPercentageToDP(3),
     borderRadius: heightPercentageToDP(1),
