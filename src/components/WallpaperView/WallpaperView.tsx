@@ -4,7 +4,6 @@ import {
   StyleProp,
   StyleSheet,
   TouchableOpacity,
-  View,
   ViewStyle,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -12,6 +11,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import { BottomDraggable } from './BottomDraggable';
 
 import LeftArrow from './left-arrow.svg';
 
@@ -24,9 +24,7 @@ type WallpaperViewProps = {
 export default function WallpaperView(props: WallpaperViewProps) {
   return (
     <Animated.View style={[props.animatedStyle, styles.root]}>
-      <View>
-        <Image style={styles.image} source={props.image} />
-      </View>
+      <Image style={styles.image} source={props.image} />
       <TouchableOpacity onPress={props.onCloseClick} style={styles.arrow}>
         <LeftArrow
           fill="white"
@@ -34,6 +32,7 @@ export default function WallpaperView(props: WallpaperViewProps) {
           width={heightPercentageToDP(4)}
         />
       </TouchableOpacity>
+      <BottomDraggable />
     </Animated.View>
   );
 }
@@ -44,11 +43,13 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP(100),
     position: 'absolute',
     backgroundColor: 'white',
+    top: 0,
   },
   image: {
+    position: 'absolute',
     height: heightPercentageToDP(100),
     width: widthPercentageToDP(100),
-    resizeMode: 'stretch',
+    resizeMode: 'cover',
   },
   arrow: {
     position: 'absolute',

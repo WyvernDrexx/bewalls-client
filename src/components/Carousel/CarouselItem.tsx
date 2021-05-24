@@ -30,9 +30,6 @@ type CarouselItemProps = {
 const CarouselItem = function (props: CarouselItemProps) {
   const width = widthPercentageToDP(67);
   const animatedStyle = useAnimatedStyle(() => {
-    console.log(
-      `Start:${props.index * width} | End:${width * (props.index + 1)}`,
-    );
     const scale = interpolate(
       props.x.value,
       [
