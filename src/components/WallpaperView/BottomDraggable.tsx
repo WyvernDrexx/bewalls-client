@@ -22,7 +22,7 @@ const BottomDraggable = function () {
   const startPosition = heightPercentageToDP(80);
   const maxOffset = heightPercentageToDP(40);
   const offsetY = useSharedValue(startPosition);
-  const translationOffset = heightPercentageToDP(10);
+  const driftOffset = heightPercentageToDP(75);
   const themeStyles = useThemeStyles();
   const theme = useTheme();
   const actionIconSize = heightPercentageToDP(3);
@@ -35,8 +35,7 @@ const BottomDraggable = function () {
       offsetY.value = ctx.startY + event.translationY;
     },
     onEnd: event => {
-      console.log(event.absoluteY);
-      if (event.absoluteY > translationOffset) {
+      if (event.absoluteY < driftOffset) {
         offsetY.value = withTiming(maxOffset);
       } else {
         offsetY.value = withTiming(startPosition);
