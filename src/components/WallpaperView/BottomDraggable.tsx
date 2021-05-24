@@ -75,12 +75,12 @@ const BottomDraggable = function () {
           width={actionIconSize}
         />
       ),
-      backgroundColor: 'white',
+      backgroundColor: theme.colors.light,
     },
     {
       icon: (
         <ShareSvg
-          fill={theme.colors.primary}
+          fill={'white'}
           height={actionIconSize}
           width={actionIconSize}
         />
@@ -105,7 +105,7 @@ const BottomDraggable = function () {
           width={actionIconSize}
         />
       ),
-      backgroundColor: 'white',
+      backgroundColor: theme.colors.light,
     },
   ];
 
@@ -182,22 +182,28 @@ const BottomDraggable = function () {
           })}
         </View>
         <View style={styles.details}>
-          <Text style={[styles.detailsText, themeStyles.bgLight]}>
+          <Text
+            style={[styles.detailsText, themeStyles.bgLight, themeStyles.text]}>
             {details.downloads} Downloads
           </Text>
-          <Text style={[styles.detailsText, themeStyles.bgLight]}>
+          <Text
+            style={[styles.detailsText, themeStyles.bgLight, themeStyles.text]}>
             {details.views} Views
           </Text>
-          <Text style={[styles.detailsText, themeStyles.bgLight]}>
+          <Text
+            style={[styles.detailsText, themeStyles.bgLight, themeStyles.text]}>
             {details.shares} Shares
           </Text>
-          <Text style={[styles.detailsText, themeStyles.bgLight]}>
+          <Text
+            style={[styles.detailsText, themeStyles.bgLight, themeStyles.text]}>
             {details.height} x {details.width}{' '}
           </Text>
-          <Text style={[styles.detailsText, themeStyles.bgLight]}>
+          <Text
+            style={[styles.detailsText, themeStyles.bgLight, themeStyles.text]}>
             {details.size}
           </Text>
-          <Text style={[styles.detailsText, themeStyles.bgLight]}>
+          <Text
+            style={[styles.detailsText, themeStyles.bgLight, themeStyles.text]}>
             {details.createdAt}
           </Text>
         </View>
