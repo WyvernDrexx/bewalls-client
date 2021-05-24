@@ -13,7 +13,7 @@ import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
 import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
-import { useThemeStyles } from '../../hooks';
+import { useTheme } from '../../hooks';
 import { HomeScreenProps } from '../../navigation/types';
 import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
 import { Wallpaper } from '../../types';
@@ -21,7 +21,7 @@ import { Wallpaper } from '../../types';
 const Home: React.FC<HomeScreenProps> = function (props) {
   const searchBarActive = useSharedValue(0);
   const [isSideBarShown, setIsSideBarShown] = useState(false);
-  const themeStyles = useThemeStyles();
+  const [themeStyles] = useTheme();
 
   const CATEGORIES: Box[] = [
     {

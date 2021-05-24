@@ -5,7 +5,7 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import Carousel from '../../components/Carousel/Carousel';
-import { useThemeStyles } from '../../hooks';
+import { useTheme } from '../../hooks';
 import { SelectionScreenProps } from '../../navigation/types';
 
 import GridSvg from './grid.svg';
@@ -40,7 +40,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     };
   });
 
-  const themeStyles = useThemeStyles();
+  const [themeStyles] = useTheme();
   useEffect(() => {
     props.navigation.setOptions({
       headerShown: true,

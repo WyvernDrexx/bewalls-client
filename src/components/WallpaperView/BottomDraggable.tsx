@@ -11,7 +11,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { useTheme, useThemeStyles } from '../../hooks';
+import { useTheme } from '../../hooks';
 import HeartSvg from './heart.svg';
 import EditSvg from './edit.svg';
 import ShareSvg from './share.svg';
@@ -23,8 +23,7 @@ const BottomDraggable = function () {
   const maxOffset = heightPercentageToDP(40);
   const offsetY = useSharedValue(startPosition);
   const driftOffset = heightPercentageToDP(75);
-  const themeStyles = useThemeStyles();
-  const theme = useTheme();
+  const [themeStyles, theme] = useTheme();
   const actionIconSize = heightPercentageToDP(3);
 
   const eventHandler = useAnimatedGestureHandler({

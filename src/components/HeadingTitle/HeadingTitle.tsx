@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { PADDING_SAFE } from '../../constants';
-import { useThemeStyles } from '../../hooks';
+import { useTheme } from '../../hooks';
 
 type HeadingTitleProps = {
   title: string;
@@ -29,7 +29,7 @@ const HeadingTitle: React.FC<HeadingTitleProps> = function (props) {
       console.log(props.title, 'MORE Clicked!');
     }
   };
-  const themeStyles = useThemeStyles();
+  const [themeStyles] = useTheme();
   return (
     <View style={[styles.root, props.viewStyle]}>
       <Text style={[styles.headingText, themeStyles.text, props.textStyle]}>

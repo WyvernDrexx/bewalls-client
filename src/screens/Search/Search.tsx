@@ -11,7 +11,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { useTheme, useThemeStyles } from '../../hooks';
+import { useTheme } from '../../hooks';
 import { SearchScreenProps } from '../../navigation/types';
 import { STYLES } from '../../styles';
 import HotSearches, { SearchTerm } from './HotSearches';
@@ -62,8 +62,7 @@ const SEARCHES_TERM: SearchTerm[] = [
 
 const Search: React.FC<SearchScreenProps> = function () {
   const inputRef = useRef<TextInput>(null);
-  const themeStyles = useThemeStyles();
-  const theme = useTheme();
+  const [themeStyles, theme] = useTheme();
 
   useEffect(() => {
     inputRef.current?.focus();

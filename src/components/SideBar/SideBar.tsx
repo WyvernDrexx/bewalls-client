@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 
 import {
-  Text,
   StyleSheet,
   StyleProp,
   ViewStyle,
   View,
   TouchableWithoutFeedback,
+  Text,
 } from 'react-native';
 import Animated, {
   interpolate,
@@ -17,7 +17,9 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { useThemeStyles } from '../../hooks';
+import { useTheme } from '../../hooks';
+
+import ProfileSvg from './profile.svg';
 
 type SideBarProps = {
   isShown?: boolean;
@@ -28,7 +30,7 @@ type SideBarProps = {
 const SideBar: React.FC<SideBarProps> = function (props) {
   const sideBarWidth = widthPercentageToDP(100);
   const sideBarShown = useSharedValue(props.isShown);
-  const themeStyles = useThemeStyles();
+  const [themeStyles, theme] = useTheme();
 
   useEffect(() => {
     sideBarShown.value = props.isShown;
@@ -64,7 +66,14 @@ const SideBar: React.FC<SideBarProps> = function (props) {
   return (
     <Animated.View style={[sideBarStyle, styles.root]}>
       <View style={[styles.sideBarItemsView, themeStyles.bg]}>
-        <Text>Entries</Text>
+        <View style={styles.profile}>
+          <ProfileSvg
+            height={heightPercentageToDP(8)}
+            width={heightPercentageToDP(8)}
+            fill={theme.colors.secondary}
+          />
+          <Text style={[styles.profileText, themeStyles.text]}>LP Sharma</Text>
+        </View>
       </View>
       <TouchableWithoutFeedback onPress={onMenuCloseHandler}>
         <Animated.View style={[transparentViewStyle, styles.transparentView]} />
@@ -94,13 +103,21 @@ const styles = StyleSheet.create({
   },
   sideBarItemsView: {
     width: widthPercentageToDP(78),
-    padding: heightPercentageToDP(3),
+    padding: heightPercentageToDP(2),
   },
   transparentView: {
     opacity: 0.1,
     width: widthPercentageToDP(22),
     height: heightPercentageToDP(100),
     backgroundColor: 'black',
+  },
+  profile: {
+    marginTop: heightPercentageToDP(8),
+  },
+  profileText: {
+    fontSize: heightPercentageToDP(2.5),
+    fontWeight: 'bold',
+    marginTop: heightPercentageToDP(2),
   },
 });
 

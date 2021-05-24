@@ -4,7 +4,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { useThemeStyles } from '../../hooks';
+import { useTheme } from '../../hooks';
 
 export type SearchTerm = {
   term: string;
@@ -20,7 +20,7 @@ const HotSearches: React.FC<HotSearchesProps> = function (props) {
     props.onSearchTermClick(searchTerm);
   };
 
-  const themeStyles = useThemeStyles();
+  const [themeStyles] = useTheme();
 
   return (
     <View style={styles.root}>

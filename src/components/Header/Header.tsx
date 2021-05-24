@@ -21,7 +21,7 @@ import SunImage from './sun.svg';
 import { PADDING_SAFE } from '../../constants';
 import { useAppDispatch } from '../../store';
 import { changeTheme } from '../../store/theme';
-import { useTheme, useThemeStyles } from '../../hooks';
+import { useTheme } from '../../hooks';
 
 type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
@@ -30,8 +30,7 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = function (props) {
   const dispatch = useAppDispatch();
-  const theme = useTheme();
-  const themeStyles = useThemeStyles();
+  const [themeStyles, theme] = useTheme();
 
   const changeThemeHandler = () => {
     if (theme.mode === 'dark') {

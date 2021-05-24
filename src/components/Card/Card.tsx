@@ -13,7 +13,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { useThemeStyles } from '../../hooks';
+import { useTheme } from '../../hooks';
 import { Wallpaper } from '../../types';
 
 type CardProps = {
@@ -27,7 +27,7 @@ type CardProps = {
 };
 
 const Card: React.FC<CardProps> = function (props) {
-  const themeStyles = useThemeStyles();
+  const [themeStyles] = useTheme();
 
   const onClickHandler = () => {
     if (props.onClick) props.onClick(props.wallpaper, props.index!);

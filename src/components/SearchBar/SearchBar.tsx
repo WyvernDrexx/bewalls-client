@@ -4,7 +4,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { useTheme, useThemeStyles } from '../../hooks';
+import { useTheme } from '../../hooks';
 import { STYLES } from '../../styles';
 
 import Search from './search.svg';
@@ -18,8 +18,7 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
     props.onSearchBarActive();
   };
 
-  const themeStyles = useThemeStyles();
-  const theme = useTheme();
+  const [themeStyles, theme] = useTheme();
 
   return (
     <>

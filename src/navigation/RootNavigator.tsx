@@ -9,7 +9,7 @@ import { RootStackParamList } from './types';
 
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();
-  const theme = useTheme();
+  const [, theme] = useTheme();
   return (
     <NavigationContainer>
       <StatusBar

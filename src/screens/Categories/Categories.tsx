@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { Cards } from '../../components/Card';
-import { useThemeStyles } from '../../hooks';
+import { useTheme } from '../../hooks';
 import { CategoriesScreenProps } from '../../navigation/types';
 
 import HeadingTitle from '../../components/HeadingTitle';
@@ -11,7 +11,7 @@ import { Wallpaper } from '../../types';
 import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
 
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
-  const themeStyles = useThemeStyles();
+  const [themeStyles] = useTheme();
 
   const CATEGORIES: Box[] = [
     {

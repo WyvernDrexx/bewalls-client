@@ -7,7 +7,7 @@ import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
 } from 'react-native-reanimated';
-import { useThemeStyles } from '../../hooks';
+import { useTheme } from '../../hooks';
 import { Wallpaper } from '../../types';
 
 type CarouselProps = {
@@ -18,7 +18,7 @@ type CarouselProps = {
 
 const Carousel: React.FC<CarouselProps> = function (props) {
   const scrollOffsetX = useSharedValue(0);
-  const themeStyles = useThemeStyles();
+  const [themeStyles] = useTheme();
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: event => {
       const x = event.contentOffset.x;

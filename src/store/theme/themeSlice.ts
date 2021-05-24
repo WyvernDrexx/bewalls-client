@@ -7,7 +7,7 @@ export type Colors = {
   light: string;
 };
 
-type ThemeState = {
+export type ThemeState = {
   mode: 'dark' | 'light';
   colors: Colors;
 };
