@@ -14,7 +14,7 @@ import HeadingTitle from '../../components/HeadingTitle';
 import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
 import { useTheme } from '../../hooks';
-import { HomeScreenProps } from '../../navigation/types';
+import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
 import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
 import { Wallpaper } from '../../types';
 
@@ -77,10 +77,20 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Selection', { select });
   };
 
+  const onSideBarItemClick = (route: keyof RootStackParamList) => {
+    onMenuClose();
+    props.navigation.navigate(route);
+  };
+
   return (
     <>
       <View style={[styles.root, themeStyles.bg]}>
-        <SideBar onMenuClose={onMenuClose} isShown={isSideBarShown} />
+        <SideBar
+          activeRoute={props.route.name}
+          onItemClick={onSideBarItemClick}
+          onMenuClose={onMenuClose}
+          isShown={isSideBarShown}
+        />
         <ScrollView
           overScrollMode="never"
           showsVerticalScrollIndicator={false}

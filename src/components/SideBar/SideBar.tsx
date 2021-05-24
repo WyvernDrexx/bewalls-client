@@ -18,6 +18,8 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import { useTheme } from '../../hooks';
+import { RootStackParamList } from '../../navigation/types';
+import BarItem from './BarItem';
 
 import ProfileSvg from './profile.svg';
 
@@ -25,7 +27,33 @@ type SideBarProps = {
   isShown?: boolean;
   animatedStyle?: StyleProp<ViewStyle>;
   onMenuClose?: () => void;
+  onItemClick: (route: keyof RootStackParamList) => void;
+  activeRoute: keyof RootStackParamList;
 };
+
+type BarItemType = {
+  route: keyof RootStackParamList;
+  title: string;
+};
+
+const SIDEBAR_ITEMS: BarItemType[] = [
+  {
+    route: 'Home',
+    title: 'Home',
+  },
+  {
+    route: 'Categories',
+    title: 'Categories',
+  },
+  {
+    route: 'Search',
+    title: 'Search',
+  },
+  {
+    route: 'Search',
+    title: 'Contact Us',
+  },
+];
 
 const SideBar: React.FC<SideBarProps> = function (props) {
   const sideBarWidth = widthPercentageToDP(100);
@@ -63,16 +91,34 @@ const SideBar: React.FC<SideBarProps> = function (props) {
     return { opacity: Animated.withTiming(opacity, { duration: 200 }) };
   });
 
+  const onBarItemClick = (route: keyof RootStackParamList) => {
+    props.onItemClick(route);
+  };
+
   return (
     <Animated.View style={[sideBarStyle, styles.root]}>
       <View style={[styles.sideBarItemsView, themeStyles.bg]}>
-        <View style={styles.profile}>
+        <View
+          style={[styles.profile, { borderBottomColor: theme.colors.light }]}>
           <ProfileSvg
             height={heightPercentageToDP(8)}
             width={heightPercentageToDP(8)}
             fill={theme.colors.secondary}
           />
           <Text style={[styles.profileText, themeStyles.text]}>LP Sharma</Text>
+        </View>
+        <View style={styles.navigationBars}>
+          {SIDEBAR_ITEMS.map((item, index) => {
+            return (
+              <BarItem
+                isActive={props.activeRoute === item.route}
+                key={index}
+                onClick={onBarItemClick}
+                route={item.route}
+                title={item.title}
+              />
+            );
+          })}
         </View>
       </View>
       <TouchableWithoutFeedback onPress={onMenuCloseHandler}>
@@ -103,7 +149,6 @@ const styles = StyleSheet.create({
   },
   sideBarItemsView: {
     width: widthPercentageToDP(78),
-    padding: heightPercentageToDP(2),
   },
   transparentView: {
     opacity: 0.1,
@@ -113,12 +158,16 @@ const styles = StyleSheet.create({
   },
   profile: {
     marginTop: heightPercentageToDP(8),
+    padding: heightPercentageToDP(2),
+    paddingBottom: heightPercentageToDP(4),
+    borderBottomWidth: 1,
   },
   profileText: {
     fontSize: heightPercentageToDP(2.5),
     fontWeight: 'bold',
     marginTop: heightPercentageToDP(2),
   },
+  navigationBars: {},
 });
 
 export default SideBar;
