@@ -25,6 +25,13 @@ const Search: React.FC<SearchScreenProps> = function () {
     inputRef.current?.focus();
   }, [inputRef]);
 
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setSearchStatus('none');
+    }, 6000);
+    return () => clearTimeout(id);
+  }, []);
+
   const onColorBoxClickHandler = (color: string) => {
     console.log('Clicked Color', color);
   };
@@ -52,6 +59,13 @@ const Search: React.FC<SearchScreenProps> = function () {
           numberOfResults={4}
           items={[...BRANDS, ...BRANDS]}
           searchTerm="OnePlus"
+        />
+      );
+    } else {
+      return (
+        <Extras
+          onColorBoxClick={onColorBoxClickHandler}
+          onSearchTermClick={onSearchTermClick}
         />
       );
     }
