@@ -1,66 +1,23 @@
-import React, { useEffect, useRef } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, View, TextInput } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import { useTheme } from '../../hooks';
 import { SearchScreenProps } from '../../navigation/types';
+import { BRANDS } from '../../sample/sampleData';
 import { STYLES } from '../../styles';
-import HotSearches, { SearchTerm } from './HotSearches';
-
+import { WallpaperType } from '../../types';
+import Extras from './Extras';
+import { SearchTerm } from './HotSearches';
+import Results from './Results';
 import SearchIcon from './search.svg';
 
-const COLORS_BOX = [
-  {
-    color: '#00D3FF',
-  },
-  {
-    color: '#FF002B',
-  },
-  {
-    color: '#5B5BFF',
-  },
-  {
-    color: '#E6D111',
-  },
-  {
-    color: '#000000',
-  },
-  {
-    color: '#26C741',
-  },
-];
-
-const SEARCHES_TERM: SearchTerm[] = [
-  {
-    term: 'COOL',
-  },
-  {
-    term: '3D',
-  },
-  {
-    term: 'APPLE',
-  },
-  {
-    term: 'ONEPLUS',
-  },
-  {
-    term: 'OPPO',
-  },
-  {
-    term: 'REALME',
-  },
-];
-
 const Search: React.FC<SearchScreenProps> = function () {
+  const [searchStatus, setSearchStatus] =
+    useState<null | 'none' | 'found'>('found');
   const inputRef = useRef<TextInput>(null);
   const [themeStyles, theme] = useTheme();
 
@@ -76,58 +33,53 @@ const Search: React.FC<SearchScreenProps> = function () {
     console.log('Clicked', searchTerm.term);
   };
 
+  const onResultClick = (select: WallpaperType) => {
+    console.log(select);
+  };
+
+  const renderContents = () => {
+    if (!searchStatus) {
+      return (
+        <Extras
+          onColorBoxClick={onColorBoxClickHandler}
+          onSearchTermClick={onSearchTermClick}
+        />
+      );
+    } else if (searchStatus === 'found') {
+      return (
+        <Results
+          onClick={onResultClick}
+          numberOfResults={4}
+          items={[...BRANDS, ...BRANDS]}
+          searchTerm="OnePlus"
+        />
+      );
+    }
+  };
+
   return (
     <View style={[styles.root, themeStyles.bg]}>
-      <View style={[styles.searchContainer, themeStyles.bgLight]}>
-        <View style={[STYLES.flexRowCenter]}>
-          <View style={[styles.searchTextView]}>
-            <SearchIcon
-              fill={theme.colors.secondary}
-              height={heightPercentageToDP('3')}
-              width={heightPercentageToDP('3')}
-            />
-            <TextInput
-              ref={inputRef}
-              selectionColor={theme.colors.secondary}
-              style={[styles.searchInput, themeStyles.text]}
-              placeholderTextColor={theme.colors.secondary}
-              placeholder="Search Devices"
-            />
+      <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
+        <View style={[styles.searchContainer, themeStyles.bgLight]}>
+          <View style={[STYLES.flexRowCenter]}>
+            <View style={[styles.searchTextView]}>
+              <SearchIcon
+                fill={theme.colors.secondary}
+                height={heightPercentageToDP('3')}
+                width={heightPercentageToDP('3')}
+              />
+              <TextInput
+                ref={inputRef}
+                selectionColor={theme.colors.secondary}
+                style={[styles.searchInput, themeStyles.text]}
+                placeholderTextColor={theme.colors.secondary}
+                placeholder="Search Devices"
+              />
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.instaBannerView}>
-        <Image style={styles.instaImage} source={require('./insta.webp')} />
-        <Text style={[styles.instaText]}>Follow Us On Instagram</Text>
-      </View>
-      <View style={styles.colorsView}>
-        <Text style={[styles.colorsText, themeStyles.text]}>Colours</Text>
-        <View style={styles.colorsContainer}>
-          {COLORS_BOX.map((item, index) => {
-            return (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                key={index}
-                onPress={() => onColorBoxClickHandler(item.color)}>
-                <View
-                  style={[
-                    styles.colorBox,
-                    {
-                      backgroundColor: item.color,
-                    },
-                  ]}
-                />
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </View>
-      <View>
-        <HotSearches
-          onSearchTermClick={onSearchTermClick}
-          searchTerms={SEARCHES_TERM}
-        />
-      </View>
+        {renderContents()}
+      </ScrollView>
     </View>
   );
 };
@@ -136,6 +88,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     padding: widthPercentageToDP(2),
+    paddingBottom: 0,
   },
   searchContainer: {
     paddingHorizontal: widthPercentageToDP(4),
