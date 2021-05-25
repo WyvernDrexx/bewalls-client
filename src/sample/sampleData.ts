@@ -1,6 +1,6 @@
-import { Wallpaper } from '../types';
+import { WallpaperType } from '../types';
 
-export const BRANDS: Wallpaper[] = [
+export const BRANDS: WallpaperType[] = [
   {
     title: 'Apple',
     id: '1000',
@@ -51,7 +51,7 @@ export const BRANDS: Wallpaper[] = [
   },
 ];
 
-export const TRENDING_NOW: Wallpaper[] = [
+export const TRENDING_NOW: WallpaperType[] = [
   {
     title: 'Samsung',
     id: '1101',

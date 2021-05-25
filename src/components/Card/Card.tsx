@@ -14,11 +14,11 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import { useTheme } from '../../hooks';
-import { Wallpaper } from '../../types';
+import { WallpaperType } from '../../types';
 
 type CardProps = {
-  wallpaper: Wallpaper;
-  onClick?: (select: Wallpaper, index: number) => void;
+  wallpaper: WallpaperType;
+  onClick?: (select: WallpaperType, index: number) => void;
   height: string | number;
   width: string | number;
   style?: StyleProp<ViewStyle>;
@@ -30,7 +30,7 @@ const Card: React.FC<CardProps> = function (props) {
   const [themeStyles] = useTheme();
 
   const onClickHandler = () => {
-    if (props.onClick) props.onClick(props.wallpaper, props.index!);
+    if (props.onClick) props.onClick(props.wallpaper, props.index || 0);
   };
 
   return (

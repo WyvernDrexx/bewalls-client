@@ -131,7 +131,7 @@ const BottomDraggable = function () {
                 Never Settle
               </Text>
               <Text style={[styles.subText, themeStyles.text]}>
-                OnePlus 7 Pro - Wallpaper
+                OnePlus 7 Pro - WallpaperType
               </Text>
             </View>
             <TouchableOpacity onPress={onHeartClick}>

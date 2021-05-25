@@ -8,12 +8,12 @@ import Animated, {
   useAnimatedScrollHandler,
 } from 'react-native-reanimated';
 import { useTheme } from '../../hooks';
-import { Wallpaper } from '../../types';
+import { WallpaperType } from '../../types';
 
 type CarouselProps = {
   disableText?: boolean;
-  onClick?: (select: Wallpaper, index: number) => void;
-  items: Wallpaper[];
+  onClick?: (select: WallpaperType, index: number) => void;
+  items: WallpaperType[];
 };
 
 const Carousel: React.FC<CarouselProps> = function (props) {

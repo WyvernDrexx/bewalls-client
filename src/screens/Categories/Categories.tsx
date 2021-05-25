@@ -7,7 +7,7 @@ import { CategoriesScreenProps } from '../../navigation/types';
 
 import HeadingTitle from '../../components/HeadingTitle';
 import { Box, Boxes } from '../../components/Carousel';
-import { Wallpaper } from '../../types';
+import { WallpaperType } from '../../types';
 import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
 
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
@@ -36,7 +36,7 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
     },
   ];
 
-  const onCardClick = (select: Wallpaper) => {
+  const onCardClick = (select: WallpaperType) => {
     props.navigation.navigate('Selection', { select: select.title! });
   };
 

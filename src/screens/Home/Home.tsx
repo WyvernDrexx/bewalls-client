@@ -16,7 +16,7 @@ import SideBar from '../../components/SideBar';
 import { useTheme } from '../../hooks';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
 import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
-import { Wallpaper } from '../../types';
+import { WallpaperType } from '../../types';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const searchBarActive = useSharedValue(0);
@@ -69,7 +69,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Categories');
   };
 
-  const onCardClick = (select: Wallpaper) => {
+  const onCardClick = (select: WallpaperType) => {
     props.navigation.navigate('Selection', { select: select.title! });
   };
 

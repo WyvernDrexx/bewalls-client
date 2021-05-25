@@ -2,7 +2,7 @@ export type ScreenProps = {
   id: string | number;
 };
 
-export type Wallpaper = {
+export type WallpaperType = {
   title: string;
   imageUri?: string;
   imageSource?: object;
@@ -18,7 +18,7 @@ export type Wallpaper = {
 
 /*
 
-myWallpaper:Wallpaper = {
+myWallpaper:WallpaperType = {
   title: "Flames",
   imageUri: 'https://image.uri.com/image.jpg',
   id: '1ecdaf-dfee34',

@@ -17,16 +17,16 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { Wallpaper } from '../../types';
+import { WallpaperType } from '../../types';
 
 type CarouselItemProps = {
-  data: Wallpaper;
+  data: WallpaperType;
   index: number;
   lastIndex: number;
   style: StyleProp<ViewStyle>;
   x: Animated.SharedValue<number>;
   disableText?: boolean;
-  onClick?: (select: Wallpaper, index: number) => void;
+  onClick?: (select: WallpaperType, index: number) => void;
 };
 
 const CarouselItem = function (props: CarouselItemProps) {

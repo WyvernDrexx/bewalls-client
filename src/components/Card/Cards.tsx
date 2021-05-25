@@ -1,17 +1,17 @@
 import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
-import { Wallpaper } from '../../types';
+import { WallpaperType } from '../../types';
 import Card from './Card';
 
 type CardProps = {
-  items: Wallpaper[];
+  items: WallpaperType[];
   height: string | number;
   width: string | number;
   style?: StyleProp<ViewStyle>;
   disableLastMargin?: boolean;
   disableText?: boolean;
-  onClick?: (select: Wallpaper, index: number) => void;
+  onClick?: (select: WallpaperType, index: number) => void;
   useFlatList?: boolean;
 };
 
