@@ -46,8 +46,8 @@ const SIDEBAR_ITEMS: BarItemType[] = [
     title: 'Categories',
   },
   {
-    route: 'Search',
-    title: 'Search',
+    route: 'Settings',
+    title: 'Settings',
   },
   {
     route: 'Search',

@@ -9,6 +9,7 @@ export type RootStackParamList = {
   Search: undefined;
   Categories: undefined;
   Selection: SelectionParams;
+  Settings: undefined;
 };
 
 export type SearchScreenProps = StackScreenProps<RootStackParamList, 'Search'>;
@@ -20,4 +21,8 @@ export type SelectionScreenProps = StackScreenProps<
 export type CategoriesScreenProps = StackScreenProps<
   RootStackParamList,
   'Categories'
+>;
+export type SettingsScreenProps = StackScreenProps<
+  RootStackParamList,
+  'Settings'
 >;

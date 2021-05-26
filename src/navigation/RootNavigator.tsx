@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'react-native';
 import { useTheme } from '../hooks';
-import { Home, Search, Categories, Selection } from '../screens';
+import { Home, Search, Categories, Selection, Settings } from '../screens';
 import { RootStackParamList } from './types';
 
 function RootNavigator() {
@@ -34,6 +34,11 @@ function RootNavigator() {
           component={Categories}
         />
         <Stack.Screen name="Selection" component={Selection} />
+        <Stack.Screen
+          options={{ headerShown: true, headerTitleAlign: 'center' }}
+          name="Settings"
+          component={Settings}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
