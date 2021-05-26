@@ -11,34 +11,15 @@ import { SelectionScreenProps } from '../../navigation/types';
 import GridSvg from './grid.svg';
 import CarouselSvg from './carousel.svg';
 import { Cards } from '../../components/Card';
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import WallpaperView from '../../components/WallpaperView';
 import { BRANDS } from '../../sample/sampleData';
+import { WallpaperType } from '../../types';
 
 const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
-  const [displayWallpaper, setDisplayWallpaper] = useState(false);
-  const [activeWallpaper, setActiveWallpaper] = useState<number>(0);
-
-  const screenHeight = heightPercentageToDP(100);
-  const offsetY = useSharedValue(screenHeight);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(offsetY.value, [0, screenHeight], [1, 0]);
-
-    return {
-      transform: [
-        {
-          translateY: Animated.withTiming(offsetY.value),
-        },
-      ],
-      opacity: Animated.withTiming(opacity, { duration: 500 }),
-    };
-  });
+  const [showWallpaper, setShowWallpaper] = useState(false);
+  const [activeWallpaper, setActiveWallpaper] = useState<WallpaperType>();
 
   const [themeStyles] = useTheme();
   useEffect(() => {
@@ -49,17 +30,13 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     });
   }, [props.route.params.select]);
 
-  const onCardClick = (_: unknown, index: number) => {
-    offsetY.value = 0;
-    setActiveWallpaper(index);
-    setDisplayWallpaper(true);
+  const onCardClick = (wallpaper: WallpaperType) => {
+    setActiveWallpaper(wallpaper);
+    setShowWallpaper(true);
   };
 
   const onClose = () => {
-    offsetY.value = screenHeight;
-    setTimeout(() => {
-      setDisplayWallpaper(false);
-    }, 500);
+    setShowWallpaper(false);
   };
 
   const renderCards = () => {
@@ -112,16 +89,11 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
           renderCards()
         )}
       </Animated.ScrollView>
-      {displayWallpaper ? (
-        <WallpaperView
-          image={
-            BRANDS[activeWallpaper].imageSource! ||
-            BRANDS[activeWallpaper].imageUri!
-          }
-          onCloseClick={onClose}
-          animatedStyle={animatedStyle}
-        />
-      ) : null}
+      <WallpaperView
+        showWallpaper={showWallpaper}
+        wallpaper={activeWallpaper}
+        onCloseClick={onClose}
+      />
     </View>
   );
 };

@@ -5,6 +5,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import WallpaperView from '../../components/WallpaperView';
 import { useTheme } from '../../hooks';
 import { SearchScreenProps } from '../../navigation/types';
 import { BRANDS } from '../../sample/sampleData';
@@ -22,10 +23,12 @@ const Search: React.FC<SearchScreenProps> = function () {
   const [searchText, setSearchText] = useState('');
   const inputRef = useRef<TextInput>(null);
   const [themeStyles, theme] = useTheme();
-
+  const [selectedWallpaper, setSelectedWallpaper] = useState<WallpaperType>();
   useEffect(() => {
     inputRef.current?.focus();
   }, [inputRef]);
+
+  const [showWallpaper, setShowWallpaper] = useState(false);
 
   useEffect(() => {
     if (searchText === 'OnePlus') {
@@ -51,7 +54,12 @@ const Search: React.FC<SearchScreenProps> = function () {
   };
 
   const onResultClick = (select: WallpaperType) => {
-    console.log(select);
+    setSelectedWallpaper(select);
+    setShowWallpaper(true);
+  };
+
+  const onWallpaperViewClose = () => {
+    setShowWallpaper(false);
   };
 
   const renderContents = () => {
@@ -101,6 +109,11 @@ const Search: React.FC<SearchScreenProps> = function () {
         </View>
         {renderContents()}
       </ScrollView>
+      <WallpaperView
+        onCloseClick={onWallpaperViewClose}
+        showWallpaper={showWallpaper}
+        wallpaper={selectedWallpaper}
+      />
     </View>
   );
 };
