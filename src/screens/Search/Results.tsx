@@ -44,6 +44,7 @@ const Results: React.FC<ResultsProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     marginTop: heightPercentageToDP(4),
+    paddingHorizontal: widthPercentageToDP(2),
   },
   searchTermText: {
     fontSize: heightPercentageToDP(4),

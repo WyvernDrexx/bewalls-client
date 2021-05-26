@@ -12,12 +12,13 @@ import { STYLES } from '../../styles';
 import { WallpaperType } from '../../types';
 import Extras from './Extras';
 import { SearchTerm } from './HotSearches';
+import NotFound from './NotFound';
 import Results from './Results';
 import SearchIcon from './search.svg';
 
 const Search: React.FC<SearchScreenProps> = function () {
   const [searchStatus, setSearchStatus] =
-    useState<null | 'none' | 'found'>('found');
+    useState<null | 'none' | 'found'>('none');
   const inputRef = useRef<TextInput>(null);
   const [themeStyles, theme] = useTheme();
 
@@ -25,12 +26,12 @@ const Search: React.FC<SearchScreenProps> = function () {
     inputRef.current?.focus();
   }, [inputRef]);
 
-  useEffect(() => {
-    const id = setTimeout(() => {
-      setSearchStatus('none');
-    }, 6000);
-    return () => clearTimeout(id);
-  }, []);
+  // useEffect(() => {
+  //   const id = setTimeout(() => {
+  //     setSearchStatus('none');
+  //   }, 6000);
+  //   return () => clearTimeout(id);
+  // }, []);
 
   const onColorBoxClickHandler = (color: string) => {
     console.log('Clicked Color', color);
@@ -62,12 +63,7 @@ const Search: React.FC<SearchScreenProps> = function () {
         />
       );
     } else {
-      return (
-        <Extras
-          onColorBoxClick={onColorBoxClickHandler}
-          onSearchTermClick={onSearchTermClick}
-        />
-      );
+      return <NotFound />;
     }
   };
 
@@ -101,7 +97,6 @@ const Search: React.FC<SearchScreenProps> = function () {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    padding: widthPercentageToDP(2),
     paddingBottom: 0,
   },
   searchContainer: {
@@ -112,6 +107,7 @@ const styles = StyleSheet.create({
     height: heightPercentageToDP(8),
     display: 'flex',
     justifyContent: 'center',
+    marginHorizontal: widthPercentageToDP(2),
   },
   searchInput: {
     width: widthPercentageToDP(76),

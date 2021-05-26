@@ -93,7 +93,10 @@ const Extras: React.FC<ExtrasProps> = function (props) {
           })}
         </View>
       </View>
-      <View>
+      <View
+        style={{
+          paddingHorizontal: widthPercentageToDP(2),
+        }}>
         <HotSearches
           onSearchTermClick={onSearchTermClick}
           searchTerms={SEARCHES_TERM}
@@ -126,6 +129,7 @@ const styles = StyleSheet.create({
   },
   colorsView: {
     marginTop: heightPercentageToDP(4),
+    paddingHorizontal: widthPercentageToDP(2),
   },
   colorsText: {
     fontSize: heightPercentageToDP(2),
