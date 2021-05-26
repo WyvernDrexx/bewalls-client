@@ -18,7 +18,8 @@ import SearchIcon from './search.svg';
 
 const Search: React.FC<SearchScreenProps> = function () {
   const [searchStatus, setSearchStatus] =
-    useState<null | 'none' | 'found'>('none');
+    useState<null | 'none' | 'found'>(null);
+  const [searchText, setSearchText] = useState('');
   const inputRef = useRef<TextInput>(null);
   const [themeStyles, theme] = useTheme();
 
@@ -26,12 +27,20 @@ const Search: React.FC<SearchScreenProps> = function () {
     inputRef.current?.focus();
   }, [inputRef]);
 
-  // useEffect(() => {
-  //   const id = setTimeout(() => {
-  //     setSearchStatus('none');
-  //   }, 6000);
-  //   return () => clearTimeout(id);
-  // }, []);
+  useEffect(() => {
+    if (searchText === 'OnePlus') {
+      setSearchStatus('found');
+    } else {
+      setSearchStatus('none');
+    }
+    if (!searchText) {
+      setSearchStatus(null);
+    }
+  }, [searchText]);
+
+  const onTextChange = (text: string) => {
+    setSearchText(text);
+  };
 
   const onColorBoxClickHandler = (color: string) => {
     console.log('Clicked Color', color);
@@ -79,6 +88,8 @@ const Search: React.FC<SearchScreenProps> = function () {
                 width={heightPercentageToDP('3')}
               />
               <TextInput
+                value={searchText}
+                onChangeText={onTextChange}
                 ref={inputRef}
                 selectionColor={theme.colors.secondary}
                 style={[styles.searchInput, themeStyles.text]}
