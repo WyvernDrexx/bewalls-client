@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: heightPercentageToDP(2),
+    paddingTop: heightPercentageToDP(2),
   },
   headerContainer: {},
   userInfo: {

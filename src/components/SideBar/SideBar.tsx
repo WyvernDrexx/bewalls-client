@@ -49,10 +49,6 @@ const SIDEBAR_ITEMS: BarItemType[] = [
     route: 'Settings',
     title: 'Settings',
   },
-  {
-    route: 'Search',
-    title: 'Contact Us',
-  },
 ];
 
 const SideBar: React.FC<SideBarProps> = function (props) {
