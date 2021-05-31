@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import Animated, {
+  Extrapolate,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 import { Cards } from '../../components/Card';
 import { Box, Boxes } from '../../components/Carousel';
 import Header from '../../components/Header';
@@ -20,6 +25,10 @@ import { WallpaperType } from '../../types';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const searchBarActive = useSharedValue(0);
+  const homeOffesetX = useSharedValue(0);
+  const translateX = widthPercentageToDP(75);
+  const borderRadius = widthPercentageToDP(15);
+  const homePadding = widthPercentageToDP(6);
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const [themeStyles] = useTheme();
 
@@ -53,15 +62,53 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     };
   });
 
+  const homeStyle = useAnimatedStyle(() => {
+    const scale = interpolate(
+      homeOffesetX.value,
+      [0, translateX],
+      [1, 0.9],
+      Extrapolate.CLAMP,
+    );
+
+    const padding = interpolate(
+      homeOffesetX.value,
+      [0, translateX],
+      [0, homePadding],
+      Extrapolate.CLAMP,
+    );
+
+    const borderRadiusInter = interpolate(
+      homeOffesetX.value,
+      [0, translateX],
+      [0, borderRadius],
+      Extrapolate.CLAMP,
+    );
+
+    return {
+      transform: [
+        {
+          translateX: withTiming(homeOffesetX.value),
+        },
+        {
+          scale: withTiming(scale),
+        },
+      ],
+      borderRadius: borderRadiusInter,
+      padding: Animated.withTiming(padding),
+    };
+  });
+
   const onSearchBarActive = () => {
     props.navigation.navigate('Search');
   };
 
-  const onMenuClick = () => {
+  const menuOpen = () => {
+    homeOffesetX.value = translateX;
     setIsSideBarShown(true);
   };
 
-  const onMenuClose = () => {
+  const menuClose = () => {
+    homeOffesetX.value = 0;
     setIsSideBarShown(false);
   };
 
@@ -78,64 +125,83 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   };
 
   const onSideBarItemClick = (route: keyof RootStackParamList) => {
-    onMenuClose();
+    menuClose();
     props.navigation.navigate(route);
   };
 
   return (
     <>
-      <View style={[styles.root, themeStyles.bg]}>
+      <View style={[styles.mainContainer]}>
         <SideBar
           activeRoute={props.route.name}
           onItemClick={onSideBarItemClick}
-          onMenuClose={onMenuClose}
+          onMenuClose={menuClose}
           isShown={isSideBarShown}
         />
-        <ScrollView
-          overScrollMode="never"
-          showsVerticalScrollIndicator={false}
-          style={styles.scrollView}>
-          <Header onMenuClick={onMenuClick} animatedStyle={headerStyle} />
-          <SearchBar onSearchBarActive={onSearchBarActive} />
-          <HeadingTitle title="Trending Now" />
+        <Animated.View style={[homeStyle, styles.root, themeStyles.bg]}>
           <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            overScrollMode="never">
-            <Cards
-              items={TRENDING_NOW}
-              onClick={onCardClick}
-              height="35"
-              width="42"
+            scrollEnabled={!isSideBarShown}
+            overScrollMode="never"
+            showsVerticalScrollIndicator={false}
+            style={styles.scrollView}>
+            <Header onMenuClick={menuOpen} animatedStyle={headerStyle} />
+            <SearchBar
+              isTouchEnabled={isSideBarShown}
+              onSearchBarActive={onSearchBarActive}
             />
-          </ScrollView>
-          <HeadingTitle onMoreClick={onMoreClick} title="Categories" />
-          <Boxes onClick={onBoxClick} items={CATEGORIES} />
-          <HeadingTitle title="Smartphone Brands" />
-          <ScrollView
-            style={{ marginBottom: heightPercentageToDP(4) }}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            overScrollMode="never">
-            <Cards
-              items={BRANDS}
-              onClick={onCardClick}
-              height="15"
-              width="55"
+            <HeadingTitle title="Trending Now" />
+            <ScrollView
+              scrollEnabled={!isSideBarShown}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              overScrollMode="never">
+              <Cards
+                items={TRENDING_NOW}
+                onClick={onCardClick}
+                height="35"
+                width="42"
+              />
+            </ScrollView>
+            <HeadingTitle onMoreClick={onMoreClick} title="Categories" />
+            <Boxes
+              scrollEnabled={!isSideBarShown}
+              disabled={isSideBarShown}
+              onClick={onBoxClick}
+              items={CATEGORIES}
             />
+            <HeadingTitle title="Smartphone Brands" />
+            <ScrollView
+              scrollEnabled={!isSideBarShown}
+              style={{ marginBottom: heightPercentageToDP(4) }}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              overScrollMode="never">
+              <Cards
+                items={BRANDS}
+                onClick={onCardClick}
+                height="15"
+                width="55"
+              />
+            </ScrollView>
           </ScrollView>
-        </ScrollView>
+        </Animated.View>
       </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    backgroundColor: '#0E1E54',
+    flex: 1,
+  },
   root: {
     flex: 1,
+    backgroundColor: 'red',
   },
   scrollView: {
     margin: 0,
+    borderRadius: widthPercentageToDP(10),
   },
 });
 export { Home };

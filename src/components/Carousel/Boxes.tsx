@@ -17,6 +17,8 @@ type BoxesProps = {
   items: Box[];
   style?: StyleProp<ViewStyle>;
   onClick?: (select: string) => void;
+  scrollEnabled?: boolean;
+  disabled?: boolean;
 };
 
 export type Box = {
@@ -29,6 +31,7 @@ type BoxProps = {
   data: Box;
   style?: StyleProp<ViewStyle>;
   onClick?: (select: string) => void;
+  disabled?: boolean;
 };
 
 const Box: React.FC<BoxProps> = function (props) {
@@ -37,7 +40,10 @@ const Box: React.FC<BoxProps> = function (props) {
   };
 
   return (
-    <TouchableOpacity onPress={onClickHandler} activeOpacity={0.8}>
+    <TouchableOpacity
+      disabled={props.disabled}
+      onPress={onClickHandler}
+      activeOpacity={0.8}>
       <View
         style={[
           boxStyles.box,
@@ -56,12 +62,14 @@ const Boxes: React.FC<BoxesProps> = function (props) {
   return (
     <View style={[styles.root, props.style]}>
       <ScrollView
+        scrollEnabled={props.scrollEnabled}
         horizontal
         overScrollMode="never"
         showsHorizontalScrollIndicator={false}>
         {props.items.map((item, index) => {
           return (
             <Box
+              disabled={props.disabled}
               style={index === props.items.length - 1 ? styles.lastBox : {}}
               key={index}
               onClick={props.onClick}

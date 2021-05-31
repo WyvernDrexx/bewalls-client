@@ -4,7 +4,6 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { useTheme } from '../../hooks';
 import { RootStackParamList } from '../../navigation/types';
 
 type BarItemProps = {
@@ -15,8 +14,6 @@ type BarItemProps = {
 };
 
 const BarItem: React.FC<BarItemProps> = props => {
-  const [themeStyles, theme] = useTheme();
-
   const onClick = () => {
     props.onClick(props.route);
   };
@@ -25,15 +22,8 @@ const BarItem: React.FC<BarItemProps> = props => {
     <TouchableOpacity
       onPress={onClick}
       activeOpacity={0.5}
-      style={[
-        styles.root,
-        {
-          backgroundColor: props.isActive
-            ? theme.colors.light
-            : theme.colors.primary,
-        },
-      ]}>
-      <Text style={[styles.text, themeStyles.text]}>{props.title}</Text>
+      style={[styles.root]}>
+      <Text style={[styles.text]}>{props.title}</Text>
     </TouchableOpacity>
   );
 };
@@ -46,6 +36,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: heightPercentageToDP(2.5),
     fontWeight: 'bold',
+    color: '#505DAC',
   },
 });
 

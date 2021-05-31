@@ -11,6 +11,7 @@ import Search from './search.svg';
 
 type SearchBarProps = {
   onSearchBarActive: () => void;
+  isTouchEnabled?: boolean;
 };
 
 const SearchBar: React.FC<SearchBarProps> = function (props) {
@@ -24,6 +25,7 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
     <>
       <View style={[styles.root]}>
         <TouchableOpacity
+          disabled={props.isTouchEnabled}
           onPress={onPressHandler}
           activeOpacity={0.8}
           style={[styles.searchContainer, themeStyles.bgLight]}>
@@ -48,6 +50,7 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     paddingHorizontal: widthPercentageToDP(2),
+    zIndex: 1,
   },
   searchContainer: {
     display: 'flex',
@@ -57,6 +60,7 @@ const styles = StyleSheet.create({
     borderRadius: heightPercentageToDP(1.5),
     marginBottom: 0,
     height: heightPercentageToDP(8),
+    zIndex: 0,
   },
   searchInput: {
     margin: 0,
