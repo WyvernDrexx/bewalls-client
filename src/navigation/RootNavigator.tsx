@@ -28,11 +28,7 @@ function RootNavigator() {
         }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Search" component={Search} />
-        <Stack.Screen
-          options={{ headerShown: true, headerTitleAlign: 'center' }}
-          name="Categories"
-          component={Categories}
-        />
+        <Stack.Screen name="Categories" component={Categories} />
         <Stack.Screen name="Selection" component={Selection} />
         <Stack.Screen
           options={{ headerShown: true, headerTitleAlign: 'center' }}

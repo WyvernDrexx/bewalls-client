@@ -9,6 +9,7 @@ import HeadingTitle from '../../components/HeadingTitle';
 import { Box, Boxes } from '../../components/Carousel';
 import { WallpaperType } from '../../types';
 import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
+import StackHeader from '../../components/StackHeader';
 
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const [themeStyles] = useTheme();
@@ -44,9 +45,14 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
     props.navigation.navigate('Selection', { select });
   };
 
+  const goBack = () => {
+    props.navigation.goBack();
+  };
+
   return (
     <View style={[styles.root, themeStyles.bg]}>
       <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
+        <StackHeader onLeftArrowClick={goBack} title="Categories" />
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
