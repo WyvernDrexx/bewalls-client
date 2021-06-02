@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 
 import { StyleSheet, ScrollView, View } from 'react-native';
 import Animated, {
-  Extrapolate,
   interpolate,
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
@@ -25,12 +23,7 @@ import { WallpaperType } from '../../types';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const searchBarActive = useSharedValue(0);
-  const homeOffesetX = useSharedValue(0);
-  const translateX = widthPercentageToDP(75);
-  const borderRadius = widthPercentageToDP(15);
-  const homePadding = widthPercentageToDP(6);
   const [isSideBarShown, setIsSideBarShown] = useState(false);
-  const [isSideBarOpenClicked, setIsSideBarOpenClicked] = useState(false);
   const [themeStyles] = useTheme();
 
   const CATEGORIES: Box[] = [
@@ -63,58 +56,15 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     };
   });
 
-  const homeStyle = useAnimatedStyle(() => {
-    const scale = interpolate(
-      homeOffesetX.value,
-      [0, translateX],
-      [1, 0.9],
-      Extrapolate.CLAMP,
-    );
-
-    const padding = interpolate(
-      homeOffesetX.value,
-      [0, translateX],
-      [0, homePadding],
-      Extrapolate.CLAMP,
-    );
-
-    const borderRadiusInter = interpolate(
-      homeOffesetX.value,
-      [0, translateX],
-      [0, borderRadius],
-      Extrapolate.CLAMP,
-    );
-
-    return {
-      transform: [
-        {
-          translateX: Animated.withTiming(homeOffesetX.value, {}, isFin => {
-            if (isFin && isSideBarOpenClicked) {
-              runOnJS(setIsSideBarShown)(true);
-              runOnJS(setIsSideBarOpenClicked)(false);
-            }
-          }),
-        },
-        {
-          scale: Animated.withSpring(scale),
-        },
-      ],
-      borderRadius: Animated.withTiming(borderRadiusInter),
-      padding: Animated.withTiming(padding),
-    };
-  });
-
   const onSearchBarActive = () => {
     props.navigation.navigate('Search');
   };
 
   const menuOpen = () => {
-    setIsSideBarOpenClicked(true);
-    homeOffesetX.value = translateX;
+    setIsSideBarShown(true);
   };
 
   const menuClose = () => {
-    homeOffesetX.value = 0;
     setIsSideBarShown(false);
   };
 
@@ -137,14 +87,14 @@ const Home: React.FC<HomeScreenProps> = function (props) {
 
   return (
     <>
-      <View style={[styles.mainContainer]}>
+      <View style={[styles.mainContainer, themeStyles.bgSecondary]}>
         <SideBar
           activeRoute={props.route.name}
           onItemClick={onSideBarItemClick}
           onMenuClose={menuClose}
           isShown={isSideBarShown}
         />
-        <Animated.View style={[homeStyle, styles.root, themeStyles.bg]}>
+        <Animated.View style={[styles.root, themeStyles.bg]}>
           <ScrollView
             scrollEnabled={!isSideBarShown}
             overScrollMode="never"
@@ -198,7 +148,6 @@ const Home: React.FC<HomeScreenProps> = function (props) {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: '#0E1E54',
     flex: 1,
   },
   root: {

@@ -7,7 +7,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StatusBar,
 } from 'react-native';
 import Animated, {
   interpolate,
@@ -60,20 +59,11 @@ const SideBar: React.FC<SideBarProps> = function (props) {
   const sideBarShown = useSharedValue(props.isShown);
   const [closingMode, setClosingMode] =
     useState<'normal' | 'route' | null>(null);
-  const [, theme] = useTheme();
+  const [themeStyles, theme] = useTheme();
   const [activeRoute, setActiveRoute] = useState<keyof RootStackParamList>();
 
   useEffect(() => {
     sideBarShown.value = props.isShown;
-    if (props.isShown) {
-      StatusBar.setBackgroundColor('#0E1E54');
-      StatusBar.setBarStyle('light-content');
-    } else {
-      StatusBar.setBackgroundColor(theme.colors.primary);
-      StatusBar.setBarStyle(
-        theme.mode === 'light' ? 'dark-content' : 'light-content',
-      );
-    }
   }, [props.isShown, sideBarShown]);
 
   const onMenuCloseHandler = () => {
@@ -117,26 +107,27 @@ const SideBar: React.FC<SideBarProps> = function (props) {
   };
 
   return (
-    <Animated.View style={[sideBarStyle, styles.root]}>
+    <Animated.View style={[sideBarStyle, styles.root, themeStyles.bg]}>
       <View style={[styles.sideBarItemsView]}>
         <TouchableOpacity
-          style={styles.backButton}
+          style={[styles.backButton, { borderColor: theme.colors.secondary }]}
           onPress={onMenuCloseHandler}>
           <BackSvg
             height={heightPercentageToDP(2)}
             width={heightPercentageToDP(2)}
-            fill={'#505DAC'}
+            fill={theme.colors.secondary}
           />
         </TouchableOpacity>
         <View style={[styles.profile]}>
           <ProfileSvg
             height={heightPercentageToDP(8)}
             width={heightPercentageToDP(8)}
-            fill={'white'}
+            fill={theme.colors.secondary}
           />
-          <Text style={[styles.profileText]}>LP Sharma,</Text>
+          <Text style={[styles.profileText, themeStyles.text]}>LP Sharma,</Text>
         </View>
-        <View style={styles.navigationBars}>
+        <View
+          style={[styles.navigationBars, { borderColor: theme.colors.light }]}>
           {SIDEBAR_ITEMS.map((item, index) => {
             return (
               <BarItem
@@ -169,16 +160,23 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    backgroundColor: '#0E1E54',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   backButton: {
     padding: widthPercentageToDP(4),
-    borderColor: '#505DAC',
     borderWidth: widthPercentageToDP(0.5),
     borderRadius: widthPercentageToDP(50),
     position: 'absolute',
     right: widthPercentageToDP(5),
-    top: heightPercentageToDP(5),
+    top: heightPercentageToDP(3),
   },
   sideBarItemsView: {
     width: widthPercentageToDP(75),
@@ -199,8 +197,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: heightPercentageToDP(3),
     color: 'white',
+    marginHorizontal: widthPercentageToDP(-4),
+    paddingHorizontal: widthPercentageToDP(4),
+    paddingBottom: heightPercentageToDP(1),
   },
-  navigationBars: {},
+  navigationBars: {
+    borderTopWidth: 1,
+  },
 });
 
 export default SideBar;
