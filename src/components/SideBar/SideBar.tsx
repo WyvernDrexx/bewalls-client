@@ -103,8 +103,10 @@ const SideBar: React.FC<SideBarProps> = function (props) {
     return {
       transform: [
         {
-          translateX: Animated.withTiming(offsetX, {}, isFin =>
-            runOnJS(handleAnimationComplete)(isFin),
+          translateX: Animated.withTiming(
+            offsetX,
+            {},
+            runOnJS(handleAnimationComplete),
           ),
         },
       ],
