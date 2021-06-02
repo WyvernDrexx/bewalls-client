@@ -4,9 +4,9 @@ import { StyleSheet, ScrollView, View } from 'react-native';
 import Animated, {
   Extrapolate,
   interpolate,
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
 } from 'react-native-reanimated';
 import {
   heightPercentageToDP,
@@ -30,6 +30,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   const borderRadius = widthPercentageToDP(15);
   const homePadding = widthPercentageToDP(6);
   const [isSideBarShown, setIsSideBarShown] = useState(false);
+  const [isSideBarOpenClicked, setIsSideBarOpenClicked] = useState(false);
   const [themeStyles] = useTheme();
 
   const CATEGORIES: Box[] = [
@@ -87,13 +88,18 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     return {
       transform: [
         {
-          translateX: withTiming(homeOffesetX.value),
+          translateX: Animated.withTiming(homeOffesetX.value, {}, isFin => {
+            if (isFin && isSideBarOpenClicked) {
+              runOnJS(setIsSideBarShown)(true);
+              runOnJS(setIsSideBarOpenClicked)(false);
+            }
+          }),
         },
         {
-          scale: withTiming(scale),
+          scale: Animated.withSpring(scale),
         },
       ],
-      borderRadius: borderRadiusInter,
+      borderRadius: Animated.withTiming(borderRadiusInter),
       padding: Animated.withTiming(padding),
     };
   });
@@ -103,8 +109,8 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   };
 
   const menuOpen = () => {
+    setIsSideBarOpenClicked(true);
     homeOffesetX.value = translateX;
-    setIsSideBarShown(true);
   };
 
   const menuClose = () => {

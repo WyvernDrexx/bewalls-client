@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   StyleSheet,
@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Animated, {
   interpolate,
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
@@ -57,7 +58,10 @@ const SIDEBAR_ITEMS: BarItemType[] = [
 const SideBar: React.FC<SideBarProps> = function (props) {
   const sideBarWidth = widthPercentageToDP(100);
   const sideBarShown = useSharedValue(props.isShown);
+  const [closingMode, setClosingMode] =
+    useState<'normal' | 'route' | null>(null);
   const [, theme] = useTheme();
+  const [activeRoute, setActiveRoute] = useState<keyof RootStackParamList>();
 
   useEffect(() => {
     sideBarShown.value = props.isShown;
@@ -73,9 +77,8 @@ const SideBar: React.FC<SideBarProps> = function (props) {
   }, [props.isShown, sideBarShown]);
 
   const onMenuCloseHandler = () => {
-    if (typeof props.onMenuClose !== 'undefined') {
-      props.onMenuClose();
-    }
+    setClosingMode('normal');
+    sideBarShown.value = false;
   };
 
   const sideBarStyle = useAnimatedStyle(() => {
@@ -88,8 +91,19 @@ const SideBar: React.FC<SideBarProps> = function (props) {
     return {
       transform: [
         {
-          translateX: Animated.withTiming(offsetX, {}, isFinished => {
-            console.log(isFinished);
+          translateX: Animated.withTiming(offsetX, {}, isFin => {
+            if (isFin && closingMode) {
+              if (
+                typeof props.onMenuClose !== 'undefined' &&
+                closingMode === 'normal'
+              ) {
+                runOnJS(props.onMenuClose)();
+              }
+              if (closingMode === 'route' && activeRoute) {
+                runOnJS(props.onItemClick)(activeRoute);
+              }
+              runOnJS(setClosingMode)(null);
+            }
           }),
         },
       ],
@@ -97,7 +111,9 @@ const SideBar: React.FC<SideBarProps> = function (props) {
   });
 
   const onBarItemClick = (route: keyof RootStackParamList) => {
-    props.onItemClick(route);
+    setClosingMode('route');
+    setActiveRoute(route);
+    sideBarShown.value = false;
   };
 
   return (
