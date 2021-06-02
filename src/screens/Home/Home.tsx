@@ -1,28 +1,26 @@
 import React, { useState } from 'react';
 
 import { StyleSheet, ScrollView, View } from 'react-native';
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+
+import { useTheme } from '../../hooks';
+
 import { Cards } from '../../components/Card';
 import { Box, Boxes } from '../../components/Carousel';
+import { WallpaperType } from '../../types';
+
 import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
 import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
-import { useTheme } from '../../hooks';
-import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
+
 import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
-import { WallpaperType } from '../../types';
+import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
-  const searchBarActive = useSharedValue(0);
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const [themeStyles] = useTheme();
 
@@ -49,39 +47,32 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     },
   ];
 
-  const headerStyle = useAnimatedStyle(() => {
-    const offsetY = interpolate(searchBarActive.value, [0, 1], [0, -100]);
-    return {
-      transform: [{ translateY: Animated.withTiming(offsetY) }],
-    };
-  });
-
-  const onSearchBarActive = () => {
+  const handleSearchBarClick = () => {
     props.navigation.navigate('Search');
   };
 
-  const menuOpen = () => {
+  const handleMenuOpen = () => {
     setIsSideBarShown(true);
   };
 
-  const menuClose = () => {
+  const handleMenuClose = () => {
     setIsSideBarShown(false);
   };
 
-  const onMoreClick = () => {
+  const handleMoreClick = () => {
     props.navigation.navigate('Categories');
   };
 
-  const onCardClick = (select: WallpaperType) => {
+  const handleCardClick = (select: WallpaperType) => {
     props.navigation.navigate('Selection', { select: select.title! });
   };
 
-  const onBoxClick = (select: string) => {
+  const handleBoxClick = (select: string) => {
     props.navigation.navigate('Selection', { select });
   };
 
-  const onSideBarItemClick = (route: keyof RootStackParamList) => {
-    menuClose();
+  const handleSideBarItemClick = (route: keyof RootStackParamList) => {
+    handleMenuClose();
     props.navigation.navigate(route);
   };
 
@@ -90,20 +81,20 @@ const Home: React.FC<HomeScreenProps> = function (props) {
       <View style={[styles.mainContainer, themeStyles.bgSecondary]}>
         <SideBar
           activeRoute={props.route.name}
-          onItemClick={onSideBarItemClick}
-          onMenuClose={menuClose}
+          onItemClick={handleSideBarItemClick}
+          onMenuClose={handleMenuClose}
           isShown={isSideBarShown}
         />
-        <Animated.View style={[styles.root, themeStyles.bg]}>
+        <View style={[styles.root, themeStyles.bg]}>
           <ScrollView
             scrollEnabled={!isSideBarShown}
             overScrollMode="never"
             showsVerticalScrollIndicator={false}
             style={styles.scrollView}>
-            <Header onMenuClick={menuOpen} animatedStyle={headerStyle} />
+            <Header onMenuClick={handleMenuOpen} />
             <SearchBar
               isTouchEnabled={isSideBarShown}
-              onSearchBarActive={onSearchBarActive}
+              onSearchBarActive={handleSearchBarClick}
             />
             <HeadingTitle title="Trending Now" />
             <ScrollView
@@ -113,16 +104,16 @@ const Home: React.FC<HomeScreenProps> = function (props) {
               overScrollMode="never">
               <Cards
                 items={TRENDING_NOW}
-                onClick={onCardClick}
+                onClick={handleCardClick}
                 height="35"
                 width="42"
               />
             </ScrollView>
-            <HeadingTitle onMoreClick={onMoreClick} title="Categories" />
+            <HeadingTitle onMoreClick={handleMoreClick} title="Categories" />
             <Boxes
               scrollEnabled={!isSideBarShown}
               disabled={isSideBarShown}
-              onClick={onBoxClick}
+              onClick={handleBoxClick}
               items={CATEGORIES}
             />
             <HeadingTitle title="Smartphone Brands" />
@@ -134,13 +125,13 @@ const Home: React.FC<HomeScreenProps> = function (props) {
               overScrollMode="never">
               <Cards
                 items={BRANDS}
-                onClick={onCardClick}
+                onClick={handleCardClick}
                 height="15"
                 width="55"
               />
             </ScrollView>
           </ScrollView>
-        </Animated.View>
+        </View>
       </View>
     </>
   );
