@@ -14,42 +14,37 @@ import {
 
 import Animated from 'react-native-reanimated';
 
+import { useTheme } from '../../hooks';
+import { useAppDispatch } from '../../store';
+import { changeTheme } from '../../store/theme';
+
 import ProfileImage from './profile.svg';
 import MoonImage from './moon.svg';
 import SunImage from './sun.svg';
 
-import { PADDING_SAFE } from '../../constants';
-import { useAppDispatch } from '../../store';
-import { changeTheme } from '../../store/theme';
-import { useTheme } from '../../hooks';
-
 type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
-  onMenuClick?: () => void;
+  onProfileClick?: () => void;
 };
 
 const Header: React.FC<HeaderProps> = function (props) {
   const dispatch = useAppDispatch();
   const [themeStyles, theme] = useTheme();
 
-  const changeThemeHandler = () => {
-    if (theme.mode === 'dark') {
-      dispatch(changeTheme('light'));
-    } else {
-      dispatch(changeTheme('dark'));
-    }
+  const handleThemeChange = () => {
+    dispatch(changeTheme(theme.isDark ? 'light' : 'dark'));
   };
 
-  const onMenuClickHandler = () => {
-    if (typeof props.onMenuClick !== 'undefined') {
-      props.onMenuClick();
+  const handleProfileClick = () => {
+    if (props.onProfileClick) {
+      props.onProfileClick();
     }
   };
 
   return (
     <Animated.View
       style={[props.animatedStyle, styles.root, themeStyles.bgAndText]}>
-      <TouchableOpacity onPress={onMenuClickHandler} activeOpacity={0.6}>
+      <TouchableOpacity onPress={handleProfileClick} activeOpacity={0.6}>
         <View style={styles.userInfo}>
           <ProfileImage
             fill={theme.colors.secondary}
@@ -62,7 +57,7 @@ const Header: React.FC<HeaderProps> = function (props) {
           </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.5} onPress={changeThemeHandler}>
+      <TouchableOpacity activeOpacity={0.5} onPress={handleThemeChange}>
         {theme.mode === 'light' ? (
           <MoonImage
             fill="black"
@@ -83,13 +78,12 @@ const Header: React.FC<HeaderProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    paddingHorizontal: PADDING_SAFE,
+    paddingHorizontal: widthPercentageToDP(4),
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom: heightPercentageToDP(2),
-    paddingTop: heightPercentageToDP(2),
+    paddingVertical: heightPercentageToDP(2),
   },
   headerContainer: {},
   userInfo: {
@@ -99,7 +93,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   welcomeText: {
-    color: 'gray',
     fontSize: heightPercentageToDP(2),
   },
   nameText: {

@@ -91,7 +91,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             overScrollMode="never"
             showsVerticalScrollIndicator={false}
             style={styles.scrollView}>
-            <Header onMenuClick={handleSideBarOpen} />
+            <Header onProfileClick={handleSideBarOpen} />
             <SearchBar
               isTouchEnabled={isSideBarShown}
               onSearchBarActive={handleSearchBarClick}
