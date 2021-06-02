@@ -5,6 +5,7 @@ export type Colors = {
   secondary: string;
   dark: string;
   light: string;
+  isDark: boolean;
 };
 
 export type ThemeState = {
@@ -17,6 +18,7 @@ const LIGHT_THEME: Colors = {
   secondary: 'black',
   light: '#F7F7F7',
   dark: 'black',
+  isDark: false,
 };
 
 const DARK_THEME: Colors = {
@@ -24,6 +26,7 @@ const DARK_THEME: Colors = {
   secondary: '#AFCADE',
   light: '#505DAC',
   dark: 'black',
+  isDark: true,
 };
 
 const initialState: ThemeState = {
