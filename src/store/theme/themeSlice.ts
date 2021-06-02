@@ -5,12 +5,12 @@ export type Colors = {
   secondary: string;
   dark: string;
   light: string;
-  isDark: boolean;
 };
 
 export type ThemeState = {
   mode: 'dark' | 'light';
   colors: Colors;
+  isDark: boolean;
 };
 
 const LIGHT_THEME: Colors = {
@@ -18,7 +18,6 @@ const LIGHT_THEME: Colors = {
   secondary: 'black',
   light: '#F7F7F7',
   dark: 'black',
-  isDark: false,
 };
 
 const DARK_THEME: Colors = {
@@ -26,12 +25,12 @@ const DARK_THEME: Colors = {
   secondary: '#AFCADE',
   light: '#505DAC',
   dark: 'black',
-  isDark: true,
 };
 
 const initialState: ThemeState = {
   mode: 'light',
   colors: LIGHT_THEME,
+  isDark: false,
 };
 
 const themeSlice = createSlice({
@@ -41,6 +40,7 @@ const themeSlice = createSlice({
     changeTheme(state, action: PayloadAction<'light' | 'dark'>) {
       state.mode = action.payload;
       state.colors = action.payload === 'dark' ? DARK_THEME : LIGHT_THEME;
+      state.isDark = action.payload === 'dark';
     },
   },
 });
