@@ -1,31 +1,37 @@
 import React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
 import { StatusBar } from 'react-native';
-import { useTheme } from '../hooks';
+
 import { Home, Search, Categories, Selection, Settings } from '../screens';
+
 import { RootStackParamList } from './types';
+import { useTheme } from '../hooks';
 
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();
-  const [, theme] = useTheme();
+  const [, { colors, mode: scheme }] = useTheme();
+
+  const screenOptions: StackNavigationOptions = {
+    headerShown: false,
+    headerStyle: {
+      elevation: 0, // remove shadow on Android
+      shadowOpacity: 0, // remove shadow on iOS,
+      backgroundColor: colors.primary,
+    },
+    headerTintColor: colors.secondary,
+  };
+
+  const statusBarStyle = scheme === 'dark' ? 'light-content' : 'dark-content';
+
   return (
     <NavigationContainer>
-      <StatusBar
-        backgroundColor={theme.colors.primary}
-        barStyle={theme.mode === 'dark' ? 'light-content' : 'dark-content'}
-      />
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          headerStyle: {
-            elevation: 0, // remove shadow on Android
-            shadowOpacity: 0, // remove shadow on iOS,
-            backgroundColor: theme.colors.primary,
-          },
-          headerTintColor: theme.colors.secondary,
-        }}>
+      <StatusBar backgroundColor={colors.primary} barStyle={statusBarStyle} />
+      <Stack.Navigator screenOptions={screenOptions}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Categories" component={Categories} />
