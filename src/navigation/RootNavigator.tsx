@@ -14,7 +14,7 @@ import { useTheme } from '../hooks';
 
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();
-  const [, { colors, mode: scheme }] = useTheme();
+  const [, { colors, isDark }] = useTheme();
 
   const screenOptions: StackNavigationOptions = {
     headerShown: false,
@@ -26,7 +26,7 @@ function RootNavigator() {
     headerTintColor: colors.secondary,
   };
 
-  const statusBarStyle = scheme === 'dark' ? 'light-content' : 'dark-content';
+  const statusBarStyle = isDark ? 'light-content' : 'dark-content';
 
   return (
     <NavigationContainer>
