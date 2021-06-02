@@ -51,11 +51,11 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Search');
   };
 
-  const handleMenuOpen = () => {
+  const handleSideBarOpen = () => {
     setIsSideBarShown(true);
   };
 
-  const handleMenuClose = () => {
+  const handleSideBarClose = () => {
     setIsSideBarShown(false);
   };
 
@@ -72,7 +72,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   };
 
   const handleSideBarItemClick = (route: keyof RootStackParamList) => {
-    handleMenuClose();
+    handleSideBarClose();
     props.navigation.navigate(route);
   };
 
@@ -80,9 +80,9 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     <>
       <View style={[styles.mainContainer, themeStyles.bgSecondary]}>
         <SideBar
-          activeRoute={props.route.name}
+          currentRoute={props.route.name}
           onItemClick={handleSideBarItemClick}
-          onMenuClose={handleMenuClose}
+          onClose={handleSideBarClose}
           isShown={isSideBarShown}
         />
         <View style={[styles.root, themeStyles.bg]}>
@@ -91,7 +91,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             overScrollMode="never"
             showsVerticalScrollIndicator={false}
             style={styles.scrollView}>
-            <Header onMenuClick={handleMenuOpen} />
+            <Header onMenuClick={handleSideBarOpen} />
             <SearchBar
               isTouchEnabled={isSideBarShown}
               onSearchBarActive={handleSearchBarClick}

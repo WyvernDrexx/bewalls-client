@@ -8,6 +8,8 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
 import Animated, {
   interpolate,
   runOnJS,
@@ -18,20 +20,21 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { useTheme } from '../../hooks';
-import { RootStackParamList } from '../../navigation/types';
-import BarItem from './BarItem';
 
+import { useTheme } from '../../hooks';
+
+import BarItem from './BarItem';
 import ProfileSvg from './profile.svg';
 import BackSvg from './back.svg';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
+import { RootStackParamList } from '../../navigation/types';
 
 type SideBarProps = {
   isShown?: boolean;
   animatedStyle?: StyleProp<ViewStyle>;
-  onMenuClose?: () => void;
+  onClose?: () => void;
   onItemClick: (route: keyof RootStackParamList) => void;
-  activeRoute: keyof RootStackParamList;
+  currentRoute: keyof RootStackParamList;
 };
 
 type BarItemType = {
@@ -55,85 +58,86 @@ const SIDEBAR_ITEMS: BarItemType[] = [
 ];
 
 const SideBar: React.FC<SideBarProps> = function (props) {
-  const sideBarWidth = widthPercentageToDP(100);
-  const sideBarShown = useSharedValue(props.isShown);
-  const [closingMode, setClosingMode] =
-    useState<'normal' | 'route' | null>(null);
-  const [themeStyles, theme] = useTheme();
+  const width = widthPercentageToDP(100);
+  const isShown = useSharedValue(props.isShown);
+  const [toCall, setToCall] = useState<'close' | 'barItem' | null>(null);
+  const [themeStyles, { colors }] = useTheme();
   const [activeRoute, setActiveRoute] = useState<keyof RootStackParamList>();
 
   useEffect(() => {
-    sideBarShown.value = props.isShown;
-  }, [props.isShown, sideBarShown]);
+    isShown.value = props.isShown;
+  }, [props.isShown, isShown]);
 
-  const onMenuCloseHandler = () => {
-    setClosingMode('normal');
-    sideBarShown.value = false;
+  const handleClose = () => {
+    setToCall('close');
+    isShown.value = false;
+  };
+
+  const handleBarItemClick = (route: keyof RootStackParamList) => {
+    setToCall('barItem');
+    setActiveRoute(route);
+    isShown.value = false;
+  };
+
+  const handleAnimationComplete = (isFinished: boolean) => {
+    // Handles the callback when the slide animation gets completed after close button is clicked
+
+    if (isFinished && toCall) {
+      if (props.onClose && toCall === 'close') {
+        props.onClose();
+      }
+      if (toCall === 'barItem' && activeRoute) {
+        props.onItemClick(activeRoute);
+      }
+      setToCall(null);
+    }
   };
 
   const sideBarStyle = useAnimatedStyle(() => {
     const offsetX = interpolate(
-      Number(sideBarShown.value),
+      isShown.value === true ? 1 : 0, //Fastest way to convert boolean into int
       [0, 1],
-      [-sideBarWidth, 0],
+      [-width, 0],
     );
 
     return {
       transform: [
         {
-          translateX: Animated.withTiming(offsetX, {}, isFin => {
-            if (isFin && closingMode) {
-              if (
-                typeof props.onMenuClose !== 'undefined' &&
-                closingMode === 'normal'
-              ) {
-                runOnJS(props.onMenuClose)();
-              }
-              if (closingMode === 'route' && activeRoute) {
-                runOnJS(props.onItemClick)(activeRoute);
-              }
-              runOnJS(setClosingMode)(null);
-            }
-          }),
+          translateX: Animated.withTiming(offsetX, {}, isFin =>
+            runOnJS(handleAnimationComplete)(isFin),
+          ),
         },
       ],
     };
   });
 
-  const onBarItemClick = (route: keyof RootStackParamList) => {
-    setClosingMode('route');
-    setActiveRoute(route);
-    sideBarShown.value = false;
-  };
-
   return (
     <Animated.View style={[sideBarStyle, styles.root, themeStyles.bg]}>
       <View style={[styles.sideBarItemsView]}>
         <TouchableOpacity
-          style={[styles.backButton, { borderColor: theme.colors.secondary }]}
-          onPress={onMenuCloseHandler}>
+          style={[styles.backButton, { borderColor: colors.secondary }]}
+          onPress={handleClose}>
           <BackSvg
             height={heightPercentageToDP(2)}
             width={heightPercentageToDP(2)}
-            fill={theme.colors.secondary}
+            fill={colors.secondary}
           />
         </TouchableOpacity>
         <View style={[styles.profile]}>
           <ProfileSvg
             height={heightPercentageToDP(8)}
             width={heightPercentageToDP(8)}
-            fill={theme.colors.secondary}
+            fill={colors.secondary}
           />
           <Text style={[styles.profileText, themeStyles.text]}>LP Sharma,</Text>
         </View>
-        <View
-          style={[styles.navigationBars, { borderColor: theme.colors.light }]}>
+        <View style={[styles.barItems, { borderColor: colors.light }]}>
           {SIDEBAR_ITEMS.map((item, index) => {
             return (
               <BarItem
-                isActive={props.activeRoute === item.route}
+                isActive={props.currentRoute === item.route}
                 key={index}
-                onClick={onBarItemClick}
+                onClick={handleBarItemClick}
                 route={item.route}
                 title={item.title}
               />
@@ -142,7 +146,7 @@ const SideBar: React.FC<SideBarProps> = function (props) {
         </View>
       </View>
       <View>
-        <TouchableWithoutFeedback onPress={onMenuCloseHandler}>
+        <TouchableWithoutFeedback onPress={handleClose}>
           <Animated.View style={[styles.transparentView]} />
         </TouchableWithoutFeedback>
       </View>
@@ -189,7 +193,6 @@ const styles = StyleSheet.create({
   },
   profile: {
     padding: heightPercentageToDP(2),
-    paddingBottom: heightPercentageToDP(2),
     marginTop: heightPercentageToDP(10),
   },
   profileText: {
@@ -201,7 +204,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthPercentageToDP(4),
     paddingBottom: heightPercentageToDP(1),
   },
-  navigationBars: {
+  barItems: {
     borderTopWidth: 1,
   },
 });
