@@ -93,7 +93,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             style={styles.scrollView}>
             <Header onProfileClick={handleSideBarOpen} />
             <SearchBar
-              isTouchEnabled={isSideBarShown}
+              disabled={isSideBarShown}
               onSearchBarActive={handleSearchBarClick}
             />
             <HeadingTitle title="Trending Now" />

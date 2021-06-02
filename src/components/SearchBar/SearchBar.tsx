@@ -4,35 +4,37 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { useTheme } from '../../hooks';
+
 import { STYLES } from '../../styles';
 
-import Search from './search.svg';
+import { useTheme } from '../../hooks';
+
+import SearchSvg from './search.svg';
 
 type SearchBarProps = {
-  onSearchBarActive: () => void;
-  isTouchEnabled?: boolean;
+  onSearchBarActive?: () => void;
+  disabled?: boolean;
 };
 
 const SearchBar: React.FC<SearchBarProps> = function (props) {
-  const onPressHandler = () => {
-    props.onSearchBarActive();
+  const onClick = () => {
+    if (props.onSearchBarActive) props.onSearchBarActive();
   };
 
-  const [themeStyles, theme] = useTheme();
+  const [themeStyles, { colors }] = useTheme();
 
   return (
     <>
       <View style={[styles.root]}>
         <TouchableOpacity
-          disabled={props.isTouchEnabled}
-          onPress={onPressHandler}
+          disabled={props.disabled}
+          onPress={onClick}
           activeOpacity={0.8}
           style={[styles.searchContainer, themeStyles.bgLight]}>
           <View style={[STYLES.flexRowCenter]}>
             <View style={[styles.searchTextView]}>
-              <Search
-                fill={theme.colors.secondary}
+              <SearchSvg
+                fill={colors.secondary}
                 height={heightPercentageToDP('3')}
                 width={heightPercentageToDP('3')}
               />
@@ -49,8 +51,7 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    paddingHorizontal: widthPercentageToDP(2),
-    zIndex: 1,
+    paddingHorizontal: widthPercentageToDP(4),
   },
   searchContainer: {
     display: 'flex',
@@ -60,12 +61,10 @@ const styles = StyleSheet.create({
     borderRadius: heightPercentageToDP(1.5),
     marginBottom: 0,
     height: heightPercentageToDP(8),
-    zIndex: 0,
   },
   searchInput: {
     margin: 0,
     width: widthPercentageToDP(76),
-    color: 'black',
     fontSize: heightPercentageToDP(2),
     marginLeft: widthPercentageToDP(3),
   },
@@ -76,7 +75,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   placeholderText: {
-    color: 'gray',
     position: 'absolute',
     left: widthPercentageToDP(10),
     fontSize: heightPercentageToDP(2),
