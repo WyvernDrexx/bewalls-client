@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   heightPercentageToDP,
@@ -15,6 +15,7 @@ import Animated from 'react-native-reanimated';
 import WallpaperView from '../../components/WallpaperView';
 import { BRANDS } from '../../sample/sampleData';
 import { WallpaperType } from '../../types';
+import StackHeader from '../../components/StackHeader';
 
 const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
@@ -22,13 +23,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [activeWallpaper, setActiveWallpaper] = useState<WallpaperType>();
 
   const [themeStyles] = useTheme();
-  useEffect(() => {
-    props.navigation.setOptions({
-      headerShown: true,
-      headerTitle: props.route.params.select,
-      headerTitleAlign: 'center',
-    });
-  }, [props.route.params.select]);
 
   const onCardClick = (wallpaper: WallpaperType) => {
     setActiveWallpaper(wallpaper);
@@ -57,6 +51,10 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
 
   return (
     <View style={[styles.root, themeStyles.bg]}>
+      <StackHeader
+        onLeftArrowClick={props.navigation.goBack}
+        title={props.route.params.select}
+      />
       <Animated.ScrollView style={[]}>
         <View style={styles.displaySelection}>
           <View>

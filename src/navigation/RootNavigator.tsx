@@ -30,11 +30,7 @@ function RootNavigator() {
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Categories" component={Categories} />
         <Stack.Screen name="Selection" component={Selection} />
-        <Stack.Screen
-          options={{ headerShown: true, headerTitleAlign: 'center' }}
-          name="Settings"
-          component={Settings}
-        />
+        <Stack.Screen name="Settings" component={Settings} />
       </Stack.Navigator>
     </NavigationContainer>
   );

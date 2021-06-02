@@ -4,15 +4,21 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import StackHeader from '../../components/StackHeader';
 import { useTheme } from '../../hooks';
 import { SettingsScreenProps } from '../../navigation/types';
 
-const Settings: React.FC<SettingsScreenProps> = function () {
+const Settings: React.FC<SettingsScreenProps> = function (props) {
   const [themeStyles, theme] = useTheme();
   const [notificationEnabled, setNotificationEnabled] = useState(true);
 
   return (
     <View style={[styles.root, themeStyles.bg]}>
+      <StackHeader
+        title="Settings"
+        onLeftArrowClick={props.navigation.goBack}
+        viewStyle={styles.header}
+      />
       <View style={styles.optionsView}>
         <Text style={[themeStyles.text, styles.optionsText]}>
           Enable Notification
@@ -52,7 +58,7 @@ const Settings: React.FC<SettingsScreenProps> = function () {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    paddingHorizontal: widthPercentageToDP(2),
+    paddingHorizontal: widthPercentageToDP(4),
   },
   optionsView: {
     display: 'flex',
@@ -73,6 +79,9 @@ const styles = StyleSheet.create({
   versionText: {
     fontSize: heightPercentageToDP(2.3),
     color: '#B2B2B2',
+  },
+  header: {
+    paddingHorizontal: widthPercentageToDP(2),
   },
 });
 

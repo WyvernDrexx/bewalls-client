@@ -57,10 +57,10 @@ const StackHeader: React.FC<StackHeaderProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     backgroundColor: 'pink',
+    paddingHorizontal: widthPercentageToDP(4),
+    paddingVertical: heightPercentageToDP(3),
   },
   header: {
-    marginHorizontal: widthPercentageToDP(4),
-    marginVertical: heightPercentageToDP(2),
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
   },
   leftView: {
     width: widthPercentageToDP(30.66),
+    marginLeft: widthPercentageToDP(-2),
   },
   leftArrow: {
     width: widthPercentageToDP(12),
