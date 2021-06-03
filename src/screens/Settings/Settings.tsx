@@ -4,6 +4,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import MountAnimatedView from '../../components/MountAnimatedView';
 
 import StackHeader from '../../components/StackHeader';
 
@@ -15,45 +16,47 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
   const [notificationEnabled, setNotificationEnabled] = useState(true);
 
   return (
-    <View style={[styles.root, themeStyles.bg]}>
-      <StackHeader
-        title="Settings"
-        onLeftClick={props.navigation.goBack}
-        viewStyle={styles.header}
-      />
-      <View style={styles.optionsView}>
-        <Text style={[themeStyles.text, styles.optionsText]}>
-          Enable Notification
-        </Text>
-        <Switch
-          trackColor={{
-            true: colors.light,
-            false: colors.light,
-          }}
-          thumbColor={notificationEnabled ? '#0090FF' : colors.light}
-          value={notificationEnabled}
-          onValueChange={() => setNotificationEnabled(!notificationEnabled)}
+    <MountAnimatedView>
+      <View style={[styles.root, themeStyles.bg]}>
+        <StackHeader
+          title="Settings"
+          onLeftClick={props.navigation.goBack}
+          viewStyle={styles.header}
         />
-      </View>
-      <Text style={[styles.subText]}>
-        Receive updates whenever a new wallpaper is added.
-      </Text>
+        <View style={styles.optionsView}>
+          <Text style={[themeStyles.text, styles.optionsText]}>
+            Enable Notification
+          </Text>
+          <Switch
+            trackColor={{
+              true: colors.light,
+              false: colors.light,
+            }}
+            thumbColor={notificationEnabled ? '#0090FF' : colors.light}
+            value={notificationEnabled}
+            onValueChange={() => setNotificationEnabled(!notificationEnabled)}
+          />
+        </View>
+        <Text style={[styles.subText]}>
+          Receive updates whenever a new wallpaper is added.
+        </Text>
 
-      <View style={styles.optionsView}>
-        <Text style={[themeStyles.text, styles.optionsText]}>Contact Us</Text>
+        <View style={styles.optionsView}>
+          <Text style={[themeStyles.text, styles.optionsText]}>Contact Us</Text>
+        </View>
+        <View style={styles.optionsView}>
+          <Text style={[themeStyles.text, styles.optionsText]}>
+            Privacy Policy
+          </Text>
+        </View>
+        <View style={styles.optionsView}>
+          <Text style={[themeStyles.text, styles.optionsText]}>
+            Current Version
+          </Text>
+          <Text style={styles.versionText}>V1.2.8</Text>
+        </View>
       </View>
-      <View style={styles.optionsView}>
-        <Text style={[themeStyles.text, styles.optionsText]}>
-          Privacy Policy
-        </Text>
-      </View>
-      <View style={styles.optionsView}>
-        <Text style={[themeStyles.text, styles.optionsText]}>
-          Current Version
-        </Text>
-        <Text style={styles.versionText}>V1.2.8</Text>
-      </View>
-    </View>
+    </MountAnimatedView>
   );
 };
 

@@ -19,6 +19,7 @@ import SideBar from '../../components/SideBar';
 
 import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
+import MountAnimatedView from '../../components/MountAnimatedView';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
@@ -77,7 +78,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   };
 
   return (
-    <>
+    <MountAnimatedView>
       <View style={[styles.mainContainer, themeStyles.bgSecondary]}>
         <SideBar
           currentRoute={props.route.name}
@@ -133,7 +134,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
           </ScrollView>
         </View>
       </View>
-    </>
+    </MountAnimatedView>
   );
 };
 
