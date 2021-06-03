@@ -57,7 +57,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   return (
     <View style={[styles.root, themeStyles.bg]}>
       <StackHeader
-        onLeftArrowClick={props.navigation.goBack}
+        onLeftClick={props.navigation.goBack}
         title={props.route.params.select}
       />
       <Animated.ScrollView>

@@ -54,7 +54,7 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
   return (
     <View style={[styles.root, themeStyles.bg]}>
       <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
-        <StackHeader onLeftArrowClick={goBack} title="Categories" />
+        <StackHeader onLeftClick={goBack} title="Categories" />
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}

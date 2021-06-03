@@ -7,11 +7,13 @@ import {
   ViewStyle,
   TouchableOpacity,
 } from 'react-native';
-import Animated from 'react-native-reanimated';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+
+import Animated from 'react-native-reanimated';
+
 import { useTheme } from '../../hooks';
 
 import LeftArrowSvg from './left-arrow.svg';
@@ -20,21 +22,21 @@ type StackHeaderProps = {
   title?: string;
   titlePosition?: 'left' | 'center' | 'right';
   viewStyle?: StyleProp<ViewStyle>;
-  onLeftArrowClick?: () => void;
+  onLeftClick?: () => void;
 };
 
 const StackHeader: React.FC<StackHeaderProps> = function (props) {
-  const [themeStyles, theme] = useTheme();
+  const [themeStyles, { colors }] = useTheme();
 
   return (
     <Animated.View style={[styles.root, themeStyles.bg, props.viewStyle]}>
       <View style={styles.header}>
         <View style={styles.leftView}>
           <TouchableOpacity
-            onPress={props.onLeftArrowClick}
+            onPress={props.onLeftClick}
             style={styles.leftArrow}>
             <LeftArrowSvg
-              fill={theme.colors.secondary}
+              fill={colors.secondary}
               height={heightPercentageToDP(3)}
               width={heightPercentageToDP(3)}
             />

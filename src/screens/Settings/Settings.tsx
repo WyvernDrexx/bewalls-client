@@ -16,7 +16,7 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
     <View style={[styles.root, themeStyles.bg]}>
       <StackHeader
         title="Settings"
-        onLeftArrowClick={props.navigation.goBack}
+        onLeftClick={props.navigation.goBack}
         viewStyle={styles.header}
       />
       <View style={styles.optionsView}>
