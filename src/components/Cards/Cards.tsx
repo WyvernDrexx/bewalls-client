@@ -12,7 +12,7 @@ type CardProps = {
   style?: StyleProp<ViewStyle>;
   disableLastMargin?: boolean;
   disableText?: boolean;
-  onClick?: (select: WallpaperType, index: number) => void;
+  onClick?: (wallpaper: WallpaperType, index: number) => void;
   useFlatList?: boolean;
 };
 
@@ -33,7 +33,7 @@ const Cards: React.FC<CardProps> = function (props) {
             width={props.width}
             index={index}
             onClick={props.onClick}
-            disableText={props.disableText}
+            hideText={props.disableText}
           />
         );
       })}

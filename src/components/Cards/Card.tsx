@@ -8,61 +8,62 @@ import {
   ViewStyle,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+
+import Animated from 'react-native-reanimated';
+
 import { useTheme } from '../../hooks';
+
 import { WallpaperType } from '../../types';
 
 type CardProps = {
   wallpaper: WallpaperType;
-  onClick?: (select: WallpaperType, index: number) => void;
+  onClick?: (wallpaper: WallpaperType, index: number) => void;
   height: string | number;
   width: string | number;
   style?: StyleProp<ViewStyle>;
   index?: number;
-  disableText?: boolean;
+  hideText?: boolean;
 };
 
 const Card: React.FC<CardProps> = function (props) {
+  const height = heightPercentageToDP(props.height);
+  const width = widthPercentageToDP(props.width);
   const [themeStyles] = useTheme();
 
-  const onClickHandler = () => {
+  const handleClick = () => {
     if (props.onClick) props.onClick(props.wallpaper, props.index || 0);
   };
 
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={onClickHandler}>
+    <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
       <Animated.View
         style={[
+          {
+            height,
+            width,
+          },
           styles.imageView,
           themeStyles.bg,
-          {
-            height: heightPercentageToDP(props.height),
-            width: widthPercentageToDP(props.width),
-          },
           props.style,
         ]}>
         <Image
           style={[
             styles.image,
             {
-              height: heightPercentageToDP(props.height),
-              width: widthPercentageToDP(props.width),
+              height,
+              width,
             },
           ]}
           source={props.wallpaper.imageSource! || props.wallpaper.imageUri!}
         />
-        {!props.disableText ? (
-          <View style={styles.titleView}>
-            {props.wallpaper.title ? (
-              <Text style={[styles.title]}>{props.wallpaper.title}</Text>
-            ) : null}
-            {props.wallpaper.brand ? (
-              <Text style={styles.subTitle}>Wallpapers</Text>
-            ) : null}
+        {!props.hideText ? (
+          <View style={styles.textView}>
+            <Text style={styles.title}>{props.wallpaper.title}</Text>
+            <Text style={styles.subTitle}>Wallpapers</Text>
           </View>
         ) : null}
       </Animated.View>
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     borderRadius: widthPercentageToDP(1.5),
     marginLeft: widthPercentageToDP(4),
   },
-  titleView: {
+  textView: {
     position: 'absolute',
   },
   title: {
