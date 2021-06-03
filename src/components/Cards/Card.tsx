@@ -18,6 +18,7 @@ import Animated from 'react-native-reanimated';
 import { useTheme } from '../../hooks';
 
 import { WallpaperType } from '../../types';
+import MountAnimatedView from '../MountAnimatedView';
 
 type CardProps = {
   wallpaper: WallpaperType;
@@ -39,35 +40,37 @@ const Card: React.FC<CardProps> = function (props) {
   };
 
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
-      <Animated.View
-        style={[
-          {
-            height,
-            width,
-          },
-          styles.imageView,
-          themeStyles.bg,
-          props.style,
-        ]}>
-        <Image
+    <MountAnimatedView>
+      <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
+        <Animated.View
           style={[
-            styles.image,
             {
               height,
               width,
             },
-          ]}
-          source={props.wallpaper.imageSource! || props.wallpaper.imageUri!}
-        />
-        {!props.hideText ? (
-          <View style={styles.textView}>
-            <Text style={styles.title}>{props.wallpaper.title}</Text>
-            <Text style={styles.subTitle}>Wallpapers</Text>
-          </View>
-        ) : null}
-      </Animated.View>
-    </TouchableOpacity>
+            styles.imageView,
+            themeStyles.bg,
+            props.style,
+          ]}>
+          <Image
+            style={[
+              styles.image,
+              {
+                height,
+                width,
+              },
+            ]}
+            source={props.wallpaper.imageSource! || props.wallpaper.imageUri!}
+          />
+          {!props.hideText ? (
+            <View style={styles.textView}>
+              <Text style={styles.title}>{props.wallpaper.title}</Text>
+              <Text style={styles.subTitle}>Wallpapers</Text>
+            </View>
+          ) : null}
+        </Animated.View>
+      </TouchableOpacity>
+    </MountAnimatedView>
   );
 };
 

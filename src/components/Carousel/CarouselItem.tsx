@@ -19,6 +19,7 @@ import {
 } from 'react-native-responsive-screen';
 
 import { WallpaperType } from '../../types';
+import MountAnimatedView from '../MountAnimatedView';
 
 type CarouselItemProps = {
   data: WallpaperType;
@@ -53,27 +54,29 @@ const CarouselItem = function (props: CarouselItemProps) {
   };
 
   return (
-    <Animated.View
-      style={[
-        styles.root,
-        props.index === 0 ? styles.firstItem : {},
-        props.isLastItem ? styles.lastItem : {},
-      ]}>
-      <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
-        <Animated.View style={[animatedStyle, styles.imageView]}>
-          <Image
-            style={styles.image}
-            source={props.data.imageSource! || props.data.imageUri!}
-          />
-          {!props.hideText ? (
-            <View style={styles.titleView}>
-              <Text style={styles.title}>{props.data.title}</Text>
-              <Text style={styles.subTitle}>Wallpapers</Text>
-            </View>
-          ) : null}
-        </Animated.View>
-      </TouchableOpacity>
-    </Animated.View>
+    <MountAnimatedView>
+      <Animated.View
+        style={[
+          styles.root,
+          props.index === 0 ? styles.firstItem : {},
+          props.isLastItem ? styles.lastItem : {},
+        ]}>
+        <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
+          <Animated.View style={[animatedStyle, styles.imageView]}>
+            <Image
+              style={styles.image}
+              source={props.data.imageSource! || props.data.imageUri!}
+            />
+            {!props.hideText ? (
+              <View style={styles.titleView}>
+                <Text style={styles.title}>{props.data.title}</Text>
+                <Text style={styles.subTitle}>Wallpapers</Text>
+              </View>
+            ) : null}
+          </Animated.View>
+        </TouchableOpacity>
+      </Animated.View>
+    </MountAnimatedView>
   );
 };
 
