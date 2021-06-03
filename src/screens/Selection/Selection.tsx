@@ -20,6 +20,7 @@ import GridSvg from './grid.svg';
 
 import { useTheme } from '../../hooks';
 import { SelectionScreenProps } from '../../navigation/types';
+import MountAnimatedView from '../../components/MountAnimatedView';
 
 const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [displayMode, setDisplayMode] =
@@ -55,49 +56,51 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   };
 
   return (
-    <View style={[styles.root, themeStyles.bg]}>
-      <StackHeader
-        onLeftClick={props.navigation.goBack}
-        title={props.route.params.select}
-      />
-      <Animated.ScrollView>
-        <View style={styles.displaySelection}>
-          <View>
-            <Text style={themeStyles.text}>Sort by Date</Text>
+    <MountAnimatedView>
+      <View style={[styles.root, themeStyles.bg]}>
+        <StackHeader
+          onLeftClick={props.navigation.goBack}
+          title={props.route.params.select}
+        />
+        <Animated.ScrollView>
+          <View style={styles.displaySelection}>
+            <View>
+              <Text style={themeStyles.text}>Sort by Date</Text>
+            </View>
+            <View style={styles.displayLayout}>
+              <TouchableOpacity
+                onPress={() => setDisplayMode('carousel')}
+                style={styles.modeIcon}>
+                <CarouselSvg
+                  fill={displayMode === 'carousel' ? '#9F88FF' : '#C9C9C9'}
+                  height={heightPercentageToDP(3)}
+                  width={heightPercentageToDP(4)}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setDisplayMode('grid')}
+                style={styles.modeIcon}>
+                <GridSvg
+                  fill={displayMode === 'grid' ? '#9F88FF' : '#C9C9C9'}
+                  height={heightPercentageToDP(3)}
+                  width={heightPercentageToDP(4)}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.displayLayout}>
-            <TouchableOpacity
-              onPress={() => setDisplayMode('carousel')}
-              style={styles.modeIcon}>
-              <CarouselSvg
-                fill={displayMode === 'carousel' ? '#9F88FF' : '#C9C9C9'}
-                height={heightPercentageToDP(3)}
-                width={heightPercentageToDP(4)}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setDisplayMode('grid')}
-              style={styles.modeIcon}>
-              <GridSvg
-                fill={displayMode === 'grid' ? '#9F88FF' : '#C9C9C9'}
-                height={heightPercentageToDP(3)}
-                width={heightPercentageToDP(4)}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-        {displayMode === 'carousel' ? (
-          <Carousel onClick={handleCardClick} items={BRANDS} hideText />
-        ) : (
-          renderCards(BRANDS)
-        )}
-      </Animated.ScrollView>
-      <WallpaperView
-        showWallpaper={previewWallpaper}
-        wallpaper={selectedWallpaper}
-        onCloseClick={handleClose}
-      />
-    </View>
+          {displayMode === 'carousel' ? (
+            <Carousel onClick={handleCardClick} items={BRANDS} hideText />
+          ) : (
+            renderCards(BRANDS)
+          )}
+        </Animated.ScrollView>
+        <WallpaperView
+          showWallpaper={previewWallpaper}
+          wallpaper={selectedWallpaper}
+          onCloseClick={handleClose}
+        />
+      </View>
+    </MountAnimatedView>
   );
 };
 
