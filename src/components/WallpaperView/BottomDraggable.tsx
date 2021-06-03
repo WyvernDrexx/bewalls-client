@@ -5,7 +5,6 @@ import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
 } from 'react-native-reanimated';
 import {
   heightPercentageToDP,
@@ -25,8 +24,9 @@ const BottomDraggable = function () {
   const maxOffset = heightPercentageToDP(40);
   const offsetY = useSharedValue(startPosition);
   const driftOffset = heightPercentageToDP(75);
-  const [themeStyles, theme] = useTheme();
   const actionIconSize = heightPercentageToDP(3);
+
+  const [themeStyles, theme] = useTheme();
 
   const eventHandler = useAnimatedGestureHandler({
     onStart: (_, ctx: { startY: number }) => {
@@ -37,9 +37,9 @@ const BottomDraggable = function () {
     },
     onEnd: event => {
       if (event.absoluteY < driftOffset) {
-        offsetY.value = withTiming(maxOffset);
+        offsetY.value = Animated.withSpring(maxOffset);
       } else {
-        offsetY.value = withTiming(startPosition);
+        offsetY.value = Animated.withSpring(startPosition);
       }
     },
   });
