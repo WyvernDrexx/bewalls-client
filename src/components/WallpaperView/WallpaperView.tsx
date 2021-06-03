@@ -18,7 +18,7 @@ import {
 import { WallpaperType } from '../../types';
 import { BottomDraggable } from './BottomDraggable';
 
-import LeftArrow from './left-arrow.svg';
+import LeftArrowSvg from './left-arrow.svg';
 
 type WallpaperViewProps = {
   animatedStyle?: StyleProp<ViewStyle>;
@@ -39,7 +39,7 @@ export default function WallpaperView(props: WallpaperViewProps) {
     }
   }, [props.showWallpaper]);
 
-  const onCloseClick = () => {
+  const handleCloseClick = () => {
     offsetY.value = screenHeight;
     if (props.onCloseClick) props.onCloseClick();
   };
@@ -53,7 +53,7 @@ export default function WallpaperView(props: WallpaperViewProps) {
           translateY: Animated.withTiming(offsetY.value),
         },
       ],
-      opacity: Animated.withTiming(opacity, { duration: 500 }),
+      opacity: Animated.withTiming(opacity),
     };
   });
 
@@ -65,12 +65,8 @@ export default function WallpaperView(props: WallpaperViewProps) {
         style={styles.image}
         source={props.wallpaper.imageSource! || props.wallpaper.imageUri!}
       />
-      <TouchableOpacity onPress={onCloseClick} style={styles.arrow}>
-        <LeftArrow
-          fill="white"
-          height={heightPercentageToDP(4)}
-          width={heightPercentageToDP(4)}
-        />
+      <TouchableOpacity onPress={handleCloseClick} style={styles.arrow}>
+        <LeftArrowSvg style={styles.arrowIcon} fill="white" />
       </TouchableOpacity>
       <BottomDraggable />
     </Animated.View>
@@ -95,5 +91,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: heightPercentageToDP(4),
     left: widthPercentageToDP(2),
+  },
+  arrowIcon: {
+    height: heightPercentageToDP(4),
+    width: heightPercentageToDP(4),
   },
 });

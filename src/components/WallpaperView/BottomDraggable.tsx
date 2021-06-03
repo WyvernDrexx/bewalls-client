@@ -11,12 +11,14 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { useTheme } from '../../hooks';
+
 import HeartSvg from './heart.svg';
 import EditSvg from './edit.svg';
 import ShareSvg from './share.svg';
 import CheckSvg from './check.svg';
 import DownloadSvg from './download.svg';
+
+import { useTheme } from '../../hooks';
 
 const BottomDraggable = function () {
   const startPosition = heightPercentageToDP(80);
