@@ -17,23 +17,25 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+
 import { WallpaperType } from '../../types';
 
 type CarouselItemProps = {
   data: WallpaperType;
   index: number;
-  lastIndex: number;
-  style: StyleProp<ViewStyle>;
-  x: Animated.SharedValue<number>;
-  disableText?: boolean;
+  isLastItem: boolean;
+  style?: StyleProp<ViewStyle>;
+  offsetX: Animated.SharedValue<number>;
+  hideText?: boolean;
   onClick?: (select: WallpaperType, index: number) => void;
 };
 
 const CarouselItem = function (props: CarouselItemProps) {
   const width = widthPercentageToDP(67);
+
   const animatedStyle = useAnimatedStyle(() => {
     const scale = interpolate(
-      props.x.value,
+      props.offsetX.value,
       [
         (props.index - 1) * width,
         width * props.index,
@@ -46,7 +48,7 @@ const CarouselItem = function (props: CarouselItemProps) {
     return { transform: [{ scale }] };
   });
 
-  const onClickHandler = () => {
+  const handleClick = () => {
     if (props.onClick) props.onClick(props.data, props.index);
   };
 
@@ -54,23 +56,16 @@ const CarouselItem = function (props: CarouselItemProps) {
     <Animated.View
       style={[
         styles.root,
-        // eslint-disable-next-line react-native/no-inline-styles
-        {
-          paddingLeft:
-            props.index === 0
-              ? widthPercentageToDP('17.5')
-              : widthPercentageToDP(1),
-          paddingRight:
-            props.index === props.lastIndex ? widthPercentageToDP(17.5) : 0,
-        },
+        props.index === 0 ? styles.firstItem : {},
+        props.isLastItem ? styles.lastItem : {},
       ]}>
-      <TouchableOpacity activeOpacity={0.8} onPress={onClickHandler}>
+      <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
         <Animated.View style={[animatedStyle, styles.imageView]}>
           <Image
             style={styles.image}
             source={props.data.imageSource! || props.data.imageUri!}
           />
-          {!props.disableText ? (
+          {!props.hideText ? (
             <View style={styles.titleView}>
               <Text style={styles.title}>{props.data.title}</Text>
               <Text style={styles.subTitle}>Wallpapers</Text>
@@ -85,6 +80,7 @@ const CarouselItem = function (props: CarouselItemProps) {
 const styles = StyleSheet.create({
   root: {
     marginTop: heightPercentageToDP(4),
+    paddingLeft: widthPercentageToDP(1),
   },
   imageView: {
     display: 'flex',
@@ -114,6 +110,12 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP('75'),
     height: heightPercentageToDP('75'),
     resizeMode: 'cover',
+  },
+  firstItem: {
+    paddingLeft: widthPercentageToDP('17.5'),
+  },
+  lastItem: {
+    paddingRight: widthPercentageToDP(17.5 - 2), //Subtract 2% of the extra padding from root
   },
 });
 

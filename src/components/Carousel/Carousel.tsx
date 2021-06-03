@@ -1,17 +1,20 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
-import { CarouselItem } from './CarouselItem';
 
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
 } from 'react-native-reanimated';
+
+import { CarouselItem } from './CarouselItem';
+
 import { useTheme } from '../../hooks';
 import { WallpaperType } from '../../types';
+import { isLastElement } from '../../utilities';
 
 type CarouselProps = {
-  disableText?: boolean;
+  hideText?: boolean;
   onClick?: (select: WallpaperType, index: number) => void;
   items: WallpaperType[];
 };
@@ -19,6 +22,7 @@ type CarouselProps = {
 const Carousel: React.FC<CarouselProps> = function (props) {
   const scrollOffsetX = useSharedValue(0);
   const [themeStyles] = useTheme();
+
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: event => {
       const x = event.contentOffset.x;
@@ -32,19 +36,16 @@ const Carousel: React.FC<CarouselProps> = function (props) {
         onScroll={scrollHandler}
         showsHorizontalScrollIndicator={false}
         horizontal={true}
-        alwaysBounceHorizontal={false}
-        overScrollMode="never"
-        bounces={false}>
+        overScrollMode="never">
         {props.items.map((item, i) => {
           return (
             <CarouselItem
-              x={scrollOffsetX}
-              style={{}}
-              lastIndex={props.items.length - 1}
+              offsetX={scrollOffsetX}
+              isLastItem={isLastElement(i, props.items.length)}
               index={i}
               key={i}
               data={item}
-              disableText={props.disableText}
+              hideText={props.hideText}
               onClick={props.onClick}
             />
           );

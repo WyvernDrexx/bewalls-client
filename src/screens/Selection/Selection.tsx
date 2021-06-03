@@ -87,7 +87,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
           </View>
         </View>
         {displayMode === 'carousel' ? (
-          <Carousel onClick={handleCardClick} items={BRANDS} disableText />
+          <Carousel onClick={handleCardClick} items={BRANDS} hideText />
         ) : (
           renderCards(BRANDS)
         )}
