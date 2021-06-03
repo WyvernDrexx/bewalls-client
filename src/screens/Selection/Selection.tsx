@@ -4,46 +4,51 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+
+import Animated from 'react-native-reanimated';
+
+import WallpaperView from '../../components/WallpaperView';
 import Carousel from '../../components/Carousel/Carousel';
+import StackHeader from '../../components/StackHeader';
+
+import { BRANDS } from '../../sample/sampleData';
+import { WallpaperType } from '../../types';
+import { Cards } from '../../components/Cards';
+
+import CarouselSvg from './carousel.svg';
+import GridSvg from './grid.svg';
+
 import { useTheme } from '../../hooks';
 import { SelectionScreenProps } from '../../navigation/types';
 
-import GridSvg from './grid.svg';
-import CarouselSvg from './carousel.svg';
-import { Cards } from '../../components/Cards';
-import Animated from 'react-native-reanimated';
-import WallpaperView from '../../components/WallpaperView';
-import { BRANDS } from '../../sample/sampleData';
-import { WallpaperType } from '../../types';
-import StackHeader from '../../components/StackHeader';
-
 const Selection: React.FC<SelectionScreenProps> = function (props) {
-  const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
-  const [showWallpaper, setShowWallpaper] = useState(false);
-  const [activeWallpaper, setActiveWallpaper] = useState<WallpaperType>();
+  const [displayMode, setDisplayMode] =
+    useState<'carousel' | 'grid'>('carousel');
+  const [previewWallpaper, setPreviewWallpaper] = useState(false);
+  const [selectedWallpaper, setSelectedWallpaper] = useState<WallpaperType>();
 
   const [themeStyles] = useTheme();
 
-  const onCardClick = (wallpaper: WallpaperType) => {
-    setActiveWallpaper(wallpaper);
-    setShowWallpaper(true);
+  const handleCardClick = (wallpaper: WallpaperType) => {
+    setSelectedWallpaper(wallpaper);
+    setPreviewWallpaper(true);
   };
 
-  const onClose = () => {
-    setShowWallpaper(false);
+  const handleClose = () => {
+    setPreviewWallpaper(false);
   };
 
-  const renderCards = () => {
+  const renderCards = (items: WallpaperType[]) => {
     return (
       <View style={styles.gridView}>
         <Cards
-          onClick={onCardClick}
-          items={BRANDS}
+          onClick={handleCardClick}
+          items={items}
           disableText
           height="34"
           width="44"
           disableLastMargin
-          style={{ marginBottom: heightPercentageToDP(2) }}
+          style={styles.cards}
         />
       </View>
     );
@@ -55,42 +60,42 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
         onLeftArrowClick={props.navigation.goBack}
         title={props.route.params.select}
       />
-      <Animated.ScrollView style={[]}>
+      <Animated.ScrollView>
         <View style={styles.displaySelection}>
           <View>
             <Text style={themeStyles.text}>Sort by Date</Text>
           </View>
           <View style={styles.displayLayout}>
             <TouchableOpacity
-              onPress={() => setViewMode('carousel')}
+              onPress={() => setDisplayMode('carousel')}
               style={styles.modeIcon}>
               <CarouselSvg
-                fill={viewMode === 'carousel' ? '#9F88FF' : '#C9C9C9'}
+                fill={displayMode === 'carousel' ? '#9F88FF' : '#C9C9C9'}
                 height={heightPercentageToDP(3)}
                 width={heightPercentageToDP(4)}
               />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => setViewMode('grid')}
+              onPress={() => setDisplayMode('grid')}
               style={styles.modeIcon}>
               <GridSvg
-                fill={viewMode === 'grid' ? '#9F88FF' : '#C9C9C9'}
+                fill={displayMode === 'grid' ? '#9F88FF' : '#C9C9C9'}
                 height={heightPercentageToDP(3)}
                 width={heightPercentageToDP(4)}
               />
             </TouchableOpacity>
           </View>
         </View>
-        {viewMode === 'carousel' ? (
-          <Carousel onClick={onCardClick} items={BRANDS} disableText />
+        {displayMode === 'carousel' ? (
+          <Carousel onClick={handleCardClick} items={BRANDS} disableText />
         ) : (
-          renderCards()
+          renderCards(BRANDS)
         )}
       </Animated.ScrollView>
       <WallpaperView
-        showWallpaper={showWallpaper}
-        wallpaper={activeWallpaper}
-        onCloseClick={onClose}
+        showWallpaper={previewWallpaper}
+        wallpaper={selectedWallpaper}
+        onCloseClick={handleClose}
       />
     </View>
   );
@@ -122,6 +127,9 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     marginTop: heightPercentageToDP(4),
+  },
+  cards: {
+    marginBottom: heightPercentageToDP(2),
   },
 });
 
