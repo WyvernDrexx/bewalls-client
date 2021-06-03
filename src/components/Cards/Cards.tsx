@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { WallpaperType } from '../../types';
-import Card from './Card';
+import { isLastElement } from '../../utilities';
+import { Card } from './Card';
 
 type CardProps = {
   items: WallpaperType[];
@@ -16,38 +17,16 @@ type CardProps = {
 };
 
 const Cards: React.FC<CardProps> = function (props) {
-  // const renderItem = (item: CardData, index: number) => {
-  //   return (
-  //     <Card
-  //       style={[
-  //         props.style,
-  //         index === props.items.length - 1 && !props.disableLastMargin
-  //           ? { marginRight: widthPercentageToDP(4) }
-  //           : {},
-  //       ]}
-  //       cardData={item}
-  //       height={props.height}
-  //       width={props.width}
-  //       onClick={props.onClick}
-  //     />
-  //   );
-  // };
-
-  // if (props.useFlatList) {
-  //   return <FlatList data={props.items} renderItem={renderItem} />;
-  // }
-
   return (
     <>
       {props.items.map((item, index) => {
+        const isLast = isLastElement(index, props.items.length);
         return (
           <Card
-            key={index}
+            key={item.id}
             style={[
               props.style,
-              index === props.items.length - 1 && !props.disableLastMargin
-                ? { marginRight: widthPercentageToDP(4) }
-                : {},
+              isLast && !props.disableLastMargin ? styles.marginRight : {},
             ]}
             wallpaper={item}
             height={props.height}
@@ -61,5 +40,11 @@ const Cards: React.FC<CardProps> = function (props) {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  marginRight: {
+    marginRight: widthPercentageToDP(4),
+  },
+});
 
 export { Cards };

@@ -8,7 +8,7 @@ import {
 
 import { useTheme } from '../../hooks';
 
-import { Cards } from '../../components/Card';
+import { Cards } from '../../components/Cards';
 import { Box, Boxes } from '../../components/Carousel';
 import { WallpaperType } from '../../types';
 

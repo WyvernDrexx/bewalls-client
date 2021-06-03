@@ -4,7 +4,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { Cards } from '../../components/Card';
+import { Cards } from '../../components/Cards';
 import { useTheme } from '../../hooks';
 import { WallpaperType } from '../../types';
 

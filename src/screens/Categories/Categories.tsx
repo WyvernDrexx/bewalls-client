@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
-import { Cards } from '../../components/Card';
+import { Cards } from '../../components/Cards';
 import { useTheme } from '../../hooks';
 import { CategoriesScreenProps } from '../../navigation/types';
 

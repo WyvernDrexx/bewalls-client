@@ -10,7 +10,7 @@ import { SelectionScreenProps } from '../../navigation/types';
 
 import GridSvg from './grid.svg';
 import CarouselSvg from './carousel.svg';
-import { Cards } from '../../components/Card';
+import { Cards } from '../../components/Cards';
 import Animated from 'react-native-reanimated';
 import WallpaperView from '../../components/WallpaperView';
 import { BRANDS } from '../../sample/sampleData';

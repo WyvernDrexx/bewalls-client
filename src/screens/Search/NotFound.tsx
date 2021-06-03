@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
-import { Cards } from '../../components/Card';
+import { Cards } from '../../components/Cards';
 import HeadingTitle from '../../components/HeadingTitle';
 import { useTheme } from '../../hooks';
 import { BRANDS } from '../../sample/sampleData';

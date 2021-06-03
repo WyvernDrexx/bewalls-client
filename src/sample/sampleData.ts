@@ -39,7 +39,7 @@ export const BRANDS: WallpaperType[] = [
   },
   {
     title: 'Samsung',
-    id: '1002',
+    id: '1003',
     imageSource: require('./samsung.jpg'),
     author: 'AndroCrunch',
     brand: 'Samsung',
