@@ -5,30 +5,35 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import WallpaperView from '../../components/WallpaperView';
-import { useTheme } from '../../hooks';
-import { SearchScreenProps } from '../../navigation/types';
-import { BRANDS } from '../../sample/sampleData';
-import { STYLES } from '../../styles';
-import { WallpaperType } from '../../types';
-import Extras from './Extras';
+
 import { SearchTerm } from './HotSearches';
+
+import Extras from './Extras';
+import WallpaperView from '../../components/WallpaperView';
 import NotFound from './NotFound';
 import Results from './Results';
 import SearchIcon from './search.svg';
+
+import { useTheme } from '../../hooks';
+
+import { BRANDS } from '../../sample/sampleData';
+import { STYLES } from '../../styles';
+
+import { WallpaperType } from '../../types';
+import { SearchScreenProps } from '../../navigation/types';
 
 const Search: React.FC<SearchScreenProps> = function () {
   const [searchStatus, setSearchStatus] =
     useState<null | 'none' | 'found'>(null);
   const [searchText, setSearchText] = useState('');
-  const inputRef = useRef<TextInput>(null);
-  const [themeStyles, theme] = useTheme();
   const [selectedWallpaper, setSelectedWallpaper] = useState<WallpaperType>();
+  const [showWallpaper, setShowWallpaper] = useState(false);
+  const [themeStyles, { colors }] = useTheme();
+  const inputRef = useRef<TextInput>(null);
+
   useEffect(() => {
     inputRef.current?.focus();
   }, [inputRef]);
-
-  const [showWallpaper, setShowWallpaper] = useState(false);
 
   useEffect(() => {
     if (searchText === 'OnePlus') {
@@ -41,24 +46,24 @@ const Search: React.FC<SearchScreenProps> = function () {
     }
   }, [searchText]);
 
-  const onTextChange = (text: string) => {
+  const handleTextChange = (text: string) => {
     setSearchText(text);
   };
 
-  const onColorBoxClickHandler = (color: string) => {
+  const handleBoxClick = (color: string) => {
     console.log('Clicked Color', color);
   };
 
-  const onSearchTermClick = (searchTerm: SearchTerm) => {
+  const handleSearchTermClick = (searchTerm: SearchTerm) => {
     console.log('Clicked', searchTerm.term);
   };
 
-  const onResultClick = (select: WallpaperType) => {
+  const handleResultClick = (select: WallpaperType) => {
     setSelectedWallpaper(select);
     setShowWallpaper(true);
   };
 
-  const onWallpaperViewClose = () => {
+  const handleWallpaperViewClose = () => {
     setShowWallpaper(false);
   };
 
@@ -66,16 +71,16 @@ const Search: React.FC<SearchScreenProps> = function () {
     if (!searchStatus) {
       return (
         <Extras
-          onColorBoxClick={onColorBoxClickHandler}
-          onSearchTermClick={onSearchTermClick}
+          onColorBoxClick={handleBoxClick}
+          onSearchTermClick={handleSearchTermClick}
         />
       );
     } else if (searchStatus === 'found') {
       return (
         <Results
-          onClick={onResultClick}
+          onClick={handleResultClick}
           numberOfResults={4}
-          items={[...BRANDS, ...BRANDS]}
+          items={BRANDS}
           searchTerm="OnePlus"
         />
       );
@@ -91,17 +96,17 @@ const Search: React.FC<SearchScreenProps> = function () {
           <View style={[STYLES.flexRowCenter]}>
             <View style={[styles.searchTextView]}>
               <SearchIcon
-                fill={theme.colors.secondary}
+                fill={colors.secondary}
                 height={heightPercentageToDP('3')}
                 width={heightPercentageToDP('3')}
               />
               <TextInput
                 value={searchText}
-                onChangeText={onTextChange}
+                onChangeText={handleTextChange}
                 ref={inputRef}
-                selectionColor={theme.colors.secondary}
+                selectionColor={colors.secondary}
                 style={[styles.searchInput, themeStyles.text]}
-                placeholderTextColor={theme.colors.secondary}
+                placeholderTextColor={colors.secondary}
                 placeholder="Search Devices"
               />
             </View>
@@ -110,7 +115,7 @@ const Search: React.FC<SearchScreenProps> = function () {
         {renderContents()}
       </ScrollView>
       <WallpaperView
-        onCloseClick={onWallpaperViewClose}
+        onCloseClick={handleWallpaperViewClose}
         showWallpaper={showWallpaper}
         wallpaper={selectedWallpaper}
       />
@@ -121,7 +126,6 @@ const Search: React.FC<SearchScreenProps> = function () {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    paddingBottom: 0,
   },
   searchContainer: {
     paddingHorizontal: widthPercentageToDP(4),
@@ -131,7 +135,7 @@ const styles = StyleSheet.create({
     height: heightPercentageToDP(8),
     display: 'flex',
     justifyContent: 'center',
-    marginHorizontal: widthPercentageToDP(2),
+    marginHorizontal: widthPercentageToDP(4),
   },
   searchInput: {
     width: widthPercentageToDP(76),
@@ -148,26 +152,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: widthPercentageToDP(10),
     fontSize: heightPercentageToDP(2),
-  },
-  instaBannerView: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: heightPercentageToDP(3),
-  },
-  instaImage: {
-    width: widthPercentageToDP(96),
-    height: heightPercentageToDP(15),
-    borderRadius: widthPercentageToDP(4),
-  },
-  instaText: {
-    position: 'absolute',
-    color: 'white',
-    fontSize: heightPercentageToDP(3.5),
-    fontWeight: 'bold',
-    width: widthPercentageToDP(96),
-    textAlign: 'center',
-    padding: heightPercentageToDP(2),
   },
   colorsView: {
     marginTop: heightPercentageToDP(4),

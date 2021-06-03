@@ -11,16 +11,16 @@ export type SearchTerm = {
 };
 
 type HotSearchesProps = {
-  onSearchTermClick: (searchTerm: SearchTerm) => void;
+  onClick: (searchTerm: SearchTerm) => void;
   searchTerms: SearchTerm[];
 };
 
 const HotSearches: React.FC<HotSearchesProps> = function (props) {
-  const onTermClickHandler = (searchTerm: SearchTerm) => {
-    props.onSearchTermClick(searchTerm);
-  };
-
   const [themeStyles] = useTheme();
+
+  const handleClick = (searchTerm: SearchTerm) => {
+    props.onClick(searchTerm);
+  };
 
   return (
     <View style={styles.root}>
@@ -30,7 +30,7 @@ const HotSearches: React.FC<HotSearchesProps> = function (props) {
           return (
             <TouchableOpacity
               activeOpacity={0.5}
-              onPress={() => onTermClickHandler(item)}
+              onPress={() => handleClick(item)}
               key={index}>
               <Text
                 style={[

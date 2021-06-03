@@ -4,7 +4,9 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+
 import { Cards } from '../../components/Cards';
+
 import { useTheme } from '../../hooks';
 import { WallpaperType } from '../../types';
 
@@ -44,7 +46,7 @@ const Results: React.FC<ResultsProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     marginTop: heightPercentageToDP(4),
-    paddingHorizontal: widthPercentageToDP(2),
+    paddingHorizontal: widthPercentageToDP(4),
   },
   searchTermText: {
     fontSize: heightPercentageToDP(4),
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
-    marginHorizontal: widthPercentageToDP(-2),
+    marginHorizontal: widthPercentageToDP(-4),
   },
 });
 

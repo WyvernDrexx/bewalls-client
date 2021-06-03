@@ -67,46 +67,43 @@ const Extras: React.FC<ExtrasProps> = function (props) {
 
   return (
     <>
-      <View style={styles.instaBannerView}>
-        <Image style={styles.instaImage} source={require('./insta.webp')} />
-        <Text style={[styles.instaText]}>Follow Us On Instagram</Text>
-      </View>
-      <View style={styles.colorsView}>
-        <Text style={[styles.colorsText, themeStyles.text]}>Colours</Text>
-        <View style={styles.colorsContainer}>
-          {COLORS_BOX.map((item, index) => {
-            return (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                key={index}
-                onPress={() => onColorBoxClickHandler(item.color)}>
-                <View
-                  style={[
-                    styles.colorBox,
-                    {
-                      backgroundColor: item.color,
-                    },
-                  ]}
-                />
-              </TouchableOpacity>
-            );
-          })}
+      <View style={styles.root}>
+        <View style={styles.instaBannerView}>
+          <Image style={styles.instaImage} source={require('./insta.webp')} />
+          <Text style={[styles.instaText]}>Follow Us On Instagram</Text>
         </View>
-      </View>
-      <View
-        style={{
-          paddingHorizontal: widthPercentageToDP(2),
-        }}>
-        <HotSearches
-          onSearchTermClick={onSearchTermClick}
-          searchTerms={SEARCHES_TERM}
-        />
+        <View style={styles.colorsView}>
+          <Text style={themeStyles.text}>Colours</Text>
+          <View style={styles.colorsContainer}>
+            {COLORS_BOX.map((item, index) => {
+              return (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  key={index}
+                  onPress={() => onColorBoxClickHandler(item.color)}>
+                  <View
+                    style={[
+                      styles.colorBox,
+                      {
+                        backgroundColor: item.color,
+                      },
+                    ]}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
+        <HotSearches onClick={onSearchTermClick} searchTerms={SEARCHES_TERM} />
       </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  root: {
+    paddingHorizontal: widthPercentageToDP(4),
+  },
   instaBannerView: {
     display: 'flex',
     justifyContent: 'center',
@@ -114,7 +111,7 @@ const styles = StyleSheet.create({
     marginTop: heightPercentageToDP(3),
   },
   instaImage: {
-    width: widthPercentageToDP(96),
+    width: widthPercentageToDP(92),
     height: heightPercentageToDP(15),
     borderRadius: widthPercentageToDP(4),
   },
@@ -123,16 +120,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: heightPercentageToDP(3.5),
     fontWeight: 'bold',
-    width: widthPercentageToDP(96),
     textAlign: 'center',
-    padding: heightPercentageToDP(2),
   },
   colorsView: {
     marginTop: heightPercentageToDP(4),
-    paddingHorizontal: widthPercentageToDP(2),
-  },
-  colorsText: {
-    fontSize: heightPercentageToDP(2),
   },
   colorsContainer: {
     display: 'flex',
