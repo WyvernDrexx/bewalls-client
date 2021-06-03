@@ -4,12 +4,14 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+
 import StackHeader from '../../components/StackHeader';
+
 import { useTheme } from '../../hooks';
 import { SettingsScreenProps } from '../../navigation/types';
 
 const Settings: React.FC<SettingsScreenProps> = function (props) {
-  const [themeStyles, theme] = useTheme();
+  const [themeStyles, { colors }] = useTheme();
   const [notificationEnabled, setNotificationEnabled] = useState(true);
 
   return (
@@ -25,10 +27,10 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
         </Text>
         <Switch
           trackColor={{
-            true: theme.colors.light,
-            false: theme.colors.light,
+            true: colors.light,
+            false: colors.light,
           }}
-          thumbColor={notificationEnabled ? '#0090FF' : theme.colors.light}
+          thumbColor={notificationEnabled ? '#0090FF' : colors.light}
           value={notificationEnabled}
           onValueChange={() => setNotificationEnabled(!notificationEnabled)}
         />
