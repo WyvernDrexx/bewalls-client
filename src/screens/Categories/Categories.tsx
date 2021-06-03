@@ -1,15 +1,17 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
+
 import { Cards } from '../../components/Cards';
+import { Box, Boxes } from '../../components/Carousel';
+import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
+
+import StackHeader from '../../components/StackHeader';
+import HeadingTitle from '../../components/HeadingTitle';
+
 import { useTheme } from '../../hooks';
 import { CategoriesScreenProps } from '../../navigation/types';
-
-import HeadingTitle from '../../components/HeadingTitle';
-import { Box, Boxes } from '../../components/Carousel';
 import { WallpaperType } from '../../types';
-import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
-import StackHeader from '../../components/StackHeader';
 
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const [themeStyles] = useTheme();
@@ -37,11 +39,11 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
     },
   ];
 
-  const onCardClick = (select: WallpaperType) => {
+  const handleCardClick = (select: WallpaperType) => {
     props.navigation.navigate('Selection', { select: select.title! });
   };
 
-  const onBoxClick = (select: string) => {
+  const handleBoxClick = (select: string) => {
     props.navigation.navigate('Selection', { select });
   };
 
@@ -58,20 +60,25 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
           showsHorizontalScrollIndicator={false}
           style={styles.brandsView}
           overScrollMode="never">
-          <Cards onClick={onCardClick} items={BRANDS} height="8" width="38" />
+          <Cards
+            onClick={handleCardClick}
+            items={BRANDS}
+            height="8"
+            width="38"
+          />
         </ScrollView>
-        <HeadingTitle hideButton={true} title="Choose your favourite" />
+        <HeadingTitle title="Choose your favourite" hideButton />
         <Boxes items={CATEGORIES} />
-        <View style={{ paddingTop: heightPercentageToDP(2) }}>
-          <Boxes onClick={onBoxClick} items={CATEGORIES} />
+        <View style={styles.boxesView}>
+          <Boxes onClick={handleBoxClick} items={CATEGORIES} />
         </View>
         <HeadingTitle title="Trending" hideButton />
         <Cards
           items={TRENDING_NOW}
+          onClick={handleCardClick}
           height="14"
-          onClick={onCardClick}
           width="92"
-          style={{ marginBottom: heightPercentageToDP(2) }}
+          style={styles.cards}
         />
       </ScrollView>
     </View>
@@ -84,6 +91,12 @@ const styles = StyleSheet.create({
   },
   brandsView: {
     marginTop: heightPercentageToDP(3),
+  },
+  boxesView: {
+    paddingTop: heightPercentageToDP(2),
+  },
+  cards: {
+    marginBottom: heightPercentageToDP(2),
   },
 });
 
