@@ -60,12 +60,12 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
           overScrollMode="never">
           <Cards onClick={onCardClick} items={BRANDS} height="8" width="38" />
         </ScrollView>
-        <HeadingTitle disableMore={true} title="Choose your favourite" />
+        <HeadingTitle hideButton={true} title="Choose your favourite" />
         <Boxes items={CATEGORIES} />
         <View style={{ paddingTop: heightPercentageToDP(2) }}>
           <Boxes onClick={onBoxClick} items={CATEGORIES} />
         </View>
-        <HeadingTitle title="Trending" disableMore />
+        <HeadingTitle title="Trending" hideButton />
         <Cards
           items={TRENDING_NOW}
           height="14"

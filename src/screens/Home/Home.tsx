@@ -109,7 +109,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
                 width="42"
               />
             </ScrollView>
-            <HeadingTitle onMoreClick={handleMoreClick} title="Categories" />
+            <HeadingTitle onClick={handleMoreClick} title="Categories" />
             <Boxes
               scrollEnabled={!isSideBarShown}
               disabled={isSideBarShown}

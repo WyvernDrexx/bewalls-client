@@ -8,26 +8,25 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
-import { PADDING_SAFE } from '../../constants';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 import { useTheme } from '../../hooks';
 
 type HeadingTitleProps = {
   title: string;
   more?: string;
-  disableMore?: boolean;
-  onMoreClick?: () => void;
+  hideButton?: boolean;
+  onClick?: () => void;
   viewStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
 };
 
 const HeadingTitle: React.FC<HeadingTitleProps> = function (props) {
-  const onClickHandler = () => {
-    if (props.onMoreClick) {
-      return props.onMoreClick();
-    } else {
-      console.log(props.title, 'MORE Clicked!');
-    }
+  const handleClick = () => {
+    if (props.onClick) return props.onClick();
+    console.log(props.title, 'MORE Clicked!');
   };
   const [themeStyles] = useTheme();
   return (
@@ -35,8 +34,8 @@ const HeadingTitle: React.FC<HeadingTitleProps> = function (props) {
       <Text style={[styles.headingText, themeStyles.text, props.textStyle]}>
         {props.title}
       </Text>
-      {!props.disableMore ? (
-        <TouchableOpacity onPress={onClickHandler}>
+      {!props.hideButton ? (
+        <TouchableOpacity onPress={handleClick}>
           <Text style={[styles.moreText, props.textStyle]}>
             {props.more || 'MORE'}
           </Text>
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     flexDirection: 'row',
     paddingVertical: heightPercentageToDP(2),
-    paddingHorizontal: PADDING_SAFE,
+    paddingHorizontal: widthPercentageToDP(4),
     paddingTop: heightPercentageToDP(4),
   },
   headingText: {
