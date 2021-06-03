@@ -5,16 +5,20 @@ import {
   createStackNavigator,
   StackNavigationOptions,
 } from '@react-navigation/stack';
-import { StatusBar } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 
 import { Home, Search, Categories, Selection, Settings } from '../../screens';
 
 import { RootStackParamList } from '../types';
 import { useTheme } from '../../hooks';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();
-  const [, { colors, isDark }] = useTheme();
+  const [{ bg }, { colors, isDark }] = useTheme();
 
   const screenOptions: StackNavigationOptions = {
     headerShown: false,
@@ -31,6 +35,7 @@ function RootNavigator() {
   return (
     <NavigationContainer>
       <StatusBar backgroundColor={colors.primary} barStyle={statusBarStyle} />
+      <View style={[styles.placeholderView, bg]} />
       <Stack.Navigator screenOptions={screenOptions}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Search" component={Search} />
@@ -41,5 +46,14 @@ function RootNavigator() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  placeholderView: {
+    position: 'absolute',
+    height: heightPercentageToDP(100),
+    width: widthPercentageToDP(100),
+    zIndex: -10,
+  },
+});
 
 export { RootNavigator };

@@ -12,7 +12,6 @@ import HeadingTitle from '../../components/HeadingTitle';
 import { useTheme } from '../../hooks';
 import { CategoriesScreenProps } from '../../navigation/types';
 import { WallpaperType } from '../../types';
-import MountAnimatedView from '../../components/MountAnimatedView';
 
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const [themeStyles] = useTheme();
@@ -53,38 +52,36 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
   };
 
   return (
-    <MountAnimatedView>
-      <View style={[styles.root, themeStyles.bg]}>
-        <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
-          <StackHeader onLeftClick={goBack} title="Categories" />
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.brandsView}
-            overScrollMode="never">
-            <Cards
-              onClick={handleCardClick}
-              items={BRANDS}
-              height="8"
-              width="38"
-            />
-          </ScrollView>
-          <HeadingTitle title="Choose your favourite" hideButton />
-          <Boxes items={CATEGORIES} />
-          <View style={styles.boxesView}>
-            <Boxes onClick={handleBoxClick} items={CATEGORIES} />
-          </View>
-          <HeadingTitle title="Trending" hideButton />
+    <View style={[styles.root, themeStyles.bg]}>
+      <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
+        <StackHeader onLeftClick={goBack} title="Categories" />
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.brandsView}
+          overScrollMode="never">
           <Cards
-            items={TRENDING_NOW}
             onClick={handleCardClick}
-            height="14"
-            width="92"
-            style={styles.cards}
+            items={BRANDS}
+            height="8"
+            width="38"
           />
         </ScrollView>
-      </View>
-    </MountAnimatedView>
+        <HeadingTitle title="Choose your favourite" hideButton />
+        <Boxes items={CATEGORIES} />
+        <View style={styles.boxesView}>
+          <Boxes onClick={handleBoxClick} items={CATEGORIES} />
+        </View>
+        <HeadingTitle title="Trending" hideButton />
+        <Cards
+          items={TRENDING_NOW}
+          onClick={handleCardClick}
+          height="14"
+          width="92"
+          style={styles.cards}
+        />
+      </ScrollView>
+    </View>
   );
 };
 

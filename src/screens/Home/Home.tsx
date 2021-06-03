@@ -19,7 +19,6 @@ import SideBar from '../../components/SideBar';
 
 import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
-import MountAnimatedView from '../../components/MountAnimatedView';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
@@ -78,63 +77,61 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   };
 
   return (
-    <MountAnimatedView>
-      <View style={[styles.mainContainer, themeStyles.bgSecondary]}>
-        <SideBar
-          currentRoute={props.route.name}
-          onItemClick={handleSideBarItemClick}
-          onClose={handleSideBarClose}
-          isShown={isSideBarShown}
-        />
-        <View style={[styles.root, themeStyles.bg]}>
+    <View style={[styles.mainContainer, themeStyles.bgSecondary]}>
+      <SideBar
+        currentRoute={props.route.name}
+        onItemClick={handleSideBarItemClick}
+        onClose={handleSideBarClose}
+        isShown={isSideBarShown}
+      />
+      <View style={[styles.root, themeStyles.bg]}>
+        <ScrollView
+          scrollEnabled={!isSideBarShown}
+          overScrollMode="never"
+          showsVerticalScrollIndicator={false}
+          style={styles.scrollView}>
+          <Header onProfileClick={handleSideBarOpen} />
+          <SearchBar
+            disabled={isSideBarShown}
+            onSearchBarActive={handleSearchBarClick}
+          />
+          <HeadingTitle title="Trending Now" />
           <ScrollView
             scrollEnabled={!isSideBarShown}
-            overScrollMode="never"
-            showsVerticalScrollIndicator={false}
-            style={styles.scrollView}>
-            <Header onProfileClick={handleSideBarOpen} />
-            <SearchBar
-              disabled={isSideBarShown}
-              onSearchBarActive={handleSearchBarClick}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            overScrollMode="never">
+            <Cards
+              items={TRENDING_NOW}
+              onClick={handleCardClick}
+              height="35"
+              width="42"
             />
-            <HeadingTitle title="Trending Now" />
-            <ScrollView
-              scrollEnabled={!isSideBarShown}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              overScrollMode="never">
-              <Cards
-                items={TRENDING_NOW}
-                onClick={handleCardClick}
-                height="35"
-                width="42"
-              />
-            </ScrollView>
-            <HeadingTitle onClick={handleMoreClick} title="Categories" />
-            <Boxes
-              scrollEnabled={!isSideBarShown}
-              disableClick={isSideBarShown}
-              onClick={handleBoxClick}
-              items={CATEGORIES}
-            />
-            <HeadingTitle title="Smartphone Brands" />
-            <ScrollView
-              scrollEnabled={!isSideBarShown}
-              style={{ marginBottom: heightPercentageToDP(4) }}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              overScrollMode="never">
-              <Cards
-                items={BRANDS}
-                onClick={handleCardClick}
-                height="15"
-                width="55"
-              />
-            </ScrollView>
           </ScrollView>
-        </View>
+          <HeadingTitle onClick={handleMoreClick} title="Categories" />
+          <Boxes
+            scrollEnabled={!isSideBarShown}
+            disableClick={isSideBarShown}
+            onClick={handleBoxClick}
+            items={CATEGORIES}
+          />
+          <HeadingTitle title="Smartphone Brands" />
+          <ScrollView
+            scrollEnabled={!isSideBarShown}
+            style={{ marginBottom: heightPercentageToDP(4) }}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            overScrollMode="never">
+            <Cards
+              items={BRANDS}
+              onClick={handleCardClick}
+              height="15"
+              width="55"
+            />
+          </ScrollView>
+        </ScrollView>
       </View>
-    </MountAnimatedView>
+    </View>
   );
 };
 

@@ -21,7 +21,6 @@ import { STYLES } from '../../styles';
 
 import { WallpaperType } from '../../types';
 import { SearchScreenProps } from '../../navigation/types';
-import MountAnimatedView from '../../components/MountAnimatedView';
 
 const Search: React.FC<SearchScreenProps> = function () {
   const [searchStatus, setSearchStatus] =
@@ -91,38 +90,36 @@ const Search: React.FC<SearchScreenProps> = function () {
   };
 
   return (
-    <MountAnimatedView>
-      <View style={[styles.root, themeStyles.bg]}>
-        <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
-          <View style={[styles.searchContainer, themeStyles.bgLight]}>
-            <View style={[STYLES.flexRowCenter]}>
-              <View style={[styles.searchTextView]}>
-                <SearchIcon
-                  fill={colors.secondary}
-                  height={heightPercentageToDP('3')}
-                  width={heightPercentageToDP('3')}
-                />
-                <TextInput
-                  value={searchText}
-                  onChangeText={handleTextChange}
-                  ref={inputRef}
-                  selectionColor={colors.secondary}
-                  style={[styles.searchInput, themeStyles.text]}
-                  placeholderTextColor={colors.secondary}
-                  placeholder="Search Devices"
-                />
-              </View>
+    <View style={[styles.root, themeStyles.bg]}>
+      <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
+        <View style={[styles.searchContainer, themeStyles.bgLight]}>
+          <View style={[STYLES.flexRowCenter]}>
+            <View style={[styles.searchTextView]}>
+              <SearchIcon
+                fill={colors.secondary}
+                height={heightPercentageToDP('3')}
+                width={heightPercentageToDP('3')}
+              />
+              <TextInput
+                value={searchText}
+                onChangeText={handleTextChange}
+                ref={inputRef}
+                selectionColor={colors.secondary}
+                style={[styles.searchInput, themeStyles.text]}
+                placeholderTextColor={colors.secondary}
+                placeholder="Search Devices"
+              />
             </View>
           </View>
-          {renderContents()}
-        </ScrollView>
-        <WallpaperView
-          onCloseClick={handleWallpaperViewClose}
-          showWallpaper={showWallpaper}
-          wallpaper={selectedWallpaper}
-        />
-      </View>
-    </MountAnimatedView>
+        </View>
+        {renderContents()}
+      </ScrollView>
+      <WallpaperView
+        onCloseClick={handleWallpaperViewClose}
+        showWallpaper={showWallpaper}
+        wallpaper={selectedWallpaper}
+      />
+    </View>
   );
 };
 
