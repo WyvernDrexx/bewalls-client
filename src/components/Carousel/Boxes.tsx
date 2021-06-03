@@ -12,14 +12,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-
-type BoxesProps = {
-  items: Box[];
-  style?: StyleProp<ViewStyle>;
-  onClick?: (select: string) => void;
-  scrollEnabled?: boolean;
-  disabled?: boolean;
-};
+import { isLastElement } from '../../utilities';
 
 export type Box = {
   title: string;
@@ -27,32 +20,43 @@ export type Box = {
   textColor?: string;
 };
 
+type BoxesProps = {
+  items: Box[];
+  style?: StyleProp<ViewStyle>;
+  onClick?: (select: string) => void;
+  scrollEnabled?: boolean;
+  disableClick?: boolean;
+};
+
 type BoxProps = {
-  data: Box;
+  item: Box;
   style?: StyleProp<ViewStyle>;
   onClick?: (select: string) => void;
   disabled?: boolean;
 };
 
 const Box: React.FC<BoxProps> = function (props) {
-  const onClickHandler = () => {
-    if (props.onClick) props.onClick(props.data.title);
+  const handleClick = () => {
+    if (props.onClick) props.onClick(props.item.title);
   };
 
   return (
     <TouchableOpacity
       disabled={props.disabled}
-      onPress={onClickHandler}
+      onPress={handleClick}
       activeOpacity={0.8}>
       <View
         style={[
           boxStyles.box,
           {
-            backgroundColor: props.data.backgroundColor,
+            backgroundColor: props.item.backgroundColor,
           },
           props.style,
         ]}>
-        <Text style={boxStyles.text}>{props.data.title}</Text>
+        <Text
+          style={[boxStyles.text, { color: props.item.textColor || 'white' }]}>
+          {props.item.title}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -69,11 +73,11 @@ const Boxes: React.FC<BoxesProps> = function (props) {
         {props.items.map((item, index) => {
           return (
             <Box
-              disabled={props.disabled}
-              style={index === props.items.length - 1 ? styles.lastBox : {}}
+              disabled={props.disableClick}
+              style={isLastElement(index, props.items) ? styles.lastBox : {}}
               key={index}
               onClick={props.onClick}
-              data={item}
+              item={item}
             />
           );
         })}
