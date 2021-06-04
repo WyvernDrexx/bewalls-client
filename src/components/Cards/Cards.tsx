@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { WallpaperType } from '../../types';
 import { isLastElement, wp } from '../../utilities';
 import { Card } from './Card';
+import { WallpaperType } from '../../types';
 
 type CardProps = {
   items: WallpaperType[];
