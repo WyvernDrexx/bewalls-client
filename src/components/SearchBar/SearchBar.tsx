@@ -2,8 +2,6 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { hp, wp } from '../../utilities';
 
-import { STYLES } from '../../styles';
-
 import { useTheme } from '../../hooks';
 
 import SearchSvg from './search.svg';
@@ -28,7 +26,7 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
           onPress={onClick}
           activeOpacity={0.8}
           style={[styles.searchContainer, themeStyles.bgLight]}>
-          <View style={[STYLES.flexRowCenter]}>
+          <View style={[styles.flexView]}>
             <View style={[styles.searchTextView]}>
               <SearchSvg
                 fill={colors.secondary}
@@ -58,6 +56,12 @@ const styles = StyleSheet.create({
     borderRadius: hp(1.5),
     marginBottom: 0,
     height: hp(8),
+  },
+  flexView: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   searchInput: {
     margin: 0,

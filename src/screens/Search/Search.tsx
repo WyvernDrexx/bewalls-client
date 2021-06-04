@@ -14,7 +14,6 @@ import SearchIcon from './search.svg';
 import { useTheme } from '../../hooks';
 
 import { BRANDS } from '../../sample/sampleData';
-import { STYLES } from '../../styles';
 
 import { WallpaperType } from '../../types';
 import { SearchScreenProps } from '../../navigation/types';
@@ -90,7 +89,7 @@ const Search: React.FC<SearchScreenProps> = function () {
     <View style={[styles.root, themeStyles.bg]}>
       <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
         <View style={[styles.searchContainer, themeStyles.bgLight]}>
-          <View style={[STYLES.flexRowCenter]}>
+          <View style={styles.flexView}>
             <View style={[styles.searchTextView]}>
               <SearchIcon
                 fill={colors.secondary}
@@ -133,6 +132,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     marginHorizontal: wp(4),
+  },
+  flexView: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   searchInput: {
     width: wp(76),
