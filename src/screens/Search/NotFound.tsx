@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { hp } from 'react-native-responsive-screen';
+import { hp } from '../../utilities';
 
 import { Cards } from '../../components/Cards';
 

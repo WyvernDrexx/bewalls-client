@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { wp } from 'react-native-responsive-screen';
+import { wp } from '../../utilities';
 
 import Animated, {
   useSharedValue,

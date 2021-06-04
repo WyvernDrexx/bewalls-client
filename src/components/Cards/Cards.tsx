@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { wp } from 'react-native-responsive-screen';
 import { WallpaperType } from '../../types';
-import { isLastElement } from '../../utilities';
+import { isLastElement, wp } from '../../utilities';
 import { Card } from './Card';
 
 type CardProps = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { hp } from 'react-native-responsive-screen';
+import { hp } from '../../utilities';
 
 import { Cards } from '../../components/Cards';
 import { Box, Boxes } from '../../components/Carousel';

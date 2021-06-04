@@ -1,4 +1,4 @@
-import { wp } from 'react-native-responsive-screen';
+import { wp } from './utilities';
 
 export const PRIMARY_COLORS = {
   bgColor: '#FFFFFF',
