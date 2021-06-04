@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createStackNavigator,
@@ -8,6 +8,7 @@ import { StatusBar, StyleSheet, View } from 'react-native';
 
 import { Home, Search, Categories, Selection, Settings } from '../../screens';
 
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
@@ -31,6 +32,12 @@ function RootNavigator() {
   };
 
   const statusBarStyle = isDark ? 'light-content' : 'dark-content';
+
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    changeNavigationBarColor(theme.colors.dark, !theme.isDark, true);
+  }, [theme.mode]);
 
   return (
     <NavigationContainer>

@@ -13,7 +13,7 @@ import java.util.List;
 
 import com.facebook.react.bridge.JSIModulePackage; // <- add
 import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add
-
+import com.thebylito.navigationbarcolor.NavigationBarColorPackage;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
