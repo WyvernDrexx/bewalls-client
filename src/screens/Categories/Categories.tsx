@@ -16,7 +16,7 @@ import { CategoriesScreenProps } from '../../navigation/types';
 import { WallpaperType } from '../../types';
 
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
-  const [themeStyles] = useTheme();
+  const { themedStyles } = useTheme();
 
   const CATEGORIES: Box[] = [
     {
@@ -54,7 +54,7 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
   };
 
   return (
-    <View style={[styles.root, themeStyles.bg]}>
+    <View style={[styles.root, themedStyles.bg]}>
       <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
         <StackHeader onLeftClick={goBack} title="Categories" />
         <ScrollView

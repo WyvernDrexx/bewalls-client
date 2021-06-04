@@ -25,7 +25,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [previewWallpaper, setPreviewWallpaper] = useState(false);
   const [selectedWallpaper, setSelectedWallpaper] = useState<WallpaperType>();
 
-  const [themeStyles] = useTheme();
+  const { themedStyles } = useTheme();
 
   const handleCardClick = (wallpaper: WallpaperType) => {
     setSelectedWallpaper(wallpaper);
@@ -53,7 +53,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   };
 
   return (
-    <View style={[styles.root, themeStyles.bg]}>
+    <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
         onLeftClick={props.navigation.goBack}
         title={props.route.params.select}
@@ -61,7 +61,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
       <Animated.ScrollView>
         <View style={styles.displaySelection}>
           <View>
-            <Text style={themeStyles.text}>Sort by Date</Text>
+            <Text style={themedStyles.text}>Sort by Date</Text>
           </View>
           <View style={styles.displayLayout}>
             <TouchableOpacity

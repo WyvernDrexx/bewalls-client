@@ -9,18 +9,21 @@ import { hp, wp } from '../../utilities';
 import { SettingsScreenProps } from '../../navigation/types';
 
 const Settings: React.FC<SettingsScreenProps> = function (props) {
-  const [themeStyles, { colors }] = useTheme();
+  const {
+    themedStyles,
+    theme: { colors },
+  } = useTheme();
   const [notificationEnabled, setNotificationEnabled] = useState(true);
 
   return (
-    <View style={[styles.root, themeStyles.bg]}>
+    <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
         title="Settings"
         onLeftClick={props.navigation.goBack}
         viewStyle={styles.header}
       />
       <View style={styles.optionsView}>
-        <Text style={[themeStyles.text, styles.optionsText]}>
+        <Text style={[themedStyles.text, styles.optionsText]}>
           Enable Notification
         </Text>
         <Switch
@@ -38,15 +41,15 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
       </Text>
 
       <View style={styles.optionsView}>
-        <Text style={[themeStyles.text, styles.optionsText]}>Contact Us</Text>
+        <Text style={[themedStyles.text, styles.optionsText]}>Contact Us</Text>
       </View>
       <View style={styles.optionsView}>
-        <Text style={[themeStyles.text, styles.optionsText]}>
+        <Text style={[themedStyles.text, styles.optionsText]}>
           Privacy Policy
         </Text>
       </View>
       <View style={styles.optionsView}>
-        <Text style={[themeStyles.text, styles.optionsText]}>
+        <Text style={[themedStyles.text, styles.optionsText]}>
           Current Version
         </Text>
         <Text style={styles.versionText}>V1.2.8</Text>

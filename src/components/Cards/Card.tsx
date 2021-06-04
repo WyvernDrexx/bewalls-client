@@ -30,7 +30,7 @@ type CardProps = {
 const Card: React.FC<CardProps> = function (props) {
   const height = hp(props.height);
   const width = wp(props.width);
-  const [themeStyles] = useTheme();
+  const { themedStyles } = useTheme();
 
   const handleClick = () => {
     if (props.onClick) props.onClick(props.wallpaper, props.index || 0);
@@ -46,7 +46,7 @@ const Card: React.FC<CardProps> = function (props) {
               width,
             },
             styles.imageView,
-            themeStyles.bg,
+            themedStyles.bg,
             props.style,
           ]}>
           <Image

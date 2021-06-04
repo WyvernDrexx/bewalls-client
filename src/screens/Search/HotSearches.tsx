@@ -14,7 +14,7 @@ type HotSearchesProps = {
 };
 
 const HotSearches: React.FC<HotSearchesProps> = function (props) {
-  const [themeStyles] = useTheme();
+  const { themedStyles } = useTheme();
 
   const handleClick = (searchTerm: SearchTerm) => {
     props.onClick(searchTerm);
@@ -22,7 +22,7 @@ const HotSearches: React.FC<HotSearchesProps> = function (props) {
 
   return (
     <View style={styles.root}>
-      <Text style={themeStyles.text}>Hot Searches</Text>
+      <Text style={themedStyles.text}>Hot Searches</Text>
       <View style={styles.searchTermsContainer}>
         {props.searchTerms.map((item, index) => {
           return (
@@ -33,8 +33,8 @@ const HotSearches: React.FC<HotSearchesProps> = function (props) {
               <Text
                 style={[
                   styles.searchTerm,
-                  themeStyles.bgLight,
-                  themeStyles.text,
+                  themedStyles.bgLight,
+                  themedStyles.text,
                 ]}>
                 {item.term}
               </Text>

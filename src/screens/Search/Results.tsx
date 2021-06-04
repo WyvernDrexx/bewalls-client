@@ -16,14 +16,14 @@ type ResultsProps = {
 };
 
 const Results: React.FC<ResultsProps> = function (props) {
-  const [themeStyles] = useTheme();
+  const { themedStyles } = useTheme();
 
   return (
     <View style={styles.root}>
-      <Text style={[styles.searchTermText, themeStyles.text]}>
+      <Text style={[styles.searchTermText, themedStyles.text]}>
         "{props.searchTerm}"
       </Text>
-      <Text style={[styles.subText, themeStyles.text]}>
+      <Text style={[styles.subText, themedStyles.text]}>
         {props.numberOfResults} Wallpapers are available.
       </Text>
       <View style={styles.resultsView}>

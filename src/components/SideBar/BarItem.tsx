@@ -12,7 +12,7 @@ type BarItemProps = {
 };
 
 const BarItem: React.FC<BarItemProps> = props => {
-  const [themeStyles, theme] = useTheme();
+  const { themedStyles, theme } = useTheme();
 
   const onClick = () => {
     props.onClick(props.route);
@@ -30,7 +30,7 @@ const BarItem: React.FC<BarItemProps> = props => {
             : theme.colors.primary,
         },
       ]}>
-      <Text style={[styles.text, themeStyles.text]}>{props.title}</Text>
+      <Text style={[styles.text, themedStyles.text]}>{props.title}</Text>
     </TouchableOpacity>
   );
 };

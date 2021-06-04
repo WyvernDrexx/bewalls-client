@@ -21,7 +21,7 @@ type CarouselProps = {
 
 const Carousel: React.FC<CarouselProps> = function (props) {
   const scrollOffsetX = useSharedValue(0);
-  const [themeStyles] = useTheme();
+  const { themedStyles } = useTheme();
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: event => {
@@ -31,7 +31,7 @@ const Carousel: React.FC<CarouselProps> = function (props) {
   });
 
   return (
-    <View style={[styles.root, themeStyles.bg]}>
+    <View style={[styles.root, themedStyles.bg]}>
       <Animated.ScrollView
         onScroll={scrollHandler}
         showsHorizontalScrollIndicator={false}

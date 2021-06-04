@@ -54,7 +54,7 @@ type ExtrasProps = {
 };
 
 const Extras: React.FC<ExtrasProps> = function (props) {
-  const [themeStyles] = useTheme();
+  const { themedStyles } = useTheme();
 
   const handleColorBoxClick = (color: string) => {
     props.onColorBoxClick(color);
@@ -72,7 +72,7 @@ const Extras: React.FC<ExtrasProps> = function (props) {
           <Text style={[styles.instaText]}>Follow Us On Instagram</Text>
         </View>
         <View style={styles.colorsView}>
-          <Text style={themeStyles.text}>Colours</Text>
+          <Text style={themedStyles.text}>Colours</Text>
           <View style={styles.colorsContainer}>
             {COLORS_BOX.map((item, index) => {
               return (

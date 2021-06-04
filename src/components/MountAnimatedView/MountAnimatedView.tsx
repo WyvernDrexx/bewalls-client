@@ -16,7 +16,7 @@ type MountAnimatedViewProps = {
 const MountAnimatedView: React.FC<MountAnimatedViewProps> = function (props) {
   const intialOpacity = 0.5;
   const opacity = useSharedValue(intialOpacity);
-  const [themeStyles] = useTheme();
+  const { themedStyles } = useTheme();
   const uas = useAnimatedStyle(() => {
     return {
       opacity: Animated.withTiming(opacity.value),
@@ -39,7 +39,7 @@ const MountAnimatedView: React.FC<MountAnimatedViewProps> = function (props) {
   }, []);
 
   return (
-    <View style={[styles.main, themeStyles.bg]}>
+    <View style={[styles.main, themedStyles.bg]}>
       <Animated.View style={[styles.root, props.style, uas]}>
         {props.children}
       </Animated.View>

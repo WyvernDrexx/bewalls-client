@@ -15,7 +15,10 @@ import { RootStackParamList } from '../types';
 
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();
-  const [{ bg }, { colors, isDark }] = useTheme();
+  const {
+    themedStyles: { bg },
+    theme: { colors, isDark },
+  } = useTheme();
 
   const screenOptions: StackNavigationOptions = {
     headerShown: false,

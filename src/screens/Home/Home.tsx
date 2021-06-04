@@ -18,7 +18,7 @@ import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
-  const [themeStyles] = useTheme();
+  const { themedStyles } = useTheme();
 
   const CATEGORIES: Box[] = [
     {
@@ -73,14 +73,14 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   };
 
   return (
-    <View style={[styles.mainContainer, themeStyles.bgSecondary]}>
+    <View style={[styles.mainContainer, themedStyles.bgSecondary]}>
       <SideBar
         currentRoute={props.route.name}
         onItemClick={handleSideBarItemClick}
         onClose={handleSideBarClose}
         isShown={isSideBarShown}
       />
-      <View style={[styles.root, themeStyles.bg]}>
+      <View style={[styles.root, themedStyles.bg]}>
         <ScrollView
           scrollEnabled={!isSideBarShown}
           overScrollMode="never"

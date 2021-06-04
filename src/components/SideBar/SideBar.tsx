@@ -58,7 +58,10 @@ const SideBar: React.FC<SideBarProps> = function (props) {
   const width = wp(100);
   const isShown = useSharedValue(props.isShown);
   const [toCall, setToCall] = useState<'close' | 'barItem' | null>(null);
-  const [themeStyles, { colors }] = useTheme();
+  const {
+    themedStyles,
+    theme: { colors },
+  } = useTheme();
   const [activeRoute, setActiveRoute] = useState<keyof RootStackParamList>();
 
   useEffect(() => {
@@ -111,7 +114,7 @@ const SideBar: React.FC<SideBarProps> = function (props) {
   });
 
   return (
-    <Animated.View style={[sideBarStyle, styles.root, themeStyles.bg]}>
+    <Animated.View style={[sideBarStyle, styles.root, themedStyles.bg]}>
       <View style={[styles.sideBarItemsView]}>
         <TouchableOpacity
           style={[styles.backButton, { borderColor: colors.secondary }]}
@@ -120,7 +123,9 @@ const SideBar: React.FC<SideBarProps> = function (props) {
         </TouchableOpacity>
         <View style={[styles.profile]}>
           <ProfileSvg height={hp(8)} width={hp(8)} fill={colors.secondary} />
-          <Text style={[styles.profileText, themeStyles.text]}>LP Sharma,</Text>
+          <Text style={[styles.profileText, themedStyles.text]}>
+            LP Sharma,
+          </Text>
         </View>
         <View style={[styles.barItems, { borderColor: colors.light }]}>
           {SIDEBAR_ITEMS.map((item, index) => {

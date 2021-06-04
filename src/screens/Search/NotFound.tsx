@@ -12,10 +12,10 @@ import { hp } from '../../utilities';
 import { BRANDS } from '../../sample/sampleData';
 
 const NotFound: React.FC = function () {
-  const [themeStyles] = useTheme();
+  const { themedStyles } = useTheme();
   return (
     <View style={styles.root}>
-      <Text style={[styles.notFoundText, themeStyles.text]}>
+      <Text style={[styles.notFoundText, themedStyles.text]}>
         Couldn't find any results. Check out our recommendations below.
       </Text>
       <View>

@@ -24,7 +24,7 @@ const BottomDraggable = function () {
   const driftOffset = hp(75);
   const actionIconSize = hp(3);
 
-  const [themeStyles, theme] = useTheme();
+  const { themedStyles, theme } = useTheme();
 
   const eventHandler = useAnimatedGestureHandler({
     onStart: (_, ctx: { startY: number }) => {
@@ -120,17 +120,17 @@ const BottomDraggable = function () {
 
   return (
     <PanGestureHandler onGestureEvent={eventHandler}>
-      <Animated.View style={[uas, styles.root, themeStyles.bg]}>
+      <Animated.View style={[uas, styles.root, themedStyles.bg]}>
         <View style={styles.flexView}>
-          <View style={[styles.topBar, themeStyles.bgSecondary]} />
+          <View style={[styles.topBar, themedStyles.bgSecondary]} />
         </View>
         <View>
           <View style={styles.headerView}>
             <View>
-              <Text style={[styles.mainText, themeStyles.text]}>
+              <Text style={[styles.mainText, themedStyles.text]}>
                 Never Settle
               </Text>
-              <Text style={[styles.subText, themeStyles.text]}>
+              <Text style={[styles.subText, themedStyles.text]}>
                 OnePlus 7 Pro - WallpaperType
               </Text>
             </View>
@@ -147,8 +147,8 @@ const BottomDraggable = function () {
               <Text
                 style={[
                   styles.tagText,
-                  themeStyles.bgSecondary,
-                  themeStyles.textLight,
+                  themedStyles.bgSecondary,
+                  themedStyles.textLight,
                 ]}>
                 OnePlus
               </Text>
@@ -157,8 +157,8 @@ const BottomDraggable = function () {
               <Text
                 style={[
                   styles.tagText,
-                  themeStyles.bgSecondary,
-                  themeStyles.textLight,
+                  themedStyles.bgSecondary,
+                  themedStyles.textLight,
                 ]}>
                 Never Settle
               </Text>
@@ -182,27 +182,51 @@ const BottomDraggable = function () {
         </View>
         <View style={styles.details}>
           <Text
-            style={[styles.detailsText, themeStyles.bgLight, themeStyles.text]}>
+            style={[
+              styles.detailsText,
+              themedStyles.bgLight,
+              themedStyles.text,
+            ]}>
             {details.downloads} Downloads
           </Text>
           <Text
-            style={[styles.detailsText, themeStyles.bgLight, themeStyles.text]}>
+            style={[
+              styles.detailsText,
+              themedStyles.bgLight,
+              themedStyles.text,
+            ]}>
             {details.views} Views
           </Text>
           <Text
-            style={[styles.detailsText, themeStyles.bgLight, themeStyles.text]}>
+            style={[
+              styles.detailsText,
+              themedStyles.bgLight,
+              themedStyles.text,
+            ]}>
             {details.shares} Shares
           </Text>
           <Text
-            style={[styles.detailsText, themeStyles.bgLight, themeStyles.text]}>
+            style={[
+              styles.detailsText,
+              themedStyles.bgLight,
+              themedStyles.text,
+            ]}>
             {details.height} x {details.width}{' '}
           </Text>
           <Text
-            style={[styles.detailsText, themeStyles.bgLight, themeStyles.text]}>
+            style={[
+              styles.detailsText,
+              themedStyles.bgLight,
+              themedStyles.text,
+            ]}>
             {details.size}
           </Text>
           <Text
-            style={[styles.detailsText, themeStyles.bgLight, themeStyles.text]}>
+            style={[
+              styles.detailsText,
+              themedStyles.bgLight,
+              themedStyles.text,
+            ]}>
             {details.createdAt}
           </Text>
         </View>

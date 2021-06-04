@@ -26,7 +26,7 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = function (props) {
   const dispatch = useAppDispatch();
-  const [themeStyles, theme] = useTheme();
+  const { themedStyles, theme } = useTheme();
 
   const handleThemeChange = () => {
     dispatch(changeTheme(theme.isDark ? 'light' : 'dark'));
@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = function (props) {
 
   return (
     <Animated.View
-      style={[props.animatedStyle, styles.root, themeStyles.bgAndText]}>
+      style={[props.animatedStyle, styles.root, themedStyles.bgAndText]}>
       <TouchableOpacity onPress={handleProfileClick} activeOpacity={0.6}>
         <View style={styles.userInfo}>
           <ProfileImage
@@ -49,8 +49,10 @@ const Header: React.FC<HeaderProps> = function (props) {
             height={wp(12)}
           />
           <View style={styles.welcomeView}>
-            <Text style={[styles.welcomeText, themeStyles.text]}>Welcome,</Text>
-            <Text style={[styles.nameText, themeStyles.text]}>John</Text>
+            <Text style={[styles.welcomeText, themedStyles.text]}>
+              Welcome,
+            </Text>
+            <Text style={[styles.nameText, themedStyles.text]}>John</Text>
           </View>
         </View>
       </TouchableOpacity>

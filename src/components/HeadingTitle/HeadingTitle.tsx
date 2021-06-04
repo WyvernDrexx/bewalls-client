@@ -25,10 +25,10 @@ const HeadingTitle: React.FC<HeadingTitleProps> = function (props) {
   const handleClick = () => {
     if (props.onClick) return props.onClick();
   };
-  const [themeStyles] = useTheme();
+  const { themedStyles } = useTheme();
   return (
     <View style={[styles.root, props.viewStyle]}>
-      <Text style={[styles.headingText, themeStyles.text, props.textStyle]}>
+      <Text style={[styles.headingText, themedStyles.text, props.textStyle]}>
         {props.title}
       </Text>
       {!props.hideButton ? (

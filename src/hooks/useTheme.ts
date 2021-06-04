@@ -30,9 +30,9 @@ type ThemeStyle = {
   };
 };
 
-function useTheme(): [ThemeStyle, ThemeState] {
+function useTheme(): { themedStyles: ThemeStyle; theme: ThemeState } {
   const theme = useAppSelector(state => state.theme);
-  const styles = StyleSheet.create({
+  const themedStyles = StyleSheet.create({
     bg: {
       backgroundColor: theme.colors.primary,
     },
@@ -60,7 +60,7 @@ function useTheme(): [ThemeStyle, ThemeState] {
     },
   });
 
-  return [styles, theme];
+  return { themedStyles, theme };
 }
 
 export { useTheme };

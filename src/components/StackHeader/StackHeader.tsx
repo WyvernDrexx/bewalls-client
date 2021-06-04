@@ -23,10 +23,13 @@ type StackHeaderProps = {
 };
 
 const StackHeader: React.FC<StackHeaderProps> = function (props) {
-  const [themeStyles, { colors }] = useTheme();
+  const {
+    themedStyles,
+    theme: { colors },
+  } = useTheme();
 
   return (
-    <Animated.View style={[styles.root, themeStyles.bg, props.viewStyle]}>
+    <Animated.View style={[styles.root, themedStyles.bg, props.viewStyle]}>
       <View style={styles.header}>
         <View style={styles.leftView}>
           <TouchableOpacity
@@ -43,7 +46,7 @@ const StackHeader: React.FC<StackHeaderProps> = function (props) {
           style={[
             styles.middleText,
             { textAlign: props.titlePosition || 'center' },
-            themeStyles.text,
+            themedStyles.text,
           ]}>
           {props.title || 'Title'}
         </Text>

@@ -23,7 +23,10 @@ const Search: React.FC<SearchScreenProps> = function () {
   const [searchText, setSearchText] = useState('');
   const [selectedWallpaper, setSelectedWallpaper] = useState<WallpaperType>();
   const [showWallpaper, setShowWallpaper] = useState(false);
-  const [themeStyles, { colors }] = useTheme();
+  const {
+    themedStyles,
+    theme: { colors },
+  } = useTheme();
   const inputRef = useRef<TextInput>(null);
 
   useEffect(() => {
@@ -85,9 +88,9 @@ const Search: React.FC<SearchScreenProps> = function () {
   };
 
   return (
-    <View style={[styles.root, themeStyles.bg]}>
+    <View style={[styles.root, themedStyles.bg]}>
       <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
-        <View style={[styles.searchContainer, themeStyles.bgLight]}>
+        <View style={[styles.searchContainer, themedStyles.bgLight]}>
           <View style={styles.flexView}>
             <View style={[styles.searchTextView]}>
               <SearchIcon
@@ -100,7 +103,7 @@ const Search: React.FC<SearchScreenProps> = function () {
                 onChangeText={handleTextChange}
                 ref={inputRef}
                 selectionColor={colors.secondary}
-                style={[styles.searchInput, themeStyles.text]}
+                style={[styles.searchInput, themedStyles.text]}
                 placeholderTextColor={colors.secondary}
                 placeholder="Search Devices"
               />

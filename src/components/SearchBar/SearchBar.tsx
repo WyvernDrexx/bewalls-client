@@ -16,7 +16,10 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
     if (props.onSearchBarActive) props.onSearchBarActive();
   };
 
-  const [themeStyles, { colors }] = useTheme();
+  const {
+    themedStyles,
+    theme: { colors },
+  } = useTheme();
 
   return (
     <View style={[styles.root]}>
@@ -24,7 +27,7 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
         disabled={props.disabled}
         onPress={onClick}
         activeOpacity={0.8}
-        style={[styles.searchContainer, themeStyles.bgLight]}>
+        style={[styles.searchContainer, themedStyles.bgLight]}>
         <View style={[styles.flexView]}>
           <View style={[styles.searchTextView]}>
             <SearchSvg
@@ -32,7 +35,7 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
               height={hp('3')}
               width={hp('3')}
             />
-            <Text style={[styles.placeholderText, themeStyles.text]}>
+            <Text style={[styles.placeholderText, themedStyles.text]}>
               Search Devices
             </Text>
           </View>
