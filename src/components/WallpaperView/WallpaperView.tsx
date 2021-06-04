@@ -11,10 +11,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { hp, wp } from '../../utilities';
 import { WallpaperType } from '../../types';
 import { BottomDraggable } from './BottomDraggable';
 
@@ -28,7 +25,7 @@ type WallpaperViewProps = {
 };
 
 export default function WallpaperView(props: WallpaperViewProps) {
-  const screenHeight = heightPercentageToDP(100);
+  const screenHeight = hp(100);
   const offsetY = useSharedValue(screenHeight);
 
   useEffect(() => {
@@ -75,25 +72,25 @@ export default function WallpaperView(props: WallpaperViewProps) {
 
 const styles = StyleSheet.create({
   root: {
-    height: heightPercentageToDP(100),
-    width: widthPercentageToDP(100),
+    height: hp(100),
+    width: wp(100),
     position: 'absolute',
     backgroundColor: 'white',
     top: 0,
   },
   image: {
     position: 'absolute',
-    height: heightPercentageToDP(100),
-    width: widthPercentageToDP(100),
+    height: hp(100),
+    width: wp(100),
     resizeMode: 'cover',
   },
   arrow: {
     position: 'absolute',
-    top: heightPercentageToDP(4),
-    left: widthPercentageToDP(2),
+    top: hp(4),
+    left: wp(2),
   },
   arrowIcon: {
-    height: heightPercentageToDP(4),
-    width: heightPercentageToDP(4),
+    height: hp(4),
+    width: hp(4),
   },
 });

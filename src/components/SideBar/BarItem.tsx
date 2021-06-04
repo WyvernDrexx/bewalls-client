@@ -1,9 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
 import { RootStackParamList } from '../../navigation/types';
 
@@ -40,11 +37,11 @@ const BarItem: React.FC<BarItemProps> = props => {
 
 const styles = StyleSheet.create({
   root: {
-    paddingHorizontal: widthPercentageToDP(4),
-    paddingVertical: heightPercentageToDP(2.5),
+    paddingHorizontal: wp(4),
+    paddingVertical: hp(2.5),
   },
   text: {
-    fontSize: heightPercentageToDP(2.5),
+    fontSize: hp(2.5),
     fontWeight: 'bold',
   },
 });

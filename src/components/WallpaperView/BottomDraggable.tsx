@@ -6,10 +6,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { hp, wp } from '../../utilities';
 
 import HeartSvg from './heart.svg';
 import EditSvg from './edit.svg';
@@ -20,11 +17,11 @@ import DownloadSvg from './download.svg';
 import { useTheme } from '../../hooks';
 
 const BottomDraggable = function () {
-  const startPosition = heightPercentageToDP(80);
-  const maxOffset = heightPercentageToDP(40);
+  const startPosition = hp(80);
+  const maxOffset = hp(40);
   const offsetY = useSharedValue(startPosition);
-  const driftOffset = heightPercentageToDP(75);
-  const actionIconSize = heightPercentageToDP(3);
+  const driftOffset = hp(75);
+  const actionIconSize = hp(3);
 
   const [themeStyles, theme] = useTheme();
 
@@ -139,8 +136,8 @@ const BottomDraggable = function () {
             <TouchableOpacity onPress={onHeartClick}>
               <HeartSvg
                 fill={theme.colors.secondary}
-                height={heightPercentageToDP(5)}
-                width={heightPercentageToDP(5)}
+                height={hp(5)}
+                width={hp(5)}
               />
             </TouchableOpacity>
           </View>
@@ -215,18 +212,18 @@ const BottomDraggable = function () {
 
 const styles = StyleSheet.create({
   root: {
-    width: widthPercentageToDP(100),
-    height: heightPercentageToDP(60),
-    paddingHorizontal: widthPercentageToDP(2),
-    borderTopLeftRadius: heightPercentageToDP(4),
-    borderTopRightRadius: heightPercentageToDP(4),
-    paddingTop: heightPercentageToDP(4),
+    width: wp(100),
+    height: hp(60),
+    paddingHorizontal: wp(2),
+    borderTopLeftRadius: hp(4),
+    borderTopRightRadius: hp(4),
+    paddingTop: hp(4),
   },
   topBar: {
-    padding: heightPercentageToDP(0.5),
-    width: widthPercentageToDP(40),
-    borderRadius: widthPercentageToDP(2),
-    marginTop: heightPercentageToDP(-5),
+    padding: hp(0.5),
+    width: wp(40),
+    borderRadius: wp(2),
+    marginTop: hp(-5),
   },
   flexView: {
     display: 'flex',
@@ -240,40 +237,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mainText: {
-    fontSize: heightPercentageToDP(3),
+    fontSize: hp(3),
     fontWeight: 'bold',
   },
   subText: {
-    fontSize: heightPercentageToDP(2.5),
-    marginTop: heightPercentageToDP(1),
+    fontSize: hp(2.5),
+    marginTop: hp(1),
     color: 'gray',
   },
   tagText: {
-    padding: heightPercentageToDP(1),
-    borderRadius: heightPercentageToDP(1),
-    marginRight: widthPercentageToDP(2),
+    padding: hp(1),
+    borderRadius: hp(1),
+    marginRight: wp(2),
   },
   tagView: {
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
-    marginTop: heightPercentageToDP(1),
+    marginTop: hp(1),
   },
   actionsContainer: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: heightPercentageToDP(4),
+    marginTop: hp(4),
   },
   actionView: {
-    width: widthPercentageToDP(22),
-    height: heightPercentageToDP(10),
+    width: wp(22),
+    height: hp(10),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'red',
-    borderRadius: widthPercentageToDP(2),
+    borderRadius: wp(2),
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -289,15 +286,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: heightPercentageToDP(5),
+    marginTop: hp(5),
     flexWrap: 'wrap',
   },
   detailsText: {
-    padding: heightPercentageToDP(1),
-    width: widthPercentageToDP(45),
-    borderRadius: widthPercentageToDP(2),
-    marginRight: heightPercentageToDP(0.5),
-    marginTop: heightPercentageToDP(1),
+    padding: hp(1),
+    width: wp(45),
+    borderRadius: wp(2),
+    marginRight: hp(0.5),
+    marginTop: hp(1),
   },
 });
 

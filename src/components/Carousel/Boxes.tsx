@@ -8,11 +8,8 @@ import {
   ScrollView,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
-import { isLastElement } from '../../utilities';
+
+import { hp, wp, isLastElement } from '../../utilities';
 
 export type Box = {
   title: string;
@@ -88,15 +85,15 @@ const Boxes: React.FC<BoxesProps> = function (props) {
 
 const boxStyles = StyleSheet.create({
   box: {
-    paddingVertical: heightPercentageToDP(4),
+    paddingVertical: hp(4),
     backgroundColor: 'black',
-    borderRadius: heightPercentageToDP(2),
-    marginLeft: widthPercentageToDP(4),
-    width: widthPercentageToDP(22),
+    borderRadius: hp(2),
+    marginLeft: wp(4),
+    width: wp(22),
   },
   text: {
     color: 'white',
-    fontSize: heightPercentageToDP(2),
+    fontSize: hp(2),
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -105,7 +102,7 @@ const boxStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   root: {},
   lastBox: {
-    marginRight: widthPercentageToDP(4),
+    marginRight: wp(4),
   },
 });
 

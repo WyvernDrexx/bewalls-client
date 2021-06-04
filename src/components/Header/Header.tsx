@@ -7,10 +7,6 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
 
 import Animated from 'react-native-reanimated';
 
@@ -21,6 +17,7 @@ import { changeTheme } from '../../store/theme';
 import ProfileImage from './profile.svg';
 import MoonImage from './moon.svg';
 import SunImage from './sun.svg';
+import { hp, wp } from '../../utilities';
 
 type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
@@ -48,8 +45,8 @@ const Header: React.FC<HeaderProps> = function (props) {
         <View style={styles.userInfo}>
           <ProfileImage
             fill={theme.colors.secondary}
-            width={widthPercentageToDP(12)}
-            height={widthPercentageToDP(12)}
+            width={wp(12)}
+            height={wp(12)}
           />
           <View style={styles.welcomeView}>
             <Text style={[styles.welcomeText, themeStyles.text]}>Welcome,</Text>
@@ -59,17 +56,9 @@ const Header: React.FC<HeaderProps> = function (props) {
       </TouchableOpacity>
       <TouchableOpacity activeOpacity={0.5} onPress={handleThemeChange}>
         {theme.mode === 'light' ? (
-          <MoonImage
-            fill="black"
-            width={widthPercentageToDP(6)}
-            height={widthPercentageToDP(6)}
-          />
+          <MoonImage fill="black" width={wp(6)} height={wp(6)} />
         ) : (
-          <SunImage
-            fill="#FFD347"
-            width={widthPercentageToDP(7)}
-            height={widthPercentageToDP(7)}
-          />
+          <SunImage fill="#FFD347" width={wp(7)} height={wp(7)} />
         )}
       </TouchableOpacity>
     </Animated.View>
@@ -78,12 +67,12 @@ const Header: React.FC<HeaderProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    paddingHorizontal: widthPercentageToDP(4),
+    paddingHorizontal: wp(4),
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: heightPercentageToDP(2),
+    paddingVertical: hp(2),
   },
   headerContainer: {},
   userInfo: {
@@ -93,14 +82,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   welcomeText: {
-    fontSize: heightPercentageToDP(2),
+    fontSize: hp(2),
   },
   nameText: {
     fontWeight: 'bold',
-    fontSize: heightPercentageToDP(2.5),
+    fontSize: hp(2.5),
   },
   welcomeView: {
-    paddingLeft: widthPercentageToDP(2),
+    paddingLeft: wp(2),
   },
 });
 

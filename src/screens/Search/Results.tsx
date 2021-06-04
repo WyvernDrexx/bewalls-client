@@ -1,9 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { hp, wp } from '../../utilities';
 
 import { Cards } from '../../components/Cards';
 
@@ -36,7 +33,7 @@ const Results: React.FC<ResultsProps> = function (props) {
           width="44"
           items={props.items}
           onClick={props.onClick}
-          style={{ marginBottom: heightPercentageToDP(2) }}
+          style={{ marginBottom: hp(2) }}
         />
       </View>
     </View>
@@ -45,22 +42,22 @@ const Results: React.FC<ResultsProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    marginTop: heightPercentageToDP(4),
-    paddingHorizontal: widthPercentageToDP(4),
+    marginTop: hp(4),
+    paddingHorizontal: wp(4),
   },
   searchTermText: {
-    fontSize: heightPercentageToDP(4),
+    fontSize: hp(4),
     fontWeight: 'bold',
   },
   subText: {
     color: 'gray',
   },
   resultsView: {
-    marginTop: heightPercentageToDP(3),
+    marginTop: hp(3),
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
-    marginHorizontal: widthPercentageToDP(-4),
+    marginHorizontal: wp(-4),
   },
 });
 

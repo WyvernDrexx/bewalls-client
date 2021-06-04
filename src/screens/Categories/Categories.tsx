@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
+import { hp } from 'react-native-responsive-screen';
 
 import { Cards } from '../../components/Cards';
 import { Box, Boxes } from '../../components/Carousel';
@@ -90,13 +90,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   brandsView: {
-    marginTop: heightPercentageToDP(3),
+    marginTop: hp(3),
   },
   boxesView: {
-    paddingTop: heightPercentageToDP(2),
+    paddingTop: hp(2),
   },
   cards: {
-    marginBottom: heightPercentageToDP(2),
+    marginBottom: hp(2),
   },
 });
 

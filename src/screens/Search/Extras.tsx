@@ -1,9 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
 import HotSearches, { SearchTerm } from './HotSearches';
 
@@ -102,39 +99,39 @@ const Extras: React.FC<ExtrasProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    paddingHorizontal: widthPercentageToDP(4),
+    paddingHorizontal: wp(4),
   },
   instaBannerView: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: heightPercentageToDP(3),
+    marginTop: hp(3),
   },
   instaImage: {
-    width: widthPercentageToDP(92),
-    height: heightPercentageToDP(15),
-    borderRadius: widthPercentageToDP(4),
+    width: wp(92),
+    height: hp(15),
+    borderRadius: wp(4),
   },
   instaText: {
     position: 'absolute',
     color: 'white',
-    fontSize: heightPercentageToDP(3.5),
+    fontSize: hp(3.5),
     fontWeight: 'bold',
     textAlign: 'center',
   },
   colorsView: {
-    marginTop: heightPercentageToDP(4),
+    marginTop: hp(4),
   },
   colorsContainer: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: heightPercentageToDP(3),
+    marginTop: hp(3),
   },
   colorBox: {
-    padding: heightPercentageToDP(1.5),
-    borderRadius: widthPercentageToDP(100),
+    padding: hp(1.5),
+    borderRadius: wp(100),
   },
 });
 

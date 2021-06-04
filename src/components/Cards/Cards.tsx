@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { wp } from 'react-native-responsive-screen';
 import { WallpaperType } from '../../types';
 import { isLastElement } from '../../utilities';
 import { Card } from './Card';
@@ -43,7 +43,7 @@ const Cards: React.FC<CardProps> = function (props) {
 
 const styles = StyleSheet.create({
   marginRight: {
-    marginRight: widthPercentageToDP(4),
+    marginRight: wp(4),
   },
 });
 

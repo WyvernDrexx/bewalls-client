@@ -1,9 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
 
 export type SearchTerm = {
@@ -50,7 +47,7 @@ const HotSearches: React.FC<HotSearchesProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    paddingVertical: heightPercentageToDP(4),
+    paddingVertical: hp(4),
   },
   searchTermsContainer: {
     display: 'flex',
@@ -58,11 +55,11 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   searchTerm: {
-    paddingHorizontal: widthPercentageToDP(4),
-    paddingVertical: heightPercentageToDP(1),
-    marginRight: heightPercentageToDP(3),
-    marginTop: heightPercentageToDP(3),
-    borderRadius: heightPercentageToDP(1),
+    paddingHorizontal: wp(4),
+    paddingVertical: hp(1),
+    marginRight: hp(3),
+    marginTop: hp(3),
+    borderRadius: hp(1),
   },
 });
 

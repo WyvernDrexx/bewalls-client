@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
 
 import { StyleSheet, ScrollView, View } from 'react-native';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
-
-import { useTheme } from '../../hooks';
 
 import { Cards } from '../../components/Cards';
 import { Box, Boxes } from '../../components/Carousel';
-import { WallpaperType } from '../../types';
 
 import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
 import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
 
+import { useTheme } from '../../hooks';
 import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
+import { WallpaperType } from '../../types';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
+import { hp, wp } from '../../utilities';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
@@ -118,7 +114,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
           <HeadingTitle title="Smartphone Brands" />
           <ScrollView
             scrollEnabled={!isSideBarShown}
-            style={{ marginBottom: heightPercentageToDP(4) }}
+            style={styles.marginBottom}
             horizontal
             showsHorizontalScrollIndicator={false}
             overScrollMode="never">
@@ -145,7 +141,8 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     margin: 0,
-    borderRadius: widthPercentageToDP(10),
+    borderRadius: wp(10),
   },
+  marginBottom: { marginBottom: hp(4) },
 });
 export { Home };

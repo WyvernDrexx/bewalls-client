@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { wp } from 'react-native-responsive-screen';
 
 import Animated, {
   useSharedValue,
@@ -57,7 +57,7 @@ const Carousel: React.FC<CarouselProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    marginHorizontal: widthPercentageToDP('-4'),
+    marginHorizontal: wp('-4'),
   },
 });
 

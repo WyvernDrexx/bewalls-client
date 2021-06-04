@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
+import { hp } from 'react-native-responsive-screen';
 
 import { Cards } from '../../components/Cards';
 
@@ -41,16 +41,16 @@ const NotFound: React.FC = function () {
 
 const styles = StyleSheet.create({
   root: {
-    marginTop: heightPercentageToDP(6),
+    marginTop: hp(6),
   },
   notFoundText: {
     fontStyle: 'italic',
     textAlign: 'center',
-    fontSize: heightPercentageToDP(2.3),
-    marginBottom: heightPercentageToDP(3),
+    fontSize: hp(2.3),
+    marginBottom: hp(3),
   },
   recentUploads: {
-    marginBottom: heightPercentageToDP(2),
+    marginBottom: hp(2),
   },
 });
 

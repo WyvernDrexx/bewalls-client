@@ -8,10 +8,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
 
 type HeadingTitleProps = {
@@ -51,17 +48,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     flexDirection: 'row',
-    paddingVertical: heightPercentageToDP(2),
-    paddingHorizontal: widthPercentageToDP(4),
-    paddingTop: heightPercentageToDP(4),
+    paddingVertical: hp(2),
+    paddingHorizontal: wp(4),
+    paddingTop: hp(4),
   },
   headingText: {
-    fontSize: heightPercentageToDP(3),
+    fontSize: hp(3),
     fontWeight: 'bold',
   },
   moreText: {
     color: '#5079FF',
-    fontSize: heightPercentageToDP(2.5),
+    fontSize: hp(2.5),
   },
 });
 

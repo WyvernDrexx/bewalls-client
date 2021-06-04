@@ -13,10 +13,8 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+
+import { hp, wp } from '../../utilities';
 
 import { WallpaperType } from '../../types';
 import MountAnimatedView from '../MountAnimatedView';
@@ -32,7 +30,7 @@ type CarouselItemProps = {
 };
 
 const CarouselItem = function (props: CarouselItemProps) {
-  const width = widthPercentageToDP(67);
+  const width = wp(67);
 
   const animatedStyle = useAnimatedStyle(() => {
     const scale = interpolate(
@@ -82,16 +80,16 @@ const CarouselItem = function (props: CarouselItemProps) {
 
 const styles = StyleSheet.create({
   root: {
-    marginTop: heightPercentageToDP(4),
-    paddingLeft: widthPercentageToDP(1),
+    marginTop: hp(4),
+    paddingLeft: wp(1),
   },
   imageView: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: heightPercentageToDP(5),
-    width: widthPercentageToDP('75'),
-    height: heightPercentageToDP('75'),
+    borderRadius: hp(5),
+    width: wp('75'),
+    height: hp('75'),
   },
   titleView: {
     position: 'absolute',
@@ -100,25 +98,25 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: heightPercentageToDP(5),
+    fontSize: hp(5),
   },
   subTitle: {
     color: 'white',
     textAlign: 'center',
-    fontSize: heightPercentageToDP(3),
+    fontSize: hp(3),
     fontWeight: '400',
   },
   image: {
-    borderRadius: heightPercentageToDP(5),
-    width: widthPercentageToDP('75'),
-    height: heightPercentageToDP('75'),
+    borderRadius: hp(5),
+    width: wp('75'),
+    height: hp('75'),
     resizeMode: 'cover',
   },
   firstItem: {
-    paddingLeft: widthPercentageToDP('17.5'),
+    paddingLeft: wp('17.5'),
   },
   lastItem: {
-    paddingRight: widthPercentageToDP(17.5 - 2), //Subtract 2% of the extra padding from root
+    paddingRight: wp(17.5 - 2), //Subtract 2% of the extra padding from root
   },
 });
 

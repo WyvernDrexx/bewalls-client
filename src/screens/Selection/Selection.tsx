@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { hp, wp } from '../../utilities';
 
 import Animated from 'react-native-reanimated';
 
@@ -71,8 +68,8 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
               style={styles.modeIcon}>
               <CarouselSvg
                 fill={displayMode === 'carousel' ? '#9F88FF' : '#C9C9C9'}
-                height={heightPercentageToDP(3)}
-                width={heightPercentageToDP(4)}
+                height={hp(3)}
+                width={hp(4)}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -80,8 +77,8 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
               style={styles.modeIcon}>
               <GridSvg
                 fill={displayMode === 'grid' ? '#9F88FF' : '#C9C9C9'}
-                height={heightPercentageToDP(3)}
-                width={heightPercentageToDP(4)}
+                height={hp(3)}
+                width={hp(4)}
               />
             </TouchableOpacity>
           </View>
@@ -111,7 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    paddingHorizontal: widthPercentageToDP(4),
+    paddingHorizontal: wp(4),
   },
   displayLayout: {
     display: 'flex',
@@ -120,16 +117,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   modeIcon: {
-    paddingLeft: widthPercentageToDP(2),
+    paddingLeft: wp(2),
   },
   gridView: {
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
-    marginTop: heightPercentageToDP(4),
+    marginTop: hp(4),
   },
   cards: {
-    marginBottom: heightPercentageToDP(2),
+    marginBottom: hp(2),
   },
 });
 

@@ -16,10 +16,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { hp, wp } from '../../utilities';
 
 import { useTheme } from '../../hooks';
 
@@ -58,7 +55,7 @@ const SIDEBAR_ITEMS: BarItemType[] = [
 ];
 
 const SideBar: React.FC<SideBarProps> = function (props) {
-  const width = widthPercentageToDP(100);
+  const width = wp(100);
   const isShown = useSharedValue(props.isShown);
   const [toCall, setToCall] = useState<'close' | 'barItem' | null>(null);
   const [themeStyles, { colors }] = useTheme();
@@ -119,18 +116,10 @@ const SideBar: React.FC<SideBarProps> = function (props) {
         <TouchableOpacity
           style={[styles.backButton, { borderColor: colors.secondary }]}
           onPress={handleClose}>
-          <BackSvg
-            height={heightPercentageToDP(2)}
-            width={heightPercentageToDP(2)}
-            fill={colors.secondary}
-          />
+          <BackSvg height={hp(2)} width={hp(2)} fill={colors.secondary} />
         </TouchableOpacity>
         <View style={[styles.profile]}>
-          <ProfileSvg
-            height={heightPercentageToDP(8)}
-            width={heightPercentageToDP(8)}
-            fill={colors.secondary}
-          />
+          <ProfileSvg height={hp(8)} width={hp(8)} fill={colors.secondary} />
           <Text style={[styles.profileText, themeStyles.text]}>LP Sharma,</Text>
         </View>
         <View style={[styles.barItems, { borderColor: colors.light }]}>
@@ -158,8 +147,8 @@ const SideBar: React.FC<SideBarProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    width: widthPercentageToDP(75),
-    height: heightPercentageToDP(100),
+    width: wp(75),
+    height: hp(100),
     position: 'absolute',
     top: 0,
     zIndex: 100,
@@ -177,34 +166,34 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   backButton: {
-    padding: widthPercentageToDP(4),
-    borderWidth: widthPercentageToDP(0.5),
-    borderRadius: widthPercentageToDP(50),
+    padding: wp(4),
+    borderWidth: wp(0.5),
+    borderRadius: wp(50),
     position: 'absolute',
-    right: widthPercentageToDP(5),
-    top: heightPercentageToDP(3),
+    right: wp(5),
+    top: hp(3),
   },
   sideBarItemsView: {
-    width: widthPercentageToDP(75),
+    width: wp(75),
   },
   transparentView: {
     opacity: 0,
-    width: widthPercentageToDP(25),
-    height: heightPercentageToDP(100),
+    width: wp(25),
+    height: hp(100),
     backgroundColor: 'black',
   },
   profile: {
-    padding: heightPercentageToDP(2),
-    marginTop: heightPercentageToDP(10),
+    padding: hp(2),
+    marginTop: hp(10),
   },
   profileText: {
-    fontSize: heightPercentageToDP(4),
+    fontSize: hp(4),
     fontWeight: 'bold',
-    marginTop: heightPercentageToDP(3),
+    marginTop: hp(3),
     color: 'white',
-    marginHorizontal: widthPercentageToDP(-4),
-    paddingHorizontal: widthPercentageToDP(4),
-    paddingBottom: heightPercentageToDP(1),
+    marginHorizontal: wp(-4),
+    paddingHorizontal: wp(4),
+    paddingBottom: hp(1),
   },
   barItems: {
     borderTopWidth: 1,

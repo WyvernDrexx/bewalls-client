@@ -7,10 +7,7 @@ import {
   ViewStyle,
   TouchableOpacity,
 } from 'react-native';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { hp, wp } from '../../utilities';
 
 import Animated from 'react-native-reanimated';
 
@@ -37,8 +34,8 @@ const StackHeader: React.FC<StackHeaderProps> = function (props) {
             style={styles.leftArrow}>
             <LeftArrowSvg
               fill={colors.secondary}
-              height={heightPercentageToDP(3)}
-              width={heightPercentageToDP(3)}
+              height={hp(3)}
+              width={hp(3)}
             />
           </TouchableOpacity>
         </View>
@@ -59,8 +56,8 @@ const StackHeader: React.FC<StackHeaderProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     backgroundColor: 'pink',
-    paddingHorizontal: widthPercentageToDP(4),
-    paddingVertical: heightPercentageToDP(3),
+    paddingHorizontal: wp(4),
+    paddingVertical: hp(3),
   },
   header: {
     display: 'flex',
@@ -69,18 +66,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   leftView: {
-    width: widthPercentageToDP(30.66),
-    marginLeft: widthPercentageToDP(-2),
+    width: wp(30.66),
+    marginLeft: wp(-2),
   },
   leftArrow: {
-    width: widthPercentageToDP(12),
+    width: wp(12),
   },
   middleText: {
-    width: widthPercentageToDP(30.66),
-    fontSize: heightPercentageToDP(2.6),
+    width: wp(30.66),
+    fontSize: hp(2.6),
   },
   rightView: {
-    width: widthPercentageToDP(30.66),
+    width: wp(30.66),
   },
 });
 

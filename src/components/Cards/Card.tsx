@@ -8,17 +8,14 @@ import {
   ViewStyle,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
 
 import Animated from 'react-native-reanimated';
+import MountAnimatedView from '../MountAnimatedView';
 
 import { useTheme } from '../../hooks';
+import { hp, wp } from '../../utilities';
 
 import { WallpaperType } from '../../types';
-import MountAnimatedView from '../MountAnimatedView';
 
 type CardProps = {
   wallpaper: WallpaperType;
@@ -31,8 +28,8 @@ type CardProps = {
 };
 
 const Card: React.FC<CardProps> = function (props) {
-  const height = heightPercentageToDP(props.height);
-  const width = widthPercentageToDP(props.width);
+  const height = hp(props.height);
+  const width = wp(props.width);
   const [themeStyles] = useTheme();
 
   const handleClick = () => {
@@ -80,8 +77,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: widthPercentageToDP(1.5),
-    marginLeft: widthPercentageToDP(4),
+    borderRadius: wp(1.5),
+    marginLeft: wp(4),
   },
   textView: {
     position: 'absolute',
@@ -90,18 +87,18 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: heightPercentageToDP(2.3),
+    fontSize: hp(2.3),
   },
   subTitle: {
     color: 'white',
     textAlign: 'center',
-    fontSize: heightPercentageToDP(1.3),
+    fontSize: hp(1.3),
     fontWeight: '400',
   },
   image: {
-    borderRadius: heightPercentageToDP(1.5),
-    width: widthPercentageToDP('65'),
-    height: heightPercentageToDP('60'),
+    borderRadius: hp(1.5),
+    width: wp('65'),
+    height: hp('60'),
     resizeMode: 'cover',
   },
 });

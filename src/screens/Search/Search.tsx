@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { hp, wp } from '../../utilities';
 
 import { SearchTerm } from './HotSearches';
 
@@ -97,8 +94,8 @@ const Search: React.FC<SearchScreenProps> = function () {
             <View style={[styles.searchTextView]}>
               <SearchIcon
                 fill={colors.secondary}
-                height={heightPercentageToDP('3')}
-                width={heightPercentageToDP('3')}
+                height={hp('3')}
+                width={hp('3')}
               />
               <TextInput
                 value={searchText}
@@ -128,19 +125,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchContainer: {
-    paddingHorizontal: widthPercentageToDP(4),
-    marginVertical: heightPercentageToDP(2),
+    paddingHorizontal: wp(4),
+    marginVertical: hp(2),
     marginBottom: 0,
-    borderRadius: heightPercentageToDP(1.5),
-    height: heightPercentageToDP(8),
+    borderRadius: hp(1.5),
+    height: hp(8),
     display: 'flex',
     justifyContent: 'center',
-    marginHorizontal: widthPercentageToDP(4),
+    marginHorizontal: wp(4),
   },
   searchInput: {
-    width: widthPercentageToDP(76),
-    fontSize: heightPercentageToDP(2),
-    marginLeft: widthPercentageToDP(3),
+    width: wp(76),
+    fontSize: hp(2),
+    marginLeft: wp(3),
   },
   searchTextView: {
     display: 'flex',
@@ -150,25 +147,25 @@ const styles = StyleSheet.create({
   },
   placeholderText: {
     position: 'absolute',
-    left: widthPercentageToDP(10),
-    fontSize: heightPercentageToDP(2),
+    left: wp(10),
+    fontSize: hp(2),
   },
   colorsView: {
-    marginTop: heightPercentageToDP(4),
+    marginTop: hp(4),
   },
   colorsText: {
-    fontSize: heightPercentageToDP(2),
+    fontSize: hp(2),
   },
   colorsContainer: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: heightPercentageToDP(3),
+    marginTop: hp(3),
   },
   colorBox: {
-    padding: heightPercentageToDP(1.5),
-    borderRadius: widthPercentageToDP(100),
+    padding: hp(1.5),
+    borderRadius: wp(100),
   },
 });
 

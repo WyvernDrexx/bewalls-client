@@ -11,10 +11,7 @@ import { Home, Search, Categories, Selection, Settings } from '../../screens';
 
 import { RootStackParamList } from '../types';
 import { useTheme } from '../../hooks';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { hp, wp } from '../../utilities';
 
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -50,8 +47,8 @@ function RootNavigator() {
 const styles = StyleSheet.create({
   placeholderView: {
     position: 'absolute',
-    height: heightPercentageToDP(100),
-    width: widthPercentageToDP(100),
+    height: hp(100),
+    width: wp(100),
     zIndex: -10,
   },
 });
