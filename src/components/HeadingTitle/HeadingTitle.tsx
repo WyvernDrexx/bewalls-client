@@ -8,8 +8,9 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { hp, wp } from '../../utilities';
+
 import { useTheme } from '../../hooks';
+import { hp, wp } from '../../utilities';
 
 type HeadingTitleProps = {
   title: string;
@@ -23,7 +24,6 @@ type HeadingTitleProps = {
 const HeadingTitle: React.FC<HeadingTitleProps> = function (props) {
   const handleClick = () => {
     if (props.onClick) return props.onClick();
-    console.log(props.title, 'MORE Clicked!');
   };
   const [themeStyles] = useTheme();
   return (

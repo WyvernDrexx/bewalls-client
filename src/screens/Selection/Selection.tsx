@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { hp, wp } from '../../utilities';
-
 import Animated from 'react-native-reanimated';
 
-import WallpaperView from '../../components/WallpaperView';
-import Carousel from '../../components/Carousel/Carousel';
-import StackHeader from '../../components/StackHeader';
-
-import { BRANDS } from '../../sample/sampleData';
-import { WallpaperType } from '../../types';
 import { Cards } from '../../components/Cards';
 
 import CarouselSvg from './carousel.svg';
 import GridSvg from './grid.svg';
 
+import WallpaperView from '../../components/WallpaperView';
+import Carousel from '../../components/Carousel/Carousel';
+import StackHeader from '../../components/StackHeader';
+
 import { useTheme } from '../../hooks';
+import { hp, wp } from '../../utilities';
+
 import { SelectionScreenProps } from '../../navigation/types';
+import { WallpaperType } from '../../types';
+
+import { BRANDS } from '../../sample/sampleData';
 
 const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [displayMode, setDisplayMode] =

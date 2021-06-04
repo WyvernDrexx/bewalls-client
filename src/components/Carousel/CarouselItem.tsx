@@ -14,10 +14,10 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 
-import { hp, wp } from '../../utilities';
-
-import { WallpaperType } from '../../types';
 import MountAnimatedView from '../MountAnimatedView';
+
+import { hp, wp } from '../../utilities';
+import { WallpaperType } from '../../types';
 
 type CarouselItemProps = {
   data: WallpaperType;

@@ -7,11 +7,11 @@ import {
   ViewStyle,
   TouchableOpacity,
 } from 'react-native';
-import { hp, wp } from '../../utilities';
 
 import Animated from 'react-native-reanimated';
 
 import { useTheme } from '../../hooks';
+import { hp, wp } from '../../utilities';
 
 import LeftArrowSvg from './left-arrow.svg';
 

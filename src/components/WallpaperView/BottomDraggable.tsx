@@ -6,6 +6,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+
 import { hp, wp } from '../../utilities';
 
 import HeartSvg from './heart.svg';
@@ -60,7 +61,7 @@ const BottomDraggable = function () {
     };
   });
 
-  const onHeartClick = () => {
+  const handleHeartClick = () => {
     console.log('Heart Clicked');
   };
 
@@ -133,7 +134,7 @@ const BottomDraggable = function () {
                 OnePlus 7 Pro - WallpaperType
               </Text>
             </View>
-            <TouchableOpacity onPress={onHeartClick}>
+            <TouchableOpacity onPress={handleHeartClick}>
               <HeartSvg
                 fill={theme.colors.secondary}
                 height={hp(5)}

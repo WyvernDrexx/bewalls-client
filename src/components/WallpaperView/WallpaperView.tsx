@@ -11,9 +11,11 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+
+import { BottomDraggable } from './BottomDraggable';
+
 import { hp, wp } from '../../utilities';
 import { WallpaperType } from '../../types';
-import { BottomDraggable } from './BottomDraggable';
 
 import LeftArrowSvg from './left-arrow.svg';
 

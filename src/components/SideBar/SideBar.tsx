@@ -16,8 +16,8 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import { hp, wp } from '../../utilities';
 
+import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
 
 import BarItem from './BarItem';
@@ -136,11 +136,9 @@ const SideBar: React.FC<SideBarProps> = function (props) {
           })}
         </View>
       </View>
-      <View>
-        <TouchableWithoutFeedback onPress={handleClose}>
-          <Animated.View style={[styles.transparentView]} />
-        </TouchableWithoutFeedback>
-      </View>
+      <TouchableWithoutFeedback onPress={handleClose}>
+        <Animated.View style={[styles.transparentView]} />
+      </TouchableWithoutFeedback>
     </Animated.View>
   );
 };

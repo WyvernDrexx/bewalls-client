@@ -19,28 +19,26 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
   const [themeStyles, { colors }] = useTheme();
 
   return (
-    <>
-      <View style={[styles.root]}>
-        <TouchableOpacity
-          disabled={props.disabled}
-          onPress={onClick}
-          activeOpacity={0.8}
-          style={[styles.searchContainer, themeStyles.bgLight]}>
-          <View style={[styles.flexView]}>
-            <View style={[styles.searchTextView]}>
-              <SearchSvg
-                fill={colors.secondary}
-                height={hp('3')}
-                width={hp('3')}
-              />
-              <Text style={[styles.placeholderText, themeStyles.text]}>
-                Search Devices
-              </Text>
-            </View>
+    <View style={[styles.root]}>
+      <TouchableOpacity
+        disabled={props.disabled}
+        onPress={onClick}
+        activeOpacity={0.8}
+        style={[styles.searchContainer, themeStyles.bgLight]}>
+        <View style={[styles.flexView]}>
+          <View style={[styles.searchTextView]}>
+            <SearchSvg
+              fill={colors.secondary}
+              height={hp('3')}
+              width={hp('3')}
+            />
+            <Text style={[styles.placeholderText, themeStyles.text]}>
+              Search Devices
+            </Text>
           </View>
-        </TouchableOpacity>
-      </View>
-    </>
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 };
 

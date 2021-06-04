@@ -4,8 +4,9 @@ import { StyleSheet, Switch, Text, View } from 'react-native';
 import StackHeader from '../../components/StackHeader';
 
 import { useTheme } from '../../hooks';
-import { SettingsScreenProps } from '../../navigation/types';
 import { hp, wp } from '../../utilities';
+
+import { SettingsScreenProps } from '../../navigation/types';
 
 const Settings: React.FC<SettingsScreenProps> = function (props) {
   const [themeStyles, { colors }] = useTheme();

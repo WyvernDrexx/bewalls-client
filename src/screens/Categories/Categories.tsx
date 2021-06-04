@@ -1,15 +1,17 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { hp } from '../../utilities';
 
 import { Cards } from '../../components/Cards';
 import { Box, Boxes } from '../../components/Carousel';
-import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
 
 import StackHeader from '../../components/StackHeader';
 import HeadingTitle from '../../components/HeadingTitle';
 
 import { useTheme } from '../../hooks';
+import { hp } from '../../utilities';
+
+import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
+
 import { CategoriesScreenProps } from '../../navigation/types';
 import { WallpaperType } from '../../types';
 

@@ -10,6 +10,7 @@ import {
 
 import Animated from 'react-native-reanimated';
 
+import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
 import { useAppDispatch } from '../../store';
 import { changeTheme } from '../../store/theme';
@@ -17,7 +18,6 @@ import { changeTheme } from '../../store/theme';
 import ProfileImage from './profile.svg';
 import MoonImage from './moon.svg';
 import SunImage from './sun.svg';
-import { hp, wp } from '../../utilities';
 
 type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: hp(2),
   },
-  headerContainer: {},
   userInfo: {
     display: 'flex',
     flexDirection: 'row',

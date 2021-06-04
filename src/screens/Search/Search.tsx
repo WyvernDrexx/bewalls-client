@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { hp, wp } from '../../utilities';
 
 import { SearchTerm } from './HotSearches';
 
@@ -12,9 +11,9 @@ import Results from './Results';
 import SearchIcon from './search.svg';
 
 import { useTheme } from '../../hooks';
+import { hp, wp } from '../../utilities';
 
 import { BRANDS } from '../../sample/sampleData';
-
 import { WallpaperType } from '../../types';
 import { SearchScreenProps } from '../../navigation/types';
 

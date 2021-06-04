@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { hp } from '../../utilities';
 
 import { Cards } from '../../components/Cards';
 
 import HeadingTitle from '../../components/HeadingTitle';
 
 import { useTheme } from '../../hooks';
+import { hp } from '../../utilities';
+
 import { BRANDS } from '../../sample/sampleData';
 
 const NotFound: React.FC = function () {

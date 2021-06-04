@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createStackNavigator,
@@ -9,9 +8,10 @@ import { StatusBar, StyleSheet, View } from 'react-native';
 
 import { Home, Search, Categories, Selection, Settings } from '../../screens';
 
-import { RootStackParamList } from '../types';
 import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
+
+import { RootStackParamList } from '../types';
 
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();

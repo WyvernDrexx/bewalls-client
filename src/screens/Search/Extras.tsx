@@ -1,8 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+
+import HotSearches, { SearchTerm } from './HotSearches';
+
 import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
-import HotSearches, { SearchTerm } from './HotSearches';
 
 const COLORS_BOX = [
   {
@@ -54,11 +56,11 @@ type ExtrasProps = {
 const Extras: React.FC<ExtrasProps> = function (props) {
   const [themeStyles] = useTheme();
 
-  const onColorBoxClickHandler = (color: string) => {
+  const handleColorBoxClick = (color: string) => {
     props.onColorBoxClick(color);
   };
 
-  const onSearchTermClick = (searchTerm: SearchTerm) => {
+  const handleSearchTermClick = (searchTerm: SearchTerm) => {
     props.onSearchTermClick(searchTerm);
   };
 
@@ -77,7 +79,7 @@ const Extras: React.FC<ExtrasProps> = function (props) {
                 <TouchableOpacity
                   activeOpacity={0.8}
                   key={index}
-                  onPress={() => onColorBoxClickHandler(item.color)}>
+                  onPress={() => handleColorBoxClick(item.color)}>
                   <View
                     style={[
                       styles.colorBox,
@@ -91,7 +93,10 @@ const Extras: React.FC<ExtrasProps> = function (props) {
             })}
           </View>
         </View>
-        <HotSearches onClick={onSearchTermClick} searchTerms={SEARCHES_TERM} />
+        <HotSearches
+          onClick={handleSearchTermClick}
+          searchTerms={SEARCHES_TERM}
+        />
       </View>
     </>
   );

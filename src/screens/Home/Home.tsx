@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { StyleSheet, ScrollView, View } from 'react-native';
 
 import { Cards } from '../../components/Cards';
@@ -10,11 +9,12 @@ import HeadingTitle from '../../components/HeadingTitle';
 import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
 
+import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
+
 import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
 import { WallpaperType } from '../../types';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
-import { hp, wp } from '../../utilities';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);

@@ -4,6 +4,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+
 import { useTheme } from '../../hooks';
 
 type MountAnimatedViewProps = {

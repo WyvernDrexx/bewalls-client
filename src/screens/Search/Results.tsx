@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { hp, wp } from '../../utilities';
 
 import { Cards } from '../../components/Cards';
 
 import { useTheme } from '../../hooks';
+import { hp, wp } from '../../utilities';
+
 import { WallpaperType } from '../../types';
 
 type ResultsProps = {
