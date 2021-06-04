@@ -41,7 +41,7 @@ function RootNavigator() {
 
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor={colors.primary} barStyle={statusBarStyle} />
+      <StatusBar backgroundColor={colors.dark} barStyle={statusBarStyle} />
       <View style={[styles.placeholderView, bg]} />
       <Stack.Navigator screenOptions={screenOptions}>
         <Stack.Screen name="Home" component={Home} />
