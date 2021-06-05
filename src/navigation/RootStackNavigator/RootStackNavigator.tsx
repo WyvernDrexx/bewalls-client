@@ -5,7 +5,7 @@ import {
   StackNavigationOptions,
 } from '@react-navigation/stack';
 import { StatusBar, StyleSheet, View } from 'react-native';
-
+import RNBootSplash from 'react-native-bootsplash';
 import { Home, Search, Categories, Selection, Settings } from '../../screens';
 
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
@@ -40,7 +40,7 @@ function RootNavigator() {
   }, [theme.mode]);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer onReady={() => RNBootSplash.hide()}>
       <StatusBar backgroundColor={colors.dark} barStyle={statusBarStyle} />
       <View style={[styles.placeholderView, bg]} />
       <Stack.Navigator screenOptions={screenOptions}>
