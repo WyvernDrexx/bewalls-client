@@ -23,6 +23,7 @@ function Option(props: OptionProps) {
     themedStyles,
     theme: { colors },
   } = useTheme();
+
   const handleClick = () => {
     if (props.onClick) props.onClick(props.option.id);
   };

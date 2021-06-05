@@ -27,8 +27,8 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     useState<'carousel' | 'grid'>('carousel');
   const [previewWallpaper, setPreviewWallpaper] = useState(false);
   const [selectedWallpaper, setSelectedWallpaper] = useState<WallpaperType>();
-  const [showSortingOptions, setShowSortingOptions] = useState(false);
-  const [selectedSortingOption, setSelectedSortingOption] =
+  const [showSortOptions, setShowSortOptions] = useState(false);
+  const [selectedSortOption, setSelectedSortOption] =
     useState<string | number>(0);
 
   const {
@@ -36,7 +36,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     theme: { colors },
   } = useTheme();
 
-  const sortingOptions: OptionType[] = [
+  const sortOptions: OptionType[] = [
     {
       title: 'Newest First',
       id: 1001,
@@ -60,7 +60,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     setPreviewWallpaper(true);
   };
 
-  const handleClose = () => {
+  const handlePreviewClose = () => {
     setPreviewWallpaper(false);
   };
 
@@ -81,21 +81,19 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   };
 
   const handleOptionsShow = () => {
-    setShowSortingOptions(true);
+    setShowSortOptions(true);
   };
 
   const handleOptionsClose = () => {
-    setShowSortingOptions(false);
+    setShowSortOptions(false);
   };
 
-  const handleOptionClick = (id: string | number) => {
-    setSelectedSortingOption(id);
+  const handleOptionChange = (id: string | number) => {
+    setSelectedSortOption(id);
     handleOptionsClose();
   };
 
-  const selectedOption = sortingOptions.find(
-    item => item.id === selectedSortingOption,
-  );
+  const sortOption = sortOptions.find(item => item.id === selectedSortOption);
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
@@ -104,18 +102,17 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
         title={props.route.params.select}
       />
       <Options
-        initalSelection={sortingOptions[0].id}
-        options={sortingOptions}
-        showOptions={showSortingOptions}
+        options={sortOptions}
+        showOptions={showSortOptions}
         onUnderlayClick={handleOptionsClose}
-        onClick={handleOptionClick}
+        onChange={handleOptionChange}
       />
       <Animated.ScrollView>
         <View style={styles.displaySelection}>
           <TouchableOpacity
             style={styles.sortOptions}
             onPress={handleOptionsShow}>
-            <Text style={styles.sortingText}>{selectedOption?.title}</Text>
+            <Text style={styles.sortingText}>{sortOption?.title}</Text>
             <DownArrowSvg
               style={styles.downArrowIcon}
               fill={colors.secondary}
@@ -151,7 +148,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
       <WallpaperView
         showWallpaper={previewWallpaper}
         wallpaper={selectedWallpaper}
-        onCloseClick={handleClose}
+        onCloseClick={handlePreviewClose}
       />
     </View>
   );

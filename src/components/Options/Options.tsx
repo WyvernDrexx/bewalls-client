@@ -11,20 +11,34 @@ import Option, { OptionType } from './Option';
 type OptionsProps = {
   options: OptionType[];
   initalSelection?: number | string;
-  onClick?: (id: string | number) => void;
   style?: StyleProp<ViewStyle>;
   showOptions?: boolean;
+  onChange?: (id: string | number) => void;
   onUnderlayClick?: () => void;
 };
 
 function Options(props: OptionsProps) {
   const optionHeight = hp(8.8);
-  const height = optionHeight * props.options?.length;
   const initalOffset = hp(100);
+  const optionsHeight = optionHeight * props.options?.length;
+
   const offsetY = useSharedValue(initalOffset);
-  const [selectedOptionId, setSelectedOptionId] = useState<string | number>(
-    props.initalSelection || -100,
+
+  const [selectedOption, setSelectedOption] = useState<string | number>(
+    props.initalSelection || props.options[0]?.id || '',
   );
+
+  const handleOptionsShow = () => {
+    offsetY.value = Animated.withTiming(-optionsHeight);
+  };
+
+  const handleOptionsHide = () => {
+    offsetY.value = Animated.withTiming(initalOffset, { duration: 800 });
+  };
+
+  const handleOptionClick = (id: string | number) => {
+    setSelectedOption(id);
+  };
 
   const uas = useAnimatedStyle(() => {
     return {
@@ -36,33 +50,21 @@ function Options(props: OptionsProps) {
     };
   });
 
-  const showOptions = () => {
-    offsetY.value = Animated.withTiming(-height);
-  };
-
-  const hideOptions = () => {
-    offsetY.value = Animated.withTiming(initalOffset, { duration: 800 });
-  };
-
-  const handleOptionClick = (id: string | number) => {
-    setSelectedOptionId(id);
-  };
-
   useEffect(() => {
-    if (props.showOptions) showOptions();
-    else hideOptions();
+    if (props.showOptions) handleOptionsShow();
+    else handleOptionsHide();
   }, [props.showOptions]);
 
   useEffect(() => {
-    if (props.onClick) props.onClick(selectedOptionId);
-  }, [selectedOptionId]);
+    if (props.onChange) props.onChange(selectedOption);
+  }, [selectedOption]);
 
   const renderOptions = () => {
     return props.options.map((item, index) => {
       return (
         <Option
           onClick={handleOptionClick}
-          isSelected={item.id === selectedOptionId}
+          isSelected={item.id === selectedOption}
           key={index}
           option={item}
         />
@@ -70,12 +72,12 @@ function Options(props: OptionsProps) {
     });
   };
 
+  if (!props.options) return null;
+
   return (
-    <Animated.View style={[uas, styles.optionsView]}>
+    <Animated.View style={[uas, styles.root]}>
       <TouchableWithoutFeedback
-        onPress={() => {
-          if (props.onUnderlayClick) props.onUnderlayClick();
-        }}
+        onPress={props.onUnderlayClick}
         style={styles.underLay}
       />
       <View>{renderOptions()}</View>
@@ -85,9 +87,6 @@ function Options(props: OptionsProps) {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: 'red',
-  },
-  optionsView: {
     position: 'absolute',
     zIndex: 1000,
     width: wp(100),
