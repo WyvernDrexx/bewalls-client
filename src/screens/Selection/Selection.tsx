@@ -6,6 +6,7 @@ import { Cards } from '../../components/Cards';
 
 import CarouselSvg from './carousel.svg';
 import GridSvg from './grid.svg';
+import DownArrowSvg from './down-arrow.svg';
 
 import WallpaperView from '../../components/WallpaperView';
 import Carousel from '../../components/Carousel/Carousel';
@@ -18,14 +19,41 @@ import { SelectionScreenProps } from '../../navigation/types';
 import { WallpaperType } from '../../types';
 
 import { BRANDS } from '../../sample/sampleData';
+import Options from '../../components/Options';
+import { OptionType } from '../../components/Options/Option';
 
 const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [displayMode, setDisplayMode] =
     useState<'carousel' | 'grid'>('carousel');
   const [previewWallpaper, setPreviewWallpaper] = useState(false);
   const [selectedWallpaper, setSelectedWallpaper] = useState<WallpaperType>();
+  const [showSortingOptions, setShowSortingOptions] = useState(false);
+  const [selectedSortingOption, setSelectedSortingOption] =
+    useState<string | number>(0);
 
-  const { themedStyles } = useTheme();
+  const {
+    themedStyles,
+    theme: { colors },
+  } = useTheme();
+
+  const sortingOptions: OptionType[] = [
+    {
+      title: 'Newest First',
+      id: 1001,
+    },
+    {
+      title: 'Top Rated First',
+      id: 1002,
+    },
+    {
+      title: 'Top Rated First',
+      id: 1003,
+    },
+    {
+      title: 'Top Rated First',
+      id: 1004,
+    },
+  ];
 
   const handleCardClick = (wallpaper: WallpaperType) => {
     setSelectedWallpaper(wallpaper);
@@ -52,17 +80,47 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     );
   };
 
+  const handleOptionsShow = () => {
+    setShowSortingOptions(true);
+  };
+
+  const handleOptionsClose = () => {
+    setShowSortingOptions(false);
+  };
+
+  const handleOptionClick = (id: string | number) => {
+    setSelectedSortingOption(id);
+    handleOptionsClose();
+  };
+
+  const selectedOption = sortingOptions.find(
+    item => item.id === selectedSortingOption,
+  );
+
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
         onLeftClick={props.navigation.goBack}
         title={props.route.params.select}
       />
+      <Options
+        initalSelection={sortingOptions[0].id}
+        options={sortingOptions}
+        showOptions={showSortingOptions}
+        onUnderlayClick={handleOptionsClose}
+        onClick={handleOptionClick}
+      />
       <Animated.ScrollView>
         <View style={styles.displaySelection}>
-          <View>
-            <Text style={themedStyles.text}>Sort by Date</Text>
-          </View>
+          <TouchableOpacity
+            style={styles.sortOptions}
+            onPress={handleOptionsShow}>
+            <Text style={styles.sortingText}>{selectedOption?.title}</Text>
+            <DownArrowSvg
+              style={styles.downArrowIcon}
+              fill={colors.secondary}
+            />
+          </TouchableOpacity>
           <View style={styles.displayLayout}>
             <TouchableOpacity
               onPress={() => setDisplayMode('carousel')}
@@ -128,6 +186,20 @@ const styles = StyleSheet.create({
   },
   cards: {
     marginBottom: hp(2),
+  },
+  sortOptions: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  downArrowIcon: {
+    marginLeft: wp(2),
+    height: hp(3),
+    width: wp(5),
+  },
+  sortingText: {
+    fontSize: hp(2),
   },
 });
 
