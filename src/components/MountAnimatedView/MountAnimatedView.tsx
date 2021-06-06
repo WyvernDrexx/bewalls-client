@@ -11,6 +11,7 @@ type MountAnimatedViewProps = {
   style?: StyleProp<ViewStyle>;
   animationDelay?: number;
   renderTriggerValue?: boolean | string | number;
+  clean?: boolean;
 };
 
 const MountAnimatedView: React.FC<MountAnimatedViewProps> = function (props) {
@@ -37,6 +38,14 @@ const MountAnimatedView: React.FC<MountAnimatedViewProps> = function (props) {
       opacity.value = 1;
     }, props.animationDelay || 100);
   }, []);
+
+  if (props.clean) {
+    return (
+      <Animated.View style={[styles.root, props.style, uas]}>
+        {props.children}
+      </Animated.View>
+    );
+  }
 
   return (
     <View style={[styles.main, themedStyles.bg]}>
