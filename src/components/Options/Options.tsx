@@ -18,7 +18,7 @@ type OptionsProps = {
 };
 
 function Options(props: OptionsProps) {
-  const optionHeight = hp(8.8);
+  const optionHeight = hp(8);
   const initalOffset = hp(100);
   const optionsHeight = optionHeight * props.options?.length;
 
@@ -90,12 +90,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1000,
     width: wp(100),
-    paddingTop: hp(2),
   },
   underLay: {
     height: hp(100),
     width: wp(100),
-    opacity: 0,
   },
 });
 
