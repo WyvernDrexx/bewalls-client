@@ -17,7 +17,6 @@ import { changeTheme } from '../../store/theme';
 
 import ProfileImage from './profile.svg';
 import MoonImage from './moon.svg';
-import SunImage from './sun.svg';
 
 type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
@@ -60,7 +59,7 @@ const Header: React.FC<HeaderProps> = function (props) {
         {theme.mode === 'light' ? (
           <MoonImage fill="black" width={wp(6)} height={wp(6)} />
         ) : (
-          <SunImage fill="#FFD347" width={wp(7)} height={wp(7)} />
+          <MoonImage fill="#FFD347" width={wp(6)} height={wp(6)} />
         )}
       </TouchableOpacity>
     </Animated.View>
