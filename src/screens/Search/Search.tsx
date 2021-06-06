@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { StyleSheet, View, TextInput, Keyboard } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 import { SearchTerm } from './HotSearches';
 
@@ -8,7 +8,9 @@ import Extras from './Extras';
 import WallpaperView from '../../components/WallpaperView';
 import NotFound from './NotFound';
 import Results from './Results';
-import SearchIcon from './search.svg';
+import SearchSvg from './search.svg';
+import CloseSvg from './close.svg';
+import LeftArrowSvg from './left-arrow.svg';
 
 import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
@@ -17,7 +19,7 @@ import { BRANDS } from '../../sample/sampleData';
 import { WallpaperType } from '../../types';
 import { SearchScreenProps } from '../../navigation/types';
 
-const Search: React.FC<SearchScreenProps> = function () {
+const Search: React.FC<SearchScreenProps> = function (props) {
   const [searchStatus, setSearchStatus] =
     useState<null | 'none' | 'found'>(null);
   const [searchText, setSearchText] = useState('');
@@ -27,11 +29,12 @@ const Search: React.FC<SearchScreenProps> = function () {
     themedStyles,
     theme: { colors },
   } = useTheme();
+  const [iskeyboardVisible, setIskeyboardVisible] = useState(true);
   const inputRef = useRef<TextInput>(null);
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, [inputRef]);
+  }, []);
 
   useEffect(() => {
     if (searchText === 'OnePlus') {
@@ -65,6 +68,14 @@ const Search: React.FC<SearchScreenProps> = function () {
     setShowWallpaper(false);
   };
 
+  const handleBackClick = () => {
+    props.navigation.goBack();
+  };
+
+  const handleSearchClick = () => {
+    console.log('search');
+  };
+
   const renderContents = () => {
     if (!searchStatus) {
       return (
@@ -87,17 +98,39 @@ const Search: React.FC<SearchScreenProps> = function () {
     }
   };
 
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidHide', () => {
+      setIskeyboardVisible(false);
+      inputRef.current?.blur();
+    });
+    Keyboard.addListener('keyboardDidShow', () => {
+      setIskeyboardVisible(true);
+    });
+  }, []);
+
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
         <View style={[styles.searchContainer, themedStyles.bgLight]}>
           <View style={styles.flexView}>
             <View style={[styles.searchTextView]}>
-              <SearchIcon
-                fill={colors.secondary}
-                height={hp('3')}
-                width={hp('3')}
-              />
+              {iskeyboardVisible ? (
+                <TouchableOpacity onPress={handleSearchClick}>
+                  <SearchSvg
+                    fill={colors.secondary}
+                    height={hp('3')}
+                    width={hp('3')}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={handleBackClick}>
+                  <LeftArrowSvg
+                    fill={colors.secondary}
+                    height={hp('3')}
+                    width={hp('3')}
+                  />
+                </TouchableOpacity>
+              )}
               <TextInput
                 value={searchText}
                 onChangeText={handleTextChange}
@@ -106,8 +139,18 @@ const Search: React.FC<SearchScreenProps> = function () {
                 style={[styles.searchInput, themedStyles.text]}
                 placeholderTextColor={colors.secondary}
                 placeholder="Search Devices"
+                returnKeyType="search"
               />
             </View>
+            {searchText.length ? (
+              <TouchableOpacity onPress={() => handleTextChange('')}>
+                <CloseSvg
+                  fill={colors.secondary}
+                  height={hp('1.8')}
+                  width={hp('1.8')}
+                />
+              </TouchableOpacity>
+            ) : null}
           </View>
         </View>
         {renderContents()}
@@ -142,7 +185,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   searchInput: {
-    width: wp(76),
+    width: wp(73),
     fontSize: hp(2),
     marginLeft: wp(3),
   },

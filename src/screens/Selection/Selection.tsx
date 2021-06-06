@@ -112,7 +112,9 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
           <TouchableOpacity
             style={styles.sortOptions}
             onPress={handleOptionsShow}>
-            <Text style={styles.sortingText}>{sortOption?.title}</Text>
+            <Text style={[styles.sortingText, themedStyles.text]}>
+              {sortOption?.title}
+            </Text>
             <DownArrowSvg
               style={styles.downArrowIcon}
               fill={colors.secondary}
