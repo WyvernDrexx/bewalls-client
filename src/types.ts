@@ -12,8 +12,10 @@ export type WallpaperType = {
   width: number;
   sizeInKB: number;
   tags: string[];
-  author: string;
+  publisher: string;
   createdAt: object | number;
+  likes: number;
+  downloads: number;
 };
 
 /*
