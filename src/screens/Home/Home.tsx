@@ -15,11 +15,17 @@ import { useTheme } from '../../hooks';
 import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
 import { WallpaperType } from '../../types';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
+import { useTrendingQuery } from '../../generated/graphql';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const { themedStyles } = useTheme();
+  const { loading, data } = useTrendingQuery();
 
+  if (loading) {
+    return null;
+  }
+  console.log(data);
   const CATEGORIES: Box[] = [
     {
       title: 'All',
