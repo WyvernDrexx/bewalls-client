@@ -60,6 +60,11 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate(route);
   };
   console.log(data?.brands);
+
+  const handleBrandClick = (brand: Brand) => {
+    props.navigation.navigate('Selection', { select: brand.name });
+  };
+
   return (
     <View style={[styles.mainContainer, themedStyles.bgSecondary]}>
       <SideBar
@@ -106,13 +111,12 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             horizontal
             showsHorizontalScrollIndicator={false}
             overScrollMode="never">
-            <Brands height="15" width="55" brands={data?.brands! as Brand[]} />
-            {/* <Cards
-              items={data?.trending! as Wallpaper[]}
-              onClick={handleCardClick}
+            <Brands
+              onClick={handleBrandClick}
               height="15"
               width="55"
-            /> */}
+              brands={data?.brands! as Brand[]}
+            />
           </ScrollView>
         </ScrollView>
       </View>
