@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { Cards } from '../../components/Cards';
-import { Box, Boxes } from '../../components/Carousel';
+import { Boxes } from '../../components/Carousel';
 
 import StackHeader from '../../components/StackHeader';
 import HeadingTitle from '../../components/HeadingTitle';
@@ -10,39 +10,18 @@ import HeadingTitle from '../../components/HeadingTitle';
 import { useTheme } from '../../hooks';
 import { hp } from '../../utilities';
 
-import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
-
 import { CategoriesScreenProps } from '../../navigation/types';
-import { WallpaperType } from '../../types';
+import {
+  Category,
+  useHomeScreenDataQuery,
+  Wallpaper,
+} from '../../generated/graphql';
 
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const { themedStyles } = useTheme();
 
-  const CATEGORIES: Box[] = [
-    {
-      title: 'All',
-      backgroundColor: 'black',
-    },
-    {
-      title: 'Abstract',
-      backgroundColor: 'tomato',
-    },
-    {
-      title: 'Cars',
-      backgroundColor: 'crimson',
-    },
-    {
-      title: '3D',
-      backgroundColor: 'teal',
-    },
-    {
-      title: 'Stock',
-      backgroundColor: 'orange',
-    },
-  ];
-
-  const handleCardClick = (select: WallpaperType) => {
-    props.navigation.navigate('Selection', { select: select.title! });
+  const handleCardClick = (select: Wallpaper) => {
+    props.navigation.navigate('Selection', { select: select.name! });
   };
 
   const handleBoxClick = (select: string) => {
@@ -52,6 +31,10 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const goBack = () => {
     props.navigation.goBack();
   };
+
+  const { loading, data } = useHomeScreenDataQuery();
+
+  if (loading) return null;
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
@@ -64,19 +47,22 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
           overScrollMode="never">
           <Cards
             onClick={handleCardClick}
-            items={BRANDS}
+            items={data?.trending as Wallpaper[]}
             height="8"
             width="38"
           />
         </ScrollView>
         <HeadingTitle title="Choose your favourite" hideButton />
-        <Boxes items={CATEGORIES} />
+        <Boxes items={data?.categories as Category[]} />
         <View style={styles.boxesView}>
-          <Boxes onClick={handleBoxClick} items={CATEGORIES} />
+          <Boxes
+            onClick={handleBoxClick}
+            items={data?.categories as Category[]}
+          />
         </View>
         <HeadingTitle title="Trending" hideButton />
         <Cards
-          items={TRENDING_NOW}
+          items={data?.trending as Wallpaper[]}
           onClick={handleCardClick}
           height="14"
           width="92"
