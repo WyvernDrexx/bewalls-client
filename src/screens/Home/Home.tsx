@@ -13,11 +13,14 @@ import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
 
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
+
 import {
   Category,
   Wallpaper,
   useHomeScreenDataQuery,
+  Brand,
 } from '../../generated/graphql';
+import Brands from '../../components/Brands';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
@@ -56,7 +59,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     handleSideBarClose();
     props.navigation.navigate(route);
   };
-
+  console.log(data?.brands);
   return (
     <View style={[styles.mainContainer, themedStyles.bgSecondary]}>
       <SideBar
@@ -103,12 +106,13 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             horizontal
             showsHorizontalScrollIndicator={false}
             overScrollMode="never">
-            <Cards
+            <Brands height="15" width="55" brands={data?.brands! as Brand[]} />
+            {/* <Cards
               items={data?.trending! as Wallpaper[]}
               onClick={handleCardClick}
               height="15"
               width="55"
-            />
+            /> */}
           </ScrollView>
         </ScrollView>
       </View>

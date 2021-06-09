@@ -47,4 +47,10 @@ query homeScreenData {
     color
     highlightColor
   }
+  brands {
+    id
+    name
+    imageUri
+    highlightColor
+  }
 }

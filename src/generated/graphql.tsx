@@ -1,14 +1,10 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions = {};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -19,6 +15,14 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type Brand = {
+  __typename?: 'Brand';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  imageUri: Scalars['String'];
+  highlightColor: Scalars['String'];
+};
+
 export type Category = {
   __typename?: 'Category';
   id: Scalars['String'];
@@ -27,10 +31,12 @@ export type Category = {
   highlightColor: Scalars['String'];
 };
 
+
 export type Query = {
   __typename?: 'Query';
   trending: Array<Maybe<Wallpaper>>;
   categories: Array<Maybe<Category>>;
+  brands: Array<Maybe<Brand>>;
 };
 
 export type TrendingWallpaper = {
@@ -57,96 +63,65 @@ export type Wallpaper = {
   downloads: Scalars['Int'];
 };
 
-export type TrendingQueryVariables = Exact<{ [key: string]: never }>;
+export type TrendingQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type TrendingQuery = { __typename?: 'Query' } & {
-  trending: Array<
-    Maybe<
-      { __typename?: 'Wallpaper' } & Pick<
-        Wallpaper,
-        | 'id'
-        | 'name'
-        | 'brand'
-        | 'imageUri'
-        | 'imageSource'
-        | 'sizeInKB'
-        | 'downloads'
-        | 'height'
-        | 'width'
-        | 'likes'
-        | 'tags'
-        | 'publisher'
-        | 'createdAt'
-      >
-    >
-  >;
-};
 
-export type CategoriesQueryVariables = Exact<{ [key: string]: never }>;
+export type TrendingQuery = (
+  { __typename?: 'Query' }
+  & { trending: Array<Maybe<(
+    { __typename?: 'Wallpaper' }
+    & Pick<Wallpaper, 'id' | 'name' | 'brand' | 'imageUri' | 'imageSource' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'tags' | 'publisher' | 'createdAt'>
+  )>> }
+);
 
-export type CategoriesQuery = { __typename?: 'Query' } & {
-  categories: Array<
-    Maybe<
-      { __typename?: 'Category' } & Pick<
-        Category,
-        'id' | 'name' | 'color' | 'highlightColor'
-      >
-    >
-  >;
-};
+export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type HomeScreenDataQueryVariables = Exact<{ [key: string]: never }>;
 
-export type HomeScreenDataQuery = { __typename?: 'Query' } & {
-  trending: Array<
-    Maybe<
-      { __typename?: 'Wallpaper' } & Pick<
-        Wallpaper,
-        | 'id'
-        | 'name'
-        | 'brand'
-        | 'imageUri'
-        | 'imageSource'
-        | 'sizeInKB'
-        | 'downloads'
-        | 'height'
-        | 'width'
-        | 'likes'
-        | 'tags'
-        | 'publisher'
-        | 'createdAt'
-      >
-    >
-  >;
-  categories: Array<
-    Maybe<
-      { __typename?: 'Category' } & Pick<
-        Category,
-        'id' | 'name' | 'color' | 'highlightColor'
-      >
-    >
-  >;
-};
+export type CategoriesQuery = (
+  { __typename?: 'Query' }
+  & { categories: Array<Maybe<(
+    { __typename?: 'Category' }
+    & Pick<Category, 'id' | 'name' | 'color' | 'highlightColor'>
+  )>> }
+);
+
+export type HomeScreenDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomeScreenDataQuery = (
+  { __typename?: 'Query' }
+  & { trending: Array<Maybe<(
+    { __typename?: 'Wallpaper' }
+    & Pick<Wallpaper, 'id' | 'name' | 'brand' | 'imageUri' | 'imageSource' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'tags' | 'publisher' | 'createdAt'>
+  )>>, categories: Array<Maybe<(
+    { __typename?: 'Category' }
+    & Pick<Category, 'id' | 'name' | 'color' | 'highlightColor'>
+  )>>, brands: Array<Maybe<(
+    { __typename?: 'Brand' }
+    & Pick<Brand, 'id' | 'name' | 'imageUri' | 'highlightColor'>
+  )>> }
+);
+
 
 export const TrendingDocument = gql`
-  query trending {
-    trending {
-      id
-      name
-      brand
-      imageUri
-      imageSource
-      sizeInKB
-      downloads
-      height
-      width
-      likes
-      tags
-      publisher
-      createdAt
-    }
+    query trending {
+  trending {
+    id
+    name
+    brand
+    imageUri
+    imageSource
+    sizeInKB
+    downloads
+    height
+    width
+    likes
+    tags
+    publisher
+    createdAt
   }
-`;
+}
+    `;
 
 /**
  * __useTrendingQuery__
@@ -163,45 +138,27 @@ export const TrendingDocument = gql`
  *   },
  * });
  */
-export function useTrendingQuery(
-  baseOptions?: Apollo.QueryHookOptions<TrendingQuery, TrendingQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<TrendingQuery, TrendingQueryVariables>(
-    TrendingDocument,
-    options,
-  );
-}
-export function useTrendingLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TrendingQuery,
-    TrendingQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<TrendingQuery, TrendingQueryVariables>(
-    TrendingDocument,
-    options,
-  );
-}
+export function useTrendingQuery(baseOptions?: Apollo.QueryHookOptions<TrendingQuery, TrendingQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TrendingQuery, TrendingQueryVariables>(TrendingDocument, options);
+      }
+export function useTrendingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TrendingQuery, TrendingQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TrendingQuery, TrendingQueryVariables>(TrendingDocument, options);
+        }
 export type TrendingQueryHookResult = ReturnType<typeof useTrendingQuery>;
-export type TrendingLazyQueryHookResult = ReturnType<
-  typeof useTrendingLazyQuery
->;
-export type TrendingQueryResult = Apollo.QueryResult<
-  TrendingQuery,
-  TrendingQueryVariables
->;
+export type TrendingLazyQueryHookResult = ReturnType<typeof useTrendingLazyQuery>;
+export type TrendingQueryResult = Apollo.QueryResult<TrendingQuery, TrendingQueryVariables>;
 export const CategoriesDocument = gql`
-  query categories {
-    categories {
-      id
-      name
-      color
-      highlightColor
-    }
+    query categories {
+  categories {
+    id
+    name
+    color
+    highlightColor
   }
-`;
+}
+    `;
 
 /**
  * __useCategoriesQuery__
@@ -218,63 +175,48 @@ export const CategoriesDocument = gql`
  *   },
  * });
  */
-export function useCategoriesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CategoriesQuery,
-    CategoriesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(
-    CategoriesDocument,
-    options,
-  );
-}
-export function useCategoriesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CategoriesQuery,
-    CategoriesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(
-    CategoriesDocument,
-    options,
-  );
-}
+export function useCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
+      }
+export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
+        }
 export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
-export type CategoriesLazyQueryHookResult = ReturnType<
-  typeof useCategoriesLazyQuery
->;
-export type CategoriesQueryResult = Apollo.QueryResult<
-  CategoriesQuery,
-  CategoriesQueryVariables
->;
+export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
+export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
 export const HomeScreenDataDocument = gql`
-  query homeScreenData {
-    trending {
-      id
-      name
-      brand
-      imageUri
-      imageSource
-      sizeInKB
-      downloads
-      height
-      width
-      likes
-      tags
-      publisher
-      createdAt
-    }
-    categories {
-      id
-      name
-      color
-      highlightColor
-    }
+    query homeScreenData {
+  trending {
+    id
+    name
+    brand
+    imageUri
+    imageSource
+    sizeInKB
+    downloads
+    height
+    width
+    likes
+    tags
+    publisher
+    createdAt
   }
-`;
+  categories {
+    id
+    name
+    color
+    highlightColor
+  }
+  brands {
+    id
+    name
+    imageUri
+    highlightColor
+  }
+}
+    `;
 
 /**
  * __useHomeScreenDataQuery__
@@ -291,47 +233,25 @@ export const HomeScreenDataDocument = gql`
  *   },
  * });
  */
-export function useHomeScreenDataQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    HomeScreenDataQuery,
-    HomeScreenDataQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<HomeScreenDataQuery, HomeScreenDataQueryVariables>(
-    HomeScreenDataDocument,
-    options,
-  );
-}
-export function useHomeScreenDataLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    HomeScreenDataQuery,
-    HomeScreenDataQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<HomeScreenDataQuery, HomeScreenDataQueryVariables>(
-    HomeScreenDataDocument,
-    options,
-  );
-}
-export type HomeScreenDataQueryHookResult = ReturnType<
-  typeof useHomeScreenDataQuery
->;
-export type HomeScreenDataLazyQueryHookResult = ReturnType<
-  typeof useHomeScreenDataLazyQuery
->;
-export type HomeScreenDataQueryResult = Apollo.QueryResult<
-  HomeScreenDataQuery,
-  HomeScreenDataQueryVariables
->;
+export function useHomeScreenDataQuery(baseOptions?: Apollo.QueryHookOptions<HomeScreenDataQuery, HomeScreenDataQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeScreenDataQuery, HomeScreenDataQueryVariables>(HomeScreenDataDocument, options);
+      }
+export function useHomeScreenDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeScreenDataQuery, HomeScreenDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeScreenDataQuery, HomeScreenDataQueryVariables>(HomeScreenDataDocument, options);
+        }
+export type HomeScreenDataQueryHookResult = ReturnType<typeof useHomeScreenDataQuery>;
+export type HomeScreenDataLazyQueryHookResult = ReturnType<typeof useHomeScreenDataLazyQuery>;
+export type HomeScreenDataQueryResult = Apollo.QueryResult<HomeScreenDataQuery, HomeScreenDataQueryVariables>;
 
-export interface PossibleTypesResultData {
-  possibleTypes: {
-    [key: string]: string[];
-  };
-}
-const result: PossibleTypesResultData = {
-  possibleTypes: {},
+      export interface PossibleTypesResultData {
+        possibleTypes: {
+          [key: string]: string[]
+        }
+      }
+      const result: PossibleTypesResultData = {
+  "possibleTypes": {}
 };
-export default result;
+      export default result;
+    
