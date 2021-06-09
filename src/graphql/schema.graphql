@@ -2,6 +2,16 @@ query trending {
   trending {
     id
     name
+    brand
+    imageUri
+    imageSource
+    sizeInKB
     downloads
+    height
+    width
+    likes
+    tags
+    publisher
+    createdAt
   }
 }

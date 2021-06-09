@@ -15,11 +15,11 @@ import MountAnimatedView from '../MountAnimatedView';
 import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
-import { WallpaperType } from '../../types';
+import { Wallpaper } from '../../generated/graphql';
 
 type CardProps = {
-  wallpaper: WallpaperType;
-  onClick?: (wallpaper: WallpaperType, index: number) => void;
+  wallpaper: Wallpaper | null;
+  onClick?: (wallpaper: Wallpaper, index: number) => void;
   height: string | number;
   width: string | number;
   style?: StyleProp<ViewStyle>;
@@ -33,8 +33,12 @@ const Card: React.FC<CardProps> = function (props) {
   const { themedStyles } = useTheme();
 
   const handleClick = () => {
-    if (props.onClick) props.onClick(props.wallpaper, props.index || 0);
+    if (props.onClick) props.onClick(props.wallpaper!, props.index || 0);
   };
+
+  const imageSource = props.wallpaper!.imageUri
+    ? { uri: props.wallpaper!.imageUri }
+    : {};
 
   return (
     <MountAnimatedView>
@@ -57,11 +61,11 @@ const Card: React.FC<CardProps> = function (props) {
                 width,
               },
             ]}
-            source={props.wallpaper.imageSource! || props.wallpaper.imageUri!}
+            source={imageSource}
           />
           {!props.hideText ? (
             <View style={styles.textView}>
-              <Text style={styles.title}>{props.wallpaper.title}</Text>
+              <Text style={styles.title}>{props.wallpaper!.name}</Text>
               <Text style={styles.subTitle}>Wallpapers</Text>
             </View>
           ) : null}

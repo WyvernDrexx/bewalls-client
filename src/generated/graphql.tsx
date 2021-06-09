@@ -32,13 +32,13 @@ export type Wallpaper = {
   __typename?: 'Wallpaper';
   id: Scalars['String'];
   name: Scalars['String'];
-  imageUri?: Maybe<Scalars['String']>;
-  imageSource?: Maybe<Scalars['String']>;
+  imageUri: Scalars['String'];
+  imageSource: Scalars['String'];
   brand: Scalars['String'];
   height: Scalars['Int'];
   width: Scalars['Int'];
   sizeInKB: Scalars['Int'];
-  tags?: Maybe<Array<Scalars['String']>>;
+  tags: Array<Scalars['String']>;
   publisher: Scalars['String'];
   createdAt: Scalars['DateTime'];
   likes: Scalars['Int'];
@@ -52,7 +52,7 @@ export type TrendingQuery = (
   { __typename?: 'Query' }
   & { trending: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'id' | 'name' | 'downloads'>
+    & Pick<Wallpaper, 'id' | 'name' | 'brand' | 'imageUri' | 'imageSource' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'tags' | 'publisher' | 'createdAt'>
   )>> }
 );
 
@@ -62,7 +62,17 @@ export const TrendingDocument = gql`
   trending {
     id
     name
+    brand
+    imageUri
+    imageSource
+    sizeInKB
     downloads
+    height
+    width
+    likes
+    tags
+    publisher
+    createdAt
   }
 }
     `;

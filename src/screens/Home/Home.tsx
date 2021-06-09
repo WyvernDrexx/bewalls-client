@@ -12,10 +12,8 @@ import SideBar from '../../components/SideBar';
 import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
 
-import { BRANDS, TRENDING_NOW } from '../../sample/sampleData';
-import { WallpaperType } from '../../types';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
-import { useTrendingQuery } from '../../generated/graphql';
+import { useTrendingQuery, Wallpaper } from '../../generated/graphql';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
@@ -25,7 +23,6 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   if (loading) {
     return null;
   }
-  console.log(data);
   const CATEGORIES: Box[] = [
     {
       title: 'All',
@@ -65,8 +62,8 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Categories');
   };
 
-  const handleCardClick = (select: WallpaperType) => {
-    props.navigation.navigate('Selection', { select: select.title! });
+  const handleCardClick = (select: Wallpaper) => {
+    props.navigation.navigate('Selection', { select: select.name! });
   };
 
   const handleBoxClick = (select: string) => {
@@ -104,7 +101,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             showsHorizontalScrollIndicator={false}
             overScrollMode="never">
             <Cards
-              items={TRENDING_NOW}
+              items={data?.trending! as Wallpaper[]}
               onClick={handleCardClick}
               height="35"
               width="42"
@@ -125,7 +122,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             showsHorizontalScrollIndicator={false}
             overScrollMode="never">
             <Cards
-              items={BRANDS}
+              items={data?.trending! as Wallpaper[]}
               onClick={handleCardClick}
               height="15"
               width="55"

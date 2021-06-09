@@ -1,8 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+
 import { RootNavigator } from './src/navigation';
 import { store } from './src/store';
-import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),

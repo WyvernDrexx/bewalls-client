@@ -2,24 +2,28 @@ import React from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { isLastElement, wp } from '../../utilities';
 import { Card } from './Card';
-import { WallpaperType } from '../../types';
+import { Wallpaper } from '../../generated/graphql';
 
 type CardProps = {
-  items: WallpaperType[];
+  items?: Wallpaper[] | null;
   height: string | number;
   width: string | number;
   style?: StyleProp<ViewStyle>;
   disableLastMargin?: boolean;
   disableText?: boolean;
-  onClick?: (wallpaper: WallpaperType, index: number) => void;
+  onClick?: (wallpaper: Wallpaper, index: number) => void;
   useFlatList?: boolean;
 };
 
 const Cards: React.FC<CardProps> = function (props) {
+  if (!props.items || !props.items.length) {
+    return null;
+  }
+
   return (
     <>
       {props.items.map((item, index) => {
-        const isLast = isLastElement(index, props.items.length);
+        const isLast = isLastElement(index, props.items!.length);
         return (
           <Card
             key={item.id}
