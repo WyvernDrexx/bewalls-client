@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Category } from '../../generated/graphql';
 
 import { hp, wp, isLastElement } from '../../utilities';
 
@@ -18,7 +19,7 @@ export type Box = {
 };
 
 type BoxesProps = {
-  items: Box[];
+  items?: Category[];
   style?: StyleProp<ViewStyle>;
   onClick?: (select: string) => void;
   scrollEnabled?: boolean;
@@ -26,7 +27,7 @@ type BoxesProps = {
 };
 
 type BoxProps = {
-  item: Box;
+  item: Category;
   style?: StyleProp<ViewStyle>;
   onClick?: (select: string) => void;
   disabled?: boolean;
@@ -34,7 +35,7 @@ type BoxProps = {
 
 const Box: React.FC<BoxProps> = function (props) {
   const handleClick = () => {
-    if (props.onClick) props.onClick(props.item.title);
+    if (props.onClick) props.onClick(props.item.name);
   };
 
   return (
@@ -46,13 +47,16 @@ const Box: React.FC<BoxProps> = function (props) {
         style={[
           boxStyles.box,
           {
-            backgroundColor: props.item.backgroundColor,
+            backgroundColor: props.item.color,
           },
           props.style,
         ]}>
         <Text
-          style={[boxStyles.text, { color: props.item.textColor || 'white' }]}>
-          {props.item.title}
+          style={[
+            boxStyles.text,
+            { color: props.item.highlightColor || 'white' },
+          ]}>
+          {props.item.name}
         </Text>
       </View>
     </TouchableOpacity>
@@ -60,6 +64,9 @@ const Box: React.FC<BoxProps> = function (props) {
 };
 
 const Boxes: React.FC<BoxesProps> = function (props) {
+  if (!props.items) {
+    return null;
+  }
   return (
     <View style={[styles.root, props.style]}>
       <ScrollView
@@ -71,7 +78,7 @@ const Boxes: React.FC<BoxesProps> = function (props) {
           return (
             <Box
               disabled={props.disableClick}
-              style={isLastElement(index, props.items) ? styles.lastBox : {}}
+              style={isLastElement(index, props.items!) ? styles.lastBox : {}}
               key={index}
               onClick={props.onClick}
               item={item}

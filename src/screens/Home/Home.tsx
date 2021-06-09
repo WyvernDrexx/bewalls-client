@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 
 import { Cards } from '../../components/Cards';
-import { Box, Boxes } from '../../components/Carousel';
+import { Boxes } from '../../components/Carousel';
 
 import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
@@ -13,38 +13,20 @@ import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
 
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
-import { useTrendingQuery, Wallpaper } from '../../generated/graphql';
+import {
+  Category,
+  Wallpaper,
+  useHomeScreenDataQuery,
+} from '../../generated/graphql';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const { themedStyles } = useTheme();
-  const { loading, data } = useTrendingQuery();
+  const { loading, data } = useHomeScreenDataQuery();
 
   if (loading) {
     return null;
   }
-  const CATEGORIES: Box[] = [
-    {
-      title: 'All',
-      backgroundColor: 'black',
-    },
-    {
-      title: 'Abstract',
-      backgroundColor: 'tomato',
-    },
-    {
-      title: 'Cars',
-      backgroundColor: 'crimson',
-    },
-    {
-      title: '3D',
-      backgroundColor: 'teal',
-    },
-    {
-      title: 'Stock',
-      backgroundColor: 'orange',
-    },
-  ];
 
   const handleSearchBarClick = () => {
     props.navigation.navigate('Search');
@@ -112,7 +94,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             scrollEnabled={!isSideBarShown}
             disableClick={isSideBarShown}
             onClick={handleBoxClick}
-            items={CATEGORIES}
+            items={data?.categories! as Category[]}
           />
           <HeadingTitle title="Smartphone Brands" />
           <ScrollView

@@ -15,3 +15,36 @@ query trending {
     createdAt
   }
 }
+
+query categories {
+  categories {
+    id
+    name
+    color
+    highlightColor
+  }
+}
+
+query homeScreenData {
+  trending {
+    id
+    name
+    brand
+    imageUri
+    imageSource
+    sizeInKB
+    downloads
+    height
+    width
+    likes
+    tags
+    publisher
+    createdAt
+  }
+  categories {
+    id
+    name
+    color
+    highlightColor
+  }
+}
