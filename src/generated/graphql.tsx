@@ -47,8 +47,32 @@ export type MutationCreateWallpaperArgs = {
 export type Query = {
   __typename?: 'Query';
   trending: Array<Maybe<Wallpaper>>;
-  categories: Array<Maybe<Category>>;
   brands: Array<Maybe<Brand>>;
+  categories: Array<Maybe<Category>>;
+  wallpaper: Wallpaper;
+  wallpapersWith: Array<Maybe<Wallpaper>>;
+};
+
+
+export type QueryBrandsArgs = {
+  brandId?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryCategoriesArgs = {
+  categoryId?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryWallpaperArgs = {
+  wallpaperId: Scalars['String'];
+};
+
+
+export type QueryWallpapersWithArgs = {
+  tagsId?: Maybe<Scalars['String']>;
+  categoryId?: Maybe<Scalars['String']>;
+  brandId?: Maybe<Scalars['String']>;
 };
 
 export type Tag = {
@@ -128,13 +152,35 @@ export type HomeScreenDataQuery = (
   { __typename?: 'Query' }
   & { trending: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'publisher' | 'createdAt'>
+    & Pick<Wallpaper, 'id' | 'name' | 'imageUri'>
+    & { brand: (
+      { __typename?: 'Brand' }
+      & Pick<Brand, 'id'>
+    ), category?: Maybe<(
+      { __typename?: 'Category' }
+      & Pick<Category, 'id'>
+    )> }
   )>>, categories: Array<Maybe<(
     { __typename?: 'Category' }
     & Pick<Category, 'id' | 'name' | 'color' | 'highlightColor'>
   )>>, brands: Array<Maybe<(
     { __typename?: 'Brand' }
     & Pick<Brand, 'id' | 'name' | 'imageUri' | 'highlightColor'>
+  )>> }
+);
+
+export type WallpapersWithQueryVariables = Exact<{
+  brandId?: Maybe<Scalars['String']>;
+  categoryId?: Maybe<Scalars['String']>;
+  tagsId?: Maybe<Scalars['String']>;
+}>;
+
+
+export type WallpapersWithQuery = (
+  { __typename?: 'Query' }
+  & { wallpapersWith: Array<Maybe<(
+    { __typename?: 'Wallpaper' }
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'id'>
   )>> }
 );
 
@@ -225,13 +271,12 @@ export const HomeScreenDataDocument = gql`
     id
     name
     imageUri
-    sizeInKB
-    downloads
-    height
-    width
-    likes
-    publisher
-    createdAt
+    brand {
+      id
+    }
+    category {
+      id
+    }
   }
   categories {
     id
@@ -274,6 +319,46 @@ export function useHomeScreenDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type HomeScreenDataQueryHookResult = ReturnType<typeof useHomeScreenDataQuery>;
 export type HomeScreenDataLazyQueryHookResult = ReturnType<typeof useHomeScreenDataLazyQuery>;
 export type HomeScreenDataQueryResult = Apollo.QueryResult<HomeScreenDataQuery, HomeScreenDataQueryVariables>;
+export const WallpapersWithDocument = gql`
+    query wallpapersWith($brandId: String, $categoryId: String, $tagsId: String) {
+  wallpapersWith(brandId: $brandId, categoryId: $categoryId, tagsId: $tagsId) {
+    name
+    imageUri
+    downloads
+    id
+  }
+}
+    `;
+
+/**
+ * __useWallpapersWithQuery__
+ *
+ * To run a query within a React component, call `useWallpapersWithQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWallpapersWithQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWallpapersWithQuery({
+ *   variables: {
+ *      brandId: // value for 'brandId'
+ *      categoryId: // value for 'categoryId'
+ *      tagsId: // value for 'tagsId'
+ *   },
+ * });
+ */
+export function useWallpapersWithQuery(baseOptions?: Apollo.QueryHookOptions<WallpapersWithQuery, WallpapersWithQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WallpapersWithQuery, WallpapersWithQueryVariables>(WallpapersWithDocument, options);
+      }
+export function useWallpapersWithLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WallpapersWithQuery, WallpapersWithQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WallpapersWithQuery, WallpapersWithQueryVariables>(WallpapersWithDocument, options);
+        }
+export type WallpapersWithQueryHookResult = ReturnType<typeof useWallpapersWithQuery>;
+export type WallpapersWithLazyQueryHookResult = ReturnType<typeof useWallpapersWithLazyQuery>;
+export type WallpapersWithQueryResult = Apollo.QueryResult<WallpapersWithQuery, WallpapersWithQueryVariables>;
 
       export interface PossibleTypesResultData {
         possibleTypes: {

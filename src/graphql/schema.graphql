@@ -21,30 +21,3 @@ query categories {
     highlightColor
   }
 }
-
-query homeScreenData {
-  trending {
-    id
-    name
-    imageUri
-    sizeInKB
-    downloads
-    height
-    width
-    likes
-    publisher
-    createdAt
-  }
-  categories {
-    id
-    name
-    color
-    highlightColor
-  }
-  brands {
-    id
-    name
-    imageUri
-    highlightColor
-  }
-}

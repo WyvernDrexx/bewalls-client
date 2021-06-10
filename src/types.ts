@@ -18,6 +18,8 @@ export type WallpaperType = {
   downloads: number;
 };
 
+export type ItemType = 'brand' | 'category';
+
 /*
 
 myWallpaper:WallpaperType = {

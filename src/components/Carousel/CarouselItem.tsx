@@ -17,16 +17,16 @@ import Animated, {
 import MountAnimatedView from '../MountAnimatedView';
 
 import { hp, wp } from '../../utilities';
-import { WallpaperType } from '../../types';
+import { Wallpaper } from '../../generated/graphql';
 
 type CarouselItemProps = {
-  data: WallpaperType;
+  data: Wallpaper;
   index: number;
   isLastItem: boolean;
   style?: StyleProp<ViewStyle>;
   offsetX: Animated.SharedValue<number>;
   hideText?: boolean;
-  onClick?: (select: WallpaperType, index: number) => void;
+  onClick?: (select: Wallpaper) => void;
 };
 
 const CarouselItem = function (props: CarouselItemProps) {
@@ -48,7 +48,7 @@ const CarouselItem = function (props: CarouselItemProps) {
   });
 
   const handleClick = () => {
-    if (props.onClick) props.onClick(props.data, props.index);
+    if (props.onClick) props.onClick(props.data);
   };
 
   return (
@@ -61,13 +61,10 @@ const CarouselItem = function (props: CarouselItemProps) {
         ]}>
         <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
           <Animated.View style={[animatedStyle, styles.imageView]}>
-            <Image
-              style={styles.image}
-              source={props.data.imageSource! || props.data.imageUri!}
-            />
+            <Image style={styles.image} source={{ uri: props.data.imageUri }} />
             {!props.hideText ? (
               <View style={styles.titleView}>
-                <Text style={styles.title}>{props.data.title}</Text>
+                <Text style={styles.title}>{props.data.name}</Text>
                 <Text style={styles.subTitle}>Wallpapers</Text>
               </View>
             ) : null}

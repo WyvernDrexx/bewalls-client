@@ -1,0 +1,8 @@
+query wallpapersWith($brandId: String, $categoryId: String, $tagsId: String) {
+  wallpapersWith(brandId: $brandId, categoryId: $categoryId, tagsId: $tagsId) {
+    name
+    imageUri
+    downloads
+    id
+  }
+}

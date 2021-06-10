@@ -9,33 +9,30 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Category } from '../../generated/graphql';
+import { ItemType } from '../../types';
 
 import { hp, wp, isLastElement } from '../../utilities';
 
-export type Box = {
-  title: string;
-  backgroundColor: string;
-  textColor?: string;
-};
-
-type BoxesProps = {
+type CategoriesProps = {
   items?: Category[];
   style?: StyleProp<ViewStyle>;
-  onClick?: (select: string) => void;
+  onClick?: (select: Category, itemType: ItemType) => void;
   scrollEnabled?: boolean;
   disableClick?: boolean;
+  itemType: ItemType;
 };
 
-type BoxProps = {
+type CategoryItemProps = {
   item: Category;
   style?: StyleProp<ViewStyle>;
-  onClick?: (select: string) => void;
+  onClick?: (select: Category, itemType: ItemType) => void;
   disabled?: boolean;
+  itemType: ItemType;
 };
 
-const Box: React.FC<BoxProps> = function (props) {
+const CategoryItem: React.FC<CategoryItemProps> = function (props) {
   const handleClick = () => {
-    if (props.onClick) props.onClick(props.item.name);
+    if (props.onClick) props.onClick(props.item, props.itemType);
   };
 
   return (
@@ -63,7 +60,7 @@ const Box: React.FC<BoxProps> = function (props) {
   );
 };
 
-const Boxes: React.FC<BoxesProps> = function (props) {
+const Categories: React.FC<CategoriesProps> = function (props) {
   if (!props.items) {
     return null;
   }
@@ -76,7 +73,8 @@ const Boxes: React.FC<BoxesProps> = function (props) {
         showsHorizontalScrollIndicator={false}>
         {props.items.map((item, index) => {
           return (
-            <Box
+            <CategoryItem
+              itemType={props.itemType}
               disabled={props.disableClick}
               style={isLastElement(index, props.items!) ? styles.lastBox : {}}
               key={index}
@@ -113,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Boxes };
+export { Categories };

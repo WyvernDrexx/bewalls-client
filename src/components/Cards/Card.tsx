@@ -16,15 +16,17 @@ import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
 import { Wallpaper } from '../../generated/graphql';
+import { ItemType } from '../../types';
 
 type CardProps = {
   wallpaper: Wallpaper | null;
-  onClick?: (wallpaper: Wallpaper, index: number) => void;
+  onClick?: (wallpaper: Wallpaper, itemType: ItemType) => void;
   height: string | number;
   width: string | number;
   style?: StyleProp<ViewStyle>;
   index?: number;
   hideText?: boolean;
+  itemType: ItemType;
 };
 
 const Card: React.FC<CardProps> = function (props) {
@@ -33,7 +35,7 @@ const Card: React.FC<CardProps> = function (props) {
   const { themedStyles } = useTheme();
 
   const handleClick = () => {
-    if (props.onClick) props.onClick(props.wallpaper!, props.index || 0);
+    if (props.onClick) props.onClick(props.wallpaper!, props.itemType);
   };
 
   const imageSource = props.wallpaper!.imageUri

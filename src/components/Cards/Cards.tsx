@@ -3,6 +3,7 @@ import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { isLastElement, wp } from '../../utilities';
 import { Card } from './Card';
 import { Wallpaper } from '../../generated/graphql';
+import { ItemType } from '../../types';
 
 type CardProps = {
   items?: Wallpaper[] | null;
@@ -11,8 +12,9 @@ type CardProps = {
   style?: StyleProp<ViewStyle>;
   disableLastMargin?: boolean;
   disableText?: boolean;
-  onClick?: (wallpaper: Wallpaper, index: number) => void;
+  onClick?: (wallpaper: Wallpaper, itemType: ItemType) => void;
   useFlatList?: boolean;
+  itemType: ItemType;
 };
 
 const Cards: React.FC<CardProps> = function (props) {
@@ -26,6 +28,7 @@ const Cards: React.FC<CardProps> = function (props) {
         const isLast = isLastElement(index, props.items!.length);
         return (
           <Card
+            itemType={props.itemType}
             key={item.id}
             style={[
               props.style,

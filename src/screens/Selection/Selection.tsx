@@ -16,20 +16,30 @@ import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
 import { SelectionScreenProps } from '../../navigation/types';
-import { WallpaperType } from '../../types';
 
-import { BRANDS } from '../../sample/sampleData';
 import Options from '../../components/Options';
 import { OptionType } from '../../components/Options/Option';
+import { Wallpaper, useWallpapersWithQuery } from '../../generated/graphql';
+
+type Display = 'carousel' | 'grid';
 
 const Selection: React.FC<SelectionScreenProps> = function (props) {
-  const [displayMode, setDisplayMode] =
-    useState<'carousel' | 'grid'>('carousel');
+  const { type, selectorId } = props.route.params;
+  const [displayMode, setDisplayMode] = useState<Display>('carousel');
   const [previewWallpaper, setPreviewWallpaper] = useState(false);
-  const [selectedWallpaper, setSelectedWallpaper] = useState<WallpaperType>();
+  const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
   const [showSortOptions, setShowSortOptions] = useState(false);
   const [selectedSortOption, setSelectedSortOption] =
     useState<string | number>(0);
+
+  const variables = {
+    brandId: type === 'brand' ? selectorId : '',
+    categoryId: type === 'category' ? selectorId : '',
+  };
+
+  const { loading, data } = useWallpapersWithQuery({
+    variables,
+  });
 
   const {
     themedStyles,
@@ -54,30 +64,15 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
       id: 1004,
     },
   ];
+  const sortOption = sortOptions.find(item => item.id === selectedSortOption);
 
-  const handleCardClick = (wallpaper: WallpaperType) => {
+  const handleCardClick = (wallpaper: Wallpaper) => {
     setSelectedWallpaper(wallpaper);
     setPreviewWallpaper(true);
   };
 
   const handlePreviewClose = () => {
     setPreviewWallpaper(false);
-  };
-
-  const renderCards = (items: WallpaperType[]) => {
-    return (
-      <View style={styles.gridView}>
-        <Cards
-          onClick={handleCardClick}
-          items={items}
-          disableText
-          height="34"
-          width="44"
-          disableLastMargin
-          style={styles.cards}
-        />
-      </View>
-    );
   };
 
   const handleOptionsShow = () => {
@@ -93,7 +88,26 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     handleOptionsClose();
   };
 
-  const sortOption = sortOptions.find(item => item.id === selectedSortOption);
+  const Grid = () => {
+    return (
+      <View style={styles.gridView}>
+        <Cards
+          itemType="category"
+          onClick={handleCardClick}
+          items={data?.wallpapersWith as Wallpaper[]}
+          disableText
+          height="34"
+          width="44"
+          disableLastMargin
+          style={styles.cards}
+        />
+      </View>
+    );
+  };
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
@@ -142,9 +156,13 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
           </View>
         </View>
         {displayMode === 'carousel' ? (
-          <Carousel onClick={handleCardClick} items={BRANDS} hideText />
+          <Carousel
+            onClick={handleCardClick}
+            items={data?.wallpapersWith as Wallpaper[]}
+            hideText
+          />
         ) : (
-          renderCards(BRANDS)
+          <Grid />
         )}
       </Animated.ScrollView>
       <WallpaperView

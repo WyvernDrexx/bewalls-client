@@ -10,13 +10,13 @@ import Animated, {
 import { CarouselItem } from './CarouselItem';
 
 import { useTheme } from '../../hooks';
-import { WallpaperType } from '../../types';
 import { isLastElement } from '../../utilities';
+import { Wallpaper } from '../../generated/graphql';
 
 type CarouselProps = {
   hideText?: boolean;
-  onClick?: (select: WallpaperType, index: number) => void;
-  items: WallpaperType[];
+  onClick?: (select: Wallpaper) => void;
+  items: Wallpaper[];
 };
 
 const Carousel: React.FC<CarouselProps> = function (props) {

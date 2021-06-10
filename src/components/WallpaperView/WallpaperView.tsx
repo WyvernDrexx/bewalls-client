@@ -15,14 +15,14 @@ import Animated, {
 import { BottomDraggable } from './BottomDraggable';
 
 import { hp, wp } from '../../utilities';
-import { WallpaperType } from '../../types';
 
 import LeftArrowSvg from './left-arrow.svg';
+import { Wallpaper } from '../../generated/graphql';
 
 type WallpaperViewProps = {
   animatedStyle?: StyleProp<ViewStyle>;
   onCloseClick?: () => void;
-  wallpaper?: WallpaperType;
+  wallpaper?: Wallpaper;
   showWallpaper?: boolean;
 };
 
@@ -60,10 +60,7 @@ export default function WallpaperView(props: WallpaperViewProps) {
 
   return (
     <Animated.View style={[animatedStyle, styles.root]}>
-      <Image
-        style={styles.image}
-        source={props.wallpaper.imageSource! || props.wallpaper.imageUri!}
-      />
+      <Image style={styles.image} source={{ uri: props.wallpaper.imageUri }} />
       <TouchableOpacity onPress={handleCloseClick} style={styles.arrow}>
         <LeftArrowSvg style={styles.arrowIcon} fill="white" />
       </TouchableOpacity>

@@ -1,0 +1,25 @@
+query homeScreenData {
+  trending {
+    id
+    name
+    imageUri
+    brand {
+      id
+    }
+    category {
+      id
+    }
+  }
+  categories {
+    id
+    name
+    color
+    highlightColor
+  }
+  brands {
+    id
+    name
+    imageUri
+    highlightColor
+  }
+}

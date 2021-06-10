@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 
 import { Cards } from '../../components/Cards';
-import { Boxes } from '../../components/Carousel';
+import { Categories } from '../../components/Carousel';
 
 import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
@@ -21,17 +21,12 @@ import {
   Brand,
 } from '../../generated/graphql';
 import Brands from '../../components/Brands';
+import { ItemType } from '../../types';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const { themedStyles } = useTheme();
-  const { loading, data, error } = useHomeScreenDataQuery();
-
-  console.log(error);
-
-  if (loading) {
-    return null;
-  }
+  const { loading, data } = useHomeScreenDataQuery();
 
   const handleSearchBarClick = () => {
     props.navigation.navigate('Search');
@@ -45,27 +40,42 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     setIsSideBarShown(false);
   };
 
-  const handleMoreClick = () => {
+  const goToCategories = () => {
     props.navigation.navigate('Categories');
   };
 
-  const handleCardClick = (select: Wallpaper) => {
-    props.navigation.navigate('Selection', { select: select.name! });
+  const handleCardClick = (select: Wallpaper, itemType: ItemType) => {
+    props.navigation.navigate('Selection', {
+      select: select.name!,
+      type: itemType,
+      selectorId: select.brand.id,
+    });
   };
 
-  const handleBoxClick = (select: string) => {
-    props.navigation.navigate('Selection', { select });
+  const handleBoxClick = (select: Category, itemType: ItemType) => {
+    props.navigation.navigate('Selection', {
+      select: select.name,
+      type: itemType,
+      selectorId: select.id,
+    });
   };
 
   const handleSideBarItemClick = (route: keyof RootStackParamList) => {
     handleSideBarClose();
     props.navigation.navigate(route);
   };
-  console.log(data?.brands);
 
-  const handleBrandClick = (brand: Brand) => {
-    props.navigation.navigate('Selection', { select: brand.name });
+  const handleBrandClick = (brand: Brand, type: ItemType) => {
+    props.navigation.navigate('Selection', {
+      select: brand.name,
+      type,
+      selectorId: brand.id,
+    });
   };
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <View style={[styles.mainContainer, themedStyles.bgSecondary]}>
@@ -93,14 +103,16 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             showsHorizontalScrollIndicator={false}
             overScrollMode="never">
             <Cards
+              itemType="brand"
               items={data?.trending! as Wallpaper[]}
               onClick={handleCardClick}
               height="35"
               width="42"
             />
           </ScrollView>
-          <HeadingTitle onClick={handleMoreClick} title="Categories" />
-          <Boxes
+          <HeadingTitle onClick={goToCategories} title="Categories" />
+          <Categories
+            itemType="category"
             scrollEnabled={!isSideBarShown}
             disableClick={isSideBarShown}
             onClick={handleBoxClick}
@@ -114,6 +126,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             showsHorizontalScrollIndicator={false}
             overScrollMode="never">
             <Brands
+              itemType="brand"
               onClick={handleBrandClick}
               height="15"
               width="55"

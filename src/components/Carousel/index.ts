@@ -1,1 +1,1 @@
-export * from './Boxes';
+export * from './Categories';

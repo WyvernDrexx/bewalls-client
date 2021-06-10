@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { Cards } from '../../components/Cards';
-import { Boxes } from '../../components/Carousel';
+import { Categories as CategoryItems } from '../../components/Carousel';
 
 import StackHeader from '../../components/StackHeader';
 import HeadingTitle from '../../components/HeadingTitle';
@@ -53,9 +53,9 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
           />
         </ScrollView>
         <HeadingTitle title="Choose your favourite" hideButton />
-        <Boxes items={data?.categories as Category[]} />
+        <Categories items={data?.categories as Category[]} />
         <View style={styles.boxesView}>
-          <Boxes
+          <CategoryItems
             onClick={handleBoxClick}
             items={data?.categories as Category[]}
           />
