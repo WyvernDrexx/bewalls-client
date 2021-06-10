@@ -21,6 +21,7 @@ export type Brand = {
   name: Scalars['String'];
   imageUri: Scalars['String'];
   highlightColor: Scalars['String'];
+  wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
 };
 
 export type Category = {
@@ -29,14 +30,33 @@ export type Category = {
   name: Scalars['String'];
   color: Scalars['String'];
   highlightColor: Scalars['String'];
+  wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
 };
 
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createWallpaper: Wallpaper;
+};
+
+
+export type MutationCreateWallpaperArgs = {
+  data?: Maybe<WallpaperCreateInput>;
+};
 
 export type Query = {
   __typename?: 'Query';
   trending: Array<Maybe<Wallpaper>>;
   categories: Array<Maybe<Category>>;
   brands: Array<Maybe<Brand>>;
+};
+
+export type Tag = {
+  __typename?: 'Tag';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  totalNumberOfItems: Scalars['Int'];
+  wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
 };
 
 export type TrendingWallpaper = {
@@ -51,16 +71,32 @@ export type Wallpaper = {
   id: Scalars['String'];
   name: Scalars['String'];
   imageUri: Scalars['String'];
-  imageSource: Scalars['String'];
-  brand: Scalars['String'];
+  brand: Brand;
   height: Scalars['Int'];
   width: Scalars['Int'];
   sizeInKB: Scalars['Int'];
-  tags: Array<Scalars['String']>;
+  tags: Array<Maybe<Tag>>;
   publisher: Scalars['String'];
   createdAt: Scalars['DateTime'];
   likes: Scalars['Int'];
   downloads: Scalars['Int'];
+  category?: Maybe<Category>;
+  highlightColor: Scalars['String'];
+};
+
+export type WallpaperCreateInput = {
+  name: Scalars['String'];
+  imageUri: Scalars['String'];
+  brandId: Scalars['String'];
+  height: Scalars['Int'];
+  width: Scalars['Int'];
+  sizeInKB: Scalars['Int'];
+  tagsId: Array<Maybe<Scalars['String']>>;
+  publisher: Scalars['String'];
+  likes: Scalars['Int'];
+  downloads: Scalars['Int'];
+  categoryId: Scalars['String'];
+  highlightColor?: Maybe<Scalars['String']>;
 };
 
 export type TrendingQueryVariables = Exact<{ [key: string]: never; }>;
@@ -70,7 +106,7 @@ export type TrendingQuery = (
   { __typename?: 'Query' }
   & { trending: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'id' | 'name' | 'brand' | 'imageUri' | 'imageSource' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'tags' | 'publisher' | 'createdAt'>
+    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'publisher' | 'createdAt'>
   )>> }
 );
 
@@ -92,7 +128,7 @@ export type HomeScreenDataQuery = (
   { __typename?: 'Query' }
   & { trending: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'id' | 'name' | 'brand' | 'imageUri' | 'imageSource' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'tags' | 'publisher' | 'createdAt'>
+    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'publisher' | 'createdAt'>
   )>>, categories: Array<Maybe<(
     { __typename?: 'Category' }
     & Pick<Category, 'id' | 'name' | 'color' | 'highlightColor'>
@@ -108,15 +144,12 @@ export const TrendingDocument = gql`
   trending {
     id
     name
-    brand
     imageUri
-    imageSource
     sizeInKB
     downloads
     height
     width
     likes
-    tags
     publisher
     createdAt
   }
@@ -191,15 +224,12 @@ export const HomeScreenDataDocument = gql`
   trending {
     id
     name
-    brand
     imageUri
-    imageSource
     sizeInKB
     downloads
     height
     width
     likes
-    tags
     publisher
     createdAt
   }

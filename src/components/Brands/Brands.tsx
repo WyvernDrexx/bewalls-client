@@ -18,6 +18,8 @@ const Brands: React.FC<BrandsProps> = function (props) {
     if (props.onClick) props.onClick(brand);
   };
 
+  if (!props.brands) return null;
+
   return (
     <>
       {props.brands.map((item, index) => {

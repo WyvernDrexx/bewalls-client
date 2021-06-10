@@ -25,7 +25,9 @@ import Brands from '../../components/Brands';
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const { themedStyles } = useTheme();
-  const { loading, data } = useHomeScreenDataQuery();
+  const { loading, data, error } = useHomeScreenDataQuery();
+
+  console.log(error);
 
   if (loading) {
     return null;
