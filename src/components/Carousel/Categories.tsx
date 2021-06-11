@@ -9,25 +9,25 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Category } from '../../generated/graphql';
-import { ItemType } from '../../types';
+import { ItemGroup } from '../../types';
 
 import { hp, wp, isLastElement } from '../../utilities';
 
 type CategoriesProps = {
   items?: Category[];
   style?: StyleProp<ViewStyle>;
-  onClick?: (select: Category, itemType: ItemType) => void;
+  onClick?: (select: Category, itemType: ItemGroup) => void;
   scrollEnabled?: boolean;
   disableClick?: boolean;
-  itemType: ItemType;
+  itemType: ItemGroup;
 };
 
 type CategoryItemProps = {
   item: Category;
   style?: StyleProp<ViewStyle>;
-  onClick?: (select: Category, itemType: ItemType) => void;
+  onClick?: (select: Category, itemType: ItemGroup) => void;
   disabled?: boolean;
-  itemType: ItemType;
+  itemType: ItemGroup;
 };
 
 const CategoryItem: React.FC<CategoryItemProps> = function (props) {

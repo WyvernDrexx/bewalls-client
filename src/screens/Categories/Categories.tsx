@@ -21,11 +21,11 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const { themedStyles } = useTheme();
 
   const handleCardClick = (select: Wallpaper) => {
-    props.navigation.navigate('Selection', { select: select.name! });
+    props.navigation.navigate('Selection', { title: select.name! });
   };
 
   const handleBoxClick = (select: string) => {
-    props.navigation.navigate('Selection', { select });
+    props.navigation.navigate('Selection', { title: select });
   };
 
   const goBack = () => {

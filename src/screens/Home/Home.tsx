@@ -21,7 +21,7 @@ import {
   Brand,
 } from '../../generated/graphql';
 import Brands from '../../components/Brands';
-import { ItemType } from '../../types';
+import { ItemGroup } from '../../types';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
@@ -44,19 +44,19 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Categories');
   };
 
-  const handleCardClick = (select: Wallpaper, itemType: ItemType) => {
+  const handleCardClick = (select: Wallpaper, itemType: ItemGroup) => {
     props.navigation.navigate('Selection', {
-      select: select.name!,
-      type: itemType,
-      selectorId: select.brand.id,
+      title: select.name!,
+      group: itemType,
+      groupId: select.brand.id,
     });
   };
 
-  const handleBoxClick = (select: Category, itemType: ItemType) => {
+  const handleBoxClick = (select: Category, itemType: ItemGroup) => {
     props.navigation.navigate('Selection', {
-      select: select.name,
-      type: itemType,
-      selectorId: select.id,
+      title: select.name,
+      group: itemType,
+      groupId: select.id,
     });
   };
 
@@ -65,11 +65,11 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate(route);
   };
 
-  const handleBrandClick = (brand: Brand, type: ItemType) => {
+  const handleBrandClick = (brand: Brand, type: ItemGroup) => {
     props.navigation.navigate('Selection', {
-      select: brand.name,
-      type,
-      selectorId: brand.id,
+      title: brand.name,
+      group: type,
+      groupId: brand.id,
     });
   };
 

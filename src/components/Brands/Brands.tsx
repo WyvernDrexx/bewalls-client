@@ -1,15 +1,15 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Brand } from '../../generated/graphql';
-import { ItemType } from '../../types';
+import { ItemGroup } from '../../types';
 import { hp, isLastElement, wp } from '../../utilities';
 
 type BrandsProps = {
   brands: Brand[];
-  onClick?: (brand: Brand, type: ItemType) => void;
+  onClick?: (brand: Brand, type: ItemGroup) => void;
   height: string | number;
   width: string | number;
-  itemType: ItemType;
+  itemType: ItemGroup;
 };
 
 const Brands: React.FC<BrandsProps> = function (props) {

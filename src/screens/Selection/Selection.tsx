@@ -24,7 +24,7 @@ import { Wallpaper, useWallpapersQuery } from '../../generated/graphql';
 type Display = 'carousel' | 'grid';
 
 const Selection: React.FC<SelectionScreenProps> = function (props) {
-  const { type, selectorId } = props.route.params;
+  const { group: type, groupId: selectorId } = props.route.params;
   const [displayMode, setDisplayMode] = useState<Display>('carousel');
   const [previewWallpaper, setPreviewWallpaper] = useState(false);
   const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
@@ -113,7 +113,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
         onLeftClick={props.navigation.goBack}
-        title={props.route.params.select}
+        title={props.route.params.title}
       />
       <Options
         options={sortOptions}

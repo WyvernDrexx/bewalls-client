@@ -16,17 +16,17 @@ import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
 import { Wallpaper } from '../../generated/graphql';
-import { ItemType } from '../../types';
+import { ItemGroup } from '../../types';
 
 type CardProps = {
   wallpaper: Wallpaper | null;
-  onClick?: (wallpaper: Wallpaper, itemType: ItemType) => void;
+  onClick?: (wallpaper: Wallpaper, itemType: ItemGroup) => void;
   height: string | number;
   width: string | number;
   style?: StyleProp<ViewStyle>;
   index?: number;
   hideText?: boolean;
-  itemType: ItemType;
+  itemType: ItemGroup;
 };
 
 const Card: React.FC<CardProps> = function (props) {

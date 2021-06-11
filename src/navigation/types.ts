@@ -1,10 +1,10 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { ItemType } from '../types';
+import { ItemGroup } from '../types';
 
 type SelectionParams = {
-  select: string;
-  type: ItemType;
-  selectorId: string;
+  title: string;
+  group: ItemGroup;
+  groupId: string;
 };
 
 export type RootStackParamList = {
