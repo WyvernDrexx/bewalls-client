@@ -6,10 +6,10 @@ import { hp, isLastElement, wp } from '../../utilities';
 
 type BrandsProps = {
   brands: Brand[];
-  onClick?: (brand: Brand, type: ItemGroup) => void;
+  onClick?: (brand: Brand, group: ItemGroup) => void;
   height: string | number;
   width: string | number;
-  itemType: ItemGroup;
+  group: ItemGroup;
 };
 
 const Brands: React.FC<BrandsProps> = function (props) {
@@ -17,7 +17,7 @@ const Brands: React.FC<BrandsProps> = function (props) {
   const width = wp(props.width);
 
   const handleClick = (brand: Brand) => {
-    if (props.onClick) props.onClick(brand, props.itemType);
+    if (props.onClick) props.onClick(brand, props.group);
   };
 
   if (!props.brands) return null;

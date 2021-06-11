@@ -44,18 +44,18 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Categories');
   };
 
-  const handleCardClick = (select: Wallpaper, itemType: ItemGroup) => {
+  const handleCardClick = (select: Wallpaper, group: ItemGroup) => {
     props.navigation.navigate('Selection', {
       title: select.name!,
-      group: itemType,
+      group,
       groupId: select.brand.id,
     });
   };
 
-  const handleBoxClick = (select: Category, itemType: ItemGroup) => {
+  const handleBoxClick = (select: Category, group: ItemGroup) => {
     props.navigation.navigate('Selection', {
       title: select.name,
-      group: itemType,
+      group,
       groupId: select.id,
     });
   };
@@ -65,10 +65,10 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate(route);
   };
 
-  const handleBrandClick = (brand: Brand, type: ItemGroup) => {
+  const handleBrandClick = (brand: Brand, group: ItemGroup) => {
     props.navigation.navigate('Selection', {
       title: brand.name,
-      group: type,
+      group,
       groupId: brand.id,
     });
   };
@@ -103,7 +103,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             showsHorizontalScrollIndicator={false}
             overScrollMode="never">
             <Cards
-              itemType="brand"
+              group="brand"
               items={data?.trending! as Wallpaper[]}
               onClick={handleCardClick}
               height="35"
@@ -126,7 +126,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             showsHorizontalScrollIndicator={false}
             overScrollMode="never">
             <Brands
-              itemType="brand"
+              group="brand"
               onClick={handleBrandClick}
               height="15"
               width="55"

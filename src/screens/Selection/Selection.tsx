@@ -96,7 +96,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     return (
       <View style={styles.gridView}>
         <Cards
-          itemType="category"
+          group="category"
           onClick={handleCardClick}
           items={data?.wallpapers as Wallpaper[]}
           disableText

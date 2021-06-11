@@ -12,9 +12,9 @@ type CardProps = {
   style?: StyleProp<ViewStyle>;
   disableLastMargin?: boolean;
   disableText?: boolean;
-  onClick?: (wallpaper: Wallpaper, itemType: ItemGroup) => void;
+  onClick?: (wallpaper: Wallpaper, group: ItemGroup) => void;
   useFlatList?: boolean;
-  itemType: ItemGroup;
+  group: ItemGroup;
 };
 
 const Cards: React.FC<CardProps> = function (props) {
@@ -28,7 +28,7 @@ const Cards: React.FC<CardProps> = function (props) {
         const isLast = isLastElement(index, props.items!.length);
         return (
           <Card
-            itemType={props.itemType}
+            group={props.group}
             key={item.id}
             style={[
               props.style,

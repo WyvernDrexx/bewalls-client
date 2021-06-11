@@ -20,13 +20,13 @@ import { ItemGroup } from '../../types';
 
 type CardProps = {
   wallpaper: Wallpaper | null;
-  onClick?: (wallpaper: Wallpaper, itemType: ItemGroup) => void;
+  onClick?: (wallpaper: Wallpaper, group: ItemGroup) => void;
   height: string | number;
   width: string | number;
   style?: StyleProp<ViewStyle>;
   index?: number;
   hideText?: boolean;
-  itemType: ItemGroup;
+  group: ItemGroup;
 };
 
 const Card: React.FC<CardProps> = function (props) {
@@ -35,7 +35,7 @@ const Card: React.FC<CardProps> = function (props) {
   const { themedStyles } = useTheme();
 
   const handleClick = () => {
-    if (props.onClick) props.onClick(props.wallpaper!, props.itemType);
+    if (props.onClick) props.onClick(props.wallpaper!, props.group);
   };
 
   const imageSource = props.wallpaper!.imageUri
