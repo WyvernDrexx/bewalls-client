@@ -19,7 +19,7 @@ import { SelectionScreenProps } from '../../navigation/types';
 
 import Options from '../../components/Options';
 import { OptionType } from '../../components/Options/Option';
-import { Wallpaper, useWallpapersWithQuery } from '../../generated/graphql';
+import { Wallpaper, useWallpapersQuery } from '../../generated/graphql';
 
 type Display = 'carousel' | 'grid';
 
@@ -37,7 +37,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     categoryId: type === 'category' ? selectorId : '',
   };
 
-  const { loading, data } = useWallpapersWithQuery({
+  const { loading, data } = useWallpapersQuery({
     variables,
   });
 
@@ -88,13 +88,17 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     handleOptionsClose();
   };
 
+  if (loading) {
+    return null;
+  }
+
   const Grid = () => {
     return (
       <View style={styles.gridView}>
         <Cards
           itemType="category"
           onClick={handleCardClick}
-          items={data?.wallpapersWith as Wallpaper[]}
+          items={data?.wallpapers as Wallpaper[]}
           disableText
           height="34"
           width="44"
@@ -104,10 +108,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
       </View>
     );
   };
-
-  if (loading) {
-    return null;
-  }
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
@@ -158,7 +158,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
         {displayMode === 'carousel' ? (
           <Carousel
             onClick={handleCardClick}
-            items={data?.wallpapersWith as Wallpaper[]}
+            items={data?.wallpapers as Wallpaper[]}
             hideText
           />
         ) : (

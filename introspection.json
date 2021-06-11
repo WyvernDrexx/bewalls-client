@@ -375,7 +375,7 @@
             "deprecationReason": null
           },
           {
-            "name": "wallpapersWith",
+            "name": "wallpapers",
             "description": null,
             "args": [
               {
