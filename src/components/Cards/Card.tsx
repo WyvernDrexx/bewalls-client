@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  StyleProp,
-  ViewStyle,
-} from 'react-native';
+import { Text, StyleSheet, Image, StyleProp, ViewStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Animated from 'react-native-reanimated';
@@ -17,6 +10,7 @@ import { hp, wp } from '../../utilities';
 
 import { Wallpaper } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
+import LinearGradient from 'react-native-linear-gradient';
 
 type CardProps = {
   wallpaper: Wallpaper | null;
@@ -37,11 +31,6 @@ const Card: React.FC<CardProps> = function (props) {
   const handleClick = () => {
     if (props.onClick) props.onClick(props.wallpaper!, props.group);
   };
-
-  const imageSource = props.wallpaper!.imageUri
-    ? { uri: props.wallpaper!.imageUri }
-    : {};
-
   return (
     <MountAnimatedView>
       <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
@@ -63,13 +52,14 @@ const Card: React.FC<CardProps> = function (props) {
                 width,
               },
             ]}
-            source={imageSource}
+            source={{ uri: props.wallpaper?.imageUri }}
           />
           {!props.hideText ? (
-            <View style={styles.textView}>
+            <LinearGradient
+              colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
+              style={[styles.textView, { height: height / 2, width }]}>
               <Text style={styles.title}>{props.wallpaper!.name}</Text>
-              <Text style={styles.subTitle}>Wallpapers</Text>
-            </View>
+            </LinearGradient>
           ) : null}
         </Animated.View>
       </TouchableOpacity>
@@ -88,12 +78,17 @@ const styles = StyleSheet.create({
   },
   textView: {
     position: 'absolute',
+    bottom: 0,
+    borderRadius: wp(1.5),
   },
   title: {
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: hp(2.3),
+    position: 'absolute',
+    bottom: hp(1),
+    left: wp(3),
   },
   subTitle: {
     color: 'white',
