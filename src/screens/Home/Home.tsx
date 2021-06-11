@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, ActivityIndicator } from 'react-native';
 
 import { Cards } from '../../components/Cards';
 import { Categories } from '../../components/Carousel';
@@ -96,43 +96,49 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             disabled={isSideBarShown}
             onSearchBarActive={handleSearchBarClick}
           />
-          <HeadingTitle title="Trending Now" />
-          <ScrollView
-            scrollEnabled={!isSideBarShown}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            overScrollMode="never">
-            <Cards
-              group="brand"
-              items={data?.trending! as Wallpaper[]}
-              onClick={handleCardClick}
-              height="35"
-              width="42"
-            />
-          </ScrollView>
-          <HeadingTitle onClick={goToCategories} title="Categories" />
-          <Categories
-            itemType="category"
-            scrollEnabled={!isSideBarShown}
-            disableClick={isSideBarShown}
-            onClick={handleBoxClick}
-            items={data?.categories! as Category[]}
-          />
-          <HeadingTitle title="Smartphone Brands" />
-          <ScrollView
-            scrollEnabled={!isSideBarShown}
-            style={styles.marginBottom}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            overScrollMode="never">
-            <Brands
-              group="brand"
-              onClick={handleBrandClick}
-              height="15"
-              width="55"
-              brands={data?.brands! as Brand[]}
-            />
-          </ScrollView>
+          {loading ? (
+            <ActivityIndicator color="red" />
+          ) : (
+            <>
+              <HeadingTitle title="Trending Now" />
+              <ScrollView
+                scrollEnabled={!isSideBarShown}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                overScrollMode="never">
+                <Cards
+                  group="brand"
+                  items={data?.trending! as Wallpaper[]}
+                  onClick={handleCardClick}
+                  height="35"
+                  width="42"
+                />
+              </ScrollView>
+              <HeadingTitle onClick={goToCategories} title="Categories" />
+              <Categories
+                itemType="category"
+                scrollEnabled={!isSideBarShown}
+                disableClick={isSideBarShown}
+                onClick={handleBoxClick}
+                items={data?.categories! as Category[]}
+              />
+              <HeadingTitle title="Smartphone Brands" />
+              <ScrollView
+                scrollEnabled={!isSideBarShown}
+                style={styles.marginBottom}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                overScrollMode="never">
+                <Brands
+                  group="brand"
+                  onClick={handleBrandClick}
+                  height="15"
+                  width="55"
+                  brands={data?.brands! as Brand[]}
+                />
+              </ScrollView>
+            </>
+          )}
         </ScrollView>
       </View>
     </View>
