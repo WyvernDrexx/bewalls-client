@@ -20,7 +20,7 @@ import {
   Bundle,
   useHomeScreenQuery,
 } from '../../generated/graphql';
-import Categories from '../../components/Brands';
+import CategoryItems from '../../components/CategoryItems';
 import { ItemGroup } from '../../types';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
@@ -128,7 +128,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 overScrollMode="never">
-                <Categories
+                <CategoryItems
                   onClick={handleBoxClick}
                   categories={data?.categories as Category[]}
                   group="category"
