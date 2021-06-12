@@ -114,14 +114,13 @@ const Home: React.FC<HomeScreenProps> = function (props) {
                   width="42"
                 />
               </ScrollView>
-              <HeadingTitle onClick={goToCategories} title="Bundles" />
+              <HeadingTitle hideButton title="Bundles" />
               <Bundles
                 onClick={handleBundleClick}
                 itemType="bundle"
                 items={data?.bundles! as Bundle[]}
               />
-
-              <HeadingTitle title="Categories" />
+              <HeadingTitle onClick={goToCategories} title="Categories" />
               <ScrollView
                 scrollEnabled={!isSideBarShown}
                 style={styles.marginBottom}

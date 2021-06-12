@@ -11,6 +11,7 @@ type CategoryProps = {
   height: string | number;
   width: string | number;
   group: ItemGroup;
+  isVertical?: boolean;
 };
 
 const Categories: React.FC<CategoryProps> = function (props) {
@@ -30,7 +31,11 @@ const Categories: React.FC<CategoryProps> = function (props) {
         return (
           <TouchableOpacity
             activeOpacity={0.5}
-            style={[styles.root, isLast ? styles.marginRight : undefined]}
+            style={[
+              styles.root,
+              isLast && !props.isVertical ? styles.marginRight : undefined,
+              props.isVertical ? styles.marginBottom : styles.marginLeft,
+            ]}
             onPress={() => handleClick(item)}
             key={item.id}>
             <Image
@@ -61,7 +66,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: wp(1.5),
-    marginLeft: wp(4),
   },
   image: {
     borderRadius: hp(1.5),
@@ -72,7 +76,7 @@ const styles = StyleSheet.create({
   textView: {
     position: 'absolute',
     bottom: 0,
-    borderRadius: wp(1.5),
+    borderRadius: wp(3),
   },
   title: {
     color: 'white',
@@ -91,6 +95,12 @@ const styles = StyleSheet.create({
   },
   marginRight: {
     marginRight: wp(4),
+  },
+  marginLeft: {
+    marginLeft: wp(4),
+  },
+  marginBottom: {
+    marginBottom: hp(2),
   },
 });
 

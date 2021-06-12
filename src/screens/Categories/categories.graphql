@@ -1,0 +1,8 @@
+query CategoriesData {
+  categories {
+    id
+    name
+    imageUri
+    totalNumberOfItems
+  }
+}

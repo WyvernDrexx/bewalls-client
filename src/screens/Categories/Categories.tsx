@@ -1,73 +1,53 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { Cards } from '../../components/Cards';
-import { Categories as CategoryItems } from '../../components/Carousel';
+import CategoryItems from '../../components/CategoryItems';
 
 import StackHeader from '../../components/StackHeader';
-import HeadingTitle from '../../components/HeadingTitle';
 
 import { useTheme } from '../../hooks';
 import { hp } from '../../utilities';
 
 import { CategoriesScreenProps } from '../../navigation/types';
-import {
-  Category,
-  useHomeScreenDataQuery,
-  Wallpaper,
-} from '../../generated/graphql';
+import { Category, useCategoriesQuery } from '../../generated/graphql';
 
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const { themedStyles } = useTheme();
 
-  const handleCardClick = (select: Wallpaper) => {
-    props.navigation.navigate('Selection', { title: select.name! });
-  };
-
-  const handleBoxClick = (select: string) => {
-    props.navigation.navigate('Selection', { title: select });
+  const handleClick = (select: Category) => {
+    props.navigation.navigate('Selection', {
+      title: select.name!,
+      group: 'category',
+      groupId: select.id,
+    });
   };
 
   const goBack = () => {
     props.navigation.goBack();
   };
 
-  const { loading, data } = useHomeScreenDataQuery();
+  const { loading, data } = useCategoriesQuery();
 
   if (loading) return null;
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
-        <StackHeader onLeftClick={goBack} title="Categories" />
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.brandsView}
-          overScrollMode="never">
-          <Cards
-            onClick={handleCardClick}
-            items={data?.trending as Wallpaper[]}
-            height="8"
-            width="38"
-          />
-        </ScrollView>
-        <HeadingTitle title="Choose your favourite" hideButton />
-        <Categories items={data?.categories as Category[]} />
-        <View style={styles.boxesView}>
+        <StackHeader
+          onLeftClick={goBack}
+          titlePosition="left"
+          title="Categories"
+        />
+        <View style={styles.categoryItems}>
           <CategoryItems
-            onClick={handleBoxClick}
-            items={data?.categories as Category[]}
+            onClick={handleClick}
+            isVertical
+            group="category"
+            categories={data?.categories as Category[]}
+            height="25"
+            width="94"
           />
         </View>
-        <HeadingTitle title="Trending" hideButton />
-        <Cards
-          items={data?.trending as Wallpaper[]}
-          onClick={handleCardClick}
-          height="14"
-          width="92"
-          style={styles.cards}
-        />
       </ScrollView>
     </View>
   );
@@ -85,6 +65,10 @@ const styles = StyleSheet.create({
   },
   cards: {
     marginBottom: hp(2),
+  },
+  categoryItems: {
+    display: 'flex',
+    justifyContent: 'center',
   },
 });
 
