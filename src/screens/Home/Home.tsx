@@ -100,7 +100,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             <ActivityIndicator color="red" />
           ) : (
             <>
-              <HeadingTitle title="Trending Now" />
+              <HeadingTitle hideButton title="Trending Now" />
               <ScrollView
                 scrollEnabled={!isSideBarShown}
                 horizontal

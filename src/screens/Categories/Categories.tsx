@@ -14,11 +14,11 @@ import { Category, useCategoriesQuery } from '../../generated/graphql';
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const { themedStyles } = useTheme();
 
-  const handleClick = (select: Category) => {
+  const handleClick = (category: Category) => {
     props.navigation.navigate('Selection', {
-      title: select.name!,
+      title: category.name,
       group: 'category',
-      groupId: select.id,
+      groupId: category.id,
     });
   };
 

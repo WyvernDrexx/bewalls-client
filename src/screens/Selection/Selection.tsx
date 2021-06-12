@@ -31,10 +31,11 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     categoryId: type === 'category' ? selectorId : '',
   };
 
-  const { loading, data } = useWallpapersQuery({
+  const { loading, data, error } = useWallpapersQuery({
     variables,
   });
 
+  console.log(error);
   const { themedStyles } = useTheme();
 
   const handleCardClick = (wallpaper: Wallpaper) => {
