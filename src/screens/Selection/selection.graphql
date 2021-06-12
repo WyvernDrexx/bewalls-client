@@ -1,5 +1,5 @@
-query wallpapers($brandId: String, $categoryId: String, $tagsId: String) {
-  wallpapers(brandId: $brandId, categoryId: $categoryId, tagsId: $tagsId) {
+query wallpapers($bundleId: String, $categoryId: String, $tagsId: String) {
+  wallpapers(bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId) {
     name
     imageUri
     downloads

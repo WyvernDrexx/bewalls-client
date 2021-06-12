@@ -18,7 +18,7 @@ export type WallpaperType = {
   downloads: number;
 };
 
-export type ItemGroup = 'brand' | 'category';
+export type ItemGroup = 'bundle' | 'category';
 
 /*
 

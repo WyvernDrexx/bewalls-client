@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, ScrollView, View, ActivityIndicator } from 'react-native';
 
 import { Cards } from '../../components/Cards';
-import { Categories } from '../../components/Carousel';
+import { Bundles } from '../../components/Carousel';
 
 import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
@@ -17,16 +17,16 @@ import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
 import {
   Category,
   Wallpaper,
-  useHomeScreenDataQuery,
-  Brand,
+  Bundle,
+  useHomeScreenQuery,
 } from '../../generated/graphql';
-import Brands from '../../components/Brands';
+import Categories from '../../components/Brands';
 import { ItemGroup } from '../../types';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const { themedStyles } = useTheme();
-  const { loading, data } = useHomeScreenDataQuery();
+  const { loading, data } = useHomeScreenQuery();
 
   const handleSearchBarClick = () => {
     props.navigation.navigate('Search');
@@ -48,7 +48,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Selection', {
       title: select.name!,
       group,
-      groupId: select.brand.id,
+      groupId: select.bundle.id,
     });
   };
 
@@ -65,11 +65,11 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate(route);
   };
 
-  const handleBrandClick = (brand: Brand, group: ItemGroup) => {
+  const handleBundleClick = (bundle: Bundle, group: ItemGroup) => {
     props.navigation.navigate('Selection', {
-      title: brand.name,
+      title: bundle.name,
       group,
-      groupId: brand.id,
+      groupId: bundle.id,
     });
   };
 
@@ -107,34 +107,33 @@ const Home: React.FC<HomeScreenProps> = function (props) {
                 showsHorizontalScrollIndicator={false}
                 overScrollMode="never">
                 <Cards
-                  group="brand"
+                  group="bundle"
                   items={data?.trending! as Wallpaper[]}
                   onClick={handleCardClick}
                   height="35"
                   width="42"
                 />
               </ScrollView>
-              <HeadingTitle onClick={goToCategories} title="Categories" />
-              <Categories
-                itemType="category"
-                scrollEnabled={!isSideBarShown}
-                disableClick={isSideBarShown}
-                onClick={handleBoxClick}
-                items={data?.categories! as Category[]}
+              <HeadingTitle onClick={goToCategories} title="Bundles" />
+              <Bundles
+                onClick={handleBundleClick}
+                itemType="bundle"
+                items={data?.bundles! as Bundle[]}
               />
-              <HeadingTitle title="Smartphone Brands" />
+
+              <HeadingTitle title="Categories" />
               <ScrollView
                 scrollEnabled={!isSideBarShown}
                 style={styles.marginBottom}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 overScrollMode="never">
-                <Brands
-                  group="brand"
-                  onClick={handleBrandClick}
+                <Categories
+                  onClick={handleBoxClick}
+                  categories={data?.categories as Category[]}
+                  group="category"
                   height="15"
                   width="55"
-                  brands={data?.brands! as Brand[]}
                 />
               </ScrollView>
             </>

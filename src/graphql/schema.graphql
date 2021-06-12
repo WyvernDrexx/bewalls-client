@@ -17,7 +17,6 @@ query categories {
   categories {
     id
     name
-    color
-    highlightColor
+    imageUri
   }
 }

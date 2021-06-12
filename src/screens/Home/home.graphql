@@ -1,9 +1,9 @@
-query homeScreenData {
+query HomeScreen {
   trending {
     id
     name
     imageUri
-    brand {
+    bundle {
       id
     }
     category {
@@ -13,13 +13,12 @@ query homeScreenData {
   categories {
     id
     name
-    color
-    highlightColor
+    imageUri
   }
-  brands {
+  bundles {
     id
     name
-    imageUri
     highlightColor
+    color
   }
 }

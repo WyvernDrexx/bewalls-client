@@ -8,29 +8,29 @@ import {
   ScrollView,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Category } from '../../generated/graphql';
+import { Bundle } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
 
 import { hp, wp, isLastElement } from '../../utilities';
 
-type CategoriesProps = {
-  items?: Category[];
+type BundlesProps = {
+  items?: Bundle[];
   style?: StyleProp<ViewStyle>;
-  onClick?: (select: Category, itemType: ItemGroup) => void;
+  onClick?: (bundle: Bundle, itemType: ItemGroup) => void;
   scrollEnabled?: boolean;
   disableClick?: boolean;
   itemType: ItemGroup;
 };
 
-type CategoryItemProps = {
-  item: Category;
+type BundleItemProps = {
+  item: Bundle;
   style?: StyleProp<ViewStyle>;
-  onClick?: (select: Category, itemType: ItemGroup) => void;
+  onClick?: (bundle: Bundle, itemType: ItemGroup) => void;
   disabled?: boolean;
   itemType: ItemGroup;
 };
 
-const CategoryItem: React.FC<CategoryItemProps> = function (props) {
+const BundleItem: React.FC<BundleItemProps> = function (props) {
   const handleClick = () => {
     if (props.onClick) props.onClick(props.item, props.itemType);
   };
@@ -60,7 +60,7 @@ const CategoryItem: React.FC<CategoryItemProps> = function (props) {
   );
 };
 
-const Categories: React.FC<CategoriesProps> = function (props) {
+const Bundles: React.FC<BundlesProps> = function (props) {
   if (!props.items) {
     return null;
   }
@@ -73,7 +73,7 @@ const Categories: React.FC<CategoriesProps> = function (props) {
         showsHorizontalScrollIndicator={false}>
         {props.items.map((item, index) => {
           return (
-            <CategoryItem
+            <BundleItem
               itemType={props.itemType}
               disabled={props.disableClick}
               style={isLastElement(index, props.items!) ? styles.lastBox : {}}
@@ -111,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Categories };
+export { Bundles };

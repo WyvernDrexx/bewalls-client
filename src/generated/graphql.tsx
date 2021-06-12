@@ -15,12 +15,13 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type Brand = {
-  __typename?: 'Brand';
+export type Bundle = {
+  __typename?: 'Bundle';
   id: Scalars['String'];
   name: Scalars['String'];
-  imageUri: Scalars['String'];
   highlightColor: Scalars['String'];
+  color: Scalars['String'];
+  totalNumberOfItems: Scalars['Int'];
   wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
 };
 
@@ -28,8 +29,8 @@ export type Category = {
   __typename?: 'Category';
   id: Scalars['String'];
   name: Scalars['String'];
-  color: Scalars['String'];
-  highlightColor: Scalars['String'];
+  imageUri: Scalars['String'];
+  totalNumberOfItems: Scalars['Int'];
   wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
 };
 
@@ -47,15 +48,15 @@ export type MutationCreateWallpaperArgs = {
 export type Query = {
   __typename?: 'Query';
   trending: Array<Maybe<Wallpaper>>;
-  brands: Array<Maybe<Brand>>;
+  bundles: Array<Maybe<Bundle>>;
   categories: Array<Maybe<Category>>;
   wallpaper: Wallpaper;
   wallpapers: Array<Maybe<Wallpaper>>;
 };
 
 
-export type QueryBrandsArgs = {
-  brandId?: Maybe<Scalars['String']>;
+export type QueryBundlesArgs = {
+  bundleId?: Maybe<Scalars['String']>;
 };
 
 
@@ -72,7 +73,7 @@ export type QueryWallpaperArgs = {
 export type QueryWallpapersArgs = {
   tagsId?: Maybe<Scalars['String']>;
   categoryId?: Maybe<Scalars['String']>;
-  brandId?: Maybe<Scalars['String']>;
+  bundleId?: Maybe<Scalars['String']>;
 };
 
 export type Tag = {
@@ -95,7 +96,7 @@ export type Wallpaper = {
   id: Scalars['String'];
   name: Scalars['String'];
   imageUri: Scalars['String'];
-  brand: Brand;
+  bundle: Bundle;
   height: Scalars['Int'];
   width: Scalars['Int'];
   sizeInKB: Scalars['Int'];
@@ -104,14 +105,14 @@ export type Wallpaper = {
   createdAt: Scalars['DateTime'];
   likes: Scalars['Int'];
   downloads: Scalars['Int'];
-  category?: Maybe<Category>;
+  category: Category;
   highlightColor: Scalars['String'];
 };
 
 export type WallpaperCreateInput = {
   name: Scalars['String'];
   imageUri: Scalars['String'];
-  brandId: Scalars['String'];
+  bundleId: Scalars['String'];
   height: Scalars['Int'];
   width: Scalars['Int'];
   sizeInKB: Scalars['Int'];
@@ -141,36 +142,36 @@ export type CategoriesQuery = (
   { __typename?: 'Query' }
   & { categories: Array<Maybe<(
     { __typename?: 'Category' }
-    & Pick<Category, 'id' | 'name' | 'color' | 'highlightColor'>
+    & Pick<Category, 'id' | 'name' | 'imageUri'>
   )>> }
 );
 
-export type HomeScreenDataQueryVariables = Exact<{ [key: string]: never; }>;
+export type HomeScreenQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeScreenDataQuery = (
+export type HomeScreenQuery = (
   { __typename?: 'Query' }
   & { trending: Array<Maybe<(
     { __typename?: 'Wallpaper' }
     & Pick<Wallpaper, 'id' | 'name' | 'imageUri'>
-    & { brand: (
-      { __typename?: 'Brand' }
-      & Pick<Brand, 'id'>
-    ), category?: Maybe<(
+    & { bundle: (
+      { __typename?: 'Bundle' }
+      & Pick<Bundle, 'id'>
+    ), category: (
       { __typename?: 'Category' }
       & Pick<Category, 'id'>
-    )> }
+    ) }
   )>>, categories: Array<Maybe<(
     { __typename?: 'Category' }
-    & Pick<Category, 'id' | 'name' | 'color' | 'highlightColor'>
-  )>>, brands: Array<Maybe<(
-    { __typename?: 'Brand' }
-    & Pick<Brand, 'id' | 'name' | 'imageUri' | 'highlightColor'>
+    & Pick<Category, 'id' | 'name' | 'imageUri'>
+  )>>, bundles: Array<Maybe<(
+    { __typename?: 'Bundle' }
+    & Pick<Bundle, 'id' | 'name' | 'highlightColor' | 'color'>
   )>> }
 );
 
 export type WallpapersQueryVariables = Exact<{
-  brandId?: Maybe<Scalars['String']>;
+  bundleId?: Maybe<Scalars['String']>;
   categoryId?: Maybe<Scalars['String']>;
   tagsId?: Maybe<Scalars['String']>;
 }>;
@@ -233,8 +234,7 @@ export const CategoriesDocument = gql`
   categories {
     id
     name
-    color
-    highlightColor
+    imageUri
   }
 }
     `;
@@ -265,13 +265,13 @@ export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
 export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
-export const HomeScreenDataDocument = gql`
-    query homeScreenData {
+export const HomeScreenDocument = gql`
+    query HomeScreen {
   trending {
     id
     name
     imageUri
-    brand {
+    bundle {
       id
     }
     category {
@@ -281,47 +281,46 @@ export const HomeScreenDataDocument = gql`
   categories {
     id
     name
-    color
-    highlightColor
+    imageUri
   }
-  brands {
+  bundles {
     id
     name
-    imageUri
     highlightColor
+    color
   }
 }
     `;
 
 /**
- * __useHomeScreenDataQuery__
+ * __useHomeScreenQuery__
  *
- * To run a query within a React component, call `useHomeScreenDataQuery` and pass it any options that fit your needs.
- * When your component renders, `useHomeScreenDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useHomeScreenQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeScreenQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useHomeScreenDataQuery({
+ * const { data, loading, error } = useHomeScreenQuery({
  *   variables: {
  *   },
  * });
  */
-export function useHomeScreenDataQuery(baseOptions?: Apollo.QueryHookOptions<HomeScreenDataQuery, HomeScreenDataQueryVariables>) {
+export function useHomeScreenQuery(baseOptions?: Apollo.QueryHookOptions<HomeScreenQuery, HomeScreenQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<HomeScreenDataQuery, HomeScreenDataQueryVariables>(HomeScreenDataDocument, options);
+        return Apollo.useQuery<HomeScreenQuery, HomeScreenQueryVariables>(HomeScreenDocument, options);
       }
-export function useHomeScreenDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeScreenDataQuery, HomeScreenDataQueryVariables>) {
+export function useHomeScreenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeScreenQuery, HomeScreenQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<HomeScreenDataQuery, HomeScreenDataQueryVariables>(HomeScreenDataDocument, options);
+          return Apollo.useLazyQuery<HomeScreenQuery, HomeScreenQueryVariables>(HomeScreenDocument, options);
         }
-export type HomeScreenDataQueryHookResult = ReturnType<typeof useHomeScreenDataQuery>;
-export type HomeScreenDataLazyQueryHookResult = ReturnType<typeof useHomeScreenDataLazyQuery>;
-export type HomeScreenDataQueryResult = Apollo.QueryResult<HomeScreenDataQuery, HomeScreenDataQueryVariables>;
+export type HomeScreenQueryHookResult = ReturnType<typeof useHomeScreenQuery>;
+export type HomeScreenLazyQueryHookResult = ReturnType<typeof useHomeScreenLazyQuery>;
+export type HomeScreenQueryResult = Apollo.QueryResult<HomeScreenQuery, HomeScreenQueryVariables>;
 export const WallpapersDocument = gql`
-    query wallpapers($brandId: String, $categoryId: String, $tagsId: String) {
-  wallpapers(brandId: $brandId, categoryId: $categoryId, tagsId: $tagsId) {
+    query wallpapers($bundleId: String, $categoryId: String, $tagsId: String) {
+  wallpapers(bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId) {
     name
     imageUri
     downloads
@@ -342,7 +341,7 @@ export const WallpapersDocument = gql`
  * @example
  * const { data, loading, error } = useWallpapersQuery({
  *   variables: {
- *      brandId: // value for 'brandId'
+ *      bundleId: // value for 'bundleId'
  *      categoryId: // value for 'categoryId'
  *      tagsId: // value for 'tagsId'
  *   },

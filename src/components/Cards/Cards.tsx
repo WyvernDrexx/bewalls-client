@@ -6,7 +6,7 @@ import { Wallpaper } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
 
 type CardProps = {
-  items?: Wallpaper[] | null;
+  items?: Wallpaper[];
   height: string | number;
   width: string | number;
   style?: StyleProp<ViewStyle>;
