@@ -94,13 +94,14 @@ const boxStyles = StyleSheet.create({
     backgroundColor: 'black',
     borderRadius: hp(2),
     marginLeft: wp(4),
-    width: wp(22),
+    minWidth: wp(22),
   },
   text: {
     color: 'white',
     fontSize: hp(2),
     fontWeight: 'bold',
     textAlign: 'center',
+    marginHorizontal: wp(2),
   },
 });
 

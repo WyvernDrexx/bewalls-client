@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { Cards } from '../../components/Cards';
 
 import CarouselSvg from './carousel.svg';
 import GridSvg from './grid.svg';
-import DownArrowSvg from './down-arrow.svg';
 
 import WallpaperView from '../../components/WallpaperView';
 import Carousel from '../../components/Carousel/Carousel';
@@ -17,8 +16,6 @@ import { hp, wp } from '../../utilities';
 
 import { SelectionScreenProps } from '../../navigation/types';
 
-import Options from '../../components/Options';
-import { OptionType } from '../../components/Options/Option';
 import { Wallpaper, useWallpapersQuery } from '../../generated/graphql';
 
 type Display = 'carousel' | 'grid';
@@ -28,12 +25,9 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [displayMode, setDisplayMode] = useState<Display>('carousel');
   const [previewWallpaper, setPreviewWallpaper] = useState(false);
   const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
-  const [showSortOptions, setShowSortOptions] = useState(false);
-  const [selectedSortOption, setSelectedSortOption] =
-    useState<string | number>(0);
 
   const variables = {
-    brandId: type === 'brand' ? selectorId : '',
+    bundleId: type === 'bundle' ? selectorId : '',
     categoryId: type === 'category' ? selectorId : '',
   };
 
@@ -41,30 +35,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     variables,
   });
 
-  const {
-    themedStyles,
-    theme: { colors },
-  } = useTheme();
-
-  const sortOptions: OptionType[] = [
-    {
-      title: 'Newest First',
-      id: 1001,
-    },
-    {
-      title: 'Top Rated First',
-      id: 1002,
-    },
-    {
-      title: 'Top Rated First',
-      id: 1003,
-    },
-    {
-      title: 'Top Rated First',
-      id: 1004,
-    },
-  ];
-  const sortOption = sortOptions.find(item => item.id === selectedSortOption);
+  const { themedStyles } = useTheme();
 
   const handleCardClick = (wallpaper: Wallpaper) => {
     setSelectedWallpaper(wallpaper);
@@ -73,19 +44,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
 
   const handlePreviewClose = () => {
     setPreviewWallpaper(false);
-  };
-
-  const handleOptionsShow = () => {
-    setShowSortOptions(true);
-  };
-
-  const handleOptionsClose = () => {
-    setShowSortOptions(false);
-  };
-
-  const handleOptionChange = (id: string | number) => {
-    setSelectedSortOption(id);
-    handleOptionsClose();
   };
 
   if (loading) {
@@ -109,52 +67,43 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     );
   };
 
+  const DisplayMode: React.FC = () => {
+    return (
+      <View style={styles.displaySelection}>
+        <TouchableOpacity style={styles.sortOptions} />
+        <View style={styles.displayLayout}>
+          <TouchableOpacity
+            onPress={() => setDisplayMode('carousel')}
+            style={styles.modeIcon}>
+            <CarouselSvg
+              fill={displayMode === 'carousel' ? '#9F88FF' : '#C9C9C9'}
+              height={hp(3)}
+              width={hp(4)}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setDisplayMode('grid')}
+            style={styles.modeIcon}>
+            <GridSvg
+              fill={displayMode === 'grid' ? '#9F88FF' : '#C9C9C9'}
+              height={hp(3)}
+              width={hp(4)}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
+        titlePosition="left"
         onLeftClick={props.navigation.goBack}
         title={props.route.params.title}
-      />
-      <Options
-        options={sortOptions}
-        showOptions={showSortOptions}
-        onUnderlayClick={handleOptionsClose}
-        onChange={handleOptionChange}
+        right={DisplayMode}
       />
       <Animated.ScrollView>
-        <View style={styles.displaySelection}>
-          <TouchableOpacity
-            style={styles.sortOptions}
-            onPress={handleOptionsShow}>
-            <Text style={[styles.sortingText, themedStyles.text]}>
-              {sortOption?.title}
-            </Text>
-            <DownArrowSvg
-              style={styles.downArrowIcon}
-              fill={colors.secondary}
-            />
-          </TouchableOpacity>
-          <View style={styles.displayLayout}>
-            <TouchableOpacity
-              onPress={() => setDisplayMode('carousel')}
-              style={styles.modeIcon}>
-              <CarouselSvg
-                fill={displayMode === 'carousel' ? '#9F88FF' : '#C9C9C9'}
-                height={hp(3)}
-                width={hp(4)}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setDisplayMode('grid')}
-              style={styles.modeIcon}>
-              <GridSvg
-                fill={displayMode === 'grid' ? '#9F88FF' : '#C9C9C9'}
-                height={hp(3)}
-                width={hp(4)}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
         {displayMode === 'carousel' ? (
           <Carousel
             onClick={handleCardClick}
@@ -181,10 +130,9 @@ const styles = StyleSheet.create({
   },
   displaySelection: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
     flexDirection: 'row',
-    paddingHorizontal: wp(4),
   },
   displayLayout: {
     display: 'flex',

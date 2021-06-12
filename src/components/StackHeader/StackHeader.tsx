@@ -20,6 +20,7 @@ type StackHeaderProps = {
   titlePosition?: 'left' | 'center' | 'right';
   viewStyle?: StyleProp<ViewStyle>;
   onLeftClick?: () => void;
+  right?: React.FC;
 };
 
 const StackHeader: React.FC<StackHeaderProps> = function (props) {
@@ -37,8 +38,8 @@ const StackHeader: React.FC<StackHeaderProps> = function (props) {
             style={styles.leftArrow}>
             <LeftArrowSvg
               fill={colors.secondary}
-              height={hp(3)}
-              width={hp(3)}
+              height={hp(4)}
+              width={hp(4)}
             />
           </TouchableOpacity>
         </View>
@@ -50,7 +51,9 @@ const StackHeader: React.FC<StackHeaderProps> = function (props) {
           ]}>
           {props.title || 'Title'}
         </Text>
-        <View style={styles.rightView} />
+        <View style={styles.rightView}>
+          {props.right ? <props.right /> : null}
+        </View>
       </View>
     </Animated.View>
   );
@@ -61,26 +64,27 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
     paddingHorizontal: wp(4),
     paddingVertical: hp(3),
+    width: wp(100),
   },
   header: {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   leftView: {
-    width: wp(30.66),
     marginLeft: wp(-2),
+    width: wp(8),
+    marginRight: wp(3),
   },
-  leftArrow: {
-    width: wp(12),
-  },
+  leftArrow: {},
   middleText: {
-    width: wp(30.66),
     fontSize: hp(2.6),
+    width: wp(60),
+    textAlign: 'left',
   },
   rightView: {
-    width: wp(30.66),
+    width: wp(24.66),
   },
 });
 
