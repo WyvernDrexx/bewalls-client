@@ -6,6 +6,7 @@ import { useTheme } from '../../hooks';
 import { BundlesScreenProps } from '../../navigation/types';
 import { Bundle, useBundlesScreenQuery } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
+import MiniSearchButton from '../../components/SearchBar/MiniSearchButton';
 
 const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
   const { themedStyles } = useTheme();
@@ -25,9 +26,18 @@ const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
     });
   };
 
+  const handleSearchButtonClick = () => {
+    props.navigation.navigate('Search');
+  };
+
   return (
     <View style={[styles.root, themedStyles.bg]}>
-      <StackHeader onLeftClick={goBack} title="Bundles" titlePosition="left" />
+      <StackHeader
+        right={<MiniSearchButton onClick={handleSearchButtonClick} />}
+        onLeftClick={goBack}
+        title="Bundles"
+        titlePosition="left"
+      />
       <View>
         <Bundles
           onClick={handleBundleClick}

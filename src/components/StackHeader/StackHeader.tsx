@@ -20,7 +20,7 @@ type StackHeaderProps = {
   titlePosition?: 'left' | 'center' | 'right';
   viewStyle?: StyleProp<ViewStyle>;
   onLeftClick?: () => void;
-  right?: React.FC;
+  right?: object;
 };
 
 const StackHeader: React.FC<StackHeaderProps> = function (props) {
@@ -52,11 +52,7 @@ const StackHeader: React.FC<StackHeaderProps> = function (props) {
           {props.title || 'Title'}
         </Text>
         <View style={styles.rightView}>
-          {props.right ? (
-            <props.right />
-          ) : (
-            <View style={styles.placeholderView} />
-          )}
+          {props.right ? props.right : <View style={styles.placeholderView} />}
         </View>
       </View>
     </Animated.View>

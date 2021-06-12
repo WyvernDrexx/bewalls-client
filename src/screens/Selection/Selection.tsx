@@ -102,7 +102,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
         titlePosition="left"
         onLeftClick={props.navigation.goBack}
         title={props.route.params.title}
-        right={DisplayMode}
+        right={<DisplayMode />}
       />
       <Animated.ScrollView>
         {displayMode === 'carousel' ? (
