@@ -52,7 +52,11 @@ const StackHeader: React.FC<StackHeaderProps> = function (props) {
           {props.title || 'Title'}
         </Text>
         <View style={styles.rightView}>
-          {props.right ? <props.right /> : null}
+          {props.right ? (
+            <props.right />
+          ) : (
+            <View style={styles.placeholderView} />
+          )}
         </View>
       </View>
     </Animated.View>
@@ -64,7 +68,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
     paddingHorizontal: wp(4),
     paddingVertical: hp(3),
-    width: wp(100),
   },
   header: {
     display: 'flex',
@@ -73,16 +76,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   leftView: {
-    width: wp(8),
-    marginRight: wp(3),
+    width: wp(12),
   },
   leftArrow: {},
   middleText: {
     fontSize: hp(2.6),
-    width: wp(60),
+    flex: 1,
     textAlign: 'left',
   },
   rightView: {},
+  placeholderView: {
+    padding: hp(2),
+  },
 });
 
 export default StackHeader;
