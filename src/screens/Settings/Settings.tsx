@@ -19,6 +19,7 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
         title="Settings"
+        titlePosition="left"
         onLeftClick={props.navigation.goBack}
         viewStyle={styles.header}
       />

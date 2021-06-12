@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   leftView: {
-    marginLeft: wp(-2),
     width: wp(8),
     marginRight: wp(3),
   },
@@ -83,9 +82,7 @@ const styles = StyleSheet.create({
     width: wp(60),
     textAlign: 'left',
   },
-  rightView: {
-    width: wp(24.66),
-  },
+  rightView: {},
 });
 
 export default StackHeader;
