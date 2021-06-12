@@ -6,6 +6,7 @@ import {
   View,
   ViewStyle,
   ScrollView,
+  Image,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Bundle } from '../../generated/graphql';
@@ -20,6 +21,9 @@ type BundlesProps = {
   scrollEnabled?: boolean;
   disableClick?: boolean;
   itemType: ItemGroup;
+  width?: string;
+  height?: string;
+  vertical?: boolean;
 };
 
 type BundleItemProps = {
@@ -28,6 +32,8 @@ type BundleItemProps = {
   onClick?: (bundle: Bundle, itemType: ItemGroup) => void;
   disabled?: boolean;
   itemType: ItemGroup;
+  width: string;
+  height: string;
 };
 
 const BundleItem: React.FC<BundleItemProps> = function (props) {
@@ -46,13 +52,20 @@ const BundleItem: React.FC<BundleItemProps> = function (props) {
           {
             backgroundColor: props.item.color,
           },
+          {
+            height: hp(props.height),
+            width: wp(props.width),
+          },
           props.style,
         ]}>
-        <Text
+        <Image
           style={[
-            boxStyles.text,
-            { color: props.item.highlightColor || 'white' },
-          ]}>
+            { height: hp(props.height), width: wp(props.width) },
+            boxStyles.image,
+          ]}
+          source={{ uri: props.item.imageUri }}
+        />
+        <Text style={[boxStyles.text, { color: props.item.highlightColor }]}>
           {props.item.name}
         </Text>
       </View>
@@ -61,28 +74,39 @@ const BundleItem: React.FC<BundleItemProps> = function (props) {
 };
 
 const Bundles: React.FC<BundlesProps> = function (props) {
+  let height = props.height || '13%';
+  let width = props.width || '27%';
+
   if (!props.items) {
     return null;
   }
+
   return (
     <View style={[styles.root, props.style]}>
       <ScrollView
-        scrollEnabled={props.scrollEnabled}
-        horizontal
+        scrollEnabled={!props.scrollEnabled}
+        horizontal={!props.vertical}
         overScrollMode="never"
         showsHorizontalScrollIndicator={false}>
-        {props.items.map((item, index) => {
-          return (
-            <BundleItem
-              itemType={props.itemType}
-              disabled={props.disableClick}
-              style={isLastElement(index, props.items!) ? styles.lastBox : {}}
-              key={index}
-              onClick={props.onClick}
-              item={item}
-            />
-          );
-        })}
+        <View style={styles.scrollView}>
+          {props.items.map((item, index) => {
+            return (
+              <BundleItem
+                itemType={props.itemType}
+                disabled={props.disableClick}
+                style={[
+                  isLastElement(index, props.items!) ? styles.lastBox : {},
+                  props.vertical ? styles.marginBottom : {},
+                ]}
+                key={index}
+                onClick={props.onClick}
+                item={item}
+                height={height!}
+                width={width!}
+              />
+            );
+          })}
+        </View>
       </ScrollView>
     </View>
   );
@@ -90,18 +114,23 @@ const Bundles: React.FC<BundlesProps> = function (props) {
 
 const boxStyles = StyleSheet.create({
   box: {
-    paddingVertical: hp(4),
     backgroundColor: 'black',
     borderRadius: hp(2),
     marginLeft: wp(4),
-    minWidth: wp(22),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
     color: 'white',
-    fontSize: hp(2),
+    fontSize: hp(2.3),
     fontWeight: 'bold',
     textAlign: 'center',
     marginHorizontal: wp(2),
+    position: 'absolute',
+  },
+  image: {
+    borderRadius: hp(2),
   },
 });
 
@@ -109,6 +138,14 @@ const styles = StyleSheet.create({
   root: {},
   lastBox: {
     marginRight: wp(4),
+  },
+  scrollView: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  marginBottom: {
+    marginBottom: hp(2),
   },
 });
 

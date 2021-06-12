@@ -1,0 +1,9 @@
+query BundlesScreen {
+  bundles {
+    id
+    name
+    highlightColor
+    color
+    imageUri
+  }
+}

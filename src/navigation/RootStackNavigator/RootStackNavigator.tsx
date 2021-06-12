@@ -6,7 +6,14 @@ import {
 } from '@react-navigation/stack';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
-import { Home, Search, Categories, Selection, Settings } from '../../screens';
+import {
+  Home,
+  Search,
+  Categories,
+  Selection,
+  Settings,
+  BundlesScreen,
+} from '../../screens';
 
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { useTheme } from '../../hooks';
@@ -49,6 +56,7 @@ function RootNavigator() {
         <Stack.Screen name="Categories" component={Categories} />
         <Stack.Screen name="Selection" component={Selection} />
         <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="Bundles" component={BundlesScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -73,6 +73,10 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     });
   };
 
+  const navigateToBundlesScreen = () => {
+    props.navigation.navigate('Bundles');
+  };
+
   if (loading) {
     return null;
   }
@@ -114,7 +118,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
                   width="42"
                 />
               </ScrollView>
-              <HeadingTitle hideButton title="Bundles" />
+              <HeadingTitle onClick={navigateToBundlesScreen} title="Bundles" />
               <Bundles
                 onClick={handleBundleClick}
                 itemType="bundle"

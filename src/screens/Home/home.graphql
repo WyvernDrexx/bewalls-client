@@ -17,6 +17,7 @@ query HomeScreen {
   }
   bundles {
     id
+    imageUri
     name
     highlightColor
     color
