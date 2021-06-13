@@ -10,7 +10,7 @@ import { useTheme } from '../../hooks';
 type MountAnimatedViewProps = {
   style?: StyleProp<ViewStyle>;
   animationDelay?: number;
-  renderTriggerValue?: boolean | string | number;
+  renderTriggerValue?: any;
   clean?: boolean;
 };
 
@@ -25,12 +25,10 @@ const MountAnimatedView: React.FC<MountAnimatedViewProps> = function (props) {
   });
 
   useEffect(() => {
-    if (typeof props.renderTriggerValue !== 'undefined') {
-      opacity.value = intialOpacity;
-      setTimeout(() => {
-        opacity.value = 1;
-      }, 50);
-    }
+    opacity.value = intialOpacity;
+    setTimeout(() => {
+      opacity.value = 1;
+    }, 100);
   }, [props.renderTriggerValue]);
 
   useEffect(() => {

@@ -53,6 +53,7 @@ export type Query = {
   categories: Array<Maybe<Category>>;
   wallpaper: Wallpaper;
   wallpapers: Array<Maybe<Wallpaper>>;
+  search: SearchResult;
 };
 
 
@@ -75,6 +76,16 @@ export type QueryWallpapersArgs = {
   tagsId?: Maybe<Scalars['String']>;
   categoryId?: Maybe<Scalars['String']>;
   bundleId?: Maybe<Scalars['String']>;
+};
+
+
+export type QuerySearchArgs = {
+  searchText: Scalars['String'];
+};
+
+export type SearchResult = {
+  __typename?: 'SearchResult';
+  wallpapers: Array<Maybe<Wallpaper>>;
 };
 
 export type Tag = {
@@ -191,6 +202,22 @@ export type HomeScreenQuery = (
     { __typename?: 'Bundle' }
     & Pick<Bundle, 'id' | 'imageUri' | 'name' | 'highlightColor' | 'color'>
   )>> }
+);
+
+export type SearchTextStringQueryVariables = Exact<{
+  searchText: Scalars['String'];
+}>;
+
+
+export type SearchTextStringQuery = (
+  { __typename?: 'Query' }
+  & { search: (
+    { __typename?: 'SearchResult' }
+    & { wallpapers: Array<Maybe<(
+      { __typename?: 'Wallpaper' }
+      & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'id'>
+    )>> }
+  ) }
 );
 
 export type WallpapersQueryVariables = Exact<{
@@ -417,6 +444,46 @@ export function useHomeScreenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type HomeScreenQueryHookResult = ReturnType<typeof useHomeScreenQuery>;
 export type HomeScreenLazyQueryHookResult = ReturnType<typeof useHomeScreenLazyQuery>;
 export type HomeScreenQueryResult = Apollo.QueryResult<HomeScreenQuery, HomeScreenQueryVariables>;
+export const SearchTextStringDocument = gql`
+    query SearchTextString($searchText: String!) {
+  search(searchText: $searchText) {
+    wallpapers {
+      name
+      imageUri
+      downloads
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchTextStringQuery__
+ *
+ * To run a query within a React component, call `useSearchTextStringQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchTextStringQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchTextStringQuery({
+ *   variables: {
+ *      searchText: // value for 'searchText'
+ *   },
+ * });
+ */
+export function useSearchTextStringQuery(baseOptions: Apollo.QueryHookOptions<SearchTextStringQuery, SearchTextStringQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchTextStringQuery, SearchTextStringQueryVariables>(SearchTextStringDocument, options);
+      }
+export function useSearchTextStringLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchTextStringQuery, SearchTextStringQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchTextStringQuery, SearchTextStringQueryVariables>(SearchTextStringDocument, options);
+        }
+export type SearchTextStringQueryHookResult = ReturnType<typeof useSearchTextStringQuery>;
+export type SearchTextStringLazyQueryHookResult = ReturnType<typeof useSearchTextStringLazyQuery>;
+export type SearchTextStringQueryResult = Apollo.QueryResult<SearchTextStringQuery, SearchTextStringQueryVariables>;
 export const WallpapersDocument = gql`
     query wallpapers($bundleId: String, $categoryId: String, $tagsId: String) {
   wallpapers(bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId) {

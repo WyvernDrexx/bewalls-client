@@ -1,0 +1,10 @@
+query SearchTextString($searchText: String!) {
+  search(searchText: $searchText) {
+    wallpapers {
+      name
+      imageUri
+      downloads
+      id
+    }
+  }
+}

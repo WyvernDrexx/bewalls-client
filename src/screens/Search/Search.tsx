@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, TextInput, Keyboard } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Keyboard,
+  ActivityIndicator,
+} from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 import { SearchTerm } from './HotSearches';
@@ -15,15 +21,15 @@ import LeftArrowSvg from './left-arrow.svg';
 import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
-import { BRANDS } from '../../sample/sampleData';
-import { WallpaperType } from '../../types';
 import { SearchScreenProps } from '../../navigation/types';
+import { useSearchTextStringQuery, Wallpaper } from '../../generated/graphql';
+import MountAnimatedView from '../../components/MountAnimatedView';
 
 const Search: React.FC<SearchScreenProps> = function (props) {
   const [searchStatus, setSearchStatus] =
     useState<null | 'none' | 'found'>(null);
   const [searchText, setSearchText] = useState('');
-  const [selectedWallpaper, setSelectedWallpaper] = useState<WallpaperType>();
+  const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
   const [showWallpaper, setShowWallpaper] = useState(false);
   const {
     themedStyles,
@@ -31,21 +37,17 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   } = useTheme();
   const [iskeyboardVisible, setIskeyboardVisible] = useState(true);
   const inputRef = useRef<TextInput>(null);
+  const { data, loading } = useSearchTextStringQuery({
+    variables: {
+      searchText,
+    },
+  });
+
+  console.log(data?.search);
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
-
-  useEffect(() => {
-    if (searchText === 'OnePlus') {
-      setSearchStatus('found');
-    } else {
-      setSearchStatus('none');
-    }
-    if (!searchText) {
-      setSearchStatus(null);
-    }
-  }, [searchText]);
 
   const handleTextChange = (text: string) => {
     setSearchText(text);
@@ -59,7 +61,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     console.log('Clicked', searchTerm.term);
   };
 
-  const handleResultClick = (select: WallpaperType) => {
+  const handleResultClick = (select: Wallpaper) => {
     setSelectedWallpaper(select);
     setShowWallpaper(true);
   };
@@ -88,15 +90,28 @@ const Search: React.FC<SearchScreenProps> = function (props) {
       return (
         <Results
           onClick={handleResultClick}
-          numberOfResults={4}
-          items={BRANDS}
-          searchTerm="OnePlus"
+          numberOfResults={data?.search.wallpapers.length || 0}
+          items={data?.search.wallpapers as Wallpaper[]}
+          searchTerm={searchText}
         />
       );
     } else {
       return <NotFound />;
     }
   };
+
+  useEffect(() => {
+    if (!data) {
+      setSearchStatus('none');
+    } else if (!data.search) {
+      setSearchStatus('none');
+    } else if (!data.search.wallpapers.length) {
+      setSearchStatus('none');
+    } else {
+      setSearchStatus('found');
+    }
+    if (!searchText) setSearchStatus(null);
+  }, [data, searchText]);
 
   useEffect(() => {
     Keyboard.addListener('keyboardDidHide', () => {
@@ -153,7 +168,11 @@ const Search: React.FC<SearchScreenProps> = function (props) {
             ) : null}
           </View>
         </View>
-        {renderContents()}
+        <MountAnimatedView
+          animationDelay={500}
+          renderTriggerValue={searchStatus}>
+          {loading ? <ActivityIndicator color="red" /> : renderContents()}
+        </MountAnimatedView>
       </ScrollView>
       <WallpaperView
         onCloseClick={handleWallpaperViewClose}
