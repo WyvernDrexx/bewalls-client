@@ -35,9 +35,9 @@ const BottomDraggable = function () {
     },
     onEnd: event => {
       if (event.absoluteY < driftOffset) {
-        offsetY.value = Animated.withSpring(maxOffset);
+        offsetY.value = Animated.withTiming(maxOffset);
       } else {
-        offsetY.value = Animated.withSpring(startPosition);
+        offsetY.value = Animated.withTiming(startPosition);
       }
     },
   });
