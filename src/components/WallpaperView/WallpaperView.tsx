@@ -16,7 +16,7 @@ import { BottomDraggable } from './BottomDraggable';
 
 import { hp, wp } from '../../utilities';
 
-import LeftArrowSvg from './left-arrow.svg';
+import DownArrowSvg from './down-arrow.svg';
 import { Wallpaper } from '../../generated/graphql';
 
 type WallpaperViewProps = {
@@ -62,7 +62,7 @@ export default function WallpaperView(props: WallpaperViewProps) {
     <Animated.View style={[animatedStyle, styles.root]}>
       <Image style={styles.image} source={{ uri: props.wallpaper.imageUri }} />
       <TouchableOpacity onPress={handleCloseClick} style={styles.arrow}>
-        <LeftArrowSvg style={styles.arrowIcon} fill="white" />
+        <DownArrowSvg style={styles.arrowIcon} fill="white" />
       </TouchableOpacity>
       <BottomDraggable />
     </Animated.View>

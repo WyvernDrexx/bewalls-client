@@ -22,12 +22,12 @@ import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
 import { SearchScreenProps } from '../../navigation/types';
-import { useSearchTextStringQuery, Wallpaper } from '../../generated/graphql';
+import { SearchResult, Wallpaper } from '../../generated/graphql';
 import MountAnimatedView from '../../components/MountAnimatedView';
+import { apolloClient } from '../../apollo';
+import gql from 'graphql-tag';
 
 const Search: React.FC<SearchScreenProps> = function (props) {
-  const [searchStatus, setSearchStatus] =
-    useState<null | 'none' | 'found'>(null);
   const [searchText, setSearchText] = useState('');
   const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
   const [showWallpaper, setShowWallpaper] = useState(false);
@@ -37,19 +37,16 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   } = useTheme();
   const [iskeyboardVisible, setIskeyboardVisible] = useState(true);
   const inputRef = useRef<TextInput>(null);
-  const { data, loading } = useSearchTextStringQuery({
-    variables: {
-      searchText,
-    },
-  });
 
-  console.log(data?.search);
-
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [searchResults, setSearchResults] = useState<Wallpaper[]>([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
   const handleTextChange = (text: string) => {
+    setLoading(true);
     setSearchText(text);
   };
 
@@ -79,39 +76,88 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   };
 
   const renderContents = () => {
-    if (!searchStatus) {
+    if (!searchText) {
       return (
         <Extras
           onColorBoxClick={handleBoxClick}
           onSearchTermClick={handleSearchTermClick}
         />
       );
-    } else if (searchStatus === 'found') {
+    }
+
+    if (searchResults.length) {
       return (
         <Results
           onClick={handleResultClick}
-          numberOfResults={data?.search.wallpapers.length || 0}
-          items={data?.search.wallpapers as Wallpaper[]}
+          numberOfResults={searchResults.length || 0}
+          items={searchResults as Wallpaper[]}
           searchTerm={searchText}
         />
       );
-    } else {
+    }
+
+    if (!loading && !searchResults.length && searchText) {
       return <NotFound />;
     }
+    return (
+      <Extras
+        onColorBoxClick={handleBoxClick}
+        onSearchTermClick={handleSearchTermClick}
+      />
+    );
+  };
+
+  const renderSearchBarButtons = () => {
+    if (loading) {
+      return <ActivityIndicator color="black" />;
+    }
+    if (searchText.length) {
+      return (
+        <TouchableOpacity
+          style={styles.rightIcon}
+          onPress={() => handleTextChange('')}>
+          <CloseSvg
+            fill={colors.secondary}
+            height={hp('1.8')}
+            width={hp('1.8')}
+          />
+        </TouchableOpacity>
+      );
+    }
+    return <View style={styles.rightIcon} />;
   };
 
   useEffect(() => {
-    if (!data) {
-      setSearchStatus('none');
-    } else if (!data.search) {
-      setSearchStatus('none');
-    } else if (!data.search.wallpapers.length) {
-      setSearchStatus('none');
-    } else {
-      setSearchStatus('found');
+    if (!searchText) setLoading(false);
+    if (searchText.length < 3) return;
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      setTimeoutId(null);
     }
-    if (!searchText) setSearchStatus(null);
-  }, [data, searchText]);
+    setTimeoutId(
+      setTimeout(async () => {
+        const { data } = await apolloClient.query<{ search: SearchResult }>({
+          query: gql`
+            query SearchTextString($searchText: String!) {
+              search(searchText: $searchText) {
+                wallpapers {
+                  name
+                  imageUri
+                  downloads
+                  id
+                }
+              }
+            }
+          `,
+          variables: {
+            searchText,
+          },
+        });
+        setSearchResults((data.search.wallpapers as Wallpaper[]) || []);
+        setLoading(false);
+      }, 150),
+    );
+  }, [searchText]);
 
   useEffect(() => {
     Keyboard.addListener('keyboardDidHide', () => {
@@ -157,22 +203,10 @@ const Search: React.FC<SearchScreenProps> = function (props) {
                 returnKeyType="search"
               />
             </View>
-            {searchText.length ? (
-              <TouchableOpacity onPress={() => handleTextChange('')}>
-                <CloseSvg
-                  fill={colors.secondary}
-                  height={hp('1.8')}
-                  width={hp('1.8')}
-                />
-              </TouchableOpacity>
-            ) : null}
+            {renderSearchBarButtons()}
           </View>
         </View>
-        <MountAnimatedView
-          animationDelay={500}
-          renderTriggerValue={searchStatus}>
-          {loading ? <ActivityIndicator color="red" /> : renderContents()}
-        </MountAnimatedView>
+        <MountAnimatedView>{renderContents()}</MountAnimatedView>
       </ScrollView>
       <WallpaperView
         onCloseClick={handleWallpaperViewClose}
@@ -202,7 +236,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
+    paddingRight: wp(4),
   },
+  rightIcon: {},
   searchInput: {
     width: wp(73),
     fontSize: hp(2),
@@ -235,6 +271,12 @@ const styles = StyleSheet.create({
   colorBox: {
     padding: hp(1.5),
     borderRadius: wp(100),
+  },
+  loadingView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: hp(50),
   },
 });
 

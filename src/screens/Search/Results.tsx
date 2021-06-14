@@ -36,13 +36,14 @@ const Results: React.FC<ResultsProps> = function (props) {
         "{props.searchTerm}"
       </Text>
       <Text style={[styles.subText, themedStyles.text]}>
-        {props.numberOfResults} Wallpapers are available.
+        {props.numberOfResults} Wallpaper
+        {props.numberOfResults > 1 ? 's are ' : ' is '}
+        available.
       </Text>
       <View style={styles.resultsView}>
         <Cards
           group="category"
           disableLastMargin
-          disableText
           height="34"
           width="44"
           items={props.items}
