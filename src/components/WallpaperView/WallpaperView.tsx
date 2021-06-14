@@ -91,5 +91,6 @@ const styles = StyleSheet.create({
   arrowIcon: {
     height: hp(4),
     width: hp(4),
+    opacity: 0.8,
   },
 });

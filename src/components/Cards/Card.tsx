@@ -73,13 +73,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: wp(1.5),
+    borderRadius: hp(1.5),
     marginLeft: wp(4),
   },
   textView: {
     position: 'absolute',
     bottom: 0,
-    borderRadius: wp(1.5),
+    borderRadius: hp(1.5),
   },
   title: {
     color: 'white',

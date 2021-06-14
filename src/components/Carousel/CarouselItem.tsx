@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Image,
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { Image, StyleProp, StyleSheet, Text, ViewStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolate,
@@ -18,6 +11,7 @@ import MountAnimatedView from '../MountAnimatedView';
 
 import { hp, wp } from '../../utilities';
 import { Wallpaper } from '../../generated/graphql';
+import LinearGradient from 'react-native-linear-gradient';
 
 type CarouselItemProps = {
   data: Wallpaper;
@@ -30,7 +24,7 @@ type CarouselItemProps = {
 };
 
 const CarouselItem = function (props: CarouselItemProps) {
-  const width = wp(67);
+  const width = wp(73);
 
   const animatedStyle = useAnimatedStyle(() => {
     const scale = interpolate(
@@ -63,10 +57,11 @@ const CarouselItem = function (props: CarouselItemProps) {
           <Animated.View style={[animatedStyle, styles.imageView]}>
             <Image style={styles.image} source={{ uri: props.data.imageUri }} />
             {!props.hideText ? (
-              <View style={styles.titleView}>
+              <LinearGradient
+                colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
+                style={[styles.titleView]}>
                 <Text style={styles.title}>{props.data.name}</Text>
-                <Text style={styles.subTitle}>Wallpapers</Text>
-              </View>
+              </LinearGradient>
             ) : null}
           </Animated.View>
         </TouchableOpacity>
@@ -85,17 +80,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: hp(5),
-    width: wp('75'),
-    height: hp('75'),
+    width: wp('80'),
+    height: hp('80'),
   },
   titleView: {
     position: 'absolute',
+    bottom: 0,
+    paddingBottom: hp(2),
+    borderRadius: hp(5),
+    width: wp(80),
+    height: hp(40),
   },
   title: {
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: hp(5),
+    fontSize: hp(3),
+    position: 'absolute',
+    bottom: hp(2),
+    width: wp(80),
   },
   subTitle: {
     color: 'white',
@@ -105,15 +108,15 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: hp(5),
-    width: wp('75'),
-    height: hp('75'),
+    width: wp('80'),
+    height: hp('80'),
     resizeMode: 'cover',
   },
   firstItem: {
-    paddingLeft: wp('17.5'),
+    paddingLeft: wp('14'),
   },
   lastItem: {
-    paddingRight: wp(17.5 - 2), //Subtract 2% of the extra padding from root
+    paddingRight: wp(15 - 2), //Subtract 2% of the extra padding from root
   },
 });
 

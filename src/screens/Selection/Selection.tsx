@@ -58,7 +58,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
           group="category"
           onClick={handleCardClick}
           items={data?.wallpapers as Wallpaper[]}
-          disableText
           height="34"
           width="44"
           disableLastMargin
@@ -109,7 +108,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
           <Carousel
             onClick={handleCardClick}
             items={data?.wallpapers as Wallpaper[]}
-            hideText
           />
         ) : (
           <Grid />
