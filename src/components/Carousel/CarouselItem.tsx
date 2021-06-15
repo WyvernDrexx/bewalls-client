@@ -7,8 +7,6 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 
-import MountAnimatedView from '../MountAnimatedView';
-
 import { hp, wp } from '../../utilities';
 import { Wallpaper } from '../../generated/graphql';
 import LinearGradient from 'react-native-linear-gradient';
@@ -24,7 +22,7 @@ type CarouselItemProps = {
 };
 
 const CarouselItem = function (props: CarouselItemProps) {
-  const width = wp(73);
+  const width = wp(76);
 
   const animatedStyle = useAnimatedStyle(() => {
     const scale = interpolate(
@@ -46,34 +44,32 @@ const CarouselItem = function (props: CarouselItemProps) {
   };
 
   return (
-    <MountAnimatedView>
-      <Animated.View
-        style={[
-          styles.root,
-          props.index === 0 ? styles.firstItem : {},
-          props.isLastItem ? styles.lastItem : {},
-        ]}>
-        <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
-          <Animated.View style={[animatedStyle, styles.imageView]}>
-            <Image style={styles.image} source={{ uri: props.data.imageUri }} />
-            {!props.hideText ? (
-              <LinearGradient
-                colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
-                style={[styles.titleView]}>
-                <Text style={styles.title}>{props.data.name}</Text>
-              </LinearGradient>
-            ) : null}
-          </Animated.View>
-        </TouchableOpacity>
-      </Animated.View>
-    </MountAnimatedView>
+    <Animated.View
+      style={[
+        styles.root,
+        props.index === 0 ? styles.firstItem : {},
+        props.isLastItem ? styles.lastItem : {},
+      ]}>
+      <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
+        <Animated.View style={[animatedStyle, styles.imageView]}>
+          <Image style={styles.image} source={{ uri: props.data.imageUri }} />
+          {!props.hideText ? (
+            <LinearGradient
+              colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
+              style={[styles.titleView]}>
+              <Text style={styles.title}>{props.data.name}</Text>
+            </LinearGradient>
+          ) : null}
+        </Animated.View>
+      </TouchableOpacity>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     marginTop: hp(4),
-    paddingLeft: wp(1),
+    marginRight: wp(-6),
   },
   imageView: {
     display: 'flex',
@@ -113,10 +109,11 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   firstItem: {
-    paddingLeft: wp('14'),
+    paddingLeft: wp('15'),
   },
   lastItem: {
-    paddingRight: wp(15 - 2), //Subtract 2% of the extra padding from root
+    paddingRight: wp(14), //Subtract 2% of the extra padding from root
+    marginRight: 0,
   },
 });
 
