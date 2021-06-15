@@ -22,7 +22,7 @@ import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
 import { SearchScreenProps } from '../../navigation/types';
-import { SearchResult, Wallpaper } from '../../generated/graphql';
+import { Color, SearchResult, Wallpaper } from '../../generated/graphql';
 import MountAnimatedView from '../../components/MountAnimatedView';
 import { apolloClient } from '../../apollo';
 import gql from 'graphql-tag';
@@ -50,8 +50,12 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     setSearchText(text);
   };
 
-  const handleBoxClick = (color: string) => {
-    console.log('Clicked Color', color);
+  const handleBoxClick = (color: Color) => {
+    props.navigation.navigate('Selection', {
+      group: 'color',
+      groupId: color.id,
+      title: `${color.name}`,
+    });
   };
 
   const handleSearchTermClick = (searchTerm: SearchTerm) => {

@@ -1,5 +1,7 @@
 query wallpapers($bundleId: String, $categoryId: String, $tagsId: String) {
-  wallpapers(bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId) {
+  wallpapers(
+    data: { bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId }
+  ) {
     name
     imageUri
     downloads

@@ -5,7 +5,7 @@ import HotSearches, { SearchTerm } from './HotSearches';
 
 import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
-import { useColorsAllQuery } from '../../generated/graphql';
+import { Color, useColorsAllQuery } from '../../generated/graphql';
 
 const SEARCHES_TERM: SearchTerm[] = [
   {
@@ -29,7 +29,7 @@ const SEARCHES_TERM: SearchTerm[] = [
 ];
 
 type ExtrasProps = {
-  onColorBoxClick: (color: string) => void;
+  onColorBoxClick: (color: Color) => void;
   onSearchTermClick: (searchTerm: SearchTerm) => void;
 };
 
@@ -39,7 +39,7 @@ const Extras: React.FC<ExtrasProps> = function (props) {
     theme: { colors },
   } = useTheme();
 
-  const handleColorBoxClick = (color: string) => {
+  const handleColorBoxClick = (color: Color) => {
     props.onColorBoxClick(color);
   };
 
@@ -66,7 +66,7 @@ const Extras: React.FC<ExtrasProps> = function (props) {
                 <TouchableOpacity
                   activeOpacity={0.8}
                   key={index}
-                  onPress={() => handleColorBoxClick(item!.id)}>
+                  onPress={() => handleColorBoxClick(item!)}>
                   <View
                     style={[
                       styles.colorBox,
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     padding: hp(1.5),
     borderRadius: wp(100),
     borderWidth: 1,
+    backgroundColor: 'black',
   },
 });
 

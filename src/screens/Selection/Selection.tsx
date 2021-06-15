@@ -29,6 +29,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   const variables = {
     bundleId: type === 'bundle' ? selectorId : '',
     categoryId: type === 'category' ? selectorId : '',
+    colorId: type === 'color' ? selectorId : '',
   };
 
   const { loading, data, error } = useWallpapersQuery({

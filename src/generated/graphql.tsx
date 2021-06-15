@@ -82,9 +82,7 @@ export type QueryWallpaperArgs = {
 
 
 export type QueryWallpapersArgs = {
-  tagsId?: Maybe<Scalars['String']>;
-  categoryId?: Maybe<Scalars['String']>;
-  bundleId?: Maybe<Scalars['String']>;
+  data: WallpaperQueryInput;
 };
 
 
@@ -145,6 +143,13 @@ export type WallpaperCreateInput = {
   categoryId: Scalars['String'];
   highlightColor?: Maybe<Scalars['String']>;
   colorId: Scalars['String'];
+};
+
+export type WallpaperQueryInput = {
+  colorId?: Maybe<Scalars['String']>;
+  tagsId?: Maybe<Scalars['String']>;
+  categoryId?: Maybe<Scalars['String']>;
+  bundleId?: Maybe<Scalars['String']>;
 };
 
 export type TrendingQueryVariables = Exact<{ [key: string]: never; }>;
@@ -544,7 +549,9 @@ export type ColorsAllLazyQueryHookResult = ReturnType<typeof useColorsAllLazyQue
 export type ColorsAllQueryResult = Apollo.QueryResult<ColorsAllQuery, ColorsAllQueryVariables>;
 export const WallpapersDocument = gql`
     query wallpapers($bundleId: String, $categoryId: String, $tagsId: String) {
-  wallpapers(bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId) {
+  wallpapers(
+    data: {bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId}
+  ) {
     name
     imageUri
     downloads
