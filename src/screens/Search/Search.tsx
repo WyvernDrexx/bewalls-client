@@ -76,6 +76,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   };
 
   const renderContents = () => {
+    if (loading) return null;
     if (!searchText) {
       return (
         <Extras
