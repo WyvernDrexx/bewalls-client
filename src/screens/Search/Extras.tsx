@@ -5,27 +5,7 @@ import HotSearches, { SearchTerm } from './HotSearches';
 
 import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
-
-const COLORS_BOX = [
-  {
-    color: '#00D3FF',
-  },
-  {
-    color: '#FF002B',
-  },
-  {
-    color: '#5B5BFF',
-  },
-  {
-    color: '#E6D111',
-  },
-  {
-    color: '#000000',
-  },
-  {
-    color: '#26C741',
-  },
-];
+import { useColorsAllQuery } from '../../generated/graphql';
 
 const SEARCHES_TERM: SearchTerm[] = [
   {
@@ -54,7 +34,10 @@ type ExtrasProps = {
 };
 
 const Extras: React.FC<ExtrasProps> = function (props) {
-  const { themedStyles } = useTheme();
+  const {
+    themedStyles,
+    theme: { colors },
+  } = useTheme();
 
   const handleColorBoxClick = (color: string) => {
     props.onColorBoxClick(color);
@@ -63,6 +46,10 @@ const Extras: React.FC<ExtrasProps> = function (props) {
   const handleSearchTermClick = (searchTerm: SearchTerm) => {
     props.onSearchTermClick(searchTerm);
   };
+
+  const { data: colorsData, loading } = useColorsAllQuery();
+
+  if (loading) return null;
 
   return (
     <>
@@ -74,17 +61,18 @@ const Extras: React.FC<ExtrasProps> = function (props) {
         <View style={styles.colorsView}>
           <Text style={themedStyles.text}>Colours</Text>
           <View style={styles.colorsContainer}>
-            {COLORS_BOX.map((item, index) => {
+            {colorsData?.colors.map((item, index) => {
               return (
                 <TouchableOpacity
                   activeOpacity={0.8}
                   key={index}
-                  onPress={() => handleColorBoxClick(item.color)}>
+                  onPress={() => handleColorBoxClick(item!.id)}>
                   <View
                     style={[
                       styles.colorBox,
                       {
-                        backgroundColor: item.color,
+                        backgroundColor: item!.code,
+                        borderColor: colors.secondary,
                       },
                     ]}
                   />
@@ -137,6 +125,7 @@ const styles = StyleSheet.create({
   colorBox: {
     padding: hp(1.5),
     borderRadius: wp(100),
+    borderWidth: 1,
   },
 });
 

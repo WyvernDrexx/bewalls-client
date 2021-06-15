@@ -35,6 +35,14 @@ export type Category = {
   wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
 };
 
+export type Color = {
+  __typename?: 'Color';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  code: Scalars['String'];
+  wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
+};
+
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -54,6 +62,7 @@ export type Query = {
   wallpaper: Wallpaper;
   wallpapers: Array<Maybe<Wallpaper>>;
   search: SearchResult;
+  colors: Array<Maybe<Color>>;
 };
 
 
@@ -93,7 +102,7 @@ export type Tag = {
   id: Scalars['String'];
   name: Scalars['String'];
   totalNumberOfItems: Scalars['Int'];
-  wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
+  wallpapers: Array<Maybe<Wallpaper>>;
 };
 
 export type TrendingWallpaper = {
@@ -108,6 +117,7 @@ export type Wallpaper = {
   id: Scalars['String'];
   name: Scalars['String'];
   imageUri: Scalars['String'];
+  color: Color;
   bundle: Bundle;
   height: Scalars['Int'];
   width: Scalars['Int'];
@@ -134,6 +144,7 @@ export type WallpaperCreateInput = {
   downloads: Scalars['Int'];
   categoryId: Scalars['String'];
   highlightColor?: Maybe<Scalars['String']>;
+  colorId: Scalars['String'];
 };
 
 export type TrendingQueryVariables = Exact<{ [key: string]: never; }>;
@@ -218,6 +229,17 @@ export type SearchTextStringQuery = (
       & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'id'>
     )>> }
   ) }
+);
+
+export type ColorsAllQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ColorsAllQuery = (
+  { __typename?: 'Query' }
+  & { colors: Array<Maybe<(
+    { __typename?: 'Color' }
+    & Pick<Color, 'id' | 'name' | 'code'>
+  )>> }
 );
 
 export type WallpapersQueryVariables = Exact<{
@@ -484,6 +506,42 @@ export function useSearchTextStringLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type SearchTextStringQueryHookResult = ReturnType<typeof useSearchTextStringQuery>;
 export type SearchTextStringLazyQueryHookResult = ReturnType<typeof useSearchTextStringLazyQuery>;
 export type SearchTextStringQueryResult = Apollo.QueryResult<SearchTextStringQuery, SearchTextStringQueryVariables>;
+export const ColorsAllDocument = gql`
+    query ColorsAll {
+  colors {
+    id
+    name
+    code
+  }
+}
+    `;
+
+/**
+ * __useColorsAllQuery__
+ *
+ * To run a query within a React component, call `useColorsAllQuery` and pass it any options that fit your needs.
+ * When your component renders, `useColorsAllQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useColorsAllQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useColorsAllQuery(baseOptions?: Apollo.QueryHookOptions<ColorsAllQuery, ColorsAllQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ColorsAllQuery, ColorsAllQueryVariables>(ColorsAllDocument, options);
+      }
+export function useColorsAllLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ColorsAllQuery, ColorsAllQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ColorsAllQuery, ColorsAllQueryVariables>(ColorsAllDocument, options);
+        }
+export type ColorsAllQueryHookResult = ReturnType<typeof useColorsAllQuery>;
+export type ColorsAllLazyQueryHookResult = ReturnType<typeof useColorsAllLazyQuery>;
+export type ColorsAllQueryResult = Apollo.QueryResult<ColorsAllQuery, ColorsAllQueryVariables>;
 export const WallpapersDocument = gql`
     query wallpapers($bundleId: String, $categoryId: String, $tagsId: String) {
   wallpapers(bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId) {

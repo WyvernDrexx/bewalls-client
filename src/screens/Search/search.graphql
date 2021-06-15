@@ -8,3 +8,11 @@ query SearchTextString($searchText: String!) {
     }
   }
 }
+
+query ColorsAll {
+  colors {
+    id
+    name
+    code
+  }
+}
