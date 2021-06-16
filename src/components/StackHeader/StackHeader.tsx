@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     fontSize: hp(2.6),
     flex: 1,
     textAlign: 'left',
+    textTransform: 'capitalize',
   },
   rightView: {},
   placeholderView: {

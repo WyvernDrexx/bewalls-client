@@ -1,6 +1,16 @@
-query wallpapers($bundleId: String, $categoryId: String, $tagsId: String) {
+query wallpapers(
+  $bundleId: String
+  $categoryId: String
+  $tagsId: String
+  $colorId: String
+) {
   wallpapers(
-    data: { bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId }
+    data: {
+      bundleId: $bundleId
+      categoryId: $categoryId
+      tagsId: $tagsId
+      colorId: $colorId
+    }
   ) {
     name
     imageUri

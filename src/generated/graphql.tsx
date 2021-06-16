@@ -251,6 +251,7 @@ export type WallpapersQueryVariables = Exact<{
   bundleId?: Maybe<Scalars['String']>;
   categoryId?: Maybe<Scalars['String']>;
   tagsId?: Maybe<Scalars['String']>;
+  colorId?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -548,9 +549,9 @@ export type ColorsAllQueryHookResult = ReturnType<typeof useColorsAllQuery>;
 export type ColorsAllLazyQueryHookResult = ReturnType<typeof useColorsAllLazyQuery>;
 export type ColorsAllQueryResult = Apollo.QueryResult<ColorsAllQuery, ColorsAllQueryVariables>;
 export const WallpapersDocument = gql`
-    query wallpapers($bundleId: String, $categoryId: String, $tagsId: String) {
+    query wallpapers($bundleId: String, $categoryId: String, $tagsId: String, $colorId: String) {
   wallpapers(
-    data: {bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId}
+    data: {bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId, colorId: $colorId}
   ) {
     name
     imageUri
@@ -575,6 +576,7 @@ export const WallpapersDocument = gql`
  *      bundleId: // value for 'bundleId'
  *      categoryId: // value for 'categoryId'
  *      tagsId: // value for 'tagsId'
+ *      colorId: // value for 'colorId'
  *   },
  * });
  */

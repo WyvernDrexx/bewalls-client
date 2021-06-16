@@ -41,6 +41,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [searchResults, setSearchResults] = useState<Wallpaper[]>([]);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -176,7 +177,10 @@ const Search: React.FC<SearchScreenProps> = function (props) {
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
-      <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        keyboardShouldPersistTaps
+        overScrollMode="never"
+        showsVerticalScrollIndicator={false}>
         <View style={[styles.searchContainer, themedStyles.bgLight]}>
           <View style={styles.flexView}>
             <View style={[styles.searchTextView]}>
