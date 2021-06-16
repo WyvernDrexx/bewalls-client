@@ -52,6 +52,10 @@ const SIDEBAR_ITEMS: BarItemType[] = [
     route: 'Settings',
     title: 'Settings',
   },
+  {
+    route: 'SignIn' as keyof RootStackParamList,
+    title: 'Sign In',
+  },
 ];
 
 const SideBar: React.FC<SideBarProps> = function (props) {
