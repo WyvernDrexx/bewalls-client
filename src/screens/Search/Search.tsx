@@ -8,8 +8,6 @@ import {
 } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
-import { SearchTerm } from './HotSearches';
-
 import Extras from './Extras';
 import WallpaperView from '../../components/WallpaperView';
 import NotFound from './NotFound';
@@ -22,7 +20,12 @@ import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
 import { SearchScreenProps } from '../../navigation/types';
-import { Color, SearchResult, Wallpaper } from '../../generated/graphql';
+import {
+  Color,
+  HotSearchTerm,
+  SearchResult,
+  Wallpaper,
+} from '../../generated/graphql';
 import MountAnimatedView from '../../components/MountAnimatedView';
 import { apolloClient } from '../../apollo';
 import gql from 'graphql-tag';
@@ -59,8 +62,9 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     });
   };
 
-  const handleSearchTermClick = (searchTerm: SearchTerm) => {
-    console.log('Clicked', searchTerm.term);
+  const handleSearchTermClick = (searchTerm: HotSearchTerm) => {
+    setLoading(true);
+    setSearchText(searchTerm.term);
   };
 
   const handleResultClick = (select: Wallpaper) => {

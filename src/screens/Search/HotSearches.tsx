@@ -3,20 +3,17 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
-
-export type SearchTerm = {
-  term: string;
-};
+import { HotSearchTerm } from '../../generated/graphql';
 
 type HotSearchesProps = {
-  onClick: (searchTerm: SearchTerm) => void;
-  searchTerms: SearchTerm[];
+  onClick: (searchTerm: HotSearchTerm) => void;
+  searchTerms: HotSearchTerm[];
 };
 
 const HotSearches: React.FC<HotSearchesProps> = function (props) {
   const { themedStyles } = useTheme();
 
-  const handleClick = (searchTerm: SearchTerm) => {
+  const handleClick = (searchTerm: HotSearchTerm) => {
     props.onClick(searchTerm);
   };
 

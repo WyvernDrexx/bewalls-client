@@ -44,6 +44,11 @@ export type Color = {
 };
 
 
+export type HotSearchTerm = {
+  __typename?: 'HotSearchTerm';
+  term: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createWallpaper: Wallpaper;
@@ -63,6 +68,7 @@ export type Query = {
   wallpapers: Array<Maybe<Wallpaper>>;
   search: SearchResult;
   colors: Array<Maybe<Color>>;
+  hotSearches: Array<Maybe<HotSearchTerm>>;
 };
 
 
@@ -236,14 +242,17 @@ export type SearchTextStringQuery = (
   ) }
 );
 
-export type ColorsAllQueryVariables = Exact<{ [key: string]: never; }>;
+export type ExtrasDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ColorsAllQuery = (
+export type ExtrasDataQuery = (
   { __typename?: 'Query' }
   & { colors: Array<Maybe<(
     { __typename?: 'Color' }
     & Pick<Color, 'id' | 'name' | 'code'>
+  )>>, hotSearches: Array<Maybe<(
+    { __typename?: 'HotSearchTerm' }
+    & Pick<HotSearchTerm, 'term'>
   )>> }
 );
 
@@ -512,42 +521,45 @@ export function useSearchTextStringLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type SearchTextStringQueryHookResult = ReturnType<typeof useSearchTextStringQuery>;
 export type SearchTextStringLazyQueryHookResult = ReturnType<typeof useSearchTextStringLazyQuery>;
 export type SearchTextStringQueryResult = Apollo.QueryResult<SearchTextStringQuery, SearchTextStringQueryVariables>;
-export const ColorsAllDocument = gql`
-    query ColorsAll {
+export const ExtrasDataDocument = gql`
+    query ExtrasData {
   colors {
     id
     name
     code
   }
+  hotSearches {
+    term
+  }
 }
     `;
 
 /**
- * __useColorsAllQuery__
+ * __useExtrasDataQuery__
  *
- * To run a query within a React component, call `useColorsAllQuery` and pass it any options that fit your needs.
- * When your component renders, `useColorsAllQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useExtrasDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useExtrasDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useColorsAllQuery({
+ * const { data, loading, error } = useExtrasDataQuery({
  *   variables: {
  *   },
  * });
  */
-export function useColorsAllQuery(baseOptions?: Apollo.QueryHookOptions<ColorsAllQuery, ColorsAllQueryVariables>) {
+export function useExtrasDataQuery(baseOptions?: Apollo.QueryHookOptions<ExtrasDataQuery, ExtrasDataQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ColorsAllQuery, ColorsAllQueryVariables>(ColorsAllDocument, options);
+        return Apollo.useQuery<ExtrasDataQuery, ExtrasDataQueryVariables>(ExtrasDataDocument, options);
       }
-export function useColorsAllLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ColorsAllQuery, ColorsAllQueryVariables>) {
+export function useExtrasDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ExtrasDataQuery, ExtrasDataQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ColorsAllQuery, ColorsAllQueryVariables>(ColorsAllDocument, options);
+          return Apollo.useLazyQuery<ExtrasDataQuery, ExtrasDataQueryVariables>(ExtrasDataDocument, options);
         }
-export type ColorsAllQueryHookResult = ReturnType<typeof useColorsAllQuery>;
-export type ColorsAllLazyQueryHookResult = ReturnType<typeof useColorsAllLazyQuery>;
-export type ColorsAllQueryResult = Apollo.QueryResult<ColorsAllQuery, ColorsAllQueryVariables>;
+export type ExtrasDataQueryHookResult = ReturnType<typeof useExtrasDataQuery>;
+export type ExtrasDataLazyQueryHookResult = ReturnType<typeof useExtrasDataLazyQuery>;
+export type ExtrasDataQueryResult = Apollo.QueryResult<ExtrasDataQuery, ExtrasDataQueryVariables>;
 export const WallpapersDocument = gql`
     query wallpapers($bundleId: String, $categoryId: String, $tagsId: String, $colorId: String) {
   wallpapers(

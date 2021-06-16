@@ -48,7 +48,7 @@ const Results: React.FC<ResultsProps> = function (props) {
           width="44"
           items={props.items}
           onClick={props.onClick}
-          style={{ marginBottom: hp(2) }}
+          style={styles.marginBottom}
         />
       </View>
     </Animated.View>
@@ -74,6 +74,9 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     marginHorizontal: wp(-4),
+  },
+  marginBottom: {
+    marginBottom: hp(2),
   },
 });
 

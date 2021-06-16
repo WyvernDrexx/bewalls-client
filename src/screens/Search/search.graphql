@@ -9,10 +9,13 @@ query SearchTextString($searchText: String!) {
   }
 }
 
-query ColorsAll {
+query ExtrasData {
   colors {
     id
     name
     code
+  }
+  hotSearches {
+    term
   }
 }

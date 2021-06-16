@@ -1,36 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
-import HotSearches, { SearchTerm } from './HotSearches';
+import HotSearches from './HotSearches';
 
 import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
-import { Color, useColorsAllQuery } from '../../generated/graphql';
-
-const SEARCHES_TERM: SearchTerm[] = [
-  {
-    term: 'COOL',
-  },
-  {
-    term: '3D',
-  },
-  {
-    term: 'APPLE',
-  },
-  {
-    term: 'ONEPLUS',
-  },
-  {
-    term: 'OPPO',
-  },
-  {
-    term: 'REALME',
-  },
-];
+import {
+  Color,
+  HotSearchTerm,
+  useExtrasDataQuery,
+} from '../../generated/graphql';
 
 type ExtrasProps = {
   onColorBoxClick: (color: Color) => void;
-  onSearchTermClick: (searchTerm: SearchTerm) => void;
+  onSearchTermClick: (searchTerm: HotSearchTerm) => void;
 };
 
 const Extras: React.FC<ExtrasProps> = function (props) {
@@ -43,11 +26,11 @@ const Extras: React.FC<ExtrasProps> = function (props) {
     props.onColorBoxClick(color);
   };
 
-  const handleSearchTermClick = (searchTerm: SearchTerm) => {
+  const handleSearchTermClick = (searchTerm: HotSearchTerm) => {
     props.onSearchTermClick(searchTerm);
   };
 
-  const { data: colorsData, loading } = useColorsAllQuery();
+  const { data, loading } = useExtrasDataQuery();
 
   if (loading) return null;
 
@@ -61,7 +44,7 @@ const Extras: React.FC<ExtrasProps> = function (props) {
         <View style={styles.colorsView}>
           <Text style={themedStyles.text}>Colours</Text>
           <View style={styles.colorsContainer}>
-            {colorsData?.colors.map((item, index) => {
+            {data?.colors.map((item, index) => {
               return (
                 <TouchableOpacity
                   activeOpacity={0.8}
@@ -83,7 +66,7 @@ const Extras: React.FC<ExtrasProps> = function (props) {
         </View>
         <HotSearches
           onClick={handleSearchTermClick}
-          searchTerms={SEARCHES_TERM}
+          searchTerms={data?.hotSearches as HotSearchTerm[]}
         />
       </View>
     </>
