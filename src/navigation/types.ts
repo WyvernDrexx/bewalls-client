@@ -14,10 +14,12 @@ export type RootStackParamList = {
   Selection: SelectionParams;
   Settings: undefined;
   Bundles: undefined;
+  SignIn: undefined;
 };
 
 export type SearchScreenProps = StackScreenProps<RootStackParamList, 'Search'>;
 export type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
+export type SignInScreenProps = StackScreenProps<RootStackParamList, 'SignIn'>;
 export type SelectionScreenProps = StackScreenProps<
   RootStackParamList,
   'Selection'

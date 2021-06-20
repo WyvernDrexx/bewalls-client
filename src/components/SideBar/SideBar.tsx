@@ -53,7 +53,7 @@ const SIDEBAR_ITEMS: BarItemType[] = [
     title: 'Settings',
   },
   {
-    route: 'SignIn' as keyof RootStackParamList,
+    route: 'SignIn',
     title: 'Sign In',
   },
 ];
