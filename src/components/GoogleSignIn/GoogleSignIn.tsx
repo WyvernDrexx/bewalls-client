@@ -1,12 +1,26 @@
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 import React from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 import { useTheme } from '../../hooks';
+import useUser from '../../hooks/useUser';
+import { useAppDispatch } from '../../store';
+import { userSignIn } from '../../store/user';
 import { hp, wp } from '../../utilities';
 
 type Props = {
@@ -14,9 +28,12 @@ type Props = {
   onClose?: () => void;
 };
 
-const GoogleSignIn = function (props: Props) {
+const GoogleSignInView = function (props: Props) {
+  const [signInProgress, setSignInProgress] = useState(false);
+  const user = useUser();
   const height = hp(100);
-  const offsetY = useSharedValue(0);
+  const dispatch = useAppDispatch();
+  const offsetY = useSharedValue(height);
   const { themedStyles } = useTheme();
   const uas = useAnimatedStyle(() => {
     return {
@@ -37,9 +54,40 @@ const GoogleSignIn = function (props: Props) {
     else offsetY.value = height;
   }, [props.shown]);
 
-  const handleSignIn = () => {
-    console.log('sign');
+  const handleSignIn = async () => {
+    try {
+      setSignInProgress(true);
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+      setSignInProgress(false);
+      dispatch(userSignIn(userInfo));
+    } catch (error) {
+      setSignInProgress(false);
+      console.log(error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+    handleClose();
   };
+
+  useEffect(function () {
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/userinfo.email'], // what API you want to access on behalf of the user, default is email and profile
+      webClientId:
+        '995701163305-cjgpdg03mlg7p65lfhib67kpacen5vof.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+      offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+    });
+  }, []);
+
+  console.log(user);
 
   return (
     <Animated.View style={[uas, styles.root]}>
@@ -59,6 +107,7 @@ const GoogleSignIn = function (props: Props) {
             activeOpacity={0.8}
             style={[styles.signInButton]}>
             <Text style={[styles.signInButtonText]}>Sign In with Google</Text>
+            {signInProgress ? <ActivityIndicator color="white" /> : null}
           </TouchableOpacity>
           <TouchableOpacity onPress={handleClose} style={styles.skipButton}>
             <Text style={styles.skipText}>Skip for Now</Text>
@@ -107,12 +156,16 @@ const styles = StyleSheet.create({
     padding: hp(2),
     borderRadius: hp(4),
     backgroundColor: '#2E83E5',
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
   },
   signInButtonText: {
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: hp(2.5),
     color: 'white',
+    width: wp(80),
   },
   skipButton: {
     marginTop: hp(2),
@@ -124,4 +177,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GoogleSignIn;
+export default GoogleSignInView;

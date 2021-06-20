@@ -1,4 +1,4 @@
-package com.stockwalls;
+package com.bewalls;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 

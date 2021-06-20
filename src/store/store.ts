@@ -2,9 +2,11 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 import themeReducer from './theme';
+import userReducer from './user';
 
 const reducer = combineReducers({
   theme: themeReducer,
+  user: userReducer,
 });
 
 export const store = configureStore({

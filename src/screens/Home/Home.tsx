@@ -11,7 +11,6 @@ import SideBar from '../../components/SideBar';
 
 import { hp, wp } from '../../utilities';
 import { useTheme } from '../../hooks';
-import GoogleSignIn from '../../components/GoogleSignIn';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
 
 import {
@@ -25,7 +24,6 @@ import { ItemGroup } from '../../types';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
-  const [showGoogleSignIn, setShowGoogleSignIn] = useState(false);
   const { themedStyles } = useTheme();
   const { loading, data } = useHomeScreenQuery();
 
@@ -63,11 +61,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
 
   const handleSideBarItemClick = (route: keyof RootStackParamList) => {
     handleSideBarClose();
-    if (route === 'SignIn') {
-      setShowGoogleSignIn(true);
-    } else {
-      props.navigation.navigate(route);
-    }
+    props.navigation.navigate(route);
   };
 
   const handleBundleClick = (bundle: Bundle, group: ItemGroup) => {
@@ -148,10 +142,6 @@ const Home: React.FC<HomeScreenProps> = function (props) {
           )}
         </ScrollView>
       </View>
-      <GoogleSignIn
-        onClose={() => setShowGoogleSignIn(false)}
-        shown={showGoogleSignIn}
-      />
     </View>
   );
 };
