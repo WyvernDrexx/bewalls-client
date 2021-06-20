@@ -1,13 +1,33 @@
+import { gql } from '@apollo/client';
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Text } from 'react-native';
+import { apolloClient } from '../../apollo';
 import StackHeader from '../../components/StackHeader';
 import { useTheme } from '../../hooks';
 import { SignInScreenProps } from '../../navigation/types';
 import { hp, wp } from '../../utilities';
 
+type Data = {
+  fullName: string;
+  email: string;
+  password: string;
+};
+
 const SignIn: React.FC<SignInScreenProps> = props => {
   const [isLogin, setIsLogin] = useState(true);
+  const [userData, setUserData] = useState<Data>({
+    fullName: '',
+    email: '',
+    password: '',
+  });
+  const [data, setData] = useState({ loading: false, token: '' });
   const {
     themedStyles,
     theme: { colors },
@@ -15,6 +35,34 @@ const SignIn: React.FC<SignInScreenProps> = props => {
 
   const goBack = () => {
     props.navigation.goBack();
+  };
+
+  const handleInputChange = (target: keyof Data, value: string) => {
+    setUserData({ ...userData, [target]: value });
+  };
+
+  const handleSubmit = async () => {
+    setData({ ...data, loading: true });
+    try {
+      const { data: token } = await apolloClient.mutate<string>({
+        mutation: gql`
+          mutation ($fullName: String!, $email: String!, $password: String!) {
+            createUser(
+              data: { fullName: $fullName, email: $email, password: $password }
+            )
+          }
+        `,
+        variables: {
+          fullName: userData.fullName,
+          email: userData.email,
+          password: userData.password,
+        },
+      });
+      console.log(token);
+    } catch (error) {
+      console.log(error);
+    }
+    setData({ ...data, loading: false });
   };
 
   return (
@@ -29,6 +77,8 @@ const SignIn: React.FC<SignInScreenProps> = props => {
           <>
             <Text style={styles.inputLabel}>Full Name</Text>
             <TextInput
+              onChangeText={text => handleInputChange('fullName', text)}
+              value={userData.fullName}
               selectionColor="gray"
               style={styles.input}
               returnKeyType="next"
@@ -37,19 +87,31 @@ const SignIn: React.FC<SignInScreenProps> = props => {
         ) : null}
         <Text style={styles.inputLabel}>Email</Text>
         <TextInput
+          onChangeText={text => handleInputChange('email', text)}
+          value={userData.email}
           keyboardType="email-address"
           selectionColor="gray"
           style={styles.input}
           returnKeyType="next"
         />
         <Text style={styles.inputLabel}>Password</Text>
-        <TextInput selectionColor="gray" style={styles.input} />
+        <TextInput
+          onChangeText={text => handleInputChange('password', text)}
+          value={userData.password}
+          selectionColor="gray"
+          style={styles.input}
+        />
         <TouchableOpacity
+          onPress={handleSubmit}
           activeOpacity={0.5}
           style={[styles.actionButton, { borderColor: colors.light }]}>
-          <Text style={[themedStyles.textLight, styles.actionText]}>
-            {isLogin ? 'Sign In' : 'Sign Up'}
-          </Text>
+          {data.loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text style={[themedStyles.textLight, styles.actionText]}>
+              {isLogin ? 'Sign In' : 'Sign Up'}
+            </Text>
+          )}
         </TouchableOpacity>
         <Text style={styles.orText}>Or</Text>
         <TouchableOpacity
