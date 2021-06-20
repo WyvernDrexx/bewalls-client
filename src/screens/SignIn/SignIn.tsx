@@ -10,24 +10,25 @@ import {
 import { Text } from 'react-native';
 import { apolloClient } from '../../apollo';
 import StackHeader from '../../components/StackHeader';
+import {
+  UserCreateError,
+  UserCreateInput,
+  UserCreateResponse,
+} from '../../generated/graphql';
 import { useTheme } from '../../hooks';
 import { SignInScreenProps } from '../../navigation/types';
-import { hp, wp } from '../../utilities';
-
-type Data = {
-  fullName: string;
-  email: string;
-  password: string;
-};
+import { hp, verifyUserCreateData, wp } from '../../utilities';
 
 const SignIn: React.FC<SignInScreenProps> = props => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [userData, setUserData] = useState<Data>({
+  const [isLoginMode, setIsLoginMode] = useState(true);
+  const [userInputs, setUserInputs] = useState<UserCreateInput>({
     fullName: '',
     email: '',
     password: '',
   });
-  const [data, setData] = useState({ loading: false, token: '' });
+  const [errors, setErrors] = useState<UserCreateError>({});
+  const [token, setToken] = useState('');
+  const [loading, setLoading] = useState(false);
   const {
     themedStyles,
     theme: { colors },
@@ -37,89 +38,121 @@ const SignIn: React.FC<SignInScreenProps> = props => {
     props.navigation.goBack();
   };
 
-  const handleInputChange = (target: keyof Data, value: string) => {
-    setUserData({ ...userData, [target]: value });
+  const handleInputChange = (target: keyof UserCreateInput, value: string) => {
+    setUserInputs({ ...userInputs, [target]: value });
   };
-
-  const handleSubmit = async () => {
-    setData({ ...data, loading: true });
+  console.log(token);
+  const handleSignUp = async () => {
     try {
-      const { data: token } = await apolloClient.mutate<string>({
+      const { data } = await apolloClient.mutate<{
+        createUser: UserCreateResponse;
+      }>({
         mutation: gql`
           mutation ($fullName: String!, $email: String!, $password: String!) {
             createUser(
               data: { fullName: $fullName, email: $email, password: $password }
-            )
+            ) {
+              token
+              errors {
+                fullName
+                email
+                password
+              }
+            }
           }
         `,
         variables: {
-          fullName: userData.fullName,
-          email: userData.email,
-          password: userData.password,
+          fullName: userInputs.fullName,
+          email: userInputs.email,
+          password: userInputs.password,
         },
       });
-      console.log(token);
+      if (data?.createUser.errors) {
+        return setErrors({
+          ...data.createUser.errors,
+        });
+      }
+      setToken(data?.createUser.token || '');
     } catch (error) {
       console.log(error);
     }
-    setData({ ...data, loading: false });
+  };
+
+  const handleSubmit = async () => {
+    const inputErrors = verifyUserCreateData(userInputs);
+    if (inputErrors) return setErrors(inputErrors);
+    setLoading(true);
+    setErrors({});
+    handleSignUp();
+    setTimeout(() => {
+      setLoading(false);
+    }, 200);
   };
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
         onLeftClick={goBack}
-        title={isLogin ? 'Sign In' : 'SignUp'}
+        title={isLoginMode ? 'Sign In' : 'SignUp'}
         titlePosition="left"
       />
       <View style={styles.container}>
-        {!isLogin ? (
+        {!isLoginMode ? (
           <>
             <Text style={styles.inputLabel}>Full Name</Text>
             <TextInput
               onChangeText={text => handleInputChange('fullName', text)}
-              value={userData.fullName}
+              value={userInputs.fullName}
               selectionColor="gray"
               style={styles.input}
               returnKeyType="next"
             />
+            {errors.fullName ? (
+              <Text style={styles.errorText}>{errors.fullName}</Text>
+            ) : null}
           </>
         ) : null}
         <Text style={styles.inputLabel}>Email</Text>
         <TextInput
           onChangeText={text => handleInputChange('email', text)}
-          value={userData.email}
+          value={userInputs.email}
           keyboardType="email-address"
           selectionColor="gray"
           style={styles.input}
           returnKeyType="next"
         />
+        {errors.email ? (
+          <Text style={styles.errorText}>{errors.email}</Text>
+        ) : null}
         <Text style={styles.inputLabel}>Password</Text>
         <TextInput
           onChangeText={text => handleInputChange('password', text)}
-          value={userData.password}
+          value={userInputs.password}
           selectionColor="gray"
           style={styles.input}
         />
+        {errors.password ? (
+          <Text style={styles.errorText}>{errors.password}</Text>
+        ) : null}
         <TouchableOpacity
           onPress={handleSubmit}
           activeOpacity={0.5}
           style={[styles.actionButton, { borderColor: colors.light }]}>
-          {data.loading ? (
+          {loading ? (
             <ActivityIndicator color="white" />
           ) : (
             <Text style={[themedStyles.textLight, styles.actionText]}>
-              {isLogin ? 'Sign In' : 'Sign Up'}
+              {isLoginMode ? 'Sign In' : 'Sign Up'}
             </Text>
           )}
         </TouchableOpacity>
         <Text style={styles.orText}>Or</Text>
         <TouchableOpacity
           activeOpacity={0.5}
-          onPress={() => setIsLogin(!isLogin)}
+          onPress={() => setIsLoginMode(!isLoginMode)}
           style={[styles.actionButton, themedStyles.bgSecondary]}>
           <Text style={[themedStyles.textLight, styles.actionText]}>
-            {isLogin ? 'Sign Up' : 'Sign In'}
+            {isLoginMode ? 'Sign Up' : 'Sign In'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -163,6 +196,10 @@ const styles = StyleSheet.create({
   orText: {
     textAlign: 'center',
     marginVertical: hp(3),
+  },
+  errorText: {
+    color: 'crimson',
+    marginBottom: hp(2),
   },
 });
 
