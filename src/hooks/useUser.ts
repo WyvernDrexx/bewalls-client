@@ -5,4 +5,4 @@ const useUser = function () {
   return user;
 };
 
-export default useUser;
+export { useUser };

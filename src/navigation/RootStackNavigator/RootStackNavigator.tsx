@@ -17,38 +17,33 @@ import {
 } from '../../screens';
 
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
-import { useTheme } from '../../hooks';
+
+import { useTheme, useUser } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
 import { RootStackParamList } from '../types';
-import useUser from '../../hooks/useUser';
+
 import { useGetUserInfoQuery } from '../../generated/graphql';
 import { userSignIn } from '../../store/user';
 import { useAppDispatch } from '../../store';
 
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();
-  const {
-    themedStyles: { bg },
-    theme: { colors, isDark },
-  } = useTheme();
+  const { themedStyles, theme } = useTheme();
   const dispatch = useAppDispatch();
-  const user = useUser();
-  const { data } = useGetUserInfoQuery({ variables: { token: user.token } });
+  const statusBarStyle = theme.isDark ? 'light-content' : 'dark-content';
+  const { token } = useUser();
+  const { data } = useGetUserInfoQuery({ variables: { token } });
 
   const screenOptions: StackNavigationOptions = {
     headerShown: false,
     headerStyle: {
       elevation: 0, // remove shadow on Android
       shadowOpacity: 0, // remove shadow on iOS,
-      backgroundColor: colors.primary,
+      backgroundColor: theme.colors.primary,
     },
-    headerTintColor: colors.secondary,
+    headerTintColor: theme.colors.secondary,
   };
-
-  const statusBarStyle = isDark ? 'light-content' : 'dark-content';
-
-  const { theme } = useTheme();
 
   useEffect(() => {
     changeNavigationBarColor(theme.colors.dark, !theme.isDark, true);
@@ -56,20 +51,17 @@ function RootNavigator() {
 
   useEffect(() => {
     if (data) {
-      dispatch(
-        userSignIn({
-          info: data.getUserInfo.info || null,
-          isVerified: data.getUserInfo.isVerified,
-          token: data.getUserInfo.token,
-        }),
-      );
+      dispatch(userSignIn(data.getUserInfo));
     }
   }, [data]);
 
   return (
     <NavigationContainer onReady={() => RNBootSplash.hide()}>
-      <StatusBar backgroundColor={colors.primary} barStyle={statusBarStyle} />
-      <View style={[styles.placeholderView, bg]} />
+      <StatusBar
+        backgroundColor={theme.colors.primary}
+        barStyle={statusBarStyle}
+      />
+      <View style={[styles.placeholderView, themedStyles.bg]} />
       <Stack.Navigator screenOptions={screenOptions}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Search" component={Search} />

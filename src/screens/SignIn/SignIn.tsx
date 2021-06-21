@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { Keyboard } from 'react-native';
 import { Text } from 'react-native';
 import { apolloClient } from '../../apollo';
 import StackHeader from '../../components/StackHeader';
@@ -17,8 +18,7 @@ import {
   UserCreateResponse,
   UserSignInResponse,
 } from '../../generated/graphql';
-import { useTheme } from '../../hooks';
-import useUser from '../../hooks/useUser';
+import { useTheme, useUser } from '../../hooks';
 import { SignInScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
 import { setUserToken } from '../../store/user';
@@ -32,7 +32,6 @@ const SignIn: React.FC<SignInScreenProps> = props => {
     password: '',
   });
   const [errors, setErrors] = useState<UserCreateError>({});
-  const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
   const user = useUser();
   const {
@@ -51,7 +50,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
   const handleSignUp = async () => {
     try {
       const { data } = await apolloClient.mutate<{
-        createUser: UserCreateResponse;
+        createUser?: UserCreateResponse;
       }>({
         mutation: gql`
           mutation ($fullName: String!, $email: String!, $password: String!) {
@@ -73,20 +72,20 @@ const SignIn: React.FC<SignInScreenProps> = props => {
           password: userInputs.password,
         },
       });
-      if (data?.createUser.errors) {
+      if (data?.createUser?.errors) {
         return setErrors({
           ...data.createUser.errors,
         });
       }
-      setToken(data?.createUser.token || '');
+      if (data?.createUser?.token)
+        dispatch(setUserToken(data.createUser.token));
     } catch (error) {}
   };
 
   const handleSignIn = async () => {
-    console.log(token);
     try {
       const { data } = await apolloClient.mutate<{
-        signIn: UserSignInResponse;
+        signIn?: UserSignInResponse;
       }>({
         mutation: gql`
           mutation ($email: String!, $password: String!) {
@@ -101,10 +100,10 @@ const SignIn: React.FC<SignInScreenProps> = props => {
           password: userInputs.password,
         },
       });
-      if (data?.signIn.error) {
+      if (data?.signIn?.error) {
         console.log('Wrong email password!');
       } else {
-        if (data?.signIn.token) {
+        if (data?.signIn?.token) {
           dispatch(setUserToken(data.signIn.token));
         }
       }
@@ -114,16 +113,17 @@ const SignIn: React.FC<SignInScreenProps> = props => {
   };
 
   const handleSubmit = async () => {
+    Keyboard.dismiss();
     const inputErrors = verifyUserCreateData(userInputs);
     if (inputErrors && inputErrors.fullName && !isLoginMode)
       return setErrors(inputErrors);
+    else setErrors({});
     setLoading(true);
-    setErrors({});
     if (isLoginMode) handleSignIn();
     else handleSignUp();
     setTimeout(() => {
       setLoading(false);
-    }, 200);
+    }, 500);
   };
 
   useEffect(() => {

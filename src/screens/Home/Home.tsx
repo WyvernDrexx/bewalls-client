@@ -10,7 +10,7 @@ import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
 
 import { hp, wp } from '../../utilities';
-import { useTheme } from '../../hooks';
+import { useTheme, useUser } from '../../hooks';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
 
 import {
@@ -21,7 +21,6 @@ import {
 } from '../../generated/graphql';
 import CategoryItems from '../../components/CategoryItems';
 import { ItemGroup } from '../../types';
-import useUser from '../../hooks/useUser';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
