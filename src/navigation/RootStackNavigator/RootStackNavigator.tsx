@@ -21,6 +21,10 @@ import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
 import { RootStackParamList } from '../types';
+import useUser from '../../hooks/useUser';
+import { useGetUserInfoQuery } from '../../generated/graphql';
+import { userSignIn } from '../../store/user';
+import { useAppDispatch } from '../../store';
 
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -28,6 +32,9 @@ function RootNavigator() {
     themedStyles: { bg },
     theme: { colors, isDark },
   } = useTheme();
+  const dispatch = useAppDispatch();
+  const user = useUser();
+  const { data } = useGetUserInfoQuery({ variables: { token: user.token } });
 
   const screenOptions: StackNavigationOptions = {
     headerShown: false,
@@ -46,6 +53,18 @@ function RootNavigator() {
   useEffect(() => {
     changeNavigationBarColor(theme.colors.dark, !theme.isDark, true);
   }, [theme.mode]);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(
+        userSignIn({
+          info: data.getUserInfo.info || null,
+          isVerified: data.getUserInfo.isVerified,
+          token: data.getUserInfo.token,
+        }),
+      );
+    }
+  }, [data]);
 
   return (
     <NavigationContainer onReady={() => RNBootSplash.hide()}>

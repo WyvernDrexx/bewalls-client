@@ -41,7 +41,6 @@ const SignIn: React.FC<SignInScreenProps> = props => {
   const handleInputChange = (target: keyof UserCreateInput, value: string) => {
     setUserInputs({ ...userInputs, [target]: value });
   };
-  console.log(token);
   const handleSignUp = async () => {
     try {
       const { data } = await apolloClient.mutate<{
@@ -73,9 +72,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
         });
       }
       setToken(data?.createUser.token || '');
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleSubmit = async () => {
@@ -88,7 +85,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
       setLoading(false);
     }, 200);
   };
-
+  console.log('tokoen', token);
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader

@@ -76,6 +76,7 @@ export type Query = {
   search: SearchResult;
   colors: Array<Maybe<Color>>;
   hotSearches: Array<Maybe<HotSearchTerm>>;
+  getUserInfo: UserInfo;
 };
 
 export type QueryBundlesArgs = {
@@ -96,6 +97,10 @@ export type QueryWallpapersArgs = {
 
 export type QuerySearchArgs = {
   searchText: Scalars['String'];
+};
+
+export type QueryGetUserInfoArgs = {
+  token: Scalars['String'];
 };
 
 export type SearchResult = {
@@ -120,6 +125,7 @@ export type TrendingWallpaper = {
 
 export type User = {
   __typename?: 'User';
+  id: Scalars['String'];
   fullName: Scalars['String'];
   email: Scalars['String'];
 };
@@ -141,6 +147,13 @@ export type UserCreateResponse = {
   __typename?: 'UserCreateResponse';
   token?: Maybe<Scalars['String']>;
   errors?: Maybe<UserCreateError>;
+};
+
+export type UserInfo = {
+  __typename?: 'UserInfo';
+  info?: Maybe<User>;
+  token?: Maybe<Scalars['String']>;
+  isVerified: Scalars['Boolean'];
 };
 
 export type Wallpaper = {
@@ -316,6 +329,21 @@ export type WallpapersQuery = { __typename?: 'Query' } & {
       >
     >
   >;
+};
+
+export type GetUserInfoQueryVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+export type GetUserInfoQuery = { __typename?: 'Query' } & {
+  getUserInfo: { __typename?: 'UserInfo' } & Pick<
+    UserInfo,
+    'token' | 'isVerified'
+  > & {
+      info?: Maybe<
+        { __typename?: 'User' } & Pick<User, 'id' | 'fullName' | 'email'>
+      >;
+    };
 };
 
 export const TrendingDocument = gql`
@@ -828,6 +856,68 @@ export type WallpapersLazyQueryHookResult = ReturnType<
 export type WallpapersQueryResult = Apollo.QueryResult<
   WallpapersQuery,
   WallpapersQueryVariables
+>;
+export const GetUserInfoDocument = gql`
+  query GetUserInfo($token: String!) {
+    getUserInfo(token: $token) {
+      info {
+        id
+        fullName
+        email
+      }
+      token
+      isVerified
+    }
+  }
+`;
+
+/**
+ * __useGetUserInfoQuery__
+ *
+ * To run a query within a React component, call `useGetUserInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserInfoQuery({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useGetUserInfoQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetUserInfoQuery,
+    GetUserInfoQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(
+    GetUserInfoDocument,
+    options,
+  );
+}
+export function useGetUserInfoLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserInfoQuery,
+    GetUserInfoQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(
+    GetUserInfoDocument,
+    options,
+  );
+}
+export type GetUserInfoQueryHookResult = ReturnType<typeof useGetUserInfoQuery>;
+export type GetUserInfoLazyQueryHookResult = ReturnType<
+  typeof useGetUserInfoLazyQuery
+>;
+export type GetUserInfoQueryResult = Apollo.QueryResult<
+  GetUserInfoQuery,
+  GetUserInfoQueryVariables
 >;
 
 export interface PossibleTypesResultData {
