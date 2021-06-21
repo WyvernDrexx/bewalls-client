@@ -1,14 +1,10 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions = {};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -47,6 +43,7 @@ export type Color = {
   wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
 };
 
+
 export type HotSearchTerm = {
   __typename?: 'HotSearchTerm';
   term: Scalars['String'];
@@ -56,14 +53,23 @@ export type Mutation = {
   __typename?: 'Mutation';
   createWallpaper: Wallpaper;
   createUser: UserCreateResponse;
+  signIn: UserSignInResponse;
 };
+
 
 export type MutationCreateWallpaperArgs = {
   data?: Maybe<WallpaperCreateInput>;
 };
 
+
 export type MutationCreateUserArgs = {
   data?: Maybe<UserCreateInput>;
+};
+
+
+export type MutationSignInArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type Query = {
@@ -79,25 +85,31 @@ export type Query = {
   getUserInfo: UserInfo;
 };
 
+
 export type QueryBundlesArgs = {
   bundleId?: Maybe<Scalars['String']>;
 };
+
 
 export type QueryCategoriesArgs = {
   categoryId?: Maybe<Scalars['String']>;
 };
 
+
 export type QueryWallpaperArgs = {
   wallpaperId: Scalars['String'];
 };
+
 
 export type QueryWallpapersArgs = {
   data: WallpaperQueryInput;
 };
 
+
 export type QuerySearchArgs = {
   searchText: Scalars['String'];
 };
+
 
 export type QueryGetUserInfoArgs = {
   token: Scalars['String'];
@@ -156,6 +168,12 @@ export type UserInfo = {
   isVerified: Scalars['Boolean'];
 };
 
+export type UserSignInResponse = {
+  __typename?: 'UserSignInResponse';
+  token?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
+};
+
 export type Wallpaper = {
   __typename?: 'Wallpaper';
   id: Scalars['String'];
@@ -198,120 +216,103 @@ export type WallpaperQueryInput = {
   bundleId?: Maybe<Scalars['String']>;
 };
 
-export type TrendingQueryVariables = Exact<{ [key: string]: never }>;
+export type TrendingQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type TrendingQuery = { __typename?: 'Query' } & {
-  trending: Array<
-    Maybe<
-      { __typename?: 'Wallpaper' } & Pick<
-        Wallpaper,
-        | 'id'
-        | 'name'
-        | 'imageUri'
-        | 'sizeInKB'
-        | 'downloads'
-        | 'height'
-        | 'width'
-        | 'likes'
-        | 'publisher'
-        | 'createdAt'
-      >
-    >
-  >;
-};
 
-export type CategoriesQueryVariables = Exact<{ [key: string]: never }>;
+export type TrendingQuery = (
+  { __typename?: 'Query' }
+  & { trending: Array<Maybe<(
+    { __typename?: 'Wallpaper' }
+    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'publisher' | 'createdAt'>
+  )>> }
+);
 
-export type CategoriesQuery = { __typename?: 'Query' } & {
-  categories: Array<
-    Maybe<
-      { __typename?: 'Category' } & Pick<Category, 'id' | 'name' | 'imageUri'>
-    >
-  >;
-};
+export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type BundlesScreenQueryVariables = Exact<{ [key: string]: never }>;
 
-export type BundlesScreenQuery = { __typename?: 'Query' } & {
-  bundles: Array<
-    Maybe<
-      { __typename?: 'Bundle' } & Pick<
-        Bundle,
-        'id' | 'name' | 'highlightColor' | 'color' | 'imageUri'
-      >
-    >
-  >;
-};
+export type CategoriesQuery = (
+  { __typename?: 'Query' }
+  & { categories: Array<Maybe<(
+    { __typename?: 'Category' }
+    & Pick<Category, 'id' | 'name' | 'imageUri'>
+  )>> }
+);
 
-export type CategoriesDataQueryVariables = Exact<{ [key: string]: never }>;
+export type BundlesScreenQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type CategoriesDataQuery = { __typename?: 'Query' } & {
-  categories: Array<
-    Maybe<
-      { __typename?: 'Category' } & Pick<
-        Category,
-        'id' | 'name' | 'imageUri' | 'totalNumberOfItems'
-      >
-    >
-  >;
-};
 
-export type HomeScreenQueryVariables = Exact<{ [key: string]: never }>;
+export type BundlesScreenQuery = (
+  { __typename?: 'Query' }
+  & { bundles: Array<Maybe<(
+    { __typename?: 'Bundle' }
+    & Pick<Bundle, 'id' | 'name' | 'highlightColor' | 'color' | 'imageUri'>
+  )>> }
+);
 
-export type HomeScreenQuery = { __typename?: 'Query' } & {
-  trending: Array<
-    Maybe<
-      { __typename?: 'Wallpaper' } & Pick<
-        Wallpaper,
-        'id' | 'name' | 'imageUri'
-      > & {
-          bundle: { __typename?: 'Bundle' } & Pick<Bundle, 'id'>;
-          category: { __typename?: 'Category' } & Pick<Category, 'id'>;
-        }
-    >
-  >;
-  categories: Array<
-    Maybe<
-      { __typename?: 'Category' } & Pick<Category, 'id' | 'name' | 'imageUri'>
-    >
-  >;
-  bundles: Array<
-    Maybe<
-      { __typename?: 'Bundle' } & Pick<
-        Bundle,
-        'id' | 'imageUri' | 'name' | 'highlightColor' | 'color'
-      >
-    >
-  >;
-};
+export type CategoriesDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoriesDataQuery = (
+  { __typename?: 'Query' }
+  & { categories: Array<Maybe<(
+    { __typename?: 'Category' }
+    & Pick<Category, 'id' | 'name' | 'imageUri' | 'totalNumberOfItems'>
+  )>> }
+);
+
+export type HomeScreenQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomeScreenQuery = (
+  { __typename?: 'Query' }
+  & { trending: Array<Maybe<(
+    { __typename?: 'Wallpaper' }
+    & Pick<Wallpaper, 'id' | 'name' | 'imageUri'>
+    & { bundle: (
+      { __typename?: 'Bundle' }
+      & Pick<Bundle, 'id'>
+    ), category: (
+      { __typename?: 'Category' }
+      & Pick<Category, 'id'>
+    ) }
+  )>>, categories: Array<Maybe<(
+    { __typename?: 'Category' }
+    & Pick<Category, 'id' | 'name' | 'imageUri'>
+  )>>, bundles: Array<Maybe<(
+    { __typename?: 'Bundle' }
+    & Pick<Bundle, 'id' | 'imageUri' | 'name' | 'highlightColor' | 'color'>
+  )>> }
+);
 
 export type SearchTextStringQueryVariables = Exact<{
   searchText: Scalars['String'];
 }>;
 
-export type SearchTextStringQuery = { __typename?: 'Query' } & {
-  search: { __typename?: 'SearchResult' } & {
-    wallpapers: Array<
-      Maybe<
-        { __typename?: 'Wallpaper' } & Pick<
-          Wallpaper,
-          'name' | 'imageUri' | 'downloads' | 'id'
-        >
-      >
-    >;
-  };
-};
 
-export type ExtrasDataQueryVariables = Exact<{ [key: string]: never }>;
+export type SearchTextStringQuery = (
+  { __typename?: 'Query' }
+  & { search: (
+    { __typename?: 'SearchResult' }
+    & { wallpapers: Array<Maybe<(
+      { __typename?: 'Wallpaper' }
+      & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'id'>
+    )>> }
+  ) }
+);
 
-export type ExtrasDataQuery = { __typename?: 'Query' } & {
-  colors: Array<
-    Maybe<{ __typename?: 'Color' } & Pick<Color, 'id' | 'name' | 'code'>>
-  >;
-  hotSearches: Array<
-    Maybe<{ __typename?: 'HotSearchTerm' } & Pick<HotSearchTerm, 'term'>>
-  >;
-};
+export type ExtrasDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ExtrasDataQuery = (
+  { __typename?: 'Query' }
+  & { colors: Array<Maybe<(
+    { __typename?: 'Color' }
+    & Pick<Color, 'id' | 'name' | 'code'>
+  )>>, hotSearches: Array<Maybe<(
+    { __typename?: 'HotSearchTerm' }
+    & Pick<HotSearchTerm, 'term'>
+  )>> }
+);
 
 export type WallpapersQueryVariables = Exact<{
   bundleId?: Maybe<Scalars['String']>;
@@ -320,48 +321,49 @@ export type WallpapersQueryVariables = Exact<{
   colorId?: Maybe<Scalars['String']>;
 }>;
 
-export type WallpapersQuery = { __typename?: 'Query' } & {
-  wallpapers: Array<
-    Maybe<
-      { __typename?: 'Wallpaper' } & Pick<
-        Wallpaper,
-        'name' | 'imageUri' | 'downloads' | 'id'
-      >
-    >
-  >;
-};
+
+export type WallpapersQuery = (
+  { __typename?: 'Query' }
+  & { wallpapers: Array<Maybe<(
+    { __typename?: 'Wallpaper' }
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'id'>
+  )>> }
+);
 
 export type GetUserInfoQueryVariables = Exact<{
   token: Scalars['String'];
 }>;
 
-export type GetUserInfoQuery = { __typename?: 'Query' } & {
-  getUserInfo: { __typename?: 'UserInfo' } & Pick<
-    UserInfo,
-    'token' | 'isVerified'
-  > & {
-      info?: Maybe<
-        { __typename?: 'User' } & Pick<User, 'id' | 'fullName' | 'email'>
-      >;
-    };
-};
+
+export type GetUserInfoQuery = (
+  { __typename?: 'Query' }
+  & { getUserInfo: (
+    { __typename?: 'UserInfo' }
+    & Pick<UserInfo, 'token' | 'isVerified'>
+    & { info?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'fullName' | 'email'>
+    )> }
+  ) }
+);
+
 
 export const TrendingDocument = gql`
-  query trending {
-    trending {
-      id
-      name
-      imageUri
-      sizeInKB
-      downloads
-      height
-      width
-      likes
-      publisher
-      createdAt
-    }
+    query trending {
+  trending {
+    id
+    name
+    imageUri
+    sizeInKB
+    downloads
+    height
+    width
+    likes
+    publisher
+    createdAt
   }
-`;
+}
+    `;
 
 /**
  * __useTrendingQuery__
@@ -378,44 +380,26 @@ export const TrendingDocument = gql`
  *   },
  * });
  */
-export function useTrendingQuery(
-  baseOptions?: Apollo.QueryHookOptions<TrendingQuery, TrendingQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<TrendingQuery, TrendingQueryVariables>(
-    TrendingDocument,
-    options,
-  );
-}
-export function useTrendingLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TrendingQuery,
-    TrendingQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<TrendingQuery, TrendingQueryVariables>(
-    TrendingDocument,
-    options,
-  );
-}
+export function useTrendingQuery(baseOptions?: Apollo.QueryHookOptions<TrendingQuery, TrendingQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TrendingQuery, TrendingQueryVariables>(TrendingDocument, options);
+      }
+export function useTrendingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TrendingQuery, TrendingQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TrendingQuery, TrendingQueryVariables>(TrendingDocument, options);
+        }
 export type TrendingQueryHookResult = ReturnType<typeof useTrendingQuery>;
-export type TrendingLazyQueryHookResult = ReturnType<
-  typeof useTrendingLazyQuery
->;
-export type TrendingQueryResult = Apollo.QueryResult<
-  TrendingQuery,
-  TrendingQueryVariables
->;
+export type TrendingLazyQueryHookResult = ReturnType<typeof useTrendingLazyQuery>;
+export type TrendingQueryResult = Apollo.QueryResult<TrendingQuery, TrendingQueryVariables>;
 export const CategoriesDocument = gql`
-  query categories {
-    categories {
-      id
-      name
-      imageUri
-    }
+    query categories {
+  categories {
+    id
+    name
+    imageUri
   }
-`;
+}
+    `;
 
 /**
  * __useCategoriesQuery__
@@ -432,49 +416,28 @@ export const CategoriesDocument = gql`
  *   },
  * });
  */
-export function useCategoriesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CategoriesQuery,
-    CategoriesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(
-    CategoriesDocument,
-    options,
-  );
-}
-export function useCategoriesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CategoriesQuery,
-    CategoriesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(
-    CategoriesDocument,
-    options,
-  );
-}
+export function useCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
+      }
+export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
+        }
 export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
-export type CategoriesLazyQueryHookResult = ReturnType<
-  typeof useCategoriesLazyQuery
->;
-export type CategoriesQueryResult = Apollo.QueryResult<
-  CategoriesQuery,
-  CategoriesQueryVariables
->;
+export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
+export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
 export const BundlesScreenDocument = gql`
-  query BundlesScreen {
-    bundles {
-      id
-      name
-      highlightColor
-      color
-      imageUri
-    }
+    query BundlesScreen {
+  bundles {
+    id
+    name
+    highlightColor
+    color
+    imageUri
   }
-`;
+}
+    `;
 
 /**
  * __useBundlesScreenQuery__
@@ -491,50 +454,27 @@ export const BundlesScreenDocument = gql`
  *   },
  * });
  */
-export function useBundlesScreenQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    BundlesScreenQuery,
-    BundlesScreenQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<BundlesScreenQuery, BundlesScreenQueryVariables>(
-    BundlesScreenDocument,
-    options,
-  );
-}
-export function useBundlesScreenLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    BundlesScreenQuery,
-    BundlesScreenQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<BundlesScreenQuery, BundlesScreenQueryVariables>(
-    BundlesScreenDocument,
-    options,
-  );
-}
-export type BundlesScreenQueryHookResult = ReturnType<
-  typeof useBundlesScreenQuery
->;
-export type BundlesScreenLazyQueryHookResult = ReturnType<
-  typeof useBundlesScreenLazyQuery
->;
-export type BundlesScreenQueryResult = Apollo.QueryResult<
-  BundlesScreenQuery,
-  BundlesScreenQueryVariables
->;
+export function useBundlesScreenQuery(baseOptions?: Apollo.QueryHookOptions<BundlesScreenQuery, BundlesScreenQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BundlesScreenQuery, BundlesScreenQueryVariables>(BundlesScreenDocument, options);
+      }
+export function useBundlesScreenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BundlesScreenQuery, BundlesScreenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BundlesScreenQuery, BundlesScreenQueryVariables>(BundlesScreenDocument, options);
+        }
+export type BundlesScreenQueryHookResult = ReturnType<typeof useBundlesScreenQuery>;
+export type BundlesScreenLazyQueryHookResult = ReturnType<typeof useBundlesScreenLazyQuery>;
+export type BundlesScreenQueryResult = Apollo.QueryResult<BundlesScreenQuery, BundlesScreenQueryVariables>;
 export const CategoriesDataDocument = gql`
-  query CategoriesData {
-    categories {
-      id
-      name
-      imageUri
-      totalNumberOfItems
-    }
+    query CategoriesData {
+  categories {
+    id
+    name
+    imageUri
+    totalNumberOfItems
   }
-`;
+}
+    `;
 
 /**
  * __useCategoriesDataQuery__
@@ -551,67 +491,44 @@ export const CategoriesDataDocument = gql`
  *   },
  * });
  */
-export function useCategoriesDataQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CategoriesDataQuery,
-    CategoriesDataQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CategoriesDataQuery, CategoriesDataQueryVariables>(
-    CategoriesDataDocument,
-    options,
-  );
-}
-export function useCategoriesDataLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CategoriesDataQuery,
-    CategoriesDataQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CategoriesDataQuery, CategoriesDataQueryVariables>(
-    CategoriesDataDocument,
-    options,
-  );
-}
-export type CategoriesDataQueryHookResult = ReturnType<
-  typeof useCategoriesDataQuery
->;
-export type CategoriesDataLazyQueryHookResult = ReturnType<
-  typeof useCategoriesDataLazyQuery
->;
-export type CategoriesDataQueryResult = Apollo.QueryResult<
-  CategoriesDataQuery,
-  CategoriesDataQueryVariables
->;
+export function useCategoriesDataQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesDataQuery, CategoriesDataQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CategoriesDataQuery, CategoriesDataQueryVariables>(CategoriesDataDocument, options);
+      }
+export function useCategoriesDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoriesDataQuery, CategoriesDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CategoriesDataQuery, CategoriesDataQueryVariables>(CategoriesDataDocument, options);
+        }
+export type CategoriesDataQueryHookResult = ReturnType<typeof useCategoriesDataQuery>;
+export type CategoriesDataLazyQueryHookResult = ReturnType<typeof useCategoriesDataLazyQuery>;
+export type CategoriesDataQueryResult = Apollo.QueryResult<CategoriesDataQuery, CategoriesDataQueryVariables>;
 export const HomeScreenDocument = gql`
-  query HomeScreen {
-    trending {
+    query HomeScreen {
+  trending {
+    id
+    name
+    imageUri
+    bundle {
       id
-      name
-      imageUri
-      bundle {
-        id
-      }
-      category {
-        id
-      }
     }
-    categories {
+    category {
       id
-      name
-      imageUri
-    }
-    bundles {
-      id
-      imageUri
-      name
-      highlightColor
-      color
     }
   }
-`;
+  categories {
+    id
+    name
+    imageUri
+  }
+  bundles {
+    id
+    imageUri
+    name
+    highlightColor
+    color
+  }
+}
+    `;
 
 /**
  * __useHomeScreenQuery__
@@ -628,50 +545,29 @@ export const HomeScreenDocument = gql`
  *   },
  * });
  */
-export function useHomeScreenQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    HomeScreenQuery,
-    HomeScreenQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<HomeScreenQuery, HomeScreenQueryVariables>(
-    HomeScreenDocument,
-    options,
-  );
-}
-export function useHomeScreenLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    HomeScreenQuery,
-    HomeScreenQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<HomeScreenQuery, HomeScreenQueryVariables>(
-    HomeScreenDocument,
-    options,
-  );
-}
-export type HomeScreenQueryHookResult = ReturnType<typeof useHomeScreenQuery>;
-export type HomeScreenLazyQueryHookResult = ReturnType<
-  typeof useHomeScreenLazyQuery
->;
-export type HomeScreenQueryResult = Apollo.QueryResult<
-  HomeScreenQuery,
-  HomeScreenQueryVariables
->;
-export const SearchTextStringDocument = gql`
-  query SearchTextString($searchText: String!) {
-    search(searchText: $searchText) {
-      wallpapers {
-        name
-        imageUri
-        downloads
-        id
+export function useHomeScreenQuery(baseOptions?: Apollo.QueryHookOptions<HomeScreenQuery, HomeScreenQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeScreenQuery, HomeScreenQueryVariables>(HomeScreenDocument, options);
       }
+export function useHomeScreenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeScreenQuery, HomeScreenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeScreenQuery, HomeScreenQueryVariables>(HomeScreenDocument, options);
+        }
+export type HomeScreenQueryHookResult = ReturnType<typeof useHomeScreenQuery>;
+export type HomeScreenLazyQueryHookResult = ReturnType<typeof useHomeScreenLazyQuery>;
+export type HomeScreenQueryResult = Apollo.QueryResult<HomeScreenQuery, HomeScreenQueryVariables>;
+export const SearchTextStringDocument = gql`
+    query SearchTextString($searchText: String!) {
+  search(searchText: $searchText) {
+    wallpapers {
+      name
+      imageUri
+      downloads
+      id
     }
   }
-`;
+}
+    `;
 
 /**
  * __useSearchTextStringQuery__
@@ -689,52 +585,29 @@ export const SearchTextStringDocument = gql`
  *   },
  * });
  */
-export function useSearchTextStringQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    SearchTextStringQuery,
-    SearchTextStringQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<SearchTextStringQuery, SearchTextStringQueryVariables>(
-    SearchTextStringDocument,
-    options,
-  );
-}
-export function useSearchTextStringLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    SearchTextStringQuery,
-    SearchTextStringQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    SearchTextStringQuery,
-    SearchTextStringQueryVariables
-  >(SearchTextStringDocument, options);
-}
-export type SearchTextStringQueryHookResult = ReturnType<
-  typeof useSearchTextStringQuery
->;
-export type SearchTextStringLazyQueryHookResult = ReturnType<
-  typeof useSearchTextStringLazyQuery
->;
-export type SearchTextStringQueryResult = Apollo.QueryResult<
-  SearchTextStringQuery,
-  SearchTextStringQueryVariables
->;
+export function useSearchTextStringQuery(baseOptions: Apollo.QueryHookOptions<SearchTextStringQuery, SearchTextStringQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchTextStringQuery, SearchTextStringQueryVariables>(SearchTextStringDocument, options);
+      }
+export function useSearchTextStringLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchTextStringQuery, SearchTextStringQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchTextStringQuery, SearchTextStringQueryVariables>(SearchTextStringDocument, options);
+        }
+export type SearchTextStringQueryHookResult = ReturnType<typeof useSearchTextStringQuery>;
+export type SearchTextStringLazyQueryHookResult = ReturnType<typeof useSearchTextStringLazyQuery>;
+export type SearchTextStringQueryResult = Apollo.QueryResult<SearchTextStringQuery, SearchTextStringQueryVariables>;
 export const ExtrasDataDocument = gql`
-  query ExtrasData {
-    colors {
-      id
-      name
-      code
-    }
-    hotSearches {
-      term
-    }
+    query ExtrasData {
+  colors {
+    id
+    name
+    code
   }
-`;
+  hotSearches {
+    term
+  }
+}
+    `;
 
 /**
  * __useExtrasDataQuery__
@@ -751,60 +624,29 @@ export const ExtrasDataDocument = gql`
  *   },
  * });
  */
-export function useExtrasDataQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    ExtrasDataQuery,
-    ExtrasDataQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<ExtrasDataQuery, ExtrasDataQueryVariables>(
-    ExtrasDataDocument,
-    options,
-  );
-}
-export function useExtrasDataLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    ExtrasDataQuery,
-    ExtrasDataQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<ExtrasDataQuery, ExtrasDataQueryVariables>(
-    ExtrasDataDocument,
-    options,
-  );
-}
-export type ExtrasDataQueryHookResult = ReturnType<typeof useExtrasDataQuery>;
-export type ExtrasDataLazyQueryHookResult = ReturnType<
-  typeof useExtrasDataLazyQuery
->;
-export type ExtrasDataQueryResult = Apollo.QueryResult<
-  ExtrasDataQuery,
-  ExtrasDataQueryVariables
->;
-export const WallpapersDocument = gql`
-  query wallpapers(
-    $bundleId: String
-    $categoryId: String
-    $tagsId: String
-    $colorId: String
-  ) {
-    wallpapers(
-      data: {
-        bundleId: $bundleId
-        categoryId: $categoryId
-        tagsId: $tagsId
-        colorId: $colorId
+export function useExtrasDataQuery(baseOptions?: Apollo.QueryHookOptions<ExtrasDataQuery, ExtrasDataQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ExtrasDataQuery, ExtrasDataQueryVariables>(ExtrasDataDocument, options);
       }
-    ) {
-      name
-      imageUri
-      downloads
-      id
-    }
+export function useExtrasDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ExtrasDataQuery, ExtrasDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ExtrasDataQuery, ExtrasDataQueryVariables>(ExtrasDataDocument, options);
+        }
+export type ExtrasDataQueryHookResult = ReturnType<typeof useExtrasDataQuery>;
+export type ExtrasDataLazyQueryHookResult = ReturnType<typeof useExtrasDataLazyQuery>;
+export type ExtrasDataQueryResult = Apollo.QueryResult<ExtrasDataQuery, ExtrasDataQueryVariables>;
+export const WallpapersDocument = gql`
+    query wallpapers($bundleId: String, $categoryId: String, $tagsId: String, $colorId: String) {
+  wallpapers(
+    data: {bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId, colorId: $colorId}
+  ) {
+    name
+    imageUri
+    downloads
+    id
   }
-`;
+}
+    `;
 
 /**
  * __useWallpapersQuery__
@@ -825,51 +667,30 @@ export const WallpapersDocument = gql`
  *   },
  * });
  */
-export function useWallpapersQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    WallpapersQuery,
-    WallpapersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<WallpapersQuery, WallpapersQueryVariables>(
-    WallpapersDocument,
-    options,
-  );
-}
-export function useWallpapersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    WallpapersQuery,
-    WallpapersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<WallpapersQuery, WallpapersQueryVariables>(
-    WallpapersDocument,
-    options,
-  );
-}
-export type WallpapersQueryHookResult = ReturnType<typeof useWallpapersQuery>;
-export type WallpapersLazyQueryHookResult = ReturnType<
-  typeof useWallpapersLazyQuery
->;
-export type WallpapersQueryResult = Apollo.QueryResult<
-  WallpapersQuery,
-  WallpapersQueryVariables
->;
-export const GetUserInfoDocument = gql`
-  query GetUserInfo($token: String!) {
-    getUserInfo(token: $token) {
-      info {
-        id
-        fullName
-        email
+export function useWallpapersQuery(baseOptions?: Apollo.QueryHookOptions<WallpapersQuery, WallpapersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WallpapersQuery, WallpapersQueryVariables>(WallpapersDocument, options);
       }
-      token
-      isVerified
+export function useWallpapersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WallpapersQuery, WallpapersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WallpapersQuery, WallpapersQueryVariables>(WallpapersDocument, options);
+        }
+export type WallpapersQueryHookResult = ReturnType<typeof useWallpapersQuery>;
+export type WallpapersLazyQueryHookResult = ReturnType<typeof useWallpapersLazyQuery>;
+export type WallpapersQueryResult = Apollo.QueryResult<WallpapersQuery, WallpapersQueryVariables>;
+export const GetUserInfoDocument = gql`
+    query GetUserInfo($token: String!) {
+  getUserInfo(token: $token) {
+    info {
+      id
+      fullName
+      email
     }
+    token
+    isVerified
   }
-`;
+}
+    `;
 
 /**
  * __useGetUserInfoQuery__
@@ -887,45 +708,25 @@ export const GetUserInfoDocument = gql`
  *   },
  * });
  */
-export function useGetUserInfoQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetUserInfoQuery,
-    GetUserInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(
-    GetUserInfoDocument,
-    options,
-  );
-}
-export function useGetUserInfoLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserInfoQuery,
-    GetUserInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(
-    GetUserInfoDocument,
-    options,
-  );
-}
+export function useGetUserInfoQuery(baseOptions: Apollo.QueryHookOptions<GetUserInfoQuery, GetUserInfoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(GetUserInfoDocument, options);
+      }
+export function useGetUserInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserInfoQuery, GetUserInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(GetUserInfoDocument, options);
+        }
 export type GetUserInfoQueryHookResult = ReturnType<typeof useGetUserInfoQuery>;
-export type GetUserInfoLazyQueryHookResult = ReturnType<
-  typeof useGetUserInfoLazyQuery
->;
-export type GetUserInfoQueryResult = Apollo.QueryResult<
-  GetUserInfoQuery,
-  GetUserInfoQueryVariables
->;
+export type GetUserInfoLazyQueryHookResult = ReturnType<typeof useGetUserInfoLazyQuery>;
+export type GetUserInfoQueryResult = Apollo.QueryResult<GetUserInfoQuery, GetUserInfoQueryVariables>;
 
-export interface PossibleTypesResultData {
-  possibleTypes: {
-    [key: string]: string[];
-  };
-}
-const result: PossibleTypesResultData = {
-  possibleTypes: {},
+      export interface PossibleTypesResultData {
+        possibleTypes: {
+          [key: string]: string[]
+        }
+      }
+      const result: PossibleTypesResultData = {
+  "possibleTypes": {}
 };
-export default result;
+      export default result;
+    

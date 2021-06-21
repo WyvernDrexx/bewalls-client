@@ -21,12 +21,14 @@ import {
 } from '../../generated/graphql';
 import CategoryItems from '../../components/CategoryItems';
 import { ItemGroup } from '../../types';
+import useUser from '../../hooks/useUser';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const { themedStyles } = useTheme();
   const { loading, data } = useHomeScreenQuery();
-
+  const user = useUser();
+  console.log('user', user);
   const handleSearchBarClick = () => {
     props.navigation.navigate('Search');
   };

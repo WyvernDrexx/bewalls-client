@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -14,9 +15,13 @@ import {
   UserCreateError,
   UserCreateInput,
   UserCreateResponse,
+  UserSignInResponse,
 } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
+import useUser from '../../hooks/useUser';
 import { SignInScreenProps } from '../../navigation/types';
+import { useAppDispatch } from '../../store';
+import { setUserToken } from '../../store/user';
 import { hp, verifyUserCreateData, wp } from '../../utilities';
 
 const SignIn: React.FC<SignInScreenProps> = props => {
@@ -29,10 +34,12 @@ const SignIn: React.FC<SignInScreenProps> = props => {
   const [errors, setErrors] = useState<UserCreateError>({});
   const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
+  const user = useUser();
   const {
     themedStyles,
     theme: { colors },
   } = useTheme();
+  const dispatch = useAppDispatch();
 
   const goBack = () => {
     props.navigation.goBack();
@@ -75,17 +82,54 @@ const SignIn: React.FC<SignInScreenProps> = props => {
     } catch (error) {}
   };
 
+  const handleSignIn = async () => {
+    console.log(token);
+    try {
+      const { data } = await apolloClient.mutate<{
+        signIn: UserSignInResponse;
+      }>({
+        mutation: gql`
+          mutation ($email: String!, $password: String!) {
+            signIn(email: $email, password: $password) {
+              token
+              error
+            }
+          }
+        `,
+        variables: {
+          email: userInputs.email,
+          password: userInputs.password,
+        },
+      });
+      if (data?.signIn.error) {
+        console.log('Wrong email password!');
+      } else {
+        if (data?.signIn.token) {
+          dispatch(setUserToken(data.signIn.token));
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async () => {
     const inputErrors = verifyUserCreateData(userInputs);
-    if (inputErrors) return setErrors(inputErrors);
+    if (inputErrors && inputErrors.fullName && !isLoginMode)
+      return setErrors(inputErrors);
     setLoading(true);
     setErrors({});
-    handleSignUp();
+    if (isLoginMode) handleSignIn();
+    else handleSignUp();
     setTimeout(() => {
       setLoading(false);
     }, 200);
   };
-  console.log('tokoen', token);
+
+  useEffect(() => {
+    if (user.isVerified) props.navigation.navigate('Home');
+  }, [user.isVerified]);
+
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
