@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
-    marginTop: hp(4),
   },
   cards: {
     marginBottom: hp(2),

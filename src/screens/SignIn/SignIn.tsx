@@ -155,6 +155,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
               style={[styles.input]}
               returnKeyType="next"
               placeholder="John Doe"
+              placeholderTextColor="lightgray"
             />
             {errors.fullName ? (
               <Text style={styles.errorText}>{errors.fullName}</Text>
@@ -169,7 +170,8 @@ const SignIn: React.FC<SignInScreenProps> = props => {
           selectionColor="gray"
           style={styles.input}
           returnKeyType="next"
-          placeholder="youremail@example.com"
+          placeholder="email@example.com"
+          placeholderTextColor="lightgray"
         />
         {errors.email ? (
           <Text style={styles.errorText}>{errors.email}</Text>

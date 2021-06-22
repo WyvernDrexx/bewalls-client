@@ -68,7 +68,6 @@ const CarouselItem = function (props: CarouselItemProps) {
 
 const styles = StyleSheet.create({
   root: {
-    marginTop: hp(4),
     marginRight: wp(-6),
   },
   imageView: {

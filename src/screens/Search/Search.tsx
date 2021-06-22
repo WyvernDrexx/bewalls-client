@@ -139,7 +139,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
 
   useEffect(() => {
     if (!searchText) setLoading(false);
-    if (searchText.length < 3) return;
+    if (searchText.length < 2) return;
     if (timeoutId) {
       clearTimeout(timeoutId);
       setTimeoutId(null);
@@ -182,7 +182,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <ScrollView
-        keyboardShouldPersistTaps
+        keyboardShouldPersistTaps="always"
         overScrollMode="never"
         showsVerticalScrollIndicator={false}>
         <View style={[styles.searchContainer, themedStyles.bgLight]}>
