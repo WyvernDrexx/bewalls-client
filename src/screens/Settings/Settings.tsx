@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, Switch, Text, View } from 'react-native';
+import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 
 import StackHeader from '../../components/StackHeader';
 
-import { useTheme } from '../../hooks';
+import { useTheme, useUser } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
 import { SettingsScreenProps } from '../../navigation/types';
+import { useAppDispatch } from '../../store';
+import { userLogOut } from '../../store/user';
 
 const Settings: React.FC<SettingsScreenProps> = function (props) {
   const {
@@ -14,6 +16,12 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
     theme: { colors },
   } = useTheme();
   const [notificationEnabled, setNotificationEnabled] = useState(true);
+  const dispatch = useAppDispatch();
+  const user = useUser();
+  const handleUserLogout = () => {
+    dispatch(userLogOut());
+    props.navigation.navigate('Home');
+  };
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
@@ -55,6 +63,11 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
         </Text>
         <Text style={styles.versionText}>V1.2.8</Text>
       </View>
+      {user.isVerified ? (
+        <TouchableOpacity onPress={handleUserLogout} style={styles.optionsView}>
+          <Text style={[styles.optionsText, styles.warningText]}>LogOut</Text>
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };
@@ -86,6 +99,9 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: wp(2),
+  },
+  warningText: {
+    color: 'crimson',
   },
 });
 
