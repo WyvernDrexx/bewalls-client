@@ -23,9 +23,11 @@ import { SignInScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
 import { setUserToken } from '../../store/user';
 import { hp, verifyUserCreateData, wp } from '../../utilities';
+import CheckSvg from './check.svg';
 
 const SignIn: React.FC<SignInScreenProps> = props => {
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [userInputs, setUserInputs] = useState<UserCreateInput>({
     fullName: '',
     email: '',
@@ -77,8 +79,10 @@ const SignIn: React.FC<SignInScreenProps> = props => {
           ...data.createUser.errors,
         });
       }
-      if (data?.createUser?.token)
+      if (data?.createUser?.token) {
+        setIsSuccess(true);
         dispatch(setUserToken(data.createUser.token));
+      }
     } catch (error) {}
   };
 
@@ -104,7 +108,8 @@ const SignIn: React.FC<SignInScreenProps> = props => {
         console.log('Wrong email password!');
       } else {
         if (data?.signIn?.token) {
-          dispatch(setUserToken(data.signIn.token));
+          setIsSuccess(true);
+          dispatch(setUserToken(data!.signIn!.token!));
         }
       }
     } catch (error) {
@@ -140,20 +145,23 @@ const SignIn: React.FC<SignInScreenProps> = props => {
       <View style={styles.container}>
         {!isLoginMode ? (
           <>
-            <Text style={styles.inputLabel}>Full Name</Text>
+            <Text style={[styles.inputLabel, themedStyles.text]}>
+              Full Name
+            </Text>
             <TextInput
               onChangeText={text => handleInputChange('fullName', text)}
               value={userInputs.fullName}
-              selectionColor="gray"
-              style={styles.input}
+              selectionColor={colors.light}
+              style={[styles.input]}
               returnKeyType="next"
+              placeholder="John Doe"
             />
             {errors.fullName ? (
               <Text style={styles.errorText}>{errors.fullName}</Text>
             ) : null}
           </>
         ) : null}
-        <Text style={styles.inputLabel}>Email</Text>
+        <Text style={[styles.inputLabel, themedStyles.text]}>Email</Text>
         <TextInput
           onChangeText={text => handleInputChange('email', text)}
           value={userInputs.email}
@@ -161,11 +169,12 @@ const SignIn: React.FC<SignInScreenProps> = props => {
           selectionColor="gray"
           style={styles.input}
           returnKeyType="next"
+          placeholder="youremail@example.com"
         />
         {errors.email ? (
           <Text style={styles.errorText}>{errors.email}</Text>
         ) : null}
-        <Text style={styles.inputLabel}>Password</Text>
+        <Text style={[styles.inputLabel, themedStyles.text]}>Password</Text>
         <TextInput
           onChangeText={text => handleInputChange('password', text)}
           value={userInputs.password}
@@ -178,16 +187,24 @@ const SignIn: React.FC<SignInScreenProps> = props => {
         <TouchableOpacity
           onPress={handleSubmit}
           activeOpacity={0.5}
-          style={[styles.actionButton, { borderColor: colors.light }]}>
+          style={[
+            styles.actionButton,
+            { borderColor: colors.light },
+            isSuccess ? styles.isSuccess : {},
+          ]}>
           {loading ? (
             <ActivityIndicator color="white" />
+          ) : isSuccess ? (
+            <View style={styles.flex}>
+              <CheckSvg fill="white" height={hp(2)} width={hp(2)} />
+            </View>
           ) : (
             <Text style={[themedStyles.textLight, styles.actionText]}>
               {isLoginMode ? 'Sign In' : 'Sign Up'}
             </Text>
           )}
         </TouchableOpacity>
-        <Text style={styles.orText}>Or</Text>
+        <Text style={[styles.orText, themedStyles.text]}>Or</Text>
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={() => setIsLoginMode(!isLoginMode)}
@@ -241,6 +258,14 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'crimson',
     marginBottom: hp(2),
+  },
+  isSuccess: {
+    backgroundColor: '#84e152',
+  },
+  flex: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
