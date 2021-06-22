@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { hp, wp } from '../../utilities';
-import { useTheme } from '../../hooks';
+import { useTheme, useUser } from '../../hooks';
 import { RootStackParamList } from '../../navigation/types';
 
 type BarItemProps = {
@@ -9,15 +9,17 @@ type BarItemProps = {
   route: keyof RootStackParamList;
   title: string;
   onClick: (route: keyof RootStackParamList) => void;
+  hideWhenLoggedIn?: boolean;
 };
 
 const BarItem: React.FC<BarItemProps> = props => {
   const { themedStyles, theme } = useTheme();
-
+  const { isVerified } = useUser();
   const onClick = () => {
     props.onClick(props.route);
   };
 
+  if (props.hideWhenLoggedIn && isVerified) return null;
   return (
     <TouchableOpacity
       onPress={onClick}

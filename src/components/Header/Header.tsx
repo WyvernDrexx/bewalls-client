@@ -11,7 +11,7 @@ import {
 import Animated from 'react-native-reanimated';
 
 import { hp, wp } from '../../utilities';
-import { useTheme } from '../../hooks';
+import { useTheme, useUser } from '../../hooks';
 import { useAppDispatch } from '../../store';
 import { changeTheme } from '../../store/theme';
 
@@ -26,7 +26,7 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = function (props) {
   const dispatch = useAppDispatch();
   const { themedStyles, theme } = useTheme();
-
+  const user = useUser();
   const handleThemeChange = () => {
     dispatch(changeTheme(theme.isDark ? 'light' : 'dark'));
   };
@@ -51,7 +51,9 @@ const Header: React.FC<HeaderProps> = function (props) {
             <Text style={[styles.welcomeText, themedStyles.text]}>
               Welcome,
             </Text>
-            <Text style={[styles.nameText, themedStyles.text]}>John</Text>
+            <Text style={[styles.nameText, themedStyles.text]}>
+              {user.info ? user.info.fullName : 'You'}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>

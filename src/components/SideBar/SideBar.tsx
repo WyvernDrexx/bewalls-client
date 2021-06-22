@@ -18,7 +18,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { hp, wp } from '../../utilities';
-import { useTheme } from '../../hooks';
+import { useTheme, useUser } from '../../hooks';
 
 import BarItem from './BarItem';
 import ProfileSvg from './profile.svg';
@@ -37,6 +37,7 @@ type SideBarProps = {
 type BarItemType = {
   route: keyof RootStackParamList;
   title: string;
+  hideWhenLoggedIn?: boolean;
 };
 
 const SIDEBAR_ITEMS: BarItemType[] = [
@@ -55,12 +56,14 @@ const SIDEBAR_ITEMS: BarItemType[] = [
   {
     route: 'SignIn',
     title: 'Sign In',
+    hideWhenLoggedIn: true,
   },
 ];
 
 const SideBar: React.FC<SideBarProps> = function (props) {
   const width = wp(100);
   const isShown = useSharedValue(props.isShown);
+  const user = useUser();
   const [toCall, setToCall] = useState<'close' | 'barItem' | null>(null);
   const {
     themedStyles,
@@ -128,7 +131,7 @@ const SideBar: React.FC<SideBarProps> = function (props) {
         <View style={[styles.profile]}>
           <ProfileSvg height={hp(8)} width={hp(8)} fill={colors.secondary} />
           <Text style={[styles.profileText, themedStyles.text]}>
-            LP Sharma,
+            {user.info ? user.info.fullName : 'You'}
           </Text>
         </View>
         <View style={[styles.barItems, { borderColor: colors.light }]}>
@@ -140,6 +143,7 @@ const SideBar: React.FC<SideBarProps> = function (props) {
                 onClick={handleBarItemClick}
                 route={item.route}
                 title={item.title}
+                hideWhenLoggedIn={item.hideWhenLoggedIn}
               />
             );
           })}
