@@ -24,8 +24,8 @@ const userSlice = createSlice({
         state.isVerified = true;
       } else return state;
     },
-    setUserToken(state, action: PayloadAction<string>) {
-      state.token = action.payload;
+    setUserToken(state, action: PayloadAction<string | null>) {
+      if (action.payload !== null) state.token = action.payload;
     },
     userLogOut() {
       return initialState;

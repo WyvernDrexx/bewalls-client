@@ -9,6 +9,7 @@ import { hp, wp } from '../../utilities';
 import { SettingsScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
 import { userLogOut } from '../../store/user';
+import tokenStorage from '../../utilities/tokenStorage';
 
 const Settings: React.FC<SettingsScreenProps> = function (props) {
   const {
@@ -18,7 +19,9 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
   const [notificationEnabled, setNotificationEnabled] = useState(true);
   const dispatch = useAppDispatch();
   const user = useUser();
-  const handleUserLogout = () => {
+
+  const handleUserLogout = async () => {
+    await tokenStorage.deleteToken();
     dispatch(userLogOut());
     props.navigation.navigate('Home');
   };

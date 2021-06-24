@@ -24,8 +24,9 @@ import { hp, wp } from '../../utilities';
 import { RootStackParamList } from '../types';
 
 import { useGetUserInfoQuery, User } from '../../generated/graphql';
-import { userSignIn } from '../../store/user';
+import { setUserToken, userSignIn } from '../../store/user';
 import { useAppDispatch } from '../../store';
+import tokenStorage from '../../utilities/tokenStorage';
 
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -34,6 +35,7 @@ function RootNavigator() {
   const statusBarStyle = theme.isDark ? 'light-content' : 'dark-content';
   const { token } = useUser();
   const { data } = useGetUserInfoQuery({ variables: { token } });
+  console.log('token from state', token);
 
   const screenOptions: StackNavigationOptions = {
     headerShown: false,
@@ -56,7 +58,13 @@ function RootNavigator() {
   }, [data]);
 
   return (
-    <NavigationContainer onReady={() => RNBootSplash.hide()}>
+    <NavigationContainer
+      onReady={async () => {
+        RNBootSplash.hide();
+        const storageToken = await tokenStorage.getToken();
+        console.log('ready', storageToken);
+        dispatch(setUserToken(storageToken));
+      }}>
       <StatusBar
         backgroundColor={theme.colors.primary}
         barStyle={statusBarStyle}

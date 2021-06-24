@@ -23,6 +23,7 @@ import { SignInScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
 import { setUserToken } from '../../store/user';
 import { hp, verifyUserCreateData, wp } from '../../utilities';
+import tokenStorage from '../../utilities/tokenStorage';
 import CheckSvg from './check.svg';
 
 const SignIn: React.FC<SignInScreenProps> = props => {
@@ -82,6 +83,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
       if (data?.createUser?.token) {
         setIsSuccess(true);
         dispatch(setUserToken(data.createUser.token));
+        await tokenStorage.setToken(data.createUser.token);
       }
     } catch (error) {}
   };
@@ -110,6 +112,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
         if (data?.signIn?.token) {
           setIsSuccess(true);
           dispatch(setUserToken(data!.signIn!.token!));
+          await tokenStorage.setToken(data!.signIn!.token!);
         }
       }
     } catch (error) {
