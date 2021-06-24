@@ -200,6 +200,7 @@ export type Wallpaper = {
   category: Category;
   highlightColor: Scalars['String'];
   favouriteOf: Array<Maybe<User>>;
+  isUsersFavourite: Scalars['Boolean'];
 };
 
 export type WallpaperCreateInput = {
@@ -232,7 +233,7 @@ export type TrendingQuery = (
   { __typename?: 'Query' }
   & { trending: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'publisher' | 'createdAt'>
+    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'publisher' | 'createdAt' | 'isUsersFavourite'>
   )>> }
 );
 
@@ -335,7 +336,7 @@ export type WallpapersQuery = (
   { __typename?: 'Query' }
   & { wallpapers: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'id' | 'sizeInKB' | 'height' | 'width'>
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width'>
     & { category: (
       { __typename?: 'Category' }
       & Pick<Category, 'name' | 'id'>
@@ -410,6 +411,7 @@ export const TrendingDocument = gql`
     likes
     publisher
     createdAt
+    isUsersFavourite
   }
 }
     `;
@@ -692,6 +694,7 @@ export const WallpapersDocument = gql`
     name
     imageUri
     downloads
+    isUsersFavourite
     id
     sizeInKB
     height

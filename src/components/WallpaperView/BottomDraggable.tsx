@@ -21,7 +21,6 @@ import { Wallpaper } from '../../generated/graphql';
 type BottomDraggableProps = {
   wallpaper: Wallpaper;
   onFavourite?: (wallpaperId: string) => void;
-  isFavourite?: boolean;
 };
 
 const BottomDraggable = function (props: BottomDraggableProps) {
@@ -30,7 +29,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const offsetY = useSharedValue(startPosition);
   const driftOffset = hp(75);
   const actionIconSize = hp(3);
-
+  console.log('wallpaperview', props.wallpaper);
   const { themedStyles, theme } = useTheme();
 
   const eventHandler = useAnimatedGestureHandler({
@@ -133,7 +132,11 @@ const BottomDraggable = function (props: BottomDraggableProps) {
             </View>
             <TouchableOpacity onPress={handleHeartClick}>
               <HeartSvg
-                fill={props.isFavourite ? '#fc2679' : theme.colors.dark}
+                fill={
+                  props.wallpaper.isUsersFavourite
+                    ? '#fc2679'
+                    : theme.colors.dark
+                }
                 height={hp(5)}
                 width={hp(5)}
               />

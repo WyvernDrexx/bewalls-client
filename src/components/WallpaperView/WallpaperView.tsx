@@ -27,7 +27,6 @@ type WallpaperViewProps = {
   onCloseClick?: () => void;
   wallpaper?: Wallpaper;
   showWallpaper?: boolean;
-  isFavourite?: boolean;
 };
 
 export default function WallpaperView(props: WallpaperViewProps) {
@@ -96,7 +95,6 @@ export default function WallpaperView(props: WallpaperViewProps) {
       <BottomDraggable
         onFavourite={handleFavourite}
         wallpaper={props.wallpaper}
-        isFavourite={props.isFavourite}
       />
     </Animated.View>
   );
