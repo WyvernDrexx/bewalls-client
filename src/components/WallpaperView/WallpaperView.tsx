@@ -63,7 +63,6 @@ export default function WallpaperView(props: WallpaperViewProps) {
   if (!props.wallpaper) return null;
 
   const handleFavourite = async (id: String) => {
-    console.log(user);
     if (user.isVerified) {
       try {
         const { data } = await apolloClient.mutate<{

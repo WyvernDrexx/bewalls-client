@@ -59,7 +59,6 @@ const GoogleSignInView = function (props: Props) {
       setSignInProgress(true);
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
       setSignInProgress(false);
       dispatch(userSignIn(userInfo));
     } catch (error) {
@@ -86,8 +85,6 @@ const GoogleSignInView = function (props: Props) {
       offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
     });
   }, []);
-
-  console.log(user);
 
   return (
     <Animated.View style={[uas, styles.root]}>

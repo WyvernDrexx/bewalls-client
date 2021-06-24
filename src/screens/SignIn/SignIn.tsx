@@ -1,4 +1,3 @@
-import { gql } from '@apollo/client';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import {
@@ -10,13 +9,12 @@ import {
 } from 'react-native';
 import { Keyboard } from 'react-native';
 import { Text } from 'react-native';
-import { apolloClient } from '../../apollo';
 import StackHeader from '../../components/StackHeader';
 import {
+  useCreateUserMutation,
   UserCreateError,
   UserCreateInput,
-  UserCreateResponse,
-  UserSignInResponse,
+  useSignInMutation,
 } from '../../generated/graphql';
 import { useTheme, useUser } from '../../hooks';
 import { SignInScreenProps } from '../../navigation/types';
@@ -27,6 +25,7 @@ import tokenStorage from '../../utilities/tokenStorage';
 import CheckSvg from './check.svg';
 
 const SignIn: React.FC<SignInScreenProps> = props => {
+  const { themedStyles, theme } = useTheme();
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
   const [userInputs, setUserInputs] = useState<UserCreateInput>({
@@ -37,44 +36,10 @@ const SignIn: React.FC<SignInScreenProps> = props => {
   const [errors, setErrors] = useState<UserCreateError>({});
   const [loading, setLoading] = useState(false);
   const user = useUser();
-  const {
-    themedStyles,
-    theme: { colors },
-  } = useTheme();
   const dispatch = useAppDispatch();
 
-  const goBack = () => {
-    props.navigation.goBack();
-  };
-
-  const handleInputChange = (target: keyof UserCreateInput, value: string) => {
-    setUserInputs({ ...userInputs, [target]: value });
-  };
-  const handleSignUp = async () => {
-    try {
-      const { data } = await apolloClient.mutate<{
-        createUser?: UserCreateResponse;
-      }>({
-        mutation: gql`
-          mutation ($fullName: String!, $email: String!, $password: String!) {
-            createUser(
-              data: { fullName: $fullName, email: $email, password: $password }
-            ) {
-              token
-              errors {
-                fullName
-                email
-                password
-              }
-            }
-          }
-        `,
-        variables: {
-          fullName: userInputs.fullName,
-          email: userInputs.email,
-          password: userInputs.password,
-        },
-      });
+  const [createUser] = useCreateUserMutation({
+    onCompleted: async data => {
       if (data?.createUser?.errors) {
         return setErrors({
           ...data.createUser.errors,
@@ -85,27 +50,11 @@ const SignIn: React.FC<SignInScreenProps> = props => {
         dispatch(setUserToken(data.createUser.token));
         await tokenStorage.setToken(data.createUser.token);
       }
-    } catch (error) {}
-  };
+    },
+  });
 
-  const handleSignIn = async () => {
-    try {
-      const { data } = await apolloClient.mutate<{
-        signIn?: UserSignInResponse;
-      }>({
-        mutation: gql`
-          mutation ($email: String!, $password: String!) {
-            signIn(email: $email, password: $password) {
-              token
-              error
-            }
-          }
-        `,
-        variables: {
-          email: userInputs.email,
-          password: userInputs.password,
-        },
-      });
+  const [signIn] = useSignInMutation({
+    onCompleted: async data => {
       if (data?.signIn?.error) {
         console.log('Wrong email password!');
       } else {
@@ -115,12 +64,39 @@ const SignIn: React.FC<SignInScreenProps> = props => {
           await tokenStorage.setToken(data!.signIn!.token!);
         }
       }
-    } catch (error) {
-      console.log(error);
-    }
+    },
+  });
+
+  const goBack = () => {
+    props.navigation.goBack();
   };
 
-  const handleSubmit = async () => {
+  const handleInputChange = (target: keyof UserCreateInput, value: string) => {
+    setUserInputs({ ...userInputs, [target]: value });
+  };
+
+  const handleSignUp = () => {
+    const { fullName, email, password } = userInputs;
+    createUser({
+      variables: {
+        fullName,
+        email,
+        password,
+      },
+    });
+  };
+
+  const handleSignIn = () => {
+    const { email, password } = userInputs;
+    signIn({
+      variables: {
+        email,
+        password,
+      },
+    });
+  };
+
+  const handleSubmit = () => {
     Keyboard.dismiss();
     const inputErrors = verifyUserCreateData(userInputs);
     if (inputErrors && inputErrors.fullName && !isLoginMode)
@@ -154,7 +130,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
             <TextInput
               onChangeText={text => handleInputChange('fullName', text)}
               value={userInputs.fullName}
-              selectionColor={colors.light}
+              selectionColor={theme.colors.light}
               style={[styles.input]}
               returnKeyType="next"
               placeholder="John Doe"
@@ -194,7 +170,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
           activeOpacity={0.5}
           style={[
             styles.actionButton,
-            { borderColor: colors.light },
+            { borderColor: theme.colors.light },
             isSuccess ? styles.isSuccess : {},
           ]}>
           {loading ? (

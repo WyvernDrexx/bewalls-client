@@ -9,3 +9,23 @@ query GetUserInfo($token: String!) {
     }
   }
 }
+
+mutation CreateUser($fullName: String!, $email: String!, $password: String!) {
+  createUser(
+    data: { fullName: $fullName, email: $email, password: $password }
+  ) {
+    token
+    errors {
+      fullName
+      email
+      password
+    }
+  }
+}
+
+mutation SignIn($email: String!, $password: String!) {
+  signIn(email: $email, password: $password) {
+    token
+    error
+  }
+}

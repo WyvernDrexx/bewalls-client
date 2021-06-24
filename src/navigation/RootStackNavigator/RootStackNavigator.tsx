@@ -35,7 +35,6 @@ function RootNavigator() {
   const statusBarStyle = theme.isDark ? 'light-content' : 'dark-content';
   const { token } = useUser();
   const { data } = useGetUserInfoQuery({ variables: { token } });
-  console.log('token from state', token);
 
   const screenOptions: StackNavigationOptions = {
     headerShown: false,
@@ -62,7 +61,6 @@ function RootNavigator() {
       onReady={async () => {
         RNBootSplash.hide();
         const storageToken = await tokenStorage.getToken();
-        console.log('ready', storageToken);
         dispatch(setUserToken(storageToken));
       }}>
       <StatusBar
