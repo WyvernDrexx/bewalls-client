@@ -35,9 +35,7 @@ function RootNavigator() {
   const statusBarStyle = theme.isDark ? 'light-content' : 'dark-content';
   const [getUserInfo] = useGetUserInfoLazyQuery({
     onCompleted: data => {
-      console.log('onComplete Data', data);
       if (data.getUserInfo) {
-        console.log('getUserInfo', data.getUserInfo);
         dispatch(userSignIn(data.getUserInfo as User));
       }
     },

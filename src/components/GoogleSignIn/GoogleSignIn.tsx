@@ -60,10 +60,9 @@ const GoogleSignInView = function (props: Props) {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       setSignInProgress(false);
-      dispatch(userSignIn(userInfo));
+      // dispatch(userSignIn(userInfo));
     } catch (error) {
       setSignInProgress(false);
-      console.log(error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {

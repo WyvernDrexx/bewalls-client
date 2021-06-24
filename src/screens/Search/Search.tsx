@@ -177,6 +177,10 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     Keyboard.addListener('keyboardDidShow', () => {
       setIskeyboardVisible(true);
     });
+    return () => {
+      Keyboard.removeAllListeners('keyboardDidHide');
+      Keyboard.removeAllListeners('keyboardDidShow');
+    };
   }, []);
 
   return (

@@ -43,11 +43,10 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     colorId: type === 'color' ? selectorId : '',
   };
 
-  const { loading, data, error } = useWallpapersQuery({
+  const { loading, data } = useWallpapersQuery({
     variables,
   });
 
-  console.log(error);
   const { themedStyles } = useTheme();
 
   const handleCardClick = (wallpaper: Wallpaper) => {

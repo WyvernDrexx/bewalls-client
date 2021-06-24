@@ -10,7 +10,7 @@ import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
 
 import { hp, wp } from '../../utilities';
-import { useTheme, useUser } from '../../hooks';
+import { useTheme } from '../../hooks';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
 
 import {
@@ -26,8 +26,6 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const { themedStyles } = useTheme();
   const { loading, data } = useHomeScreenQuery();
-  const user = useUser();
-  console.log('user', user);
   const handleSearchBarClick = () => {
     props.navigation.navigate('Search');
   };

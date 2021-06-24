@@ -46,7 +46,6 @@ const SignIn: React.FC<SignInScreenProps> = props => {
         });
       }
       if (data?.createUser?.token) {
-        console.log('signup', data.createUser.token);
         setIsSuccess(true);
         dispatch(setUserToken(data.createUser.token));
         await tokenStorage.setToken(data.createUser.token);

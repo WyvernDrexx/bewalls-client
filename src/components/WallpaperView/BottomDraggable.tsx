@@ -29,7 +29,6 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const offsetY = useSharedValue(startPosition);
   const driftOffset = hp(75);
   const actionIconSize = hp(3);
-  console.log('wallpaperview', props.wallpaper);
   const { themedStyles, theme } = useTheme();
 
   const eventHandler = useAnimatedGestureHandler({
