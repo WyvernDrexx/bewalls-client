@@ -30,3 +30,24 @@ query wallpapers(
     }
   }
 }
+
+mutation AddToFavourite($id: String!) {
+  addToFavourite(id: $id) {
+    name
+    imageUri
+    downloads
+    isUsersFavourite
+    id
+    sizeInKB
+    height
+    width
+    category {
+      name
+      id
+    }
+    tags {
+      name
+      id
+    }
+  }
+}

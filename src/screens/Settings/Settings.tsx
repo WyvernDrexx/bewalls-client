@@ -10,6 +10,7 @@ import { SettingsScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
 import { userLogOut } from '../../store/user';
 import tokenStorage from '../../utilities/tokenStorage';
+import { apolloClient } from '../../apollo';
 
 const Settings: React.FC<SettingsScreenProps> = function (props) {
   const {
@@ -23,6 +24,7 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
   const handleUserLogout = async () => {
     await tokenStorage.deleteToken();
     dispatch(userLogOut());
+    apolloClient.resetStore();
     props.navigation.navigate('Home');
   };
 

@@ -16,7 +16,11 @@ import { hp, wp } from '../../utilities';
 
 import { SelectionScreenProps } from '../../navigation/types';
 
-import { Wallpaper, useWallpapersQuery } from '../../generated/graphql';
+import {
+  Wallpaper,
+  useWallpapersQuery,
+  useAddToFavouriteMutation,
+} from '../../generated/graphql';
 
 type Display = 'carousel' | 'grid';
 
@@ -25,6 +29,13 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [displayMode, setDisplayMode] = useState<Display>('carousel');
   const [previewWallpaper, setPreviewWallpaper] = useState(false);
   const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
+  const [addToFavourite] = useAddToFavouriteMutation({
+    onCompleted: data => {
+      if (!data || data.addToFavourite !== null) {
+        setSelectedWallpaper(data.addToFavourite as Wallpaper);
+      }
+    },
+  });
 
   const variables = {
     bundleId: type === 'bundle' ? selectorId : '',
@@ -42,6 +53,14 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   const handleCardClick = (wallpaper: Wallpaper) => {
     setSelectedWallpaper(wallpaper);
     setPreviewWallpaper(true);
+  };
+
+  const handleFavouriteClick = (id: string) => {
+    addToFavourite({
+      variables: {
+        id,
+      },
+    });
   };
 
   const handlePreviewClose = () => {
@@ -118,6 +137,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
         showWallpaper={previewWallpaper}
         wallpaper={selectedWallpaper}
         onCloseClick={handlePreviewClose}
+        onFavouriteClick={handleFavouriteClick}
       />
     </View>
   );
