@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User, UserInfo } from '../../generated/graphql';
+import { User } from '../../generated/graphql';
 
 export type UserState = {
-  info: User | null;
+  info?: User | null;
   token: string;
   isVerified: boolean;
 };
@@ -17,11 +17,11 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    userSignIn(state, action: PayloadAction<UserInfo>) {
+    userSignIn(state, action: PayloadAction<User | null | undefined>) {
       if (action.payload) {
-        state.info = action.payload.info || null;
-        state.token = action.payload.token || '';
-        state.isVerified = action.payload.isVerified;
+        state.info = action.payload;
+        state.token = state.token;
+        state.isVerified = true;
       } else return state;
     },
     setUserToken(state, action: PayloadAction<string>) {

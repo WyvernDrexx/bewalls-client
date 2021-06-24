@@ -1,11 +1,11 @@
 query GetUserInfo($token: String!) {
   getUserInfo(token: $token) {
-    info {
+    id
+    fullName
+    email
+    favourites {
+      name
       id
-      fullName
-      email
     }
-    token
-    isVerified
   }
 }

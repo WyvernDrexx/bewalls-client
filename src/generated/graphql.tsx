@@ -89,7 +89,7 @@ export type Query = {
   search: SearchResult;
   colors: Array<Maybe<Color>>;
   hotSearches: Array<Maybe<HotSearchTerm>>;
-  getUserInfo: UserInfo;
+  getUserInfo?: Maybe<User>;
 };
 
 
@@ -335,7 +335,14 @@ export type WallpapersQuery = (
   { __typename?: 'Query' }
   & { wallpapers: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'id'>
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'id' | 'sizeInKB' | 'height' | 'width'>
+    & { category: (
+      { __typename?: 'Category' }
+      & Pick<Category, 'name' | 'id'>
+    ), tags: Array<Maybe<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'name' | 'id'>
+    )>> }
   )>> }
 );
 
@@ -346,14 +353,14 @@ export type GetUserInfoQueryVariables = Exact<{
 
 export type GetUserInfoQuery = (
   { __typename?: 'Query' }
-  & { getUserInfo: (
-    { __typename?: 'UserInfo' }
-    & Pick<UserInfo, 'token' | 'isVerified'>
-    & { info?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'fullName' | 'email'>
-    )> }
-  ) }
+  & { getUserInfo?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'fullName' | 'email'>
+    & { favourites: Array<Maybe<(
+      { __typename?: 'Wallpaper' }
+      & Pick<Wallpaper, 'name' | 'id'>
+    )>> }
+  )> }
 );
 
 
@@ -653,6 +660,17 @@ export const WallpapersDocument = gql`
     imageUri
     downloads
     id
+    sizeInKB
+    height
+    width
+    category {
+      name
+      id
+    }
+    tags {
+      name
+      id
+    }
   }
 }
     `;
@@ -690,13 +708,13 @@ export type WallpapersQueryResult = Apollo.QueryResult<WallpapersQuery, Wallpape
 export const GetUserInfoDocument = gql`
     query GetUserInfo($token: String!) {
   getUserInfo(token: $token) {
-    info {
+    id
+    fullName
+    email
+    favourites {
+      name
       id
-      fullName
-      email
     }
-    token
-    isVerified
   }
 }
     `;

@@ -18,18 +18,22 @@ import { hp, wp } from '../../utilities';
 
 import DownArrowSvg from './down-arrow.svg';
 import { Wallpaper } from '../../generated/graphql';
+import { useUser } from '../../hooks';
+import { apolloClient } from '../../apollo';
+import { gql } from '@apollo/client';
 
 type WallpaperViewProps = {
   animatedStyle?: StyleProp<ViewStyle>;
   onCloseClick?: () => void;
   wallpaper?: Wallpaper;
   showWallpaper?: boolean;
+  isFavourite?: boolean;
 };
 
 export default function WallpaperView(props: WallpaperViewProps) {
   const screenHeight = hp(100);
   const offsetY = useSharedValue(screenHeight);
-
+  const user = useUser();
   useEffect(() => {
     if (props.showWallpaper) {
       offsetY.value = 0;
@@ -58,13 +62,43 @@ export default function WallpaperView(props: WallpaperViewProps) {
 
   if (!props.wallpaper) return null;
 
+  const handleFavourite = async (id: String) => {
+    console.log(user);
+    if (user.isVerified) {
+      try {
+        const { data } = await apolloClient.mutate<{
+          addToFavourite: Wallpaper | null;
+        }>({
+          mutation: gql`
+            mutation ($token: String!, $wallpaperId: String!) {
+              addToFavourite(token: $token, wallpaperId: $wallpaperId) {
+                name
+              }
+            }
+          `,
+          variables: {
+            token: user.token,
+            wallpaperId: id,
+          },
+        });
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <Animated.View style={[animatedStyle, styles.root]}>
       <Image style={styles.image} source={{ uri: props.wallpaper.imageUri }} />
       <TouchableOpacity onPress={handleCloseClick} style={styles.arrow}>
         <DownArrowSvg style={styles.arrowIcon} fill="white" />
       </TouchableOpacity>
-      <BottomDraggable />
+      <BottomDraggable
+        onFavourite={handleFavourite}
+        wallpaper={props.wallpaper}
+        isFavourite={props.isFavourite}
+      />
     </Animated.View>
   );
 }

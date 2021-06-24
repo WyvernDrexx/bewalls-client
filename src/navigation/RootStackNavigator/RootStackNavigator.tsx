@@ -23,7 +23,7 @@ import { hp, wp } from '../../utilities';
 
 import { RootStackParamList } from '../types';
 
-import { useGetUserInfoQuery } from '../../generated/graphql';
+import { useGetUserInfoQuery, User } from '../../generated/graphql';
 import { userSignIn } from '../../store/user';
 import { useAppDispatch } from '../../store';
 
@@ -51,7 +51,7 @@ function RootNavigator() {
 
   useEffect(() => {
     if (data) {
-      dispatch(userSignIn(data.getUserInfo));
+      dispatch(userSignIn(data.getUserInfo as User));
     }
   }, [data]);
 

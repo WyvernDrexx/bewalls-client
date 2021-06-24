@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
@@ -11,7 +11,7 @@ import WallpaperView from '../../components/WallpaperView';
 import Carousel from '../../components/Carousel/Carousel';
 import StackHeader from '../../components/StackHeader';
 
-import { useTheme } from '../../hooks';
+import { useTheme, useUser } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
 import { SelectionScreenProps } from '../../navigation/types';
@@ -25,6 +25,8 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [displayMode, setDisplayMode] = useState<Display>('carousel');
   const [previewWallpaper, setPreviewWallpaper] = useState(false);
   const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
+  const [isFavourite, setIsFavourite] = useState(false);
+  const user = useUser();
 
   const variables = {
     bundleId: type === 'bundle' ? selectorId : '',
@@ -47,6 +49,16 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   const handlePreviewClose = () => {
     setPreviewWallpaper(false);
   };
+
+  useEffect(() => {
+    if (user.info && selectedWallpaper) {
+      const match = user.info.favourites.find(
+        item => item?.id === selectedWallpaper.id,
+      );
+      setIsFavourite(match ? true : false);
+      console.log('fav', isFavourite);
+    }
+  }, [user.info, selectedWallpaper]);
 
   if (loading) {
     return null;
@@ -118,6 +130,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
         showWallpaper={previewWallpaper}
         wallpaper={selectedWallpaper}
         onCloseClick={handlePreviewClose}
+        isFavourite={isFavourite}
       />
     </View>
   );

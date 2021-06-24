@@ -16,8 +16,15 @@ import CheckSvg from './check.svg';
 import DownloadSvg from './download.svg';
 
 import { useTheme } from '../../hooks';
+import { Wallpaper } from '../../generated/graphql';
 
-const BottomDraggable = function () {
+type BottomDraggableProps = {
+  wallpaper: Wallpaper;
+  onFavourite?: (wallpaperId: string) => void;
+  isFavourite?: boolean;
+};
+
+const BottomDraggable = function (props: BottomDraggableProps) {
   const startPosition = hp(80);
   const maxOffset = hp(40);
   const offsetY = useSharedValue(startPosition);
@@ -62,7 +69,7 @@ const BottomDraggable = function () {
   });
 
   const handleHeartClick = () => {
-    console.log('Heart Clicked');
+    if (props.onFavourite) props.onFavourite(props.wallpaper.id);
   };
 
   const ACTION_BUTTONS = [
@@ -108,16 +115,6 @@ const BottomDraggable = function () {
     },
   ];
 
-  const details = {
-    downloads: 155,
-    views: '1k',
-    shares: 11,
-    height: 1080,
-    width: 3890,
-    size: '598kB',
-    createdAt: '18 Hours ago',
-  };
-
   return (
     <PanGestureHandler onGestureEvent={eventHandler}>
       <Animated.View style={[uas, styles.root, themedStyles.bg]}>
@@ -128,41 +125,35 @@ const BottomDraggable = function () {
           <View style={styles.headerView}>
             <View>
               <Text style={[styles.mainText, themedStyles.text]}>
-                Never Settle
+                {props.wallpaper.name}
               </Text>
               <Text style={[styles.subText, themedStyles.text]}>
-                OnePlus 7 Pro - WallpaperType
+                {props.wallpaper.category?.name}
               </Text>
             </View>
             <TouchableOpacity onPress={handleHeartClick}>
               <HeartSvg
-                fill={theme.colors.secondary}
+                fill={props.isFavourite ? '#fc2679' : theme.colors.dark}
                 height={hp(5)}
                 width={hp(5)}
               />
             </TouchableOpacity>
           </View>
           <View style={styles.tagView}>
-            <TouchableOpacity>
-              <Text
-                style={[
-                  styles.tagText,
-                  themedStyles.bgSecondary,
-                  themedStyles.textLight,
-                ]}>
-                OnePlus
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text
-                style={[
-                  styles.tagText,
-                  themedStyles.bgSecondary,
-                  themedStyles.textLight,
-                ]}>
-                Never Settle
-              </Text>
-            </TouchableOpacity>
+            {props.wallpaper.tags.map(item => {
+              return (
+                <TouchableOpacity key={item?.id}>
+                  <Text
+                    style={[
+                      styles.tagText,
+                      themedStyles.bgSecondary,
+                      themedStyles.textLight,
+                    ]}>
+                    {item?.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </View>
         </View>
         <View style={styles.actionsContainer}>
@@ -187,7 +178,7 @@ const BottomDraggable = function () {
               themedStyles.bgLight,
               themedStyles.text,
             ]}>
-            {details.downloads} Downloads
+            {props.wallpaper.downloads} Downloads
           </Text>
           <Text
             style={[
@@ -195,7 +186,7 @@ const BottomDraggable = function () {
               themedStyles.bgLight,
               themedStyles.text,
             ]}>
-            {details.views} Views
+            {100} Views
           </Text>
           <Text
             style={[
@@ -203,7 +194,7 @@ const BottomDraggable = function () {
               themedStyles.bgLight,
               themedStyles.text,
             ]}>
-            {details.shares} Shares
+            {100} Shares
           </Text>
           <Text
             style={[
@@ -211,7 +202,7 @@ const BottomDraggable = function () {
               themedStyles.bgLight,
               themedStyles.text,
             ]}>
-            {details.height} x {details.width}{' '}
+            {props.wallpaper.height} x {props.wallpaper.width}
           </Text>
           <Text
             style={[
@@ -219,7 +210,7 @@ const BottomDraggable = function () {
               themedStyles.bgLight,
               themedStyles.text,
             ]}>
-            {details.size}
+            {props.wallpaper.sizeInKB} KB
           </Text>
           <Text
             style={[
@@ -227,7 +218,7 @@ const BottomDraggable = function () {
               themedStyles.bgLight,
               themedStyles.text,
             ]}>
-            {details.createdAt}
+            {props.wallpaper.createdAt}
           </Text>
         </View>
       </Animated.View>
