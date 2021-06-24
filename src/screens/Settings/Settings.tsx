@@ -24,7 +24,7 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
   const handleUserLogout = async () => {
     await tokenStorage.deleteToken();
     dispatch(userLogOut());
-    apolloClient.resetStore();
+    apolloClient.clearStore();
     props.navigation.navigate('Home');
   };
 

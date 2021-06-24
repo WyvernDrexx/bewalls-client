@@ -116,11 +116,6 @@ export type QuerySearchArgs = {
   searchText: Scalars['String'];
 };
 
-
-export type QueryGetUserInfoArgs = {
-  token: Scalars['String'];
-};
-
 export type SearchResult = {
   __typename?: 'SearchResult';
   wallpapers: Array<Maybe<Wallpaper>>;
@@ -366,9 +361,7 @@ export type AddToFavouriteMutation = (
   )> }
 );
 
-export type GetUserInfoQueryVariables = Exact<{
-  token: Scalars['String'];
-}>;
+export type GetUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUserInfoQuery = (
@@ -376,10 +369,6 @@ export type GetUserInfoQuery = (
   & { getUserInfo?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'fullName' | 'email'>
-    & { favourites: Array<Maybe<(
-      { __typename?: 'Wallpaper' }
-      & Pick<Wallpaper, 'name' | 'id'>
-    )>> }
   )> }
 );
 
@@ -809,15 +798,11 @@ export type AddToFavouriteMutationHookResult = ReturnType<typeof useAddToFavouri
 export type AddToFavouriteMutationResult = Apollo.MutationResult<AddToFavouriteMutation>;
 export type AddToFavouriteMutationOptions = Apollo.BaseMutationOptions<AddToFavouriteMutation, AddToFavouriteMutationVariables>;
 export const GetUserInfoDocument = gql`
-    query GetUserInfo($token: String!) {
-  getUserInfo(token: $token) {
+    query GetUserInfo {
+  getUserInfo {
     id
     fullName
     email
-    favourites {
-      name
-      id
-    }
   }
 }
     `;
@@ -834,11 +819,10 @@ export const GetUserInfoDocument = gql`
  * @example
  * const { data, loading, error } = useGetUserInfoQuery({
  *   variables: {
- *      token: // value for 'token'
  *   },
  * });
  */
-export function useGetUserInfoQuery(baseOptions: Apollo.QueryHookOptions<GetUserInfoQuery, GetUserInfoQueryVariables>) {
+export function useGetUserInfoQuery(baseOptions?: Apollo.QueryHookOptions<GetUserInfoQuery, GetUserInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(GetUserInfoDocument, options);
       }

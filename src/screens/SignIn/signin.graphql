@@ -1,12 +1,8 @@
-query GetUserInfo($token: String!) {
-  getUserInfo(token: $token) {
+query GetUserInfo {
+  getUserInfo {
     id
     fullName
     email
-    favourites {
-      name
-      id
-    }
   }
 }
 

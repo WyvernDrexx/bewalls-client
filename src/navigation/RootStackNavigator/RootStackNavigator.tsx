@@ -23,7 +23,7 @@ import { hp, wp } from '../../utilities';
 
 import { RootStackParamList } from '../types';
 
-import { useGetUserInfoQuery, User } from '../../generated/graphql';
+import { useGetUserInfoLazyQuery, User } from '../../generated/graphql';
 import { setUserToken, userSignIn } from '../../store/user';
 import { useAppDispatch } from '../../store';
 import tokenStorage from '../../utilities/tokenStorage';
@@ -33,9 +33,17 @@ function RootNavigator() {
   const { themedStyles, theme } = useTheme();
   const dispatch = useAppDispatch();
   const statusBarStyle = theme.isDark ? 'light-content' : 'dark-content';
-  const { token } = useUser();
-  const { data } = useGetUserInfoQuery({ variables: { token } });
-
+  const [getUserInfo] = useGetUserInfoLazyQuery({
+    onCompleted: data => {
+      console.log('onComplete Data', data);
+      if (data.getUserInfo) {
+        console.log('getUserInfo', data.getUserInfo);
+        dispatch(userSignIn(data.getUserInfo as User));
+      }
+    },
+    onError: err => console.log(err),
+  });
+  const user = useUser();
   const screenOptions: StackNavigationOptions = {
     headerShown: false,
     headerStyle: {
@@ -51,10 +59,11 @@ function RootNavigator() {
   }, [theme.mode]);
 
   useEffect(() => {
-    if (data) {
-      dispatch(userSignIn(data.getUserInfo as User));
+    if (user.token) {
+      console.log('chnage!!!!!!!!!!!!!!!!!!');
+      getUserInfo();
     }
-  }, [data]);
+  }, [user.token]);
 
   return (
     <NavigationContainer
