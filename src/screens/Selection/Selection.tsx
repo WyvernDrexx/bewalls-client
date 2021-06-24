@@ -44,7 +44,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   };
 
   const { loading, data } = useWallpapersQuery({
-    variables,
+    variables: type === 'none' ? {} : variables,
   });
 
   const { themedStyles } = useTheme();

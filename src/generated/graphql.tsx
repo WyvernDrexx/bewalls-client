@@ -85,6 +85,7 @@ export type Query = {
   categories: Array<Maybe<Category>>;
   wallpaper: Wallpaper;
   wallpapers: Array<Maybe<Wallpaper>>;
+  recommended: Array<Maybe<Wallpaper>>;
   search: SearchResult;
   colors: Array<Maybe<Color>>;
   hotSearches: Array<Maybe<HotSearchTerm>>;
@@ -142,6 +143,7 @@ export type User = {
   fullName: Scalars['String'];
   email: Scalars['String'];
   favourites: Array<Maybe<Wallpaper>>;
+  recentSearches: Array<Maybe<Scalars['String']>>;
 };
 
 export type UserCreateError = {
@@ -315,6 +317,17 @@ export type ExtrasDataQuery = (
   )>>, hotSearches: Array<Maybe<(
     { __typename?: 'HotSearchTerm' }
     & Pick<HotSearchTerm, 'term'>
+  )>> }
+);
+
+export type RecommendedQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RecommendedQuery = (
+  { __typename?: 'Query' }
+  & { recommended: Array<Maybe<(
+    { __typename?: 'Wallpaper' }
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'id'>
   )>> }
 );
 
@@ -694,6 +707,43 @@ export function useExtrasDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type ExtrasDataQueryHookResult = ReturnType<typeof useExtrasDataQuery>;
 export type ExtrasDataLazyQueryHookResult = ReturnType<typeof useExtrasDataLazyQuery>;
 export type ExtrasDataQueryResult = Apollo.QueryResult<ExtrasDataQuery, ExtrasDataQueryVariables>;
+export const RecommendedDocument = gql`
+    query Recommended {
+  recommended {
+    name
+    imageUri
+    downloads
+    id
+  }
+}
+    `;
+
+/**
+ * __useRecommendedQuery__
+ *
+ * To run a query within a React component, call `useRecommendedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRecommendedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRecommendedQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRecommendedQuery(baseOptions?: Apollo.QueryHookOptions<RecommendedQuery, RecommendedQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RecommendedQuery, RecommendedQueryVariables>(RecommendedDocument, options);
+      }
+export function useRecommendedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RecommendedQuery, RecommendedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RecommendedQuery, RecommendedQueryVariables>(RecommendedDocument, options);
+        }
+export type RecommendedQueryHookResult = ReturnType<typeof useRecommendedQuery>;
+export type RecommendedLazyQueryHookResult = ReturnType<typeof useRecommendedLazyQuery>;
+export type RecommendedQueryResult = Apollo.QueryResult<RecommendedQuery, RecommendedQueryVariables>;
 export const WallpapersDocument = gql`
     query wallpapers($bundleId: String, $categoryId: String, $tagsId: String, $colorId: String) {
   wallpapers(

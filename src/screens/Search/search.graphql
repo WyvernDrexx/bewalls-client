@@ -19,3 +19,12 @@ query ExtrasData {
     term
   }
 }
+
+query Recommended {
+  recommended {
+    name
+    imageUri
+    downloads
+    id
+  }
+}

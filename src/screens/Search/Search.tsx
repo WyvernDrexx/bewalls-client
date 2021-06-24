@@ -84,6 +84,14 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     console.log('search');
   };
 
+  const handleRecentUploadsClick = () => {
+    props.navigation.navigate('Selection', {
+      group: 'none',
+      groupId: 'none',
+      title: 'Recent Uploads',
+    });
+  };
+
   const renderContents = () => {
     if (loading) return null;
     if (!searchText) {
@@ -107,7 +115,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     }
 
     if (!loading && !searchResults.length && searchText) {
-      return <NotFound />;
+      return <NotFound onRecentUploadsClick={handleRecentUploadsClick} />;
     }
     return (
       <Extras
