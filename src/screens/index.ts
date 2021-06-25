@@ -5,3 +5,4 @@ export * from './Selection';
 export * from './Settings';
 export * from './Bundles';
 export * from './SignIn';
+export * from './ContactUs';

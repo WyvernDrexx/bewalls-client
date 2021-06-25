@@ -15,11 +15,16 @@ export type RootStackParamList = {
   Settings: undefined;
   Bundles: undefined;
   SignIn: undefined;
+  ContactUs: undefined;
 };
 
 export type SearchScreenProps = StackScreenProps<RootStackParamList, 'Search'>;
 export type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 export type SignInScreenProps = StackScreenProps<RootStackParamList, 'SignIn'>;
+export type ContactUsScreenProps = StackScreenProps<
+  RootStackParamList,
+  'ContactUs'
+>;
 export type SelectionScreenProps = StackScreenProps<
   RootStackParamList,
   'Selection'

@@ -14,6 +14,7 @@ import {
   Settings,
   BundlesScreen,
   SignIn,
+  ContactUs,
 } from '../../screens';
 
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
@@ -83,6 +84,7 @@ function RootNavigator() {
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Bundles" component={BundlesScreen} />
         <Stack.Screen name="SignIn" component={SignIn} />
+        <Stack.Screen name="ContactUs" component={ContactUs} />
       </Stack.Navigator>
     </NavigationContainer>
   );

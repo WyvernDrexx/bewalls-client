@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { hp, wp } from '../../utilities';
 import { useTheme, useUser } from '../../hooks';
 import { RootStackParamList } from '../../navigation/types';
+import { SvgProps } from 'react-native-svg';
 
 type BarItemProps = {
   isActive?: boolean;
@@ -10,6 +11,7 @@ type BarItemProps = {
   title: string;
   onClick: (route: keyof RootStackParamList) => void;
   hideWhenLoggedIn?: boolean;
+  icon: React.FC<SvgProps>;
 };
 
 const BarItem: React.FC<BarItemProps> = props => {
@@ -32,6 +34,7 @@ const BarItem: React.FC<BarItemProps> = props => {
             : theme.colors.primary,
         },
       ]}>
+      <props.icon fill={theme.colors.secondary} height={hp(4)} width={hp(4)} />
       <Text style={[styles.text, themedStyles.text]}>{props.title}</Text>
     </TouchableOpacity>
   );
@@ -41,10 +44,14 @@ const styles = StyleSheet.create({
   root: {
     paddingHorizontal: wp(4),
     paddingVertical: hp(2.5),
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   text: {
     fontSize: hp(2.5),
     fontWeight: 'bold',
+    marginLeft: wp(5),
   },
 });
 

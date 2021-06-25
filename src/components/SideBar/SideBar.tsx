@@ -24,7 +24,13 @@ import BarItem from './BarItem';
 import ProfileSvg from './profile.svg';
 import BackSvg from './back.svg';
 
+import HomeSvg from './home.svg';
+import SlidersSvg from './sliders.svg';
+import CategoriesSvg from './categories.svg';
+import ContactUsSvg from './envelope.svg';
+
 import { RootStackParamList } from '../../navigation/types';
+import { SvgProps } from 'react-native-svg';
 
 type SideBarProps = {
   isShown?: boolean;
@@ -38,25 +44,36 @@ type BarItemType = {
   route: keyof RootStackParamList;
   title: string;
   hideWhenLoggedIn?: boolean;
+  icon: React.FC<SvgProps>;
 };
 
 const SIDEBAR_ITEMS: BarItemType[] = [
   {
     route: 'Home',
     title: 'Home',
+    icon: HomeSvg,
   },
   {
     route: 'Categories',
     title: 'Categories',
+    icon: CategoriesSvg,
+  },
+
+  {
+    route: 'SignIn',
+    title: 'Sign In/Sign Up',
+    hideWhenLoggedIn: true,
+    icon: ProfileSvg,
   },
   {
     route: 'Settings',
     title: 'Settings',
+    icon: SlidersSvg,
   },
   {
-    route: 'SignIn',
-    title: 'Sign In',
-    hideWhenLoggedIn: true,
+    route: 'ContactUs',
+    title: 'Contact Us',
+    icon: ContactUsSvg,
   },
 ];
 
@@ -138,6 +155,7 @@ const SideBar: React.FC<SideBarProps> = function (props) {
           {SIDEBAR_ITEMS.map((item, index) => {
             return (
               <BarItem
+                icon={item.icon}
                 isActive={props.currentRoute === item.route}
                 key={index}
                 onClick={handleBarItemClick}
