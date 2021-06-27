@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, StyleProp, StyleSheet, Text, ViewStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, {
@@ -22,6 +22,7 @@ type CarouselItemProps = {
 };
 
 const CarouselItem = function (props: CarouselItemProps) {
+  const [imageLoading, setImageLoading] = useState(true);
   const width = wp(76);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -43,6 +44,10 @@ const CarouselItem = function (props: CarouselItemProps) {
     if (props.onClick) props.onClick(props.data);
   };
 
+  const handleImageLoad = () => {
+    setImageLoading(false);
+  };
+
   return (
     <Animated.View
       style={[
@@ -52,7 +57,13 @@ const CarouselItem = function (props: CarouselItemProps) {
       ]}>
       <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
         <Animated.View style={[animatedStyle, styles.imageView]}>
-          <Image style={styles.image} source={{ uri: props.data.imageUri }} />
+          <Image
+            onLoadEnd={handleImageLoad}
+            blurRadius={imageLoading ? 5 : 0}
+            progressiveRenderingEnabled
+            style={styles.image}
+            source={{ uri: props.data.imageUri }}
+          />
           {!props.hideText ? (
             <LinearGradient
               colors={['transparent', 'rgba(21, 21, 21, 0.7)']}

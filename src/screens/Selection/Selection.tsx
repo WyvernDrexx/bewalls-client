@@ -21,6 +21,8 @@ import {
   useWallpapersQuery,
   useAddToFavouriteMutation,
 } from '../../generated/graphql';
+import { LoadingView } from '../../components/Loader/LoadingView';
+import MountAnimatedView from '../../components/MountAnimatedView';
 
 type Display = 'carousel' | 'grid';
 
@@ -66,9 +68,20 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     setPreviewWallpaper(false);
   };
 
-  if (loading) {
-    return null;
-  }
+  const Display = () => {
+    if (loading) {
+      return <LoadingView />;
+    }
+    if (displayMode === 'carousel') {
+      return (
+        <Carousel
+          onClick={handleCardClick}
+          items={data?.wallpapers as Wallpaper[]}
+        />
+      );
+    }
+    return <Grid />;
+  };
 
   const Grid = () => {
     return (
@@ -86,7 +99,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     );
   };
 
-  const DisplayMode: React.FC = () => {
+  const SelectMode: React.FC = () => {
     return (
       <View style={styles.displaySelection}>
         <TouchableOpacity style={styles.sortOptions} />
@@ -120,17 +133,12 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
         titlePosition="left"
         onLeftClick={props.navigation.goBack}
         title={props.route.params.title}
-        right={<DisplayMode />}
+        right={<SelectMode />}
       />
       <Animated.ScrollView>
-        {displayMode === 'carousel' ? (
-          <Carousel
-            onClick={handleCardClick}
-            items={data?.wallpapers as Wallpaper[]}
-          />
-        ) : (
-          <Grid />
-        )}
+        <MountAnimatedView>
+          <Display />
+        </MountAnimatedView>
       </Animated.ScrollView>
       <WallpaperView
         showWallpaper={previewWallpaper}

@@ -97,7 +97,6 @@ const Home: React.FC<HomeScreenProps> = function (props) {
               disabled={isSideBarShown}
               onSearchBarActive={handleSearchBarClick}
             />
-
             <HeadingTitle hideButton title="Trending Now" />
             <ScrollView
               scrollEnabled={!isSideBarShown}
