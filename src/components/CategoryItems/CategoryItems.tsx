@@ -1,16 +1,10 @@
-import React from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-  View,
-  ActivityIndicator,
-} from 'react-native';
+import React, { useState } from 'react';
+import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Category } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
 import { hp, isLastElement, wp } from '../../utilities';
+import { LoadingView } from '../Loader/LoadingView';
 
 type CategoryProps = {
   categories: Category[];
@@ -25,21 +19,18 @@ type CategoryProps = {
 const Categories: React.FC<CategoryProps> = function (props) {
   const height = hp(props.height);
   const width = wp(props.width);
+  const [imageLoading, setImageLoading] = useState(true);
 
   const handleClick = (category: Category) => {
     if (props.onClick) props.onClick(category, props.group);
   };
 
+  const handleImageLoad = () => {
+    setImageLoading(false);
+  };
+
   if (props.loading || typeof props.categories === 'undefined') {
-    return (
-      <View
-        style={[
-          styles.loadingView,
-          { height: hp(props.height), width: wp(100) },
-        ]}>
-        <ActivityIndicator color="black" />
-      </View>
-    );
+    return <LoadingView height={props.height} width={100} />;
   }
 
   return (
@@ -57,6 +48,9 @@ const Categories: React.FC<CategoryProps> = function (props) {
             onPress={() => handleClick(item)}
             key={item.id}>
             <Image
+              progressiveRenderingEnabled
+              blurRadius={imageLoading ? 5 : 0}
+              onLoadEnd={handleImageLoad}
               style={[
                 styles.image,
                 {

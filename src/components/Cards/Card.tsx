@@ -11,6 +11,7 @@ import { hp, wp } from '../../utilities';
 import { Wallpaper } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
 import LinearGradient from 'react-native-linear-gradient';
+import { useState } from 'react';
 
 type CardProps = {
   wallpaper: Wallpaper | null;
@@ -24,6 +25,7 @@ type CardProps = {
 };
 
 const Card: React.FC<CardProps> = function (props) {
+  const [imageLoading, setImageLoading] = useState(true);
   const height = hp(props.height);
   const width = wp(props.width);
   const { themedStyles } = useTheme();
@@ -31,6 +33,11 @@ const Card: React.FC<CardProps> = function (props) {
   const handleClick = () => {
     if (props.onClick) props.onClick(props.wallpaper!, props.group);
   };
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
+  };
+
   return (
     <MountAnimatedView>
       <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
@@ -45,6 +52,9 @@ const Card: React.FC<CardProps> = function (props) {
             props.style,
           ]}>
           <Image
+            blurRadius={imageLoading ? 5 : 0}
+            onLoadEnd={handleImageLoad}
+            progressiveRenderingEnabled
             style={[
               styles.image,
               {

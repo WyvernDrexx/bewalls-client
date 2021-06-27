@@ -1,15 +1,10 @@
 import React from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  ViewStyle,
-  ActivityIndicator,
-  View,
-} from 'react-native';
-import { hp, isLastElement, wp } from '../../utilities';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { isLastElement, wp } from '../../utilities';
 import { Card } from './Card';
 import { Wallpaper } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
+import { LoadingView } from '../Loader/LoadingView';
 
 type CardProps = {
   items?: Wallpaper[];
@@ -26,15 +21,7 @@ type CardProps = {
 
 const Cards: React.FC<CardProps> = function (props) {
   if (props.loading || typeof props.items === 'undefined') {
-    return (
-      <View
-        style={[
-          styles.loadingView,
-          { height: hp(props.height), width: wp(100) },
-        ]}>
-        <ActivityIndicator color="black" />
-      </View>
-    );
+    return <LoadingView height={props.height} />;
   }
 
   return (

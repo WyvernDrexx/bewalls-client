@@ -7,13 +7,13 @@ import {
   ViewStyle,
   ScrollView,
   Image,
-  ActivityIndicator,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Bundle } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
 
 import { hp, wp, isLastElement } from '../../utilities';
+import { LoadingView } from '../Loader/LoadingView';
 
 type BundlesProps = {
   items?: Bundle[];
@@ -61,6 +61,7 @@ const BundleItem: React.FC<BundleItemProps> = function (props) {
           props.style,
         ]}>
         <Image
+          progressiveRenderingEnabled
           style={[
             { height: hp(props.height), width: wp(props.width) },
             boxStyles.image,
@@ -80,12 +81,7 @@ const Bundles: React.FC<BundlesProps> = function (props) {
   let width = props.width || '27%';
 
   if (props.loading || typeof props.items === 'undefined') {
-    return (
-      <View
-        style={[styles.loadingView, { height: hp(height), width: wp(100) }]}>
-        <ActivityIndicator color="black" />
-      </View>
-    );
+    return <LoadingView height={props.height} />;
   }
 
   return (
