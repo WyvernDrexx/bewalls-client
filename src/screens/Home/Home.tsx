@@ -21,6 +21,7 @@ import {
 } from '../../generated/graphql';
 import CategoryItems from '../../components/CategoryItems';
 import { ItemGroup } from '../../types';
+import NoNetworkAccess from '../../components/NoNetworkAccess';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
@@ -94,51 +95,56 @@ const Home: React.FC<HomeScreenProps> = function (props) {
           showsVerticalScrollIndicator={false}
           style={styles.scrollView}>
           <Header onProfileClick={handleSideBarOpen} />
-          <SearchBar
-            disabled={isSideBarShown}
-            onSearchBarActive={handleSearchBarClick}
-          />
-          {loading ? (
-            <ActivityIndicator color="red" />
-          ) : (
-            <>
-              <HeadingTitle hideButton title="Trending Now" />
-              <ScrollView
-                scrollEnabled={!isSideBarShown}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                overScrollMode="never">
-                <Cards
-                  group="bundle"
-                  items={data?.trending! as Wallpaper[]}
-                  onClick={handleCardClick}
-                  height="35"
-                  width="42"
+          <NoNetworkAccess>
+            <SearchBar
+              disabled={isSideBarShown}
+              onSearchBarActive={handleSearchBarClick}
+            />
+            {loading ? (
+              <ActivityIndicator color="red" />
+            ) : (
+              <>
+                <HeadingTitle hideButton title="Trending Now" />
+                <ScrollView
+                  scrollEnabled={!isSideBarShown}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  overScrollMode="never">
+                  <Cards
+                    group="bundle"
+                    items={data?.trending! as Wallpaper[]}
+                    onClick={handleCardClick}
+                    height="35"
+                    width="42"
+                  />
+                </ScrollView>
+                <HeadingTitle
+                  onClick={navigateToBundlesScreen}
+                  title="Bundles"
                 />
-              </ScrollView>
-              <HeadingTitle onClick={navigateToBundlesScreen} title="Bundles" />
-              <Bundles
-                onClick={handleBundleClick}
-                itemType="bundle"
-                items={data?.bundles! as Bundle[]}
-              />
-              <HeadingTitle onClick={goToCategories} title="Categories" />
-              <ScrollView
-                scrollEnabled={!isSideBarShown}
-                style={styles.marginBottom}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                overScrollMode="never">
-                <CategoryItems
-                  onClick={handleBoxClick}
-                  categories={data?.categories as Category[]}
-                  group="category"
-                  height="15"
-                  width="55"
+                <Bundles
+                  onClick={handleBundleClick}
+                  itemType="bundle"
+                  items={data?.bundles! as Bundle[]}
                 />
-              </ScrollView>
-            </>
-          )}
+                <HeadingTitle onClick={goToCategories} title="Categories" />
+                <ScrollView
+                  scrollEnabled={!isSideBarShown}
+                  style={styles.marginBottom}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  overScrollMode="never">
+                  <CategoryItems
+                    onClick={handleBoxClick}
+                    categories={data?.categories as Category[]}
+                    group="category"
+                    height="15"
+                    width="55"
+                  />
+                </ScrollView>
+              </>
+            )}
+          </NoNetworkAccess>
         </ScrollView>
       </View>
     </View>
