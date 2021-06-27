@@ -7,11 +7,13 @@ type LoadingViewProps = {
   style?: StyleProp<ViewStyle>;
   height?: string | number;
   width?: string | number;
+  loading?: boolean;
 };
 
 const LoadingView: React.FC<LoadingViewProps> = function (props) {
   const height = props.height || 10;
   const width = props.width || 100;
+  if (props.loading) return null;
   return (
     <View
       style={[

@@ -70,7 +70,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
 
   const Display = () => {
     if (loading) {
-      return <LoadingView />;
+      return <LoadingView height={88} />;
     }
     if (displayMode === 'carousel') {
       return (

@@ -12,6 +12,7 @@ import { Wallpaper } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
 import LinearGradient from 'react-native-linear-gradient';
 import { useState } from 'react';
+import { LoadingView } from '../Loader/LoadingView';
 
 type CardProps = {
   wallpaper: Wallpaper | null;
@@ -64,6 +65,7 @@ const Card: React.FC<CardProps> = function (props) {
             ]}
             source={{ uri: props.wallpaper?.imageUri }}
           />
+          <LoadingView loading={!imageLoading} height="60" width="65" />
           {!props.hideText ? (
             <LinearGradient
               colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
