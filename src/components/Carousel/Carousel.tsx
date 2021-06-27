@@ -30,6 +30,8 @@ const Carousel: React.FC<CarouselProps> = function (props) {
     },
   });
 
+  if (!props.items) return null;
+
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <Animated.ScrollView
