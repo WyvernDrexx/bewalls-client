@@ -32,6 +32,7 @@ import tokenStorage from '../../utilities/tokenStorage';
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();
   const { themedStyles, theme } = useTheme();
+  const user = useUser();
   const dispatch = useAppDispatch();
   const statusBarStyle = theme.isDark ? 'light-content' : 'dark-content';
   const [getUserInfo] = useGetUserInfoLazyQuery({
@@ -42,7 +43,6 @@ function RootNavigator() {
     },
     onError: err => console.log(err),
   });
-  const user = useUser();
   const screenOptions: StackNavigationOptions = {
     headerShown: false,
     headerStyle: {
@@ -53,24 +53,23 @@ function RootNavigator() {
     headerTintColor: theme.colors.secondary,
   };
 
+  const handleNavigationReady = async () => {
+    RNBootSplash.hide();
+    const storageToken = await tokenStorage.getToken();
+    dispatch(setUserToken(storageToken));
+  };
+
   useEffect(() => {
     changeNavigationBarColor(theme.colors.dark, !theme.isDark, true);
   }, [theme.mode]);
 
   useEffect(() => {
     if (user.token) {
-      console.log('chnage!!!!!!!!!!!!!!!!!!');
       getUserInfo();
     }
   }, [user.token]);
-
   return (
-    <NavigationContainer
-      onReady={async () => {
-        RNBootSplash.hide();
-        const storageToken = await tokenStorage.getToken();
-        dispatch(setUserToken(storageToken));
-      }}>
+    <NavigationContainer onReady={handleNavigationReady}>
       <StatusBar
         backgroundColor={theme.colors.primary}
         barStyle={statusBarStyle}
