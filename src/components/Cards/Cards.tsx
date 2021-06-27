@@ -1,6 +1,12 @@
 import React from 'react';
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { isLastElement, wp } from '../../utilities';
+import {
+  StyleProp,
+  StyleSheet,
+  ViewStyle,
+  ActivityIndicator,
+  View,
+} from 'react-native';
+import { hp, isLastElement, wp } from '../../utilities';
 import { Card } from './Card';
 import { Wallpaper } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
@@ -15,11 +21,20 @@ type CardProps = {
   onClick?: (wallpaper: Wallpaper, group: ItemGroup) => void;
   useFlatList?: boolean;
   group: ItemGroup;
+  loading?: boolean;
 };
 
 const Cards: React.FC<CardProps> = function (props) {
-  if (!props.items || !props.items.length) {
-    return null;
+  if (props.loading || typeof props.items === 'undefined') {
+    return (
+      <View
+        style={[
+          styles.loadingView,
+          { height: hp(props.height), width: wp(100) },
+        ]}>
+        <ActivityIndicator color="black" />
+      </View>
+    );
   }
 
   return (
@@ -50,6 +65,11 @@ const Cards: React.FC<CardProps> = function (props) {
 const styles = StyleSheet.create({
   marginRight: {
     marginRight: wp(4),
+  },
+  loadingView: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

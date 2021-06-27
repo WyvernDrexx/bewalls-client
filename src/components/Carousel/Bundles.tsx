@@ -7,6 +7,7 @@ import {
   ViewStyle,
   ScrollView,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Bundle } from '../../generated/graphql';
@@ -24,6 +25,7 @@ type BundlesProps = {
   width?: string;
   height?: string;
   vertical?: boolean;
+  loading?: boolean;
 };
 
 type BundleItemProps = {
@@ -77,8 +79,13 @@ const Bundles: React.FC<BundlesProps> = function (props) {
   let height = props.height || '13%';
   let width = props.width || '27%';
 
-  if (!props.items) {
-    return null;
+  if (props.loading || typeof props.items === 'undefined') {
+    return (
+      <View
+        style={[styles.loadingView, { height: hp(height), width: wp(100) }]}>
+        <ActivityIndicator color="black" />
+      </View>
+    );
   }
 
   return (
@@ -146,6 +153,11 @@ const styles = StyleSheet.create({
   },
   marginBottom: {
     marginBottom: hp(2),
+  },
+  loadingView: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

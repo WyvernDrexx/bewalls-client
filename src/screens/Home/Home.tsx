@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 
 import { Cards } from '../../components/Cards';
 import { Bundles } from '../../components/Carousel';
@@ -27,6 +27,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const { themedStyles } = useTheme();
   const { loading, data } = useHomeScreenQuery();
+
   const handleSearchBarClick = () => {
     props.navigation.navigate('Search');
   };
@@ -76,10 +77,6 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Bundles');
   };
 
-  if (loading) {
-    return null;
-  }
-
   return (
     <View style={[styles.mainContainer, themedStyles.bgSecondary]}>
       <SideBar
@@ -100,50 +97,45 @@ const Home: React.FC<HomeScreenProps> = function (props) {
               disabled={isSideBarShown}
               onSearchBarActive={handleSearchBarClick}
             />
-            {loading ? (
-              <ActivityIndicator color="red" />
-            ) : (
-              <>
-                <HeadingTitle hideButton title="Trending Now" />
-                <ScrollView
-                  scrollEnabled={!isSideBarShown}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  overScrollMode="never">
-                  <Cards
-                    group="bundle"
-                    items={data?.trending! as Wallpaper[]}
-                    onClick={handleCardClick}
-                    height="35"
-                    width="42"
-                  />
-                </ScrollView>
-                <HeadingTitle
-                  onClick={navigateToBundlesScreen}
-                  title="Bundles"
-                />
-                <Bundles
-                  onClick={handleBundleClick}
-                  itemType="bundle"
-                  items={data?.bundles! as Bundle[]}
-                />
-                <HeadingTitle onClick={goToCategories} title="Categories" />
-                <ScrollView
-                  scrollEnabled={!isSideBarShown}
-                  style={styles.marginBottom}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  overScrollMode="never">
-                  <CategoryItems
-                    onClick={handleBoxClick}
-                    categories={data?.categories as Category[]}
-                    group="category"
-                    height="15"
-                    width="55"
-                  />
-                </ScrollView>
-              </>
-            )}
+
+            <HeadingTitle hideButton title="Trending Now" />
+            <ScrollView
+              scrollEnabled={!isSideBarShown}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              overScrollMode="never">
+              <Cards
+                loading={loading}
+                group="bundle"
+                items={data?.trending! as Wallpaper[]}
+                onClick={handleCardClick}
+                height="35"
+                width="42"
+              />
+            </ScrollView>
+            <HeadingTitle onClick={navigateToBundlesScreen} title="Bundles" />
+            <Bundles
+              loading={loading}
+              onClick={handleBundleClick}
+              itemType="bundle"
+              items={data?.bundles! as Bundle[]}
+            />
+            <HeadingTitle onClick={goToCategories} title="Categories" />
+            <ScrollView
+              scrollEnabled={!isSideBarShown}
+              style={styles.marginBottom}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              overScrollMode="never">
+              <CategoryItems
+                loading={loading}
+                onClick={handleBoxClick}
+                categories={data?.categories as Category[]}
+                group="category"
+                height="15"
+                width="55"
+              />
+            </ScrollView>
           </NoNetworkAccess>
         </ScrollView>
       </View>

@@ -1,5 +1,12 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Category } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
@@ -12,6 +19,7 @@ type CategoryProps = {
   width: string | number;
   group: ItemGroup;
   isVertical?: boolean;
+  loading?: boolean;
 };
 
 const Categories: React.FC<CategoryProps> = function (props) {
@@ -22,7 +30,17 @@ const Categories: React.FC<CategoryProps> = function (props) {
     if (props.onClick) props.onClick(category, props.group);
   };
 
-  if (!props.categories) return null;
+  if (props.loading || typeof props.categories === 'undefined') {
+    return (
+      <View
+        style={[
+          styles.loadingView,
+          { height: hp(props.height), width: wp(100) },
+        ]}>
+        <ActivityIndicator color="black" />
+      </View>
+    );
+  }
 
   return (
     <>
@@ -101,6 +119,11 @@ const styles = StyleSheet.create({
   },
   marginBottom: {
     marginBottom: hp(2),
+  },
+  loadingView: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
