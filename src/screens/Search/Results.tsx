@@ -42,7 +42,7 @@ const Results: React.FC<ResultsProps> = function (props) {
           group="category"
           disableLastMargin
           height="34"
-          width="44"
+          width="47"
           items={props.items}
           onClick={props.onClick}
           style={styles.marginBottom}
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
-    marginHorizontal: wp(-4),
+    marginHorizontal: wp(-2),
   },
   marginBottom: {
     marginBottom: hp(2),
