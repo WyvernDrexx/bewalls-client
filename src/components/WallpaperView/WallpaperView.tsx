@@ -11,14 +11,11 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-
-import { BottomDraggable } from './BottomDraggable';
-
-import { hp, wp } from '../../utilities';
-
-import DownArrowSvg from './down-arrow.svg';
 import { Wallpaper } from '../../generated/graphql';
 import { useUser } from '../../hooks';
+import { hp, wp } from '../../utilities';
+import { BottomDraggable } from './BottomDraggable';
+import DownArrowSvg from './down-arrow.svg';
 
 type WallpaperViewProps = {
   animatedStyle?: StyleProp<ViewStyle>;

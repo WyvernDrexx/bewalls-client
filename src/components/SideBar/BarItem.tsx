@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { hp, wp } from '../../utilities';
+import { SvgProps } from 'react-native-svg';
 import { useTheme, useUser } from '../../hooks';
 import { RootStackParamList } from '../../navigation/types';
-import { SvgProps } from 'react-native-svg';
+import { hp, wp } from '../../utilities';
 
 type BarItemProps = {
   isActive?: boolean;

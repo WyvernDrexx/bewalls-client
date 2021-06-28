@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Keyboard,
   StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Keyboard } from 'react-native';
-import { Text } from 'react-native';
 import StackHeader from '../../components/StackHeader';
 import {
   useCreateUserMutation,

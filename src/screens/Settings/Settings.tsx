@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
-
+import { apolloClient } from '../../apollo';
 import StackHeader from '../../components/StackHeader';
-
 import { useTheme, useUser } from '../../hooks';
-import { hp, wp } from '../../utilities';
-
 import { SettingsScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
 import { userLogOut } from '../../store/user';
+import { hp, wp } from '../../utilities';
 import tokenStorage from '../../utilities/tokenStorage';
-import { apolloClient } from '../../apollo';
 
 const Settings: React.FC<SettingsScreenProps> = function (props) {
   const {

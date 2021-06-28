@@ -1,16 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
-import { Cards } from '../../components/Cards';
-
-import { useTheme } from '../../hooks';
-import { hp, wp } from '../../utilities';
-
-import { Wallpaper } from '../../generated/graphql';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import { Cards } from '../../components/Cards';
+import { Wallpaper } from '../../generated/graphql';
+import { useTheme } from '../../hooks';
+import { hp, wp } from '../../utilities';
 
 type ResultsProps = {
   items: Wallpaper[];

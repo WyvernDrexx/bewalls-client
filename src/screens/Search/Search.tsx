@@ -1,34 +1,31 @@
+import gql from 'graphql-tag';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  StyleSheet,
-  View,
-  TextInput,
-  Keyboard,
   ActivityIndicator,
+  Keyboard,
+  StyleSheet,
+  TextInput,
+  View,
 } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-
-import Extras from './Extras';
+import { apolloClient } from '../../apollo';
+import MountAnimatedView from '../../components/MountAnimatedView';
 import WallpaperView from '../../components/WallpaperView';
-import NotFound from './NotFound';
-import Results from './Results';
-import SearchSvg from './search.svg';
-import CloseSvg from './close.svg';
-import LeftArrowSvg from './left-arrow.svg';
-
-import { useTheme } from '../../hooks';
-import { hp, wp } from '../../utilities';
-
-import { SearchScreenProps } from '../../navigation/types';
 import {
   Color,
   HotSearchTerm,
   SearchResult,
   Wallpaper,
 } from '../../generated/graphql';
-import MountAnimatedView from '../../components/MountAnimatedView';
-import { apolloClient } from '../../apollo';
-import gql from 'graphql-tag';
+import { useTheme } from '../../hooks';
+import { SearchScreenProps } from '../../navigation/types';
+import { hp, wp } from '../../utilities';
+import CloseSvg from './close.svg';
+import Extras from './Extras';
+import LeftArrowSvg from './left-arrow.svg';
+import NotFound from './NotFound';
+import Results from './Results';
+import SearchSvg from './search.svg';
 
 const Search: React.FC<SearchScreenProps> = function (props) {
   const [searchText, setSearchText] = useState('');

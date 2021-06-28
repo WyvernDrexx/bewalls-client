@@ -1,15 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-
 import { Cards } from '../../components/Cards';
-
 import HeadingTitle from '../../components/HeadingTitle';
-
+import { useRecommendedQuery, Wallpaper } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
 import { hp } from '../../utilities';
-
-import { useRecommendedQuery, Wallpaper } from '../../generated/graphql';
 
 type NotFoundProps = {
   onRecentUploadsClick?: () => void;

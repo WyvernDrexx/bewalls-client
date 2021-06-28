@@ -1,15 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-
-import HotSearches from './HotSearches';
-
-import { hp, wp } from '../../utilities';
-import { useTheme } from '../../hooks';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   Color,
   HotSearchTerm,
   useExtrasDataQuery,
 } from '../../generated/graphql';
+import { useTheme } from '../../hooks';
+import { hp, wp } from '../../utilities';
+import HotSearches from './HotSearches';
 
 type ExtrasProps = {
   onColorBoxClick: (color: Color) => void;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { isLastElement, wp } from '../../utilities';
-import { Card } from './Card';
 import { Wallpaper } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
+import { isLastElement, wp } from '../../utilities';
 import { LoadingView } from '../Loader/LoadingView';
+import { Card } from './Card';
 
 type CardProps = {
   items?: Wallpaper[];

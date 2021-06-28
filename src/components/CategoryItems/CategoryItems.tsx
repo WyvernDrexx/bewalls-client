@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Category } from '../../generated/graphql';
 import { ItemGroup } from '../../types';

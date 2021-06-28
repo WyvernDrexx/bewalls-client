@@ -1,9 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-import { hp, wp } from '../../utilities';
-import { useTheme } from '../../hooks';
 import { HotSearchTerm } from '../../generated/graphql';
+import { useTheme } from '../../hooks';
+import { hp, wp } from '../../utilities';
 
 type HotSearchesProps = {
   onClick: (searchTerm: HotSearchTerm) => void;

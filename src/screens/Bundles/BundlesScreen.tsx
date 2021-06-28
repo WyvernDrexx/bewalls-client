@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Bundles } from '../../components/Carousel';
+import MiniSearchButton from '../../components/SearchBar/MiniSearchButton';
 import StackHeader from '../../components/StackHeader';
+import { Bundle, useBundlesScreenQuery } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
 import { BundlesScreenProps } from '../../navigation/types';
-import { Bundle, useBundlesScreenQuery } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
-import MiniSearchButton from '../../components/SearchBar/MiniSearchButton';
 
 const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
   const { themedStyles } = useTheme();

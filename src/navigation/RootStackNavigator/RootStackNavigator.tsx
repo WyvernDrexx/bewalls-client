@@ -1,34 +1,30 @@
-import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createStackNavigator,
   StackNavigationOptions,
 } from '@react-navigation/stack';
+import React, { useEffect } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import Alert from '../../components/Alert';
+import { useGetUserInfoLazyQuery, User } from '../../generated/graphql';
+import { useTheme, useUser } from '../../hooks';
 import {
+  BundlesScreen,
+  Categories,
+  ContactUs,
   Home,
   Search,
-  Categories,
   Selection,
   Settings,
-  BundlesScreen,
   SignIn,
-  ContactUs,
 } from '../../screens';
-
-import changeNavigationBarColor from 'react-native-navigation-bar-color';
-
-import { useTheme, useUser } from '../../hooks';
-import Alert from '../../components/Alert';
-import { hp, wp } from '../../utilities';
-
-import { RootStackParamList } from '../types';
-
-import { useGetUserInfoLazyQuery, User } from '../../generated/graphql';
-import { setUserToken, userSignIn } from '../../store/user';
 import { useAppDispatch } from '../../store';
+import { setUserToken, userSignIn } from '../../store/user';
+import { hp, wp } from '../../utilities';
 import tokenStorage from '../../utilities/tokenStorage';
+import { RootStackParamList } from '../types';
 
 function RootNavigator() {
   const Stack = createStackNavigator<RootStackParamList>();

@@ -1,7 +1,6 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { hp } from '../../utilities';
-
 import SearchSvg from './search.svg';
 
 type PropTypes = {

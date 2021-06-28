@@ -1,17 +1,13 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { wp } from '../../utilities';
-
 import Animated, {
-  useSharedValue,
   useAnimatedScrollHandler,
+  useSharedValue,
 } from 'react-native-reanimated';
-
-import { CarouselItem } from './CarouselItem';
-
-import { useTheme } from '../../hooks';
-import { isLastElement } from '../../utilities';
 import { Wallpaper } from '../../generated/graphql';
+import { useTheme } from '../../hooks';
+import { isLastElement, wp } from '../../utilities';
+import { CarouselItem } from './CarouselItem';
 
 type CarouselProps = {
   hideText?: boolean;

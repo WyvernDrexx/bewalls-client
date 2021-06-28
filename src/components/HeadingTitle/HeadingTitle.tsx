@@ -8,7 +8,6 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-
 import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 

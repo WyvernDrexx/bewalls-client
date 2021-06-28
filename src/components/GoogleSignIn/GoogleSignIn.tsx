@@ -2,15 +2,13 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
   ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -20,7 +18,6 @@ import Animated, {
 import { useTheme } from '../../hooks';
 import useUser from '../../hooks/useUser';
 import { useAppDispatch } from '../../store';
-import { userSignIn } from '../../store/user';
 import { hp, wp } from '../../utilities';
 
 type Props = {

@@ -1,2 +1,2 @@
-export { default } from './alertsSlice';
 export * from './alertsSlice';
+export { default } from './alertsSlice';

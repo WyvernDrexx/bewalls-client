@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Image, StyleProp, StyleSheet, Text, ViewStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-
-import { hp, wp } from '../../utilities';
 import { Wallpaper } from '../../generated/graphql';
-import LinearGradient from 'react-native-linear-gradient';
+import { hp, wp } from '../../utilities';
 
 type CarouselItemProps = {
   data: Wallpaper;

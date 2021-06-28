@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ViewStyle, StyleProp, StyleSheet } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { hp, wp } from '../../utilities';
 import { Loader } from './Loader';
 

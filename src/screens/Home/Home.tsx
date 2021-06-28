@@ -1,27 +1,23 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View } from 'react-native';
-
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Cards } from '../../components/Cards';
 import { Bundles } from '../../components/Carousel';
-
+import CategoryItems from '../../components/CategoryItems';
 import Header from '../../components/Header';
 import HeadingTitle from '../../components/HeadingTitle';
+import NoNetworkAccess from '../../components/NoNetworkAccess';
 import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
-
-import { hp, wp } from '../../utilities';
+import {
+  Bundle,
+  Category,
+  useHomeScreenQuery,
+  Wallpaper,
+} from '../../generated/graphql';
 import { useTheme } from '../../hooks';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
-
-import {
-  Category,
-  Wallpaper,
-  Bundle,
-  useHomeScreenQuery,
-} from '../../generated/graphql';
-import CategoryItems from '../../components/CategoryItems';
 import { ItemGroup } from '../../types';
-import NoNetworkAccess from '../../components/NoNetworkAccess';
+import { hp, wp } from '../../utilities';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);

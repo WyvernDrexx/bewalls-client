@@ -1,18 +1,17 @@
 import React from 'react';
 import {
+  Image,
+  ScrollView,
   StyleProp,
   StyleSheet,
   Text,
   View,
   ViewStyle,
-  ScrollView,
-  Image,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Bundle } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
-
-import { hp, wp, isLastElement } from '../../utilities';
+import { hp, isLastElement, wp } from '../../utilities';
 import { LoadingView } from '../Loader/LoadingView';
 
 type BundlesProps = {

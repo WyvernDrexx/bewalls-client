@@ -2,21 +2,18 @@ import React from 'react';
 import {
   StyleProp,
   StyleSheet,
-  View,
-  ViewStyle,
   Text,
   TouchableOpacity,
+  View,
+  ViewStyle,
 } from 'react-native';
-
 import Animated from 'react-native-reanimated';
-
-import { hp, wp } from '../../utilities';
-import { useAlerts, useTheme, useUser } from '../../hooks';
+import { useTheme, useUser } from '../../hooks';
 import { useAppDispatch } from '../../store';
 import { changeTheme } from '../../store/theme';
-
-import ProfileImage from './profile.svg';
+import { hp, wp } from '../../utilities';
 import MoonImage from './moon.svg';
+import ProfileImage from './profile.svg';
 
 type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
@@ -26,14 +23,9 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = function (props) {
   const dispatch = useAppDispatch();
   const { themedStyles, theme } = useTheme();
-  const { dispatchShowAlert } = useAlerts();
   const user = useUser();
   const handleThemeChange = () => {
     dispatch(changeTheme(theme.isDark ? 'light' : 'dark'));
-    dispatchShowAlert({
-      message: 'This is a test!' + String(Math.random() * 1000),
-      type: 'warning',
-    });
   };
 
   const handleProfileClick = () => {

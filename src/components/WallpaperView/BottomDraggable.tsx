@@ -6,17 +6,14 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-
+import { Wallpaper } from '../../generated/graphql';
+import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
-
-import HeartSvg from './heart.svg';
-import EditSvg from './edit.svg';
-import ShareSvg from './share.svg';
 import CheckSvg from './check.svg';
 import DownloadSvg from './download.svg';
-
-import { useTheme } from '../../hooks';
-import { Wallpaper } from '../../generated/graphql';
+import EditSvg from './edit.svg';
+import HeartSvg from './heart.svg';
+import ShareSvg from './share.svg';
 
 type BottomDraggableProps = {
   wallpaper: Wallpaper;

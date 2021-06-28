@@ -3,7 +3,6 @@ import { StyleProp, StyleSheet, Text, ViewStyle } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
-
 import CheckSvg from './check.svg';
 
 export type OptionType = {

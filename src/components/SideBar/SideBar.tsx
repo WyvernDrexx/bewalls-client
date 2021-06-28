@@ -1,36 +1,30 @@
 import React, { useEffect, useState } from 'react';
-
 import {
-  StyleSheet,
   StyleProp,
-  ViewStyle,
-  View,
+  StyleSheet,
   Text,
   TouchableOpacity,
+  View,
+  ViewStyle,
 } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-
 import Animated, {
   interpolate,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-
-import { hp, wp } from '../../utilities';
+import { SvgProps } from 'react-native-svg';
 import { useTheme, useUser } from '../../hooks';
-
-import BarItem from './BarItem';
-import ProfileSvg from './profile.svg';
+import { RootStackParamList } from '../../navigation/types';
+import { hp, wp } from '../../utilities';
 import BackSvg from './back.svg';
-
-import HomeSvg from './home.svg';
-import SlidersSvg from './sliders.svg';
+import BarItem from './BarItem';
 import CategoriesSvg from './categories.svg';
 import ContactUsSvg from './envelope.svg';
-
-import { RootStackParamList } from '../../navigation/types';
-import { SvgProps } from 'react-native-svg';
+import HomeSvg from './home.svg';
+import ProfileSvg from './profile.svg';
+import SlidersSvg from './sliders.svg';
 
 type SideBarProps = {
   isShown?: boolean;

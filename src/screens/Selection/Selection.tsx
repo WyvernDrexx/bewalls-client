@@ -1,28 +1,22 @@
 import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated from 'react-native-reanimated';
-
 import { Cards } from '../../components/Cards';
-
-import CarouselSvg from './carousel.svg';
-import GridSvg from './grid.svg';
-
-import WallpaperView from '../../components/WallpaperView';
 import Carousel from '../../components/Carousel/Carousel';
-import StackHeader from '../../components/StackHeader';
-
-import { useTheme } from '../../hooks';
-import { hp, wp } from '../../utilities';
-
-import { SelectionScreenProps } from '../../navigation/types';
-
-import {
-  Wallpaper,
-  useWallpapersQuery,
-  useAddToFavouriteMutation,
-} from '../../generated/graphql';
 import { LoadingView } from '../../components/Loader/LoadingView';
 import MountAnimatedView from '../../components/MountAnimatedView';
+import StackHeader from '../../components/StackHeader';
+import WallpaperView from '../../components/WallpaperView';
+import {
+  useAddToFavouriteMutation,
+  useWallpapersQuery,
+  Wallpaper,
+} from '../../generated/graphql';
+import { useTheme } from '../../hooks';
+import { SelectionScreenProps } from '../../navigation/types';
+import { hp, wp } from '../../utilities';
+import CarouselSvg from './carousel.svg';
+import GridSvg from './grid.svg';
 
 type Display = 'carousel' | 'grid';
 

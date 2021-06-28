@@ -1,9 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { hp, wp } from '../../utilities';
-
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '../../hooks';
-
+import { hp, wp } from '../../utilities';
 import SearchSvg from './search.svg';
 
 type SearchBarProps = {

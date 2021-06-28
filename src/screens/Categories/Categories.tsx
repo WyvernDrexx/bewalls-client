@@ -1,15 +1,11 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-
 import CategoryItems from '../../components/CategoryItems';
-
 import StackHeader from '../../components/StackHeader';
-
-import { useTheme } from '../../hooks';
-import { hp } from '../../utilities';
-
-import { CategoriesScreenProps } from '../../navigation/types';
 import { Category, useCategoriesQuery } from '../../generated/graphql';
+import { useTheme } from '../../hooks';
+import { CategoriesScreenProps } from '../../navigation/types';
+import { hp } from '../../utilities';
 
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const { themedStyles } = useTheme();

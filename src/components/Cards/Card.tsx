@@ -1,18 +1,14 @@
-import React from 'react';
-import { Text, StyleSheet, Image, StyleProp, ViewStyle } from 'react-native';
+import React, { useState } from 'react';
+import { Image, StyleProp, StyleSheet, Text, ViewStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
-import Animated from 'react-native-reanimated';
-import MountAnimatedView from '../MountAnimatedView';
-
-import { useTheme } from '../../hooks';
-import { hp, wp } from '../../utilities';
-
-import { Wallpaper } from '../../generated/graphql';
-import { ItemGroup } from '../../types';
 import LinearGradient from 'react-native-linear-gradient';
-import { useState } from 'react';
+import Animated from 'react-native-reanimated';
+import { Wallpaper } from '../../generated/graphql';
+import { useTheme } from '../../hooks';
+import { ItemGroup } from '../../types';
+import { hp, wp } from '../../utilities';
 import { LoadingView } from '../Loader/LoadingView';
+import MountAnimatedView from '../MountAnimatedView';
 
 type CardProps = {
   wallpaper: Wallpaper | null;
