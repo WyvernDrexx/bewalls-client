@@ -17,7 +17,7 @@ const LIGHT_THEME: Colors = {
   primary: 'white',
   secondary: 'black',
   light: '#F7F7F7',
-  dark: '#f5f5f5',
+  dark: '#262626',
 };
 
 const DARK_THEME: Colors = {

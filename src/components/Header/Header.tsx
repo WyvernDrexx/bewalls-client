@@ -17,6 +17,7 @@ import { changeTheme } from '../../store/theme';
 
 import ProfileImage from './profile.svg';
 import MoonImage from './moon.svg';
+import { showAlert } from '../../store/alerts';
 
 type HeaderProps = {
   animatedStyle?: StyleProp<ViewStyle>;
@@ -29,6 +30,12 @@ const Header: React.FC<HeaderProps> = function (props) {
   const user = useUser();
   const handleThemeChange = () => {
     dispatch(changeTheme(theme.isDark ? 'light' : 'dark'));
+    dispatch(
+      showAlert({
+        message: 'This is a test!' + String(Math.random() * 1000),
+        type: 'warning',
+      }),
+    );
   };
 
   const handleProfileClick = () => {

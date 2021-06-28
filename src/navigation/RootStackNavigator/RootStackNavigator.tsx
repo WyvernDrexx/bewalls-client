@@ -20,6 +20,7 @@ import {
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 import { useTheme, useUser } from '../../hooks';
+import Alert from '../../components/Alert';
 import { hp, wp } from '../../utilities';
 
 import { RootStackParamList } from '../types';
@@ -85,6 +86,7 @@ function RootNavigator() {
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="ContactUs" component={ContactUs} />
       </Stack.Navigator>
+      <Alert />
     </NavigationContainer>
   );
 }
