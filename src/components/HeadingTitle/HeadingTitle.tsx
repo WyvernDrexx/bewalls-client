@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     flexDirection: 'row',
     paddingVertical: hp(2),
-    paddingHorizontal: wp(4),
+    paddingHorizontal: wp(2),
     paddingTop: hp(4),
   },
   headingText: {

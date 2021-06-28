@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   profile: {
-    padding: hp(2),
+    padding: wp(2),
     marginTop: hp(10),
   },
   profileText: {
@@ -214,8 +214,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: hp(3),
     color: 'white',
-    marginHorizontal: wp(-4),
-    paddingHorizontal: wp(4),
     paddingBottom: hp(1),
   },
   barItems: {

@@ -100,10 +100,10 @@ const styles = StyleSheet.create({
     left: wp(3),
   },
   marginRight: {
-    marginRight: wp(4),
+    marginRight: wp(2),
   },
   marginLeft: {
-    marginLeft: wp(4),
+    marginLeft: wp(2),
   },
   marginBottom: {
     marginBottom: hp(2),

@@ -118,7 +118,7 @@ const boxStyles = StyleSheet.create({
   box: {
     backgroundColor: 'black',
     borderRadius: hp(2),
-    marginLeft: wp(4),
+    marginLeft: wp(2),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -139,7 +139,7 @@ const boxStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   root: {},
   lastBox: {
-    marginRight: wp(4),
+    marginRight: wp(2),
   },
   scrollView: {
     display: 'flex',

@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   searchTerm: {
-    paddingHorizontal: wp(4),
+    paddingHorizontal: wp(2),
     paddingVertical: hp(1),
     marginRight: hp(3),
     marginTop: hp(3),

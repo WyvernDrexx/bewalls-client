@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: hp(1.5),
-    marginLeft: wp(4),
+    marginLeft: wp(2),
   },
   textView: {
     position: 'absolute',

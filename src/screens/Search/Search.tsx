@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchContainer: {
-    paddingHorizontal: wp(4),
+    paddingHorizontal: wp(2),
     marginVertical: hp(2),
     marginBottom: 0,
     borderRadius: hp(1.5),
@@ -271,6 +271,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     flexDirection: 'row',
     alignItems: 'center',
+    paddingLeft: wp(4),
   },
   placeholderText: {
     position: 'absolute',

@@ -41,7 +41,7 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    paddingHorizontal: wp(4),
+    paddingHorizontal: wp(2),
   },
   searchContainer: {
     display: 'flex',

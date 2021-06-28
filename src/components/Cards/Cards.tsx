@@ -51,7 +51,7 @@ const Cards: React.FC<CardProps> = function (props) {
 
 const styles = StyleSheet.create({
   marginRight: {
-    marginRight: wp(4),
+    marginRight: wp(2),
   },
   loadingView: {
     display: 'flex',

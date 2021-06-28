@@ -42,7 +42,7 @@ const BarItem: React.FC<BarItemProps> = props => {
 
 const styles = StyleSheet.create({
   root: {
-    paddingHorizontal: wp(4),
+    paddingHorizontal: wp(2),
     paddingVertical: hp(2.5),
     display: 'flex',
     flexDirection: 'row',

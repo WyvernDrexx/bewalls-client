@@ -37,43 +37,49 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
         onLeftClick={props.navigation.goBack}
         viewStyle={styles.header}
       />
-      <View style={styles.optionsView}>
-        <Text style={[themedStyles.text, styles.optionsText]}>
-          Enable Notification
+      <View style={styles.container}>
+        <View style={styles.optionsView}>
+          <Text style={[themedStyles.text, styles.optionsText]}>
+            Enable Notification
+          </Text>
+          <Switch
+            trackColor={{
+              true: colors.light,
+              false: colors.light,
+            }}
+            thumbColor={notificationEnabled ? '#0090FF' : colors.light}
+            value={notificationEnabled}
+            onValueChange={() => setNotificationEnabled(!notificationEnabled)}
+          />
+        </View>
+        <Text style={[styles.subText]}>
+          Receive updates whenever a new wallpaper is added.
         </Text>
-        <Switch
-          trackColor={{
-            true: colors.light,
-            false: colors.light,
-          }}
-          thumbColor={notificationEnabled ? '#0090FF' : colors.light}
-          value={notificationEnabled}
-          onValueChange={() => setNotificationEnabled(!notificationEnabled)}
-        />
-      </View>
-      <Text style={[styles.subText]}>
-        Receive updates whenever a new wallpaper is added.
-      </Text>
 
-      <View style={styles.optionsView}>
-        <Text style={[themedStyles.text, styles.optionsText]}>Contact Us</Text>
+        <View style={styles.optionsView}>
+          <Text style={[themedStyles.text, styles.optionsText]}>
+            Contact Us
+          </Text>
+        </View>
+        <View style={styles.optionsView}>
+          <Text style={[themedStyles.text, styles.optionsText]}>
+            Privacy Policy
+          </Text>
+        </View>
+        <View style={styles.optionsView}>
+          <Text style={[themedStyles.text, styles.optionsText]}>
+            Current Version
+          </Text>
+          <Text style={styles.versionText}>V1.2.8</Text>
+        </View>
+        {user.isVerified ? (
+          <TouchableOpacity
+            onPress={handleUserLogout}
+            style={styles.optionsView}>
+            <Text style={[styles.optionsText, styles.warningText]}>LogOut</Text>
+          </TouchableOpacity>
+        ) : null}
       </View>
-      <View style={styles.optionsView}>
-        <Text style={[themedStyles.text, styles.optionsText]}>
-          Privacy Policy
-        </Text>
-      </View>
-      <View style={styles.optionsView}>
-        <Text style={[themedStyles.text, styles.optionsText]}>
-          Current Version
-        </Text>
-        <Text style={styles.versionText}>V1.2.8</Text>
-      </View>
-      {user.isVerified ? (
-        <TouchableOpacity onPress={handleUserLogout} style={styles.optionsView}>
-          <Text style={[styles.optionsText, styles.warningText]}>LogOut</Text>
-        </TouchableOpacity>
-      ) : null}
     </View>
   );
 };
@@ -81,7 +87,9 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    paddingHorizontal: wp(4),
+  },
+  container: {
+    paddingHorizontal: wp(2),
   },
   optionsView: {
     display: 'flex',

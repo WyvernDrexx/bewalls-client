@@ -67,7 +67,7 @@ const Header: React.FC<HeaderProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    paddingHorizontal: wp(4),
+    paddingHorizontal: wp(2),
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',

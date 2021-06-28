@@ -59,7 +59,7 @@ const StackHeader: React.FC<StackHeaderProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     backgroundColor: 'pink',
-    paddingHorizontal: wp(4),
+    paddingHorizontal: wp(2),
     paddingVertical: hp(3),
   },
   header: {
