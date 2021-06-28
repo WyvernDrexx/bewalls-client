@@ -69,11 +69,22 @@ const Alert = () => {
 
   return (
     <View style={styles.root}>
-      <Animated.View style={[uas, styles.alertView, themedStyles.bgDark]}>
+      <Animated.View
+        style={[
+          uas,
+          styles.alertView,
+          theme.isDark ? themedStyles.bgDark : themedStyles.bgSecondary,
+        ]}>
         <View
           style={[styles.leftBar, { backgroundColor: activeAlert.color }]}
         />
-        <Text style={styles.alertText}>{activeAlert.message}</Text>
+        <Text
+          style={[
+            styles.alertText,
+            theme.isDark ? themedStyles.text : themedStyles.textLight,
+          ]}>
+          {activeAlert.message}
+        </Text>
         <View
           style={[styles.rightBar, { backgroundColor: activeAlert.color }]}
         />
@@ -107,7 +118,7 @@ const styles = StyleSheet.create({
   leftBar: {
     backgroundColor: 'red',
     width: wp(1),
-    height: hp(4.5),
+    height: hp(4),
     borderTopRightRadius: wp(30),
     borderBottomRightRadius: wp(30),
     position: 'absolute',
@@ -118,13 +129,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.58,
     shadowRadius: 16.0,
-
     elevation: 24,
   },
   rightBar: {
     backgroundColor: 'red',
     width: wp(1),
-    height: hp(4.5),
+    height: hp(4),
     right: 0,
     borderTopLeftRadius: wp(30),
     borderBottomLeftRadius: wp(30),
@@ -136,17 +146,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.58,
     shadowRadius: 16.0,
-
     elevation: 24,
-  },
-  error: {
-    backgroundColor: 'crimson',
-  },
-  warning: {
-    backgroundColor: 'yellow',
-  },
-  success: {
-    backgroundColor: 'green',
   },
 });
 
