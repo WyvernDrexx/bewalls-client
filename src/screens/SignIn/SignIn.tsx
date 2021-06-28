@@ -15,7 +15,7 @@ import {
   UserCreateInput,
   useSignInMutation,
 } from '../../generated/graphql';
-import { useTheme, useUser } from '../../hooks';
+import { useAlerts, useTheme, useUser } from '../../hooks';
 import { SignInScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
 import { setUserToken } from '../../store/user';
@@ -34,6 +34,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
   });
   const [errors, setErrors] = useState<UserCreateError>({});
   const [loading, setLoading] = useState(false);
+  const { dispatchShowAlert } = useAlerts();
   const user = useUser();
   const dispatch = useAppDispatch();
 
@@ -47,22 +48,45 @@ const SignIn: React.FC<SignInScreenProps> = props => {
       if (data?.createUser?.token) {
         setIsSuccess(true);
         dispatch(setUserToken(data.createUser.token));
+        dispatchShowAlert({
+          message: 'Account successfully created!',
+          type: 'success',
+        });
         await tokenStorage.setToken(data.createUser.token);
       }
+    },
+    onError: () => {
+      dispatchShowAlert({
+        message: 'Unknown error encountered!',
+        type: 'error',
+      });
     },
   });
 
   const [signIn] = useSignInMutation({
     onCompleted: async data => {
       if (data?.signIn?.error) {
-        console.log('Wrong email password!');
+        dispatchShowAlert({
+          message: 'Invalid email/password!',
+          type: 'error',
+        });
       } else {
         if (data?.signIn?.token) {
           setIsSuccess(true);
           dispatch(setUserToken(data!.signIn!.token!));
+          dispatchShowAlert({
+            message: 'Sign In successfull!',
+            type: 'success',
+          });
           await tokenStorage.setToken(data!.signIn!.token!);
         }
       }
+    },
+    onError: () => {
+      dispatchShowAlert({
+        message: 'Unknown error encountered!',
+        type: 'error',
+      });
     },
   });
 

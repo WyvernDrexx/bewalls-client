@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { apolloClient } from '../../apollo';
 import StackHeader from '../../components/StackHeader';
-import { useTheme, useUser } from '../../hooks';
+import { useAlerts, useTheme, useUser } from '../../hooks';
 import { SettingsScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
 import { userLogOut } from '../../store/user';
@@ -17,12 +17,16 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
   const [notificationEnabled, setNotificationEnabled] = useState(true);
   const dispatch = useAppDispatch();
   const user = useUser();
-
+  const { dispatchShowAlert } = useAlerts();
   const handleUserLogout = async () => {
     await tokenStorage.deleteToken();
     dispatch(userLogOut());
     apolloClient.clearStore();
     props.navigation.navigate('Home');
+    dispatchShowAlert({
+      message: 'You have been successfully logged out!',
+      type: 'success',
+    });
   };
 
   return (
