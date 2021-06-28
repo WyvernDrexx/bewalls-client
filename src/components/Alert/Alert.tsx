@@ -18,7 +18,7 @@ const Alert = () => {
   const [isRunning, setIsRunning] = useState(false);
   const dispatch = useAppDispatch();
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>();
-  const alerts = useAlerts();
+  const { alerts } = useAlerts();
   const { theme, themedStyles } = useTheme();
 
   const uas = useAnimatedStyle(() => {
