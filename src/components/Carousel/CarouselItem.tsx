@@ -112,10 +112,10 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   firstItem: {
-    paddingLeft: wp('15'),
+    paddingLeft: wp('10'),
   },
   lastItem: {
-    paddingRight: wp(14), //Subtract 2% of the extra padding from root
+    paddingRight: wp(9), //Subtract 2% of the extra padding from root
     marginRight: 0,
   },
 });

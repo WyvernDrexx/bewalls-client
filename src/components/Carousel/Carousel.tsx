@@ -6,7 +6,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Wallpaper } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
-import { isLastElement, wp } from '../../utilities';
+import { isLastElement } from '../../utilities';
 import { CarouselItem } from './CarouselItem';
 
 type CarouselProps = {
@@ -32,6 +32,7 @@ const Carousel: React.FC<CarouselProps> = function (props) {
     <View style={[styles.root, themedStyles.bg]}>
       <Animated.ScrollView
         onScroll={scrollHandler}
+        style={styles.root}
         showsHorizontalScrollIndicator={false}
         horizontal={true}
         overScrollMode="never">
@@ -54,9 +55,7 @@ const Carousel: React.FC<CarouselProps> = function (props) {
 };
 
 const styles = StyleSheet.create({
-  root: {
-    marginHorizontal: wp('-4'),
-  },
+  root: {},
 });
 
 export default Carousel;

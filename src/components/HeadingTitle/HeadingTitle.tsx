@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: hp(2),
     paddingHorizontal: wp(2),
-    paddingTop: hp(4),
+    paddingTop: hp(2),
   },
   headingText: {
     fontSize: wp(5),

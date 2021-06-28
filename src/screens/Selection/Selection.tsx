@@ -68,10 +68,12 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     }
     if (displayMode === 'carousel') {
       return (
-        <Carousel
-          onClick={handleCardClick}
-          items={data?.wallpapers as Wallpaper[]}
-        />
+        <View style={styles.carousel}>
+          <Carousel
+            onClick={handleCardClick}
+            items={data?.wallpapers as Wallpaper[]}
+          />
+        </View>
       );
     }
     return <Grid />;
@@ -185,6 +187,9 @@ const styles = StyleSheet.create({
   },
   sortingText: {
     fontSize: wp(4),
+  },
+  carousel: {
+    marginTop: hp(2.8),
   },
 });
 
