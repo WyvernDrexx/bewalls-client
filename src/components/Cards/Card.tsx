@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
-import { Image, StyleProp, StyleSheet, Text, ViewStyle } from 'react-native';
+import React from 'react';
+import { Text, StyleSheet, Image, StyleProp, ViewStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import LinearGradient from 'react-native-linear-gradient';
+
 import Animated from 'react-native-reanimated';
-import { Wallpaper } from '../../generated/graphql';
-import { useTheme } from '../../hooks';
-import { ItemGroup } from '../../types';
-import { hp, wp } from '../../utilities';
-import { LoadingView } from '../Loader/LoadingView';
 import MountAnimatedView from '../MountAnimatedView';
+
+import { useTheme } from '../../hooks';
+import { hp, wp } from '../../utilities';
+
+import { Wallpaper } from '../../generated/graphql';
+import { ItemGroup } from '../../types';
+import LinearGradient from 'react-native-linear-gradient';
+import { useState } from 'react';
+import { LoadingView } from '../Loader/LoadingView';
 
 type CardProps = {
   wallpaper: Wallpaper | null;
@@ -61,7 +65,12 @@ const Card: React.FC<CardProps> = function (props) {
             ]}
             source={{ uri: props.wallpaper?.imageUri }}
           />
-          <LoadingView loading={!imageLoading} height="60" width="65" />
+          <LoadingView
+            style={styles.loadingView}
+            loading={!imageLoading}
+            height="60"
+            width="65"
+          />
           {!props.hideText ? (
             <LinearGradient
               colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
@@ -109,6 +118,9 @@ const styles = StyleSheet.create({
     width: wp('65'),
     height: hp('60'),
     resizeMode: 'cover',
+  },
+  loadingView: {
+    position: 'absolute',
   },
 });
 
