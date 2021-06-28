@@ -103,8 +103,8 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
             style={styles.modeIcon}>
             <CarouselSvg
               fill={displayMode === 'carousel' ? '#9F88FF' : '#C9C9C9'}
-              height={hp(3)}
-              width={hp(4)}
+              height={wp(6)}
+              width={wp(6)}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -112,8 +112,8 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
             style={styles.modeIcon}>
             <GridSvg
               fill={displayMode === 'grid' ? '#9F88FF' : '#C9C9C9'}
-              height={hp(3)}
-              width={hp(4)}
+              height={wp(6)}
+              width={wp(6)}
             />
           </TouchableOpacity>
         </View>
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   modeIcon: {
-    paddingLeft: wp(2),
+    paddingLeft: wp(4),
   },
   gridView: {
     display: 'flex',
