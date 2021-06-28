@@ -38,16 +38,14 @@ const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
         title="Bundles"
         titlePosition="left"
       />
-      <View>
-        <Bundles
-          onClick={handleBundleClick}
-          vertical
-          items={data?.bundles as Bundle[]}
-          itemType="bundle"
-          width="28"
-          height="15"
-        />
-      </View>
+      <Bundles
+        onClick={handleBundleClick}
+        vertical
+        items={data?.bundles as Bundle[]}
+        itemType="bundle"
+        width="30.7"
+        height="15"
+      />
     </View>
   );
 };

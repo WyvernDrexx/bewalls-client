@@ -128,7 +128,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
                 categories={data?.categories as Category[]}
                 group="category"
                 height="15"
-                width="55"
+                width="70"
               />
             </ScrollView>
           </NoNetworkAccess>

@@ -85,8 +85,8 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
           group="category"
           onClick={handleCardClick}
           items={data?.wallpapers as Wallpaper[]}
-          height="34"
-          width="44"
+          height="39"
+          width="47"
           disableLastMargin
           style={styles.cards}
         />
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   cards: {
-    marginBottom: hp(2),
+    marginBottom: wp(2),
   },
   sortOptions: {
     display: 'flex',

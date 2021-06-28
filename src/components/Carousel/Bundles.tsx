@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   marginBottom: {
-    marginBottom: hp(2),
+    marginBottom: wp(2),
   },
   loadingView: {
     display: 'flex',

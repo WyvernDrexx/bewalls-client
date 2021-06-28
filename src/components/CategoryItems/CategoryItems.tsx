@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: hp(1.5),
-    width: wp('65'),
+    width: wp('66'),
     height: hp('60'),
     resizeMode: 'cover',
   },
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     marginLeft: wp(2),
   },
   marginBottom: {
-    marginBottom: hp(2),
+    marginBottom: wp(2),
   },
   loadingView: {
     display: 'flex',

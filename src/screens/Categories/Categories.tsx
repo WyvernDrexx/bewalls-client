@@ -5,7 +5,7 @@ import StackHeader from '../../components/StackHeader';
 import { Category, useCategoriesQuery } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
 import { CategoriesScreenProps } from '../../navigation/types';
-import { hp } from '../../utilities';
+import { hp, wp } from '../../utilities';
 
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const { themedStyles } = useTheme();
@@ -40,8 +40,8 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
             isVertical
             group="category"
             categories={data?.categories as Category[]}
-            height="25"
-            width="94"
+            height="23"
+            width="96"
           />
         </View>
       </ScrollView>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     paddingTop: hp(2),
   },
   cards: {
-    marginBottom: hp(2),
+    marginBottom: wp(2),
   },
   categoryItems: {
     display: 'flex',
