@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
     paddingTop: hp(4),
   },
   headingText: {
-    fontSize: hp(3),
+    fontSize: wp(5),
     fontWeight: 'bold',
   },
   moreText: {
     color: '#5079FF',
-    fontSize: hp(2.5),
+    fontSize: wp(4),
   },
 });
 

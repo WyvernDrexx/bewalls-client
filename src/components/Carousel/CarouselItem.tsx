@@ -100,16 +100,10 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: hp(3),
+    fontSize: wp(4.5),
     position: 'absolute',
     bottom: hp(2),
     width: wp(80),
-  },
-  subTitle: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: hp(3),
-    fontWeight: '400',
   },
   image: {
     borderRadius: hp(5),

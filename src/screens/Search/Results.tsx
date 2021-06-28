@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(4),
   },
   searchTermText: {
-    fontSize: hp(4),
+    fontSize: wp(6),
     fontWeight: 'bold',
     textTransform: 'capitalize',
   },

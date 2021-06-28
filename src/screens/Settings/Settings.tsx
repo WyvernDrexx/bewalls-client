@@ -91,16 +91,16 @@ const styles = StyleSheet.create({
     paddingTop: hp(4),
   },
   optionsText: {
-    fontSize: hp(2.3),
+    fontSize: wp(4),
     fontWeight: 'bold',
   },
   subText: {
     width: wp(60),
-    fontSize: hp(1.5),
+    fontSize: wp(3),
     color: '#B2B2B2',
   },
   versionText: {
-    fontSize: hp(2.3),
+    fontSize: wp(4),
     color: '#B2B2B2',
   },
   header: {

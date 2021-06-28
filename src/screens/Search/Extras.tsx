@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   instaText: {
     position: 'absolute',
     color: 'white',
-    fontSize: hp(3.5),
+    fontSize: wp(5.5),
     fontWeight: 'bold',
     textAlign: 'center',
   },

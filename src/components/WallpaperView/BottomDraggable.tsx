@@ -252,11 +252,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mainText: {
-    fontSize: hp(3),
+    fontSize: wp(5),
     fontWeight: 'bold',
   },
   subText: {
-    fontSize: hp(2.5),
+    fontSize: wp(4),
     marginTop: hp(1),
     color: 'gray',
   },

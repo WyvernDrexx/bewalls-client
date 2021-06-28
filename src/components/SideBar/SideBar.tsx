@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     marginTop: hp(10),
   },
   profileText: {
-    fontSize: hp(4),
+    fontSize: wp(7),
     fontWeight: 'bold',
     marginTop: hp(3),
     color: 'white',

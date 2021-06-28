@@ -41,8 +41,8 @@ const Header: React.FC<HeaderProps> = function (props) {
         <View style={styles.userInfo}>
           <ProfileImage
             fill={theme.colors.secondary}
-            width={wp(12)}
-            height={wp(12)}
+            width={wp(10)}
+            height={wp(10)}
           />
           <View style={styles.welcomeView}>
             <Text style={[styles.welcomeText, themedStyles.text]}>
@@ -81,11 +81,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   welcomeText: {
-    fontSize: hp(2),
+    fontSize: wp(4.5),
   },
   nameText: {
     fontWeight: 'bold',
-    fontSize: hp(2.5),
+    fontSize: wp(4),
   },
   welcomeView: {
     paddingLeft: wp(2),

@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     padding: hp(2),
   },
   inputLabel: {
-    fontSize: hp(2.3),
+    fontSize: wp(4),
     fontWeight: 'bold',
   },
   input: {
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
   actionText: {
     display: 'flex',
     textAlign: 'center',
-    fontSize: hp(2.3),
+    fontSize: wp(4),
   },
   orText: {
     textAlign: 'center',

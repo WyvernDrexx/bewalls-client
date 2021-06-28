@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
   rightIcon: {},
   searchInput: {
     width: wp(73),
-    fontSize: hp(2),
+    fontSize: wp(4),
     marginLeft: wp(3),
   },
   searchTextView: {
@@ -275,13 +275,13 @@ const styles = StyleSheet.create({
   placeholderText: {
     position: 'absolute',
     left: wp(10),
-    fontSize: hp(2),
+    fontSize: wp(4),
   },
   colorsView: {
     marginTop: hp(4),
   },
   colorsText: {
-    fontSize: hp(2),
+    fontSize: wp(4),
   },
   colorsContainer: {
     display: 'flex',

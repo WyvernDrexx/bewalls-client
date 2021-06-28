@@ -5,7 +5,7 @@ import { Cards } from '../../components/Cards';
 import HeadingTitle from '../../components/HeadingTitle';
 import { useRecommendedQuery, Wallpaper } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
-import { hp } from '../../utilities';
+import { hp, wp } from '../../utilities';
 
 type NotFoundProps = {
   onRecentUploadsClick?: () => void;
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   notFoundText: {
     fontStyle: 'italic',
     textAlign: 'center',
-    fontSize: hp(2.3),
+    fontSize: wp(4),
     marginBottom: hp(3),
   },
   recentUploads: {

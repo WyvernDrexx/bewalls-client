@@ -35,8 +35,8 @@ const StackHeader: React.FC<StackHeaderProps> = function (props) {
             style={styles.leftArrow}>
             <LeftArrowSvg
               fill={colors.secondary}
-              height={hp(4)}
-              width={hp(4)}
+              height={wp(6)}
+              width={wp(6)}
             />
           </TouchableOpacity>
         </View>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   leftArrow: {},
   middleText: {
-    fontSize: hp(2.6),
+    fontSize: wp(4.5),
     flex: 1,
     textAlign: 'left',
     textTransform: 'capitalize',

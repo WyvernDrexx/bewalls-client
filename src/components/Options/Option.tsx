@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     height: hp(8),
   },
   optionText: {
-    fontSize: hp(2.5),
+    fontSize: wp(4),
   },
   checkIcon: {
     marginLeft: wp(3),

@@ -28,11 +28,7 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
         style={[styles.searchContainer, themedStyles.bgLight]}>
         <View style={[styles.flexView]}>
           <View style={[styles.searchTextView]}>
-            <SearchSvg
-              fill={colors.secondary}
-              height={hp('3')}
-              width={hp('3')}
-            />
+            <SearchSvg fill={colors.secondary} height={wp(6)} width={wp(6)} />
             <Text style={[styles.placeholderText, themedStyles.text]}>
               Search Devices
             </Text>
@@ -62,12 +58,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  searchInput: {
-    margin: 0,
-    width: wp(76),
-    fontSize: hp(2),
-    marginLeft: wp(3),
-  },
+
   searchTextView: {
     display: 'flex',
     justifyContent: 'space-evenly',
@@ -77,7 +68,7 @@ const styles = StyleSheet.create({
   placeholderText: {
     position: 'absolute',
     left: wp(10),
-    fontSize: hp(2),
+    fontSize: wp(4),
   },
 });
 

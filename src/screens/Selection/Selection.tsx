@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     width: wp(5),
   },
   sortingText: {
-    fontSize: hp(2),
+    fontSize: wp(4),
   },
 });
 

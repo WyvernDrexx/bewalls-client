@@ -34,7 +34,7 @@ const BarItem: React.FC<BarItemProps> = props => {
             : theme.colors.primary,
         },
       ]}>
-      <props.icon fill={theme.colors.secondary} height={hp(4)} width={hp(4)} />
+      <props.icon fill={theme.colors.secondary} height={wp(6)} width={wp(6)} />
       <Text style={[styles.text, themedStyles.text]}>{props.title}</Text>
     </TouchableOpacity>
   );
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: hp(2.5),
+    fontSize: wp(4.5),
     fontWeight: 'bold',
     marginLeft: wp(5),
   },

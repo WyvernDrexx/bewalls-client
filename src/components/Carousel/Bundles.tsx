@@ -125,7 +125,7 @@ const boxStyles = StyleSheet.create({
   },
   text: {
     color: 'white',
-    fontSize: hp(2.3),
+    fontSize: wp(4),
     fontWeight: 'bold',
     textAlign: 'center',
     marginHorizontal: wp(2),
