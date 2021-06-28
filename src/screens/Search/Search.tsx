@@ -1,4 +1,3 @@
-import gql from 'graphql-tag';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -8,13 +7,12 @@ import {
   View,
 } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { apolloClient } from '../../apollo';
 import MountAnimatedView from '../../components/MountAnimatedView';
 import WallpaperView from '../../components/WallpaperView';
 import {
   Color,
   HotSearchTerm,
-  SearchResult,
+  useSearchTextStringLazyQuery,
   Wallpaper,
 } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
@@ -40,14 +38,18 @@ const Search: React.FC<SearchScreenProps> = function (props) {
 
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [searchResults, setSearchResults] = useState<Wallpaper[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [searchTextString, { loading }] = useSearchTextStringLazyQuery({
+    onCompleted: data => {
+      setSearchResults((data.search.wallpapers as Wallpaper[]) || []);
+    },
+  });
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
   const handleTextChange = (text: string) => {
-    setLoading(true);
+    if (loading) return;
     setSearchText(text);
   };
 
@@ -60,7 +62,6 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   };
 
   const handleSearchTermClick = (searchTerm: HotSearchTerm) => {
-    setLoading(true);
     setSearchText(searchTerm.term);
   };
 
@@ -143,7 +144,6 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   };
 
   useEffect(() => {
-    if (!searchText) setLoading(false);
     if (searchText.length < 2) return;
     if (timeoutId) {
       clearTimeout(timeoutId);
@@ -151,25 +151,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     }
     setTimeoutId(
       setTimeout(async () => {
-        const { data } = await apolloClient.query<{ search: SearchResult }>({
-          query: gql`
-            query SearchTextString($searchText: String!) {
-              search(searchText: $searchText) {
-                wallpapers {
-                  name
-                  imageUri
-                  downloads
-                  id
-                }
-              }
-            }
-          `,
-          variables: {
-            searchText,
-          },
-        });
-        setSearchResults((data.search.wallpapers as Wallpaper[]) || []);
-        setLoading(false);
+        searchTextString({ variables: { searchText } });
       }, 150),
     );
   }, [searchText]);

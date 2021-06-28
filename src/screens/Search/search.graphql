@@ -4,6 +4,10 @@ query SearchTextString($searchText: String!) {
       name
       imageUri
       downloads
+      tags {
+        name
+        id
+      }
       id
     }
   }
