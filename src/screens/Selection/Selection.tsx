@@ -4,7 +4,6 @@ import Animated from 'react-native-reanimated';
 import { Cards } from '../../components/Cards';
 import Carousel from '../../components/Carousel/Carousel';
 import { LoadingView } from '../../components/Loader/LoadingView';
-import MountAnimatedView from '../../components/MountAnimatedView';
 import StackHeader from '../../components/StackHeader';
 import WallpaperView from '../../components/WallpaperView';
 import {
@@ -62,7 +61,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     setPreviewWallpaper(false);
   };
 
-  const Display = () => {
+  const renderDisplay = () => {
     if (loading) {
       return <LoadingView height={88} />;
     }
@@ -131,11 +130,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
         title={props.route.params.title}
         right={<SelectMode />}
       />
-      <Animated.ScrollView>
-        <MountAnimatedView>
-          <Display />
-        </MountAnimatedView>
-      </Animated.ScrollView>
+      <Animated.ScrollView>{renderDisplay()}</Animated.ScrollView>
       <WallpaperView
         showWallpaper={previewWallpaper}
         wallpaper={selectedWallpaper}
