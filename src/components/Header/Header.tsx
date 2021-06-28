@@ -26,11 +26,11 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = function (props) {
   const dispatch = useAppDispatch();
   const { themedStyles, theme } = useTheme();
-  const { dispatchAlert } = useAlerts();
+  const { dispatchShowAlert } = useAlerts();
   const user = useUser();
   const handleThemeChange = () => {
     dispatch(changeTheme(theme.isDark ? 'light' : 'dark'));
-    dispatchAlert({
+    dispatchShowAlert({
       message: 'This is a test!' + String(Math.random() * 1000),
       type: 'warning',
     });
