@@ -128,8 +128,8 @@ const SignIn: React.FC<SignInScreenProps> = props => {
     return (
       <TouchableOpacity
         onPress={() => setIsLoginMode(!isLoginMode)}
-        style={styles.rightButton}>
-        <Text style={styles.rightButtonText}>
+        style={[styles.rightButton, { borderColor: theme.colors.secondary }]}>
+        <Text style={[styles.rightButtonText, themedStyles.text]}>
           {isLoginMode ? 'Sign Up' : 'Sign In'}
         </Text>
       </TouchableOpacity>
@@ -162,10 +162,10 @@ const SignIn: React.FC<SignInScreenProps> = props => {
         titlePosition="left"
         right={<HeaderRightButton />}
       />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
         <View style={[styles.root, themedStyles.bg]}>
           <Image style={styles.bgImage} source={require('./bg.jpg')} />
-          <View style={styles.container}>
+          <View style={[styles.container, themedStyles.bg]}>
             {!isLoginMode ? (
               <>
                 <Text style={[styles.inputLabel, themedStyles.text]}>
@@ -173,7 +173,11 @@ const SignIn: React.FC<SignInScreenProps> = props => {
                 </Text>
                 <View style={styles.inputView}>
                   <View style={styles.inputIcon}>
-                    <FullNameSvg height={wp(7)} width={wp(7)} fill="black" />
+                    <FullNameSvg
+                      height={wp(7)}
+                      width={wp(7)}
+                      fill={theme.colors.secondary}
+                    />
                   </View>
                   <TextInput
                     onChangeText={text => handleInputChange('fullName', text)}
@@ -193,7 +197,11 @@ const SignIn: React.FC<SignInScreenProps> = props => {
             <Text style={[styles.inputLabel, themedStyles.text]}>Email</Text>
             <View style={styles.inputView}>
               <View style={styles.inputIcon}>
-                <EmailSvg height={wp(7)} width={wp(7)} fill="black" />
+                <EmailSvg
+                  height={wp(7)}
+                  width={wp(7)}
+                  fill={theme.colors.secondary}
+                />
               </View>
               <TextInput
                 onChangeText={text => handleInputChange('email', text)}
@@ -213,13 +221,18 @@ const SignIn: React.FC<SignInScreenProps> = props => {
             <Text style={[styles.inputLabel, themedStyles.text]}>Password</Text>
             <View style={styles.inputView}>
               <View style={styles.inputIcon}>
-                <LockSvg height={wp(7)} width={wp(7)} fill="black" />
+                <LockSvg
+                  height={wp(7)}
+                  width={wp(7)}
+                  fill={theme.colors.secondary}
+                />
               </View>
               <TextInput
                 placeholder="Password"
                 onChangeText={text => handleInputChange('password', text)}
                 value={userInputs.password}
                 selectionColor="gray"
+                placeholderTextColor="lightgray"
                 style={styles.input}
               />
             </View>
@@ -233,6 +246,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
               style={[
                 styles.actionButton,
                 { borderColor: theme.colors.light },
+                themedStyles.bgSecondary,
                 isSuccess ? styles.isSuccess : {},
               ]}>
               {loading ? (
@@ -262,7 +276,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bgImage: {
-    height: hp(87.5),
+    height: hp(88.68),
     width: wp(100),
     resizeMode: 'cover',
   },

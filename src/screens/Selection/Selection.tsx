@@ -11,7 +11,7 @@ import {
   useWallpapersQuery,
   Wallpaper,
 } from '../../generated/graphql';
-import { useTheme } from '../../hooks';
+import { useAlerts, useTheme } from '../../hooks';
 import { SelectionScreenProps } from '../../navigation/types';
 import { hp, wp } from '../../utilities';
 import CarouselSvg from './carousel.svg';
@@ -24,10 +24,15 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [displayMode, setDisplayMode] = useState<Display>('carousel');
   const [previewWallpaper, setPreviewWallpaper] = useState(false);
   const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
+  const { dispatchShowAlert } = useAlerts();
   const [addToFavourite] = useAddToFavouriteMutation({
     onCompleted: data => {
       if (!data || data.addToFavourite !== null) {
         setSelectedWallpaper(data.addToFavourite as Wallpaper);
+        dispatchShowAlert({
+          message: 'Added to your favourites!',
+          type: 'success',
+        });
       }
     },
   });
