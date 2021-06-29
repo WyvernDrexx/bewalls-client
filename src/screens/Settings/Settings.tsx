@@ -51,10 +51,10 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
             value={notificationEnabled}
             onValueChange={() => setNotificationEnabled(!notificationEnabled)}
           />
+          <Text style={[styles.subText]}>
+            Receive updates whenever a new wallpaper is added.
+          </Text>
         </View>
-        <Text style={[styles.subText]}>
-          Receive updates whenever a new wallpaper is added.
-        </Text>
 
         <View style={styles.optionsView}>
           <Text style={[themedStyles.text, styles.optionsText]}>
@@ -96,14 +96,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    paddingTop: hp(4),
+    paddingBottom: hp(4),
+    flexWrap: 'wrap',
   },
   optionsText: {
     fontSize: wp(4),
     fontWeight: 'bold',
   },
   subText: {
-    width: wp(60),
+    width: wp(100),
     fontSize: wp(3),
     color: '#B2B2B2',
   },
@@ -111,9 +112,7 @@ const styles = StyleSheet.create({
     fontSize: wp(4),
     color: '#B2B2B2',
   },
-  header: {
-    paddingHorizontal: wp(2),
-  },
+  header: {},
   warningText: {
     color: 'crimson',
   },
