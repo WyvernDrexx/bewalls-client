@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   StyleProp,
@@ -11,8 +11,8 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import { Wallpaper } from '../../generated/graphql';
-import { useUser } from '../../hooks';
+import { useAddToFavouriteMutation, Wallpaper } from '../../generated/graphql';
+import { useAlerts, useUser } from '../../hooks';
 import { hp, wp } from '../../utilities';
 import { BottomDraggable } from './BottomDraggable';
 import DownArrowSvg from './down-arrow.svg';
@@ -23,9 +23,11 @@ type WallpaperViewProps = {
   wallpaper?: Wallpaper;
   showWallpaper?: boolean;
   onFavouriteClick?: (id: string) => void;
+  afterFavouriteMutation?: (wallpaper: Wallpaper) => void;
 };
 
 export default function WallpaperView(props: WallpaperViewProps) {
+  const [wallpaper, setWallpaper] = useState(props.wallpaper);
   const screenHeight = hp(100);
   const offsetY = useSharedValue(screenHeight);
   const user = useUser();
@@ -55,25 +57,56 @@ export default function WallpaperView(props: WallpaperViewProps) {
     };
   });
 
-  if (!props.wallpaper) return null;
+  const { dispatchShowAlert } = useAlerts();
+  const [addToFavourite] = useAddToFavouriteMutation({
+    onCompleted: data => {
+      if (!data || data.addToFavourite !== null) {
+        setWallpaper(data.addToFavourite as Wallpaper);
+        if (data.addToFavourite?.isUsersFavourite) {
+          dispatchShowAlert({
+            message: 'Added to your favourites!',
+            type: 'success',
+          });
+        } else {
+          dispatchShowAlert({
+            message: 'Removed from your favourites!',
+            type: 'success',
+          });
+        }
+        if (props.afterFavouriteMutation) {
+          props.afterFavouriteMutation(data.addToFavourite as Wallpaper);
+        }
+      }
+    },
+  });
 
   const handleFavourite = async (id: string) => {
+    if (user.isVerified && !props.onFavouriteClick) {
+      return addToFavourite({
+        variables: {
+          id,
+        },
+      });
+    }
     if (user.isVerified && props.onFavouriteClick) {
       props.onFavouriteClick(id);
       return;
     }
   };
 
+  useEffect(() => {
+    setWallpaper(props.wallpaper);
+  }, [props.wallpaper]);
+
+  if (!wallpaper) return null;
+
   return (
     <Animated.View style={[animatedStyle, styles.root]}>
-      <Image style={styles.image} source={{ uri: props.wallpaper.imageUri }} />
+      <Image style={styles.image} source={{ uri: wallpaper.imageUri }} />
       <TouchableOpacity onPress={handleCloseClick} style={styles.arrow}>
         <DownArrowSvg style={styles.arrowIcon} fill="white" />
       </TouchableOpacity>
-      <BottomDraggable
-        onFavourite={handleFavourite}
-        wallpaper={props.wallpaper}
-      />
+      <BottomDraggable onFavourite={handleFavourite} wallpaper={wallpaper} />
     </Animated.View>
   );
 }

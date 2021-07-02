@@ -26,6 +26,13 @@ export type Bundle = {
   wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
 };
 
+export type BundleCreateInput = {
+  name: Scalars['String'];
+  imageUri: Scalars['String'];
+  highlightColor?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+};
+
 export type Category = {
   __typename?: 'Category';
   id: Scalars['String'];
@@ -35,12 +42,22 @@ export type Category = {
   wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
 };
 
+export type CategoryCreateInput = {
+  name: Scalars['String'];
+  imageUri: Scalars['String'];
+};
+
 export type Color = {
   __typename?: 'Color';
   id: Scalars['String'];
   name: Scalars['String'];
   code: Scalars['String'];
   wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
+};
+
+export type ColorCreateInput = {
+  name: Scalars['String'];
+  code: Scalars['String'];
 };
 
 
@@ -53,6 +70,10 @@ export type Mutation = {
   __typename?: 'Mutation';
   createWallpaper: Wallpaper;
   createUser: UserCreateResponse;
+  createCategory: Category;
+  createBundle: Bundle;
+  createTag: Tag;
+  createColor: Color;
   signIn: UserSignInResponse;
   addToFavourite?: Maybe<Wallpaper>;
 };
@@ -65,6 +86,26 @@ export type MutationCreateWallpaperArgs = {
 
 export type MutationCreateUserArgs = {
   data?: Maybe<UserCreateInput>;
+};
+
+
+export type MutationCreateCategoryArgs = {
+  data?: Maybe<CategoryCreateInput>;
+};
+
+
+export type MutationCreateBundleArgs = {
+  data?: Maybe<BundleCreateInput>;
+};
+
+
+export type MutationCreateTagArgs = {
+  data?: Maybe<TagCreateInput>;
+};
+
+
+export type MutationCreateColorArgs = {
+  data?: Maybe<ColorCreateInput>;
 };
 
 
@@ -128,6 +169,10 @@ export type Tag = {
   name: Scalars['String'];
   totalNumberOfItems: Scalars['Int'];
   wallpapers: Array<Maybe<Wallpaper>>;
+};
+
+export type TagCreateInput = {
+  name: Scalars['String'];
 };
 
 export type TrendingWallpaper = {
@@ -264,6 +309,34 @@ export type CategoriesDataQuery = (
     { __typename?: 'Category' }
     & Pick<Category, 'id' | 'name' | 'imageUri' | 'totalNumberOfItems'>
   )>> }
+);
+
+export type GetUserFavouritesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserFavouritesQuery = (
+  { __typename?: 'Query' }
+  & { getUserInfo?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id'>
+    & { favourites: Array<Maybe<(
+      { __typename?: 'Wallpaper' }
+      & Pick<Wallpaper, 'name' | 'imageUri' | 'isUsersFavourite' | 'id' | 'likes' | 'downloads' | 'highlightColor'>
+      & { color: (
+        { __typename?: 'Color' }
+        & Pick<Color, 'id' | 'name' | 'code'>
+      ), bundle: (
+        { __typename?: 'Bundle' }
+        & Pick<Bundle, 'id' | 'name'>
+      ), tags: Array<Maybe<(
+        { __typename?: 'Tag' }
+        & Pick<Tag, 'name' | 'id'>
+      )>>, category: (
+        { __typename?: 'Category' }
+        & Pick<Category, 'name' | 'id' | 'imageUri'>
+      ) }
+    )>> }
+  )> }
 );
 
 export type HomeScreenQueryVariables = Exact<{ [key: string]: never; }>;
@@ -578,6 +651,67 @@ export function useCategoriesDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type CategoriesDataQueryHookResult = ReturnType<typeof useCategoriesDataQuery>;
 export type CategoriesDataLazyQueryHookResult = ReturnType<typeof useCategoriesDataLazyQuery>;
 export type CategoriesDataQueryResult = Apollo.QueryResult<CategoriesDataQuery, CategoriesDataQueryVariables>;
+export const GetUserFavouritesDocument = gql`
+    query GetUserFavourites {
+  getUserInfo {
+    id
+    favourites {
+      name
+      imageUri
+      isUsersFavourite
+      id
+      color {
+        id
+        name
+        code
+      }
+      bundle {
+        id
+        name
+      }
+      tags {
+        name
+        id
+      }
+      likes
+      downloads
+      category {
+        name
+        id
+        imageUri
+      }
+      highlightColor
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserFavouritesQuery__
+ *
+ * To run a query within a React component, call `useGetUserFavouritesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserFavouritesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserFavouritesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserFavouritesQuery(baseOptions?: Apollo.QueryHookOptions<GetUserFavouritesQuery, GetUserFavouritesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserFavouritesQuery, GetUserFavouritesQueryVariables>(GetUserFavouritesDocument, options);
+      }
+export function useGetUserFavouritesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserFavouritesQuery, GetUserFavouritesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserFavouritesQuery, GetUserFavouritesQueryVariables>(GetUserFavouritesDocument, options);
+        }
+export type GetUserFavouritesQueryHookResult = ReturnType<typeof useGetUserFavouritesQuery>;
+export type GetUserFavouritesLazyQueryHookResult = ReturnType<typeof useGetUserFavouritesLazyQuery>;
+export type GetUserFavouritesQueryResult = Apollo.QueryResult<GetUserFavouritesQuery, GetUserFavouritesQueryVariables>;
 export const HomeScreenDocument = gql`
     query HomeScreen {
   trending {

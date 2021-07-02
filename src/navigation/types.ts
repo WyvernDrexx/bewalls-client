@@ -16,7 +16,7 @@ export type RootStackParamList = {
   Bundles: undefined;
   SignIn: undefined;
   ContactUs: undefined;
-  Fvourites: undefined;
+  Favourites: undefined;
 };
 
 export type SearchScreenProps = StackScreenProps<RootStackParamList, 'Search'>;
@@ -24,7 +24,7 @@ export type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 export type SignInScreenProps = StackScreenProps<RootStackParamList, 'SignIn'>;
 export type FavouritesScreenProps = StackScreenProps<
   RootStackParamList,
-  'Fvourites'
+  'Favourites'
 >;
 export type ContactUsScreenProps = StackScreenProps<
   RootStackParamList,

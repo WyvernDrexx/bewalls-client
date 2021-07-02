@@ -33,6 +33,7 @@ function RootNavigator() {
   const user = useUser();
   const dispatch = useAppDispatch();
   const statusBarStyle = theme.isDark ? 'light-content' : 'dark-content';
+
   const [getUserInfo] = useGetUserInfoLazyQuery({
     onCompleted: data => {
       if (data.getUserInfo) {
@@ -82,7 +83,7 @@ function RootNavigator() {
         <Stack.Screen name="Bundles" component={BundlesScreen} />
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="ContactUs" component={ContactUs} />
-        <Stack.Screen name="Fvourites" component={Favourites} />
+        <Stack.Screen name="Favourites" component={Favourites} />
       </Stack.Navigator>
       <Alert />
     </NavigationContainer>

@@ -1,0 +1,32 @@
+query GetUserFavourites {
+  getUserInfo {
+    id
+    favourites {
+      name
+      imageUri
+      isUsersFavourite
+      id
+      color {
+        id
+        name
+        code
+      }
+      bundle {
+        id
+        name
+      }
+      tags {
+        name
+        id
+      }
+      likes
+      downloads
+      category {
+        name
+        id
+        imageUri
+      }
+      highlightColor
+    }
+  }
+}

@@ -6,12 +6,8 @@ import Carousel from '../../components/Carousel/Carousel';
 import { LoadingView } from '../../components/Loader/LoadingView';
 import StackHeader from '../../components/StackHeader';
 import WallpaperView from '../../components/WallpaperView';
-import {
-  useAddToFavouriteMutation,
-  useWallpapersQuery,
-  Wallpaper,
-} from '../../generated/graphql';
-import { useAlerts, useTheme } from '../../hooks';
+import { useWallpapersQuery, Wallpaper } from '../../generated/graphql';
+import { useTheme } from '../../hooks';
 import { SelectionScreenProps } from '../../navigation/types';
 import { hp, wp } from '../../utilities';
 import CarouselSvg from './carousel.svg';
@@ -24,18 +20,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   const [displayMode, setDisplayMode] = useState<Display>('carousel');
   const [previewWallpaper, setPreviewWallpaper] = useState(false);
   const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
-  const { dispatchShowAlert } = useAlerts();
-  const [addToFavourite] = useAddToFavouriteMutation({
-    onCompleted: data => {
-      if (!data || data.addToFavourite !== null) {
-        setSelectedWallpaper(data.addToFavourite as Wallpaper);
-        dispatchShowAlert({
-          message: 'Added to your favourites!',
-          type: 'success',
-        });
-      }
-    },
-  });
 
   const variables = {
     bundleId: type === 'bundle' ? selectorId : '',
@@ -52,14 +36,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   const handleCardClick = (wallpaper: Wallpaper) => {
     setSelectedWallpaper(wallpaper);
     setPreviewWallpaper(true);
-  };
-
-  const handleFavouriteClick = (id: string) => {
-    addToFavourite({
-      variables: {
-        id,
-      },
-    });
   };
 
   const handlePreviewClose = () => {
@@ -140,7 +116,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
         showWallpaper={previewWallpaper}
         wallpaper={selectedWallpaper}
         onCloseClick={handlePreviewClose}
-        onFavouriteClick={handleFavouriteClick}
       />
     </View>
   );
