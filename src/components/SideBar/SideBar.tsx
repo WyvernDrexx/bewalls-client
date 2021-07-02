@@ -55,7 +55,7 @@ const SIDEBAR_ITEMS: BarItemType[] = [
     icon: CategoriesSvg,
   },
   {
-    route: 'Fvourites',
+    route: 'Favourites',
     title: 'Favourites',
     icon: FavSvg,
     showWhenLoggedIn: true,
