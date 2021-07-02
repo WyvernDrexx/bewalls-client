@@ -11,6 +11,7 @@ type BarItemProps = {
   title: string;
   onClick: (route: keyof RootStackParamList) => void;
   hideWhenLoggedIn?: boolean;
+  showWhenLoggedIn?: boolean;
   icon: React.FC<SvgProps>;
 };
 
@@ -22,22 +23,51 @@ const BarItem: React.FC<BarItemProps> = props => {
   };
 
   if (props.hideWhenLoggedIn && isVerified) return null;
-  return (
-    <TouchableOpacity
-      onPress={onClick}
-      activeOpacity={0.5}
-      style={[
-        styles.root,
-        {
-          backgroundColor: props.isActive
-            ? theme.colors.light
-            : theme.colors.primary,
-        },
-      ]}>
-      <props.icon fill={theme.colors.secondary} height={wp(6)} width={wp(6)} />
-      <Text style={[styles.text, themedStyles.text]}>{props.title}</Text>
-    </TouchableOpacity>
-  );
+  if (typeof props.showWhenLoggedIn !== 'undefined') {
+    if (props.showWhenLoggedIn && isVerified) {
+      return (
+        <TouchableOpacity
+          onPress={onClick}
+          activeOpacity={0.5}
+          style={[
+            styles.root,
+            {
+              backgroundColor: props.isActive
+                ? theme.colors.light
+                : theme.colors.primary,
+            },
+          ]}>
+          <props.icon
+            fill={theme.colors.secondary}
+            height={wp(6)}
+            width={wp(6)}
+          />
+          <Text style={[styles.text, themedStyles.text]}>{props.title}</Text>
+        </TouchableOpacity>
+      );
+    } else return null;
+  } else {
+    return (
+      <TouchableOpacity
+        onPress={onClick}
+        activeOpacity={0.5}
+        style={[
+          styles.root,
+          {
+            backgroundColor: props.isActive
+              ? theme.colors.light
+              : theme.colors.primary,
+          },
+        ]}>
+        <props.icon
+          fill={theme.colors.secondary}
+          height={wp(6)}
+          width={wp(6)}
+        />
+        <Text style={[styles.text, themedStyles.text]}>{props.title}</Text>
+      </TouchableOpacity>
+    );
+  }
 };
 
 const styles = StyleSheet.create({

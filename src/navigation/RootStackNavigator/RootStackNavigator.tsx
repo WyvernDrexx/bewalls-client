@@ -14,6 +14,7 @@ import {
   BundlesScreen,
   Categories,
   ContactUs,
+  Favourites,
   Home,
   Search,
   Selection,
@@ -81,6 +82,7 @@ function RootNavigator() {
         <Stack.Screen name="Bundles" component={BundlesScreen} />
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="ContactUs" component={ContactUs} />
+        <Stack.Screen name="Fvourites" component={Favourites} />
       </Stack.Navigator>
       <Alert />
     </NavigationContainer>

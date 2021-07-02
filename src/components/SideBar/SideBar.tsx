@@ -25,6 +25,7 @@ import ContactUsSvg from './envelope.svg';
 import HomeSvg from './home.svg';
 import ProfileSvg from './profile.svg';
 import SlidersSvg from './sliders.svg';
+import FavSvg from './heart.svg';
 
 type SideBarProps = {
   isShown?: boolean;
@@ -38,6 +39,7 @@ type BarItemType = {
   route: keyof RootStackParamList;
   title: string;
   hideWhenLoggedIn?: boolean;
+  showWhenLoggedIn?: boolean;
   icon: React.FC<SvgProps>;
 };
 
@@ -52,7 +54,12 @@ const SIDEBAR_ITEMS: BarItemType[] = [
     title: 'Categories',
     icon: CategoriesSvg,
   },
-
+  {
+    route: 'Fvourites',
+    title: 'Favourites',
+    icon: FavSvg,
+    showWhenLoggedIn: true,
+  },
   {
     route: 'SignIn',
     title: 'Sign In/Sign Up',
@@ -156,6 +163,7 @@ const SideBar: React.FC<SideBarProps> = function (props) {
                 route={item.route}
                 title={item.title}
                 hideWhenLoggedIn={item.hideWhenLoggedIn}
+                showWhenLoggedIn={item.showWhenLoggedIn}
               />
             );
           })}
