@@ -22,10 +22,10 @@ import BackSvg from './back.svg';
 import BarItem from './BarItem';
 import CategoriesSvg from './categories.svg';
 import ContactUsSvg from './envelope.svg';
+import FavSvg from './heart.svg';
 import HomeSvg from './home.svg';
 import ProfileSvg from './profile.svg';
 import SlidersSvg from './sliders.svg';
-import FavSvg from './heart.svg';
 
 type SideBarProps = {
   isShown?: boolean;
