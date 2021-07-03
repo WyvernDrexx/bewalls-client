@@ -141,7 +141,8 @@ const SignIn: React.FC<SignInScreenProps> = props => {
     const inputErrors = verifyUserCreateData(userInputs);
     if (inputErrors && inputErrors.fullName && !isLoginMode)
       return setErrors(inputErrors);
-    else setErrors({});
+    if (inputErrors) return setErrors(inputErrors);
+    setErrors({});
     setLoading(true);
     if (isLoginMode) handleSignIn();
     else handleSignUp();
@@ -162,7 +163,10 @@ const SignIn: React.FC<SignInScreenProps> = props => {
         titlePosition="left"
         right={<HeaderRightButton />}
       />
-      <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
+      <ScrollView
+        keyboardShouldPersistTaps="always"
+        showsVerticalScrollIndicator={false}
+        overScrollMode="never">
         <View style={[styles.root, themedStyles.bg]}>
           <Image style={styles.bgImage} source={require('./bg.jpg')} />
           <View style={[styles.container, themedStyles.bg]}>

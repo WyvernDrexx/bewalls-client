@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     paddingTop: hp(2),
   },
   headingText: {
-    fontSize: wp(5),
+    fontSize: wp(4.5),
     fontWeight: 'bold',
   },
   moreText: {

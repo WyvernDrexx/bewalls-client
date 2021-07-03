@@ -115,6 +115,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     if (!loading && !searchResults.length && searchText) {
       return <NotFound onRecentUploadsClick={handleRecentUploadsClick} />;
     }
+
     return (
       <Extras
         onColorBoxClick={handleBoxClick}
