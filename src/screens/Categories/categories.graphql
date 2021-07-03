@@ -4,5 +4,6 @@ query CategoriesData {
     name
     imageUri
     totalNumberOfItems
+    visits
   }
 }

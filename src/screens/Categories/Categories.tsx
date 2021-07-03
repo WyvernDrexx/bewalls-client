@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import CategoryItems from '../../components/CategoryItems';
 import StackHeader from '../../components/StackHeader';
-import { Category, useCategoriesQuery } from '../../generated/graphql';
+import { Category, useCategoriesDataQuery } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
 import { CategoriesScreenProps } from '../../navigation/types';
 import { hp, wp } from '../../utilities';
@@ -22,7 +22,7 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
     props.navigation.goBack();
   };
 
-  const { loading, data } = useCategoriesQuery();
+  const { loading, data } = useCategoriesDataQuery();
 
   if (loading) return null;
 

@@ -64,7 +64,6 @@ const Favourites: React.FC<FavouritesScreenProps> = props => {
   useEffect(() => {
     refetch();
   }, []);
-
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader

@@ -14,12 +14,15 @@ query HomeScreen {
     id
     name
     imageUri
+    totalNumberOfItems
+    visits
   }
   bundles {
     id
     imageUri
     name
     highlightColor
+    totalNumberOfItems
     color
   }
 }

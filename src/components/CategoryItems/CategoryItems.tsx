@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Category } from '../../generated/graphql';
+import { useTheme } from '../../hooks';
 import { ItemGroup } from '../../types';
-import { hp, isLastElement, wp } from '../../utilities';
+import { hp, isLastElement, numberToMetricScale, wp } from '../../utilities';
 import { LoadingView } from '../Loader/LoadingView';
 
 type CategoryProps = {
@@ -20,6 +21,7 @@ const Categories: React.FC<CategoryProps> = function (props) {
   const height = hp(props.height);
   const width = wp(props.width);
   const [imageLoading, setImageLoading] = useState(true);
+  const { themedStyles } = useTheme();
 
   const handleClick = (category: Category) => {
     if (props.onClick) props.onClick(category, props.group);
@@ -60,10 +62,21 @@ const Categories: React.FC<CategoryProps> = function (props) {
               ]}
               source={{ uri: item.imageUri }}
             />
+            <View style={[styles.totalNumberOfItems, themedStyles.bg]}>
+              <Text style={[styles.numberOfItemsText]}>
+                {item.totalNumberOfItems}
+              </Text>
+            </View>
             <LinearGradient
               colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
               style={[styles.textView, { height: height / 1.5, width }]}>
-              <Text style={styles.title}>{item!.name}</Text>
+              <View
+                style={[styles.flex, { width: width - wp(4), left: wp(2) }]}>
+                <Text style={styles.title}>{item!.name}</Text>
+                <Text style={themedStyles.textLight}>
+                  {numberToMetricScale(item.visits)}
+                </Text>
+              </View>
             </LinearGradient>
           </TouchableOpacity>
         );
@@ -95,9 +108,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: wp(4),
-    position: 'absolute',
-    bottom: hp(1),
-    left: wp(3),
   },
   marginRight: {
     marginRight: wp(2),
@@ -111,6 +121,28 @@ const styles = StyleSheet.create({
   loadingView: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  totalNumberOfItems: {
+    position: 'absolute',
+    top: hp(1),
+    right: wp(4),
+    backgroundColor: 'white',
+    padding: wp(1),
+    paddingHorizontal: wp(2.4),
+    borderRadius: wp(2),
+  },
+  numberOfItemsText: {
+    fontWeight: 'bold',
+    color: '#5b5bff',
+    fontSize: wp(3.4),
+  },
+  flex: {
+    position: 'absolute',
+    bottom: hp(1),
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
 });

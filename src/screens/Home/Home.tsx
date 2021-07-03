@@ -151,4 +151,5 @@ const styles = StyleSheet.create({
   },
   marginBottom: { marginBottom: hp(4) },
 });
+
 export { Home };
