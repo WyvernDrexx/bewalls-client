@@ -6,7 +6,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import { Wallpaper } from '../../generated/graphql';
+import { Tag, Wallpaper } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 import CheckSvg from './check.svg';
@@ -18,6 +18,7 @@ import ShareSvg from './share.svg';
 type BottomDraggableProps = {
   wallpaper: Wallpaper;
   onFavourite?: (wallpaperId: string) => void;
+  onTagClick?: (tag: Tag) => void;
 };
 
 const BottomDraggable = function (props: BottomDraggableProps) {
@@ -65,6 +66,10 @@ const BottomDraggable = function (props: BottomDraggableProps) {
 
   const handleHeartClick = () => {
     if (props.onFavourite) props.onFavourite(props.wallpaper.id);
+  };
+
+  const handleTagClick = (tag: Tag) => {
+    if (props.onTagClick) props.onTagClick(tag);
   };
 
   const ACTION_BUTTONS = [
@@ -141,7 +146,9 @@ const BottomDraggable = function (props: BottomDraggableProps) {
           <View style={styles.tagView}>
             {props.wallpaper.tags.map(item => {
               return (
-                <TouchableOpacity key={item?.id}>
+                <TouchableOpacity
+                  onPress={() => handleTagClick(item!)}
+                  key={item?.id}>
                   <Text
                     style={[
                       styles.tagText,

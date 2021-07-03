@@ -25,6 +25,7 @@ import { useAppDispatch } from '../../store';
 import { setUserToken, userSignIn } from '../../store/user';
 import { hp, wp } from '../../utilities';
 import tokenStorage from '../../utilities/tokenStorage';
+import { navigationRef } from '../RootNavigation';
 import { RootStackParamList } from '../types';
 
 function RootNavigator() {
@@ -68,7 +69,7 @@ function RootNavigator() {
     }
   }, [user.token]);
   return (
-    <NavigationContainer onReady={handleNavigationReady}>
+    <NavigationContainer ref={navigationRef} onReady={handleNavigationReady}>
       <StatusBar
         backgroundColor={theme.colors.primary}
         barStyle={statusBarStyle}

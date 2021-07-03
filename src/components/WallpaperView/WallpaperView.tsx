@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import {
   Image,
@@ -11,7 +13,11 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import { useAddToFavouriteMutation, Wallpaper } from '../../generated/graphql';
+import {
+  Tag,
+  useAddToFavouriteMutation,
+  Wallpaper,
+} from '../../generated/graphql';
 import { useAlerts, useUser } from '../../hooks';
 import { hp, wp } from '../../utilities';
 import { BottomDraggable } from './BottomDraggable';
@@ -28,6 +34,7 @@ type WallpaperViewProps = {
 
 export default function WallpaperView(props: WallpaperViewProps) {
   const [wallpaper, setWallpaper] = useState(props.wallpaper);
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const screenHeight = hp(100);
   const offsetY = useSharedValue(screenHeight);
   const user = useUser();
@@ -42,6 +49,14 @@ export default function WallpaperView(props: WallpaperViewProps) {
   const handleCloseClick = () => {
     offsetY.value = screenHeight;
     if (props.onCloseClick) props.onCloseClick();
+  };
+
+  const handleTagClick = (tag: Tag) => {
+    navigation.push('Selection', {
+      title: tag.name,
+      group: 'tag',
+      groupId: tag.id,
+    });
   };
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -106,7 +121,11 @@ export default function WallpaperView(props: WallpaperViewProps) {
       <TouchableOpacity onPress={handleCloseClick} style={styles.arrow}>
         <DownArrowSvg style={styles.arrowIcon} fill="white" />
       </TouchableOpacity>
-      <BottomDraggable onFavourite={handleFavourite} wallpaper={wallpaper} />
+      <BottomDraggable
+        onTagClick={handleTagClick}
+        onFavourite={handleFavourite}
+        wallpaper={wallpaper}
+      />
     </Animated.View>
   );
 }

@@ -25,6 +25,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     bundleId: type === 'bundle' ? selectorId : '',
     categoryId: type === 'category' ? selectorId : '',
     colorId: type === 'color' ? selectorId : '',
+    tagsId: type === 'tag' ? selectorId : '',
   };
 
   const { loading, data } = useWallpapersQuery({
@@ -102,7 +103,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
       </View>
     );
   };
-
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
