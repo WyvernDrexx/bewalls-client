@@ -77,7 +77,7 @@ const BundleItem: React.FC<BundleItemProps> = function (props) {
 
 const Bundles: React.FC<BundlesProps> = function (props) {
   let height = props.height || '13%';
-  let width = props.width || '27%';
+  let width = props.width || '30%';
 
   if (props.loading || typeof props.items === 'undefined') {
     return <LoadingView height={props.height} />;

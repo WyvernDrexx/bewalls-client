@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Category } from '../../generated/graphql';
-import { useTheme } from '../../hooks';
 import { ItemGroup } from '../../types';
 import { hp, isLastElement, numberToMetricScale, wp } from '../../utilities';
 import { LoadingView } from '../Loader/LoadingView';
@@ -21,7 +20,6 @@ const Categories: React.FC<CategoryProps> = function (props) {
   const height = hp(props.height);
   const width = wp(props.width);
   const [imageLoading, setImageLoading] = useState(true);
-  const { themedStyles } = useTheme();
 
   const handleClick = (category: Category) => {
     if (props.onClick) props.onClick(category, props.group);
@@ -62,7 +60,7 @@ const Categories: React.FC<CategoryProps> = function (props) {
               ]}
               source={{ uri: item.imageUri }}
             />
-            <View style={[styles.totalNumberOfItems, themedStyles.bg]}>
+            <View style={[styles.totalNumberOfItems]}>
               <Text style={[styles.numberOfItemsText]}>
                 {item.totalNumberOfItems}
               </Text>
@@ -73,7 +71,7 @@ const Categories: React.FC<CategoryProps> = function (props) {
               <View
                 style={[styles.flex, { width: width - wp(4), left: wp(2) }]}>
                 <Text style={styles.title}>{item!.name}</Text>
-                <Text style={themedStyles.textLight}>
+                <Text style={styles.lightText}>
                   {numberToMetricScale(item.visits)}
                 </Text>
               </View>
@@ -144,6 +142,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  lightText: {
+    color: 'white',
   },
 });
 
