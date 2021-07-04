@@ -1,5 +1,5 @@
 query CategoriesData {
-  categories(page: {}) {
+  categories(page: { take: 50 }) {
     id
     name
     imageUri

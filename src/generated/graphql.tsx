@@ -607,7 +607,7 @@ export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQ
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
 export const BundlesScreenDocument = gql`
     query BundlesScreen {
-  bundles(page: {}) {
+  bundles(page: {take: 50}) {
     id
     name
     highlightColor
@@ -645,7 +645,7 @@ export type BundlesScreenLazyQueryHookResult = ReturnType<typeof useBundlesScree
 export type BundlesScreenQueryResult = Apollo.QueryResult<BundlesScreenQuery, BundlesScreenQueryVariables>;
 export const CategoriesDataDocument = gql`
     query CategoriesData {
-  categories(page: {}) {
+  categories(page: {take: 50}) {
     id
     name
     imageUri
@@ -923,7 +923,7 @@ export const WallpapersDocument = gql`
     query wallpapers($bundleId: String, $categoryId: String, $tagsId: String, $colorId: String) {
   wallpapers(
     data: {bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId, colorId: $colorId}
-    page: {}
+    page: {take: 20}
   ) {
     name
     imageUri

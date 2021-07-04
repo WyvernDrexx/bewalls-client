@@ -1,5 +1,5 @@
 query BundlesScreen {
-  bundles(page: {}) {
+  bundles(page: { take: 50 }) {
     id
     name
     highlightColor
