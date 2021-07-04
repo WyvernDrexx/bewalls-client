@@ -10,14 +10,14 @@ query HomeScreen {
       id
     }
   }
-  categories {
+  categories(page: {}) {
     id
     name
     imageUri
     totalNumberOfItems
     visits
   }
-  bundles {
+  bundles(page: {}) {
     id
     imageUri
     name

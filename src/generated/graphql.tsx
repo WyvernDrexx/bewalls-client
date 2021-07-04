@@ -13,6 +13,8 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type Bundle = {
@@ -80,6 +82,7 @@ export type Mutation = {
   createColor: Color;
   signIn: UserSignInResponse;
   addToFavourite?: Maybe<Wallpaper>;
+  singleUpload?: Maybe<Scalars['String']>;
 };
 
 
@@ -123,6 +126,16 @@ export type MutationAddToFavouriteArgs = {
   id: Scalars['String'];
 };
 
+
+export type MutationSingleUploadArgs = {
+  data: SingleUploadInput;
+};
+
+export type PageQuery = {
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   trending: Array<Maybe<Wallpaper>>;
@@ -140,11 +153,13 @@ export type Query = {
 
 export type QueryBundlesArgs = {
   bundleId?: Maybe<Scalars['String']>;
+  page: PageQuery;
 };
 
 
 export type QueryCategoriesArgs = {
   categoryId?: Maybe<Scalars['String']>;
+  page: PageQuery;
 };
 
 
@@ -155,6 +170,7 @@ export type QueryWallpaperArgs = {
 
 export type QueryWallpapersArgs = {
   data: WallpaperQueryInput;
+  page: PageQuery;
 };
 
 
@@ -165,6 +181,13 @@ export type QuerySearchArgs = {
 export type SearchResult = {
   __typename?: 'SearchResult';
   wallpapers: Array<Maybe<Wallpaper>>;
+};
+
+export type SingleUploadInput = {
+  file: Scalars['Upload'];
+  wallpaper?: Maybe<Scalars['Boolean']>;
+  bundle?: Maybe<Scalars['Boolean']>;
+  category?: Maybe<Scalars['Boolean']>;
 };
 
 export type Tag = {
@@ -186,6 +209,7 @@ export type TrendingWallpaper = {
   downloads: Scalars['Int'];
   wallpaper: Wallpaper;
 };
+
 
 export type User = {
   __typename?: 'User';
@@ -547,7 +571,7 @@ export type TrendingLazyQueryHookResult = ReturnType<typeof useTrendingLazyQuery
 export type TrendingQueryResult = Apollo.QueryResult<TrendingQuery, TrendingQueryVariables>;
 export const CategoriesDocument = gql`
     query categories {
-  categories {
+  categories(page: {}) {
     id
     name
     imageUri
@@ -583,7 +607,7 @@ export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQ
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
 export const BundlesScreenDocument = gql`
     query BundlesScreen {
-  bundles {
+  bundles(page: {}) {
     id
     name
     highlightColor
@@ -621,7 +645,7 @@ export type BundlesScreenLazyQueryHookResult = ReturnType<typeof useBundlesScree
 export type BundlesScreenQueryResult = Apollo.QueryResult<BundlesScreenQuery, BundlesScreenQueryVariables>;
 export const CategoriesDataDocument = gql`
     query CategoriesData {
-  categories {
+  categories(page: {}) {
     id
     name
     imageUri
@@ -731,14 +755,14 @@ export const HomeScreenDocument = gql`
       id
     }
   }
-  categories {
+  categories(page: {}) {
     id
     name
     imageUri
     totalNumberOfItems
     visits
   }
-  bundles {
+  bundles(page: {}) {
     id
     imageUri
     name
@@ -899,6 +923,7 @@ export const WallpapersDocument = gql`
     query wallpapers($bundleId: String, $categoryId: String, $tagsId: String, $colorId: String) {
   wallpapers(
     data: {bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId, colorId: $colorId}
+    page: {}
   ) {
     name
     imageUri

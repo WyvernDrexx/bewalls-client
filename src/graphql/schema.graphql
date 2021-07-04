@@ -15,7 +15,7 @@ query trending {
 }
 
 query categories {
-  categories {
+  categories(page: {}) {
     id
     name
     imageUri

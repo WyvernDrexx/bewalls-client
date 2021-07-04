@@ -123,6 +123,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
               showsHorizontalScrollIndicator={false}
               overScrollMode="never">
               <CategoryItems
+                hideVisits
                 loading={loading}
                 onClick={handleBoxClick}
                 categories={data?.categories as Category[]}

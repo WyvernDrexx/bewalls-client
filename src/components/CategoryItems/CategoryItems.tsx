@@ -13,6 +13,7 @@ type CategoryProps = {
   width: string | number;
   group: ItemGroup;
   isVertical?: boolean;
+  hideVisits?: boolean;
   loading?: boolean;
 };
 
@@ -71,9 +72,11 @@ const Categories: React.FC<CategoryProps> = function (props) {
               <View
                 style={[styles.flex, { width: width - wp(4), left: wp(2) }]}>
                 <Text style={styles.title}>{item!.name}</Text>
-                <Text style={styles.lightText}>
-                  {numberToMetricScale(item.visits)}
-                </Text>
+                {!props.hideVisits ? (
+                  <Text style={styles.lightText}>
+                    {numberToMetricScale(item.visits)}
+                  </Text>
+                ) : null}
               </View>
             </LinearGradient>
           </TouchableOpacity>
