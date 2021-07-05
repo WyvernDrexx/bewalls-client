@@ -41,8 +41,10 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   const [searchTextString, { loading }] = useSearchTextStringLazyQuery({
     onCompleted: data => {
       setSearchResults((data.search.wallpapers as Wallpaper[]) || []);
+      setIsChanged(false);
     },
   });
+  const [isChanged, setIsChanged] = useState(false);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -50,6 +52,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
 
   const handleTextChange = (text: string) => {
     if (loading) return;
+    setIsChanged(true);
     setSearchText(text);
   };
 
@@ -91,7 +94,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   };
 
   const renderContents = () => {
-    if (loading) return null;
+    if (loading || isChanged) return null;
     if (!searchText) {
       return (
         <Extras
@@ -125,7 +128,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   };
 
   const renderSearchBarButtons = () => {
-    if (loading) {
+    if (loading || isChanged) {
       return <ActivityIndicator color="black" />;
     }
     if (searchText.length) {
@@ -145,7 +148,10 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   };
 
   useEffect(() => {
-    if (searchText.length < 2) return;
+    if (searchText.length < 2) {
+      setIsChanged(false);
+      return;
+    }
     if (timeoutId) {
       clearTimeout(timeoutId);
       setTimeoutId(null);

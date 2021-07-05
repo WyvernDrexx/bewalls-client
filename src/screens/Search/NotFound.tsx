@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: wp(4),
     marginBottom: hp(3),
+    paddingHorizontal: wp(2),
   },
   recentUploads: {
     marginBottom: hp(2),
