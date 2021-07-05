@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: wp(4),
+    paddingLeft: wp(2),
   },
   placeholderText: {
     position: 'absolute',
