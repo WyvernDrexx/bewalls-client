@@ -95,10 +95,6 @@ const SignIn: React.FC<SignInScreenProps> = props => {
     },
   });
 
-  const goBack = () => {
-    props.navigation.goBack();
-  };
-
   const handleInputChange = (target: keyof UserCreateInput, value: string) => {
     setUserInputs({ ...userInputs, [target]: value });
   };
@@ -158,7 +154,6 @@ const SignIn: React.FC<SignInScreenProps> = props => {
   return (
     <>
       <StackHeader
-        onLeftClick={goBack}
         title={isLoginMode ? 'Sign In' : 'Sign Up'}
         titlePosition="left"
         right={<HeaderRightButton />}

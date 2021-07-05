@@ -107,7 +107,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
         titlePosition="left"
-        onLeftClick={props.navigation.goBack}
         title={props.route.params.title}
         right={<SelectMode />}
       />

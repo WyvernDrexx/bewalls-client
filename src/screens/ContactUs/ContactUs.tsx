@@ -4,19 +4,12 @@ import StackHeader from '../../components/StackHeader';
 import { useTheme } from '../../hooks';
 import { ContactUsScreenProps } from '../../navigation/types';
 
-const ContactUs: React.FC<ContactUsScreenProps> = function (props) {
+const ContactUs: React.FC<ContactUsScreenProps> = function () {
   const { themedStyles } = useTheme();
-  const onBackClick = () => {
-    props.navigation.goBack();
-  };
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
-      <StackHeader
-        onLeftClick={onBackClick}
-        title="Contact Us"
-        titlePosition="left"
-      />
+      <StackHeader title="Contact Us" titlePosition="left" />
     </View>
   );
 };

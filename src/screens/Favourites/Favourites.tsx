@@ -10,7 +10,7 @@ import { useTheme } from '../../hooks';
 import { FavouritesScreenProps } from '../../navigation/types';
 import { hp, wp } from '../../utilities';
 
-const Favourites: React.FC<FavouritesScreenProps> = props => {
+const Favourites: React.FC<FavouritesScreenProps> = () => {
   const { themedStyles } = useTheme();
   const [wallpaper, setWallpaper] = useState<Wallpaper | undefined>();
   const [previewWallpaper, setPreviewWallpaper] = useState(false);
@@ -23,10 +23,6 @@ const Favourites: React.FC<FavouritesScreenProps> = props => {
 
   const handleCloseClick = () => {
     setPreviewWallpaper(false);
-  };
-
-  const goBack = () => {
-    props.navigation.goBack();
   };
 
   const handleAfterFavouriteMutation = (_: Wallpaper) => {
@@ -66,11 +62,7 @@ const Favourites: React.FC<FavouritesScreenProps> = props => {
   }, []);
   return (
     <View style={[styles.root, themedStyles.bg]}>
-      <StackHeader
-        onLeftClick={goBack}
-        titlePosition="left"
-        title="Favourites"
-      />
+      <StackHeader titlePosition="left" title="Favourites" />
       {loading ? (
         <LoadingView />
       ) : (

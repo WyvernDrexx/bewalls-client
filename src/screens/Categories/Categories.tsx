@@ -18,10 +18,6 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
     });
   };
 
-  const goBack = () => {
-    props.navigation.goBack();
-  };
-
   const { loading, data } = useCategoriesDataQuery();
 
   if (loading) return null;
@@ -29,11 +25,7 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
-        <StackHeader
-          onLeftClick={goBack}
-          titlePosition="left"
-          title="Categories"
-        />
+        <StackHeader titlePosition="left" title="Categories" />
         <View style={styles.categoryItems}>
           <CategoryItems
             onClick={handleClick}

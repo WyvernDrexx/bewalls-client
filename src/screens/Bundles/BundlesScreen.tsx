@@ -14,10 +14,6 @@ const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
 
   if (loading) return null;
 
-  const goBack = () => {
-    props.navigation.goBack();
-  };
-
   const handleBundleClick = (bundle: Bundle, group: ItemGroup) => {
     props.navigation.navigate('Selection', {
       title: bundle.name,
@@ -34,7 +30,6 @@ const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
         right={<MiniSearchButton onClick={handleSearchButtonClick} />}
-        onLeftClick={goBack}
         title="Bundles"
         titlePosition="left"
       />

@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
   StyleProp,
@@ -26,13 +27,18 @@ const StackHeader: React.FC<StackHeaderProps> = function (props) {
     theme: { colors },
   } = useTheme();
 
+  const navigation = useNavigation();
+
+  const handleLeftClick = () => {
+    if (props.onLeftClick) props.onLeftClick();
+    else navigation.goBack();
+  };
+
   return (
     <Animated.View style={[styles.root, themedStyles.bg, props.viewStyle]}>
       <View style={styles.header}>
         <View style={styles.leftView}>
-          <TouchableOpacity
-            onPress={props.onLeftClick}
-            style={styles.leftArrow}>
+          <TouchableOpacity onPress={handleLeftClick} style={styles.leftArrow}>
             <LeftArrowSvg
               fill={colors.secondary}
               height={wp(6)}

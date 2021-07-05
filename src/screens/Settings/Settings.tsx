@@ -34,7 +34,6 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
       <StackHeader
         title="Settings"
         titlePosition="left"
-        onLeftClick={props.navigation.goBack}
         viewStyle={styles.header}
       />
       <View style={styles.container}>
