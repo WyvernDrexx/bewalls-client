@@ -105,11 +105,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   };
   return (
     <View style={[styles.root, themedStyles.bg]}>
-      <StackHeader
-        titlePosition="left"
-        title={props.route.params.title}
-        right={<SelectMode />}
-      />
+      <StackHeader title={props.route.params.title} right={<SelectMode />} />
       <Animated.ScrollView>{renderDisplay()}</Animated.ScrollView>
       <WallpaperView
         showWallpaper={previewWallpaper}

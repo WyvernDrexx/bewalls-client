@@ -155,7 +155,6 @@ const SignIn: React.FC<SignInScreenProps> = props => {
     <>
       <StackHeader
         title={isLoginMode ? 'Sign In' : 'Sign Up'}
-        titlePosition="left"
         right={<HeaderRightButton />}
       />
       <ScrollView

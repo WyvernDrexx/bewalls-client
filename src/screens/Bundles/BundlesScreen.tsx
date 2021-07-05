@@ -31,7 +31,6 @@ const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
       <StackHeader
         right={<MiniSearchButton onClick={handleSearchButtonClick} />}
         title="Bundles"
-        titlePosition="left"
       />
       <Bundles
         onClick={handleBundleClick}

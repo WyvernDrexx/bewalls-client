@@ -31,11 +31,7 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
-      <StackHeader
-        title="Settings"
-        titlePosition="left"
-        viewStyle={styles.header}
-      />
+      <StackHeader title="Settings" viewStyle={styles.header} />
       <View style={styles.container}>
         <View style={styles.optionsView}>
           <Text style={[themedStyles.text, styles.optionsText]}>

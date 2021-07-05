@@ -9,7 +9,7 @@ const ContactUs: React.FC<ContactUsScreenProps> = function () {
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
-      <StackHeader title="Contact Us" titlePosition="left" />
+      <StackHeader title="Contact Us" />
     </View>
   );
 };

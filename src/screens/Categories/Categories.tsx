@@ -25,7 +25,7 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
-        <StackHeader titlePosition="left" title="Categories" />
+        <StackHeader title="Categories" />
         <View style={styles.categoryItems}>
           <CategoryItems
             onClick={handleClick}

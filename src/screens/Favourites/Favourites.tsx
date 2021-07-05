@@ -62,7 +62,7 @@ const Favourites: React.FC<FavouritesScreenProps> = () => {
   }, []);
   return (
     <View style={[styles.root, themedStyles.bg]}>
-      <StackHeader titlePosition="left" title="Favourites" />
+      <StackHeader title="Favourites" />
       {loading ? (
         <LoadingView />
       ) : (

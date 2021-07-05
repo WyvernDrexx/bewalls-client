@@ -49,7 +49,7 @@ const StackHeader: React.FC<StackHeaderProps> = function (props) {
         <Text
           style={[
             styles.middleText,
-            { textAlign: props.titlePosition || 'center' },
+            { textAlign: props.titlePosition || 'left' },
             themedStyles.text,
           ]}>
           {props.title || 'Title'}
