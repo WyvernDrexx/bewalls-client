@@ -190,16 +190,16 @@ const Search: React.FC<SearchScreenProps> = function (props) {
                 <TouchableOpacity onPress={handleSearchClick}>
                   <SearchSvg
                     fill={colors.secondary}
-                    height={hp('3')}
-                    width={hp('3')}
+                    height={wp(5)}
+                    width={wp(5)}
                   />
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity onPress={handleBackClick}>
                   <LeftArrowSvg
                     fill={colors.secondary}
-                    height={hp('3')}
-                    width={hp('3')}
+                    height={wp(5)}
+                    width={wp(5)}
                   />
                 </TouchableOpacity>
               )}
@@ -236,8 +236,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(2),
     marginVertical: hp(2),
     marginBottom: 0,
-    borderRadius: hp(1.5),
-    height: hp(8),
+    borderRadius: hp(1),
+    height: hp(7),
     display: 'flex',
     justifyContent: 'center',
     marginHorizontal: wp(4),
