@@ -16,6 +16,10 @@ const HotSearches: React.FC<HotSearchesProps> = function (props) {
     props.onClick(searchTerm);
   };
 
+  if (!props.searchTerms) {
+    return null;
+  }
+
   return (
     <View style={styles.root}>
       <Text style={themedStyles.text}>Hot Searches</Text>

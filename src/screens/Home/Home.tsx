@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Cards } from '../../components/Cards';
 import { Bundles } from '../../components/Carousel';
@@ -14,7 +15,7 @@ import {
   useHomeScreenQuery,
   Wallpaper,
 } from '../../generated/graphql';
-import { useTheme } from '../../hooks';
+import { useAlerts, useTheme } from '../../hooks';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
 import { ItemGroup } from '../../types';
 import { hp, wp } from '../../utilities';
@@ -22,8 +23,8 @@ import { hp, wp } from '../../utilities';
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
   const { themedStyles } = useTheme();
-  const { loading, data } = useHomeScreenQuery();
-
+  const { loading, data, error } = useHomeScreenQuery();
+  const { dispatchShowAlert } = useAlerts();
   const handleSearchBarClick = () => {
     props.navigation.navigate('Search');
   };
@@ -72,6 +73,15 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   const navigateToBundlesScreen = () => {
     props.navigation.navigate('Bundles');
   };
+
+  useEffect(() => {
+    if (error) {
+      dispatchShowAlert({
+        message: 'Unable to retrieve wallpapers. Try again later',
+        type: 'error',
+      });
+    }
+  }, [error]);
 
   return (
     <View style={[styles.mainContainer, themedStyles.bgSecondary]}>

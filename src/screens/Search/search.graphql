@@ -14,7 +14,7 @@ query SearchTextString($searchText: String!) {
 }
 
 query ExtrasData {
-  colors {
+  colors(page: { take: 5 }) {
     id
     name
     code

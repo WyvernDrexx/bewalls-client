@@ -30,7 +30,7 @@ const Extras: React.FC<ExtrasProps> = function (props) {
 
   const { data, loading } = useExtrasDataQuery();
 
-  if (loading) return null;
+  if (loading || typeof data === 'undefined') return null;
 
   return (
     <>
