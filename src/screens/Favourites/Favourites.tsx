@@ -64,7 +64,7 @@ const Favourites: React.FC<FavouritesScreenProps> = () => {
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader title="Favourites" />
       {loading ? (
-        <LoadingView />
+        <LoadingView height="85" />
       ) : (
         <View style={styles.container}>
           <ScrollView>{renderFavouritesCards()}</ScrollView>
