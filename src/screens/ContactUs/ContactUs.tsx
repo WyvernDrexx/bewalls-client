@@ -14,20 +14,27 @@ const ContactUs: React.FC<ContactUsScreenProps> = function () {
 
       <View style={[styles.root, themedStyles.bg]}>
         <View style={styles.container}>
-          <Text style={[styles.heading]}>Content Manager</Text>
-          <Text style={[styles.text]}>
+          <Text style={[styles.heading, themedStyles.text]}>
+            Content Manager
+          </Text>
+          <Text style={[styles.text, themedStyles.text]}>
             If you have any queries related with our contents you can contact us
             at
           </Text>
-          <Text style={styles.contactEmail}>deepanjan@androcrunch.com</Text>
-          <Text style={[styles.heading, styles.devContactHeader]}>
+          <Text style={[styles.contactEmail]}>deepanjan@androcrunch.com</Text>
+          <Text
+            style={[
+              styles.heading,
+              styles.devContactHeader,
+              themedStyles.text,
+            ]}>
             Developer Contact
           </Text>
-          <Text style={[styles.text]}>
+          <Text style={[styles.text, themedStyles.text]}>
             For any technical guidance realted to this app, you can contact the
             developer at
           </Text>
-          <Text style={styles.contactEmail}>lp@androcrunch.com</Text>
+          <Text style={[styles.contactEmail]}>lp@androcrunch.com</Text>
         </View>
       </View>
     </>
