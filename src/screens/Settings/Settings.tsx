@@ -24,8 +24,7 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
     apolloClient.clearStore();
     props.navigation.navigate('Home');
     dispatchShowAlert({
-      message: 'You have been successfully logged out!',
-      type: 'success',
+      success: 'You have been successfully logged out!',
     });
   };
 

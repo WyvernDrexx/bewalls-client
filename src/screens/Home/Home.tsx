@@ -77,8 +77,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   useEffect(() => {
     if (error) {
       dispatchShowAlert({
-        message: 'Unable to retrieve wallpapers. Try again later',
-        type: 'error',
+        error: 'Unable to retrieve wallpapers. Try again later',
       });
     }
   }, [error]);

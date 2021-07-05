@@ -54,16 +54,14 @@ const SignIn: React.FC<SignInScreenProps> = props => {
         setIsSuccess(true);
         dispatch(setUserToken(data.createUser.token));
         dispatchShowAlert({
-          message: 'Account successfully created!',
-          type: 'success',
+          success: 'Account successfully created!',
         });
         await tokenStorage.setToken(data.createUser.token);
       }
     },
     onError: () => {
       dispatchShowAlert({
-        message: 'Unknown error encountered!',
-        type: 'error',
+        error: 'Unknown error encountered!',
       });
     },
   });
@@ -72,16 +70,14 @@ const SignIn: React.FC<SignInScreenProps> = props => {
     onCompleted: async data => {
       if (data?.signIn?.error) {
         dispatchShowAlert({
-          message: 'Invalid email/password!',
-          type: 'error',
+          error: 'Invalid email/password!',
         });
       } else {
         if (data?.signIn?.token) {
           setIsSuccess(true);
           dispatch(setUserToken(data!.signIn!.token!));
           dispatchShowAlert({
-            message: 'Sign In successfull!',
-            type: 'success',
+            success: 'Sign In successfull!',
           });
           await tokenStorage.setToken(data!.signIn!.token!);
         }
@@ -89,8 +85,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
     },
     onError: () => {
       dispatchShowAlert({
-        message: 'Unknown error encountered!',
-        type: 'error',
+        error: 'Unknown error encountered!',
       });
     },
   });

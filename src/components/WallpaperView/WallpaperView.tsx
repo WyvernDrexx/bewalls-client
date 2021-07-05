@@ -79,13 +79,11 @@ export default function WallpaperView(props: WallpaperViewProps) {
         setWallpaper(data.addToFavourite as Wallpaper);
         if (data.addToFavourite?.isUsersFavourite) {
           dispatchShowAlert({
-            message: 'Added to your favourites!',
-            type: 'success',
+            success: 'Added to your favourites!',
           });
         } else {
           dispatchShowAlert({
-            message: 'Removed from your favourites!',
-            type: 'success',
+            success: 'Removed from your favourites!',
           });
         }
         if (props.afterFavouriteMutation) {
