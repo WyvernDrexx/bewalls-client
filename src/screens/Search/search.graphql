@@ -18,6 +18,8 @@ query ExtrasData {
     id
     name
     code
+    visits
+    totalNumberOfItems
   }
   hotSearches {
     term
