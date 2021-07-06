@@ -1,8 +1,9 @@
-package com.stockwalls;
+package com.bewalls;
 
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.NativeModule;
+import android.app.WallpaperManager;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;

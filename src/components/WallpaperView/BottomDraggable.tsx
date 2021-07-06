@@ -8,7 +8,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Tag, Wallpaper } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
-import { hp, wp } from '../../utilities';
+import WallpaperModule from '../../modules/WallpaperModule';
+import { hp, permissions, wp } from '../../utilities';
 import CheckSvg from './check.svg';
 import DownloadSvg from './download.svg';
 import EditSvg from './edit.svg';
@@ -28,6 +29,20 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const driftOffset = hp(75);
   const actionIconSize = hp(3);
   const { themedStyles, theme } = useTheme();
+
+  const setWallpaper = () => {
+    WallpaperModule.setWallpaper();
+  };
+
+  const handleSetWallpaperClick = async () => {
+    const granted = await permissions.isReadWriteStorageGranted();
+    if (granted === false) {
+      const allowed = await permissions.askStorage();
+      if (allowed === 'GRANTED') setWallpaper();
+    } else {
+      setWallpaper();
+    }
+  };
 
   const eventHandler = useAnimatedGestureHandler({
     onStart: (_, ctx: { startY: number }) => {
@@ -72,7 +87,13 @@ const BottomDraggable = function (props: BottomDraggableProps) {
     if (props.onTagClick) props.onTagClick(tag);
   };
 
-  const ACTION_BUTTONS = [
+  type Action = {
+    icon: any;
+    backgroundColor: string;
+    onClick?: () => void;
+  };
+
+  const ACTION_BUTTONS: Action[] = [
     {
       icon: (
         <EditSvg
@@ -102,6 +123,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
         />
       ),
       backgroundColor: '#FC2679',
+      onClick: handleSetWallpaperClick,
     },
     {
       icon: (
@@ -166,6 +188,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
           {ACTION_BUTTONS.map((item, index) => {
             return (
               <TouchableOpacity
+                onPress={item.onClick}
                 activeOpacity={0.8}
                 key={index}
                 style={[

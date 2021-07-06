@@ -12,7 +12,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import com.facebook.react.bridge.JSIModulePackage; // <- add
-import com.stockwalls.WallpaperPackage;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add
 import com.thebylito.navigationbarcolor.NavigationBarColorPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
