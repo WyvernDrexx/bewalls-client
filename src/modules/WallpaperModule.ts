@@ -1,7 +1,10 @@
 import { NativeModules } from 'react-native';
 
 interface IWallpaperModule {
-  setWallpaper: () => void;
+  setWallpaper: (
+    filename: string,
+    callback: (status: 'success' | 'failed') => void,
+  ) => void;
 }
 
 const { WallpaperModule } = NativeModules;

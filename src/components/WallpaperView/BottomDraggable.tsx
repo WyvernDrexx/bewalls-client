@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
@@ -7,9 +7,10 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { Tag, Wallpaper } from '../../generated/graphql';
-import { useTheme } from '../../hooks';
+import { useAlerts, useTheme } from '../../hooks';
 import WallpaperModule from '../../modules/WallpaperModule';
 import { hp, permissions, wp } from '../../utilities';
+import { Loader } from '../Loader/';
 import CheckSvg from './check.svg';
 import DownloadSvg from './download.svg';
 import EditSvg from './edit.svg';
@@ -23,18 +24,29 @@ type BottomDraggableProps = {
 };
 
 const BottomDraggable = function (props: BottomDraggableProps) {
+  const [settingWallpaper, setSettingWallpaper] = useState(false);
   const startPosition = hp(80);
   const maxOffset = hp(40);
   const offsetY = useSharedValue(startPosition);
   const driftOffset = hp(75);
   const actionIconSize = hp(3);
   const { themedStyles, theme } = useTheme();
+  const { dispatchShowAlert } = useAlerts();
 
   const setWallpaper = () => {
-    WallpaperModule.setWallpaper();
+    WallpaperModule.setWallpaper('1.jpg', status => {
+      if (status === 'success') {
+        dispatchShowAlert({ success: 'Wallpaper has been set sucessfully!' });
+      } else {
+        dispatchShowAlert({
+          error: 'Unable to set wallpaper. Please try manually setting.',
+        });
+      }
+    });
   };
 
   const handleSetWallpaperClick = async () => {
+    setSettingWallpaper(true);
     const granted = await permissions.isReadWriteStorageGranted();
     if (granted === false) {
       const allowed = await permissions.askStorage();
@@ -42,6 +54,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
     } else {
       setWallpaper();
     }
+    setSettingWallpaper(false);
   };
 
   const eventHandler = useAnimatedGestureHandler({
@@ -91,6 +104,9 @@ const BottomDraggable = function (props: BottomDraggableProps) {
     icon: any;
     backgroundColor: string;
     onClick?: () => void;
+    toggleIcon?: any;
+    toggle?: boolean;
+    disabled?: boolean;
   };
 
   const ACTION_BUTTONS: Action[] = [
@@ -124,6 +140,9 @@ const BottomDraggable = function (props: BottomDraggableProps) {
       ),
       backgroundColor: '#FC2679',
       onClick: handleSetWallpaperClick,
+      toggleIcon: <Loader color="white" />,
+      toggle: settingWallpaper,
+      disabled: settingWallpaper,
     },
     {
       icon: (
@@ -188,6 +207,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
           {ACTION_BUTTONS.map((item, index) => {
             return (
               <TouchableOpacity
+                disabled={item.disabled}
                 onPress={item.onClick}
                 activeOpacity={0.8}
                 key={index}
@@ -195,7 +215,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
                   styles.actionView,
                   { backgroundColor: item.backgroundColor },
                 ]}>
-                {item.icon}
+                {item.toggle ? item.toggleIcon : item.icon}
               </TouchableOpacity>
             );
           })}
