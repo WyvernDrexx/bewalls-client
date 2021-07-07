@@ -29,12 +29,11 @@ public class WallpaperModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setWallpaper(String filename, Callback callback){
+    public void setWallpaper(String uri, Callback callback){
         try {
             WallpaperManager wallpaperManager = WallpaperManager.getInstance(this.getReactApplicationContext());
             File storage = Environment.getExternalStorageDirectory();
-            String wallpaperPath = storage.getAbsolutePath() + "/Pictures/BeWalls/" + filename;
-            File wallpaper = new File(wallpaperPath);
+            File wallpaper = new File(uri);
             Bitmap bitmap = BitmapFactory.decodeFile(wallpaper.getAbsolutePath());
             try {
                 wallpaperManager.setBitmap(bitmap);

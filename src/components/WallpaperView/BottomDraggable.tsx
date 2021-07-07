@@ -40,10 +40,24 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const { themedStyles, theme } = useTheme();
   const { dispatchShowAlert } = useAlerts();
 
-  const setWallpaper = () => {
-    WallpaperModule.setWallpaper('1.jpg', status => {
+  const setWallpaper = async () => {
+    let uri = '';
+    try {
+      if (!data || !data.wallpaperFile) return;
+      const { wallpaperFile } = data;
+      const results = await downloadManager.saveFileToCache(wallpaperFile);
+      if (results.cacheUri) {
+        uri = results.cacheUri;
+      } else {
+        return dispatchShowAlert({
+          error: 'Unable to set wallpaper. Please try manually setting.',
+        });
+      }
+    } catch (error) {}
+
+    WallpaperModule.setWallpaper(uri, status => {
       if (status === 'success') {
-        dispatchShowAlert({ success: 'Wallpaper has been set sucessfully!' });
+        dispatchShowAlert({ success: 'Wallpaper successfully applied!' });
       } else {
         dispatchShowAlert({
           error: 'Unable to set wallpaper. Please try manually setting.',
@@ -53,12 +67,11 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   };
 
   const handleDownload = async () => {
-    console.log(data);
     setDownloadInProgress(true);
     if (!data) return;
     const { wallpaperFile } = data;
     if (!wallpaperFile) return;
-    const result = await downloadManager.downloadFile(wallpaperFile);
+    const result = await downloadManager.saveFileToAlbum(wallpaperFile);
     if (result.error) {
       dispatchShowAlert({ error: result.error });
     } else {
@@ -74,7 +87,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
       const allowed = await permissions.askStorage();
       if (allowed === 'GRANTED') setWallpaper();
     } else {
-      setWallpaper();
+      await setWallpaper();
     }
     setSettingWallpaper(false);
   };

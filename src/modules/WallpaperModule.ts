@@ -2,7 +2,7 @@ import { NativeModules } from 'react-native';
 
 interface IWallpaperModule {
   setWallpaper: (
-    filename: string,
+    uri: string,
     callback: (status: 'success' | 'failed') => void,
   ) => void;
 }
