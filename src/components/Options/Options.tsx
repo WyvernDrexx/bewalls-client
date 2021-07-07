@@ -5,6 +5,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 import Option, { OptionType } from './Option';
 
@@ -18,10 +19,8 @@ type OptionsProps = {
 };
 
 function Options(props: OptionsProps) {
-  const optionHeight = hp(10);
   const initalOffset = hp(100);
-  const optionsHeight = optionHeight * props.options?.length;
-
+  const { theme } = useTheme();
   const offsetY = useSharedValue(initalOffset);
 
   const [selectedOption, setSelectedOption] = useState<number>(
@@ -29,7 +28,7 @@ function Options(props: OptionsProps) {
   );
 
   const handleOptionsShow = () => {
-    offsetY.value = Animated.withTiming(-optionsHeight);
+    offsetY.value = Animated.withTiming(0);
   };
 
   const handleOptionsHide = () => {
@@ -63,6 +62,8 @@ function Options(props: OptionsProps) {
     return props.options.map((item, index) => {
       return (
         <Option
+          isFirstElement={index === 0}
+          isLastElement={index === props.options.length - 1}
           onClick={handleOptionClick}
           isSelected={item.id === selectedOption}
           key={index}
@@ -80,7 +81,9 @@ function Options(props: OptionsProps) {
         onPress={props.onUnderlayClick}
         style={styles.underLay}
       />
-      <View>{renderOptions()}</View>
+      <View style={[styles.container, { borderColor: theme.colors.light }]}>
+        {renderOptions()}
+      </View>
     </Animated.View>
   );
 }
@@ -91,9 +94,17 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     width: wp(100),
   },
+  container: {
+    margin: wp(5),
+    position: 'absolute',
+    bottom: 0,
+    borderWidth: 1,
+    borderRadius: wp(2),
+  },
   underLay: {
     height: hp(100),
     width: wp(100),
+    backgroundColor: 'rgba(42, 42, 46, 0.6)',
   },
 });
 

@@ -14,6 +14,8 @@ type OptionProps = {
   option: OptionType;
   onClick?: (id: number) => void;
   isSelected?: boolean;
+  isFirstElement?: boolean;
+  isLastElement?: boolean;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -30,15 +32,21 @@ function Option(props: OptionProps) {
   return (
     <TouchableWithoutFeedback
       onPress={handleClick}
-      style={[styles.root, themedStyles.bgDark, props.style]}>
+      style={[
+        styles.root,
+        themedStyles.bgDark,
+        props.style,
+        props.isFirstElement ? styles.firstElement : {},
+        props.isLastElement ? styles.lastElement : {},
+      ]}>
       <Text style={[styles.optionText, themedStyles.text]}>
         {props.option.title}
       </Text>
       {props.isSelected ? (
         <CheckSvg
           style={styles.checkIcon}
-          height={hp(3)}
-          width={hp(3)}
+          height={wp(4)}
+          width={wp(4)}
           fill={colors.secondary}
         />
       ) : null}
@@ -53,14 +61,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     padding: hp(2),
-    width: wp(100),
-    height: hp(8),
+    width: wp(90),
   },
   optionText: {
     fontSize: wp(4),
   },
   checkIcon: {
     marginLeft: wp(3),
+  },
+  lastElement: {
+    borderBottomLeftRadius: wp(2),
+    borderBottomRightRadius: wp(2),
+  },
+  firstElement: {
+    borderTopLeftRadius: wp(2),
+    borderTopRightRadius: wp(2),
   },
 });
 
