@@ -55,7 +55,8 @@ function Options(props: OptionsProps) {
   }, [props.showOptions]);
 
   useEffect(() => {
-    if (props.onChange) props.onChange(selectedOption);
+    if (props.onChange && selectedOption !== props.initalSelection)
+      props.onChange(selectedOption);
   }, [selectedOption]);
 
   const renderOptions = () => {

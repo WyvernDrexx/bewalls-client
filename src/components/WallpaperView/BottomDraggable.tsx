@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedGestureHandler,
@@ -15,7 +15,6 @@ import Options from '../Options';
 import { OptionType } from '../Options/Option';
 import CheckSvg from './check.svg';
 import DownloadSvg from './download.svg';
-import EditSvg from './edit.svg';
 import HeartSvg from './heart.svg';
 import ShareSvg from './share.svg';
 
@@ -177,17 +176,24 @@ const BottomDraggable = function (props: BottomDraggableProps) {
     disabled?: boolean;
   };
 
+  const handleShareClick = async () => {
+    await Share.share({
+      message: 'Share BeWalls app with your closest ones! ',
+      url: 'https://google.com/',
+    });
+  };
+
   const ACTION_BUTTONS: Action[] = [
-    {
-      icon: (
-        <EditSvg
-          fill={theme.colors.secondary}
-          height={actionIconSize}
-          width={actionIconSize}
-        />
-      ),
-      backgroundColor: theme.colors.light,
-    },
+    // {
+    //   icon: (
+    //     <EditSvg
+    //       fill={theme.colors.secondary}
+    //       height={actionIconSize}
+    //       width={actionIconSize}
+    //     />
+    //   ),
+    //   backgroundColor: theme.colors.light,
+    // },
     {
       icon: (
         <ShareSvg
@@ -197,6 +203,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
         />
       ),
       backgroundColor: '#17E300',
+      onClick: handleShareClick,
     },
     {
       icon: (
