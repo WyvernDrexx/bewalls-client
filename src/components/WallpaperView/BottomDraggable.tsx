@@ -6,7 +6,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import { Tag, Wallpaper } from '../../generated/graphql';
+import { Tag, useWallpaperInfoQuery, Wallpaper } from '../../generated/graphql';
 import { useAlerts, useTheme } from '../../hooks';
 import WallpaperModule from '../../modules/WallpaperModule';
 import { downloadManager, hp, permissions, wp } from '../../utilities';
@@ -25,6 +25,13 @@ type BottomDraggableProps = {
 
 const BottomDraggable = function (props: BottomDraggableProps) {
   const [settingWallpaper, setSettingWallpaper] = useState(false);
+  const [downloadInProgress, setDownloadInProgress] = useState(false);
+  const { data } = useWallpaperInfoQuery({
+    variables: {
+      wallpaperId: props.wallpaper.id,
+    },
+  });
+
   const startPosition = hp(80);
   const maxOffset = hp(40);
   const offsetY = useSharedValue(startPosition);
@@ -46,7 +53,18 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   };
 
   const handleDownload = async () => {
-    await downloadManager.downloadFile();
+    console.log(data);
+    setDownloadInProgress(true);
+    if (!data) return;
+    const { wallpaperFile } = data;
+    if (!wallpaperFile) return;
+    const result = await downloadManager.downloadFile(wallpaperFile);
+    if (result.error) {
+      dispatchShowAlert({ error: result.error });
+    } else {
+      dispatchShowAlert({ success: result.message });
+    }
+    setDownloadInProgress(false);
   };
 
   const handleSetWallpaperClick = async () => {
@@ -158,6 +176,9 @@ const BottomDraggable = function (props: BottomDraggableProps) {
       ),
       backgroundColor: theme.colors.light,
       onClick: handleDownload,
+      toggleIcon: <Loader color="#4B75FF" />,
+      toggle: downloadInProgress,
+      disabled: downloadInProgress,
     },
   ];
 

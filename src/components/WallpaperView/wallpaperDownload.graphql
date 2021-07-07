@@ -1,0 +1,8 @@
+query WallpaperInfo($wallpaperId: String!) {
+  wallpaperFile(wallpaperId: $wallpaperId) {
+    filename
+    uri
+    size
+    extension
+  }
+}

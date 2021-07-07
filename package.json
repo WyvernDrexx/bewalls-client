@@ -22,6 +22,7 @@
     "@reduxjs/toolkit": "^1.5.1",
     "@types/react-redux": "^7.1.16",
     "apollo-codegen": "^0.20.2",
+    "expo-media-library": "^12.1.2",
     "graphql": "^15.5.0",
     "react": "17.0.1",
     "react-native": "0.64.0",
