@@ -13,7 +13,6 @@ const permissions = {
         granted['android.permission.READ_EXTERNAL_STORAGE'] === 'granted';
       return write && read ? 'GRANTED' : 'NOT_GRANTED';
     } catch (error) {
-      console.log(error);
       return null;
     }
   },

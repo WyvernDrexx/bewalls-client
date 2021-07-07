@@ -21,7 +21,6 @@ const downloadManager = {
     const res = await config(options).fetch('GET', fileInfo.uri);
     if (res.data) {
       try {
-        console.log(res.path());
         const asset = await MediaLibrary.createAssetAsync(res.path());
         let album = await MediaLibrary.getAlbumAsync('BeWalls');
         if (album == null) {

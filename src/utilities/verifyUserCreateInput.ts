@@ -20,6 +20,5 @@ export const verifyUserCreateData = (
     isErrored = true;
     errors.fullName = 'Full Name must be greater than 4 characters.';
   }
-  console.log(errors);
   return isErrored ? errors : null;
 };

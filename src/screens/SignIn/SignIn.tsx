@@ -68,7 +68,6 @@ const SignIn: React.FC<SignInScreenProps> = props => {
 
   const [signIn] = useSignInMutation({
     onCompleted: async data => {
-      console.log(data);
       if (data?.signIn?.error) {
         dispatchShowAlert({
           error: 'Invalid email/password!',

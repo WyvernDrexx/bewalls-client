@@ -81,9 +81,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     props.navigation.goBack();
   };
 
-  const handleSearchClick = () => {
-    console.log('search');
-  };
+  const handleSearchClick = () => {};
 
   const handleRecentUploadsClick = () => {
     props.navigation.navigate('Selection', {

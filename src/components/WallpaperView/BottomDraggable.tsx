@@ -61,7 +61,6 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const setWallpaper = async (destination: number) => {
     setSettingWallpaper(true);
     setShowSetWallpaperOptions(false);
-    console.log('destination', destination);
     const granted = await permissions.isReadWriteStorageGranted();
     if (granted === false) {
       const allowed = await permissions.askStorage();
