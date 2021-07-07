@@ -32,7 +32,7 @@ function Options(props: OptionsProps) {
   };
 
   const handleOptionsHide = () => {
-    offsetY.value = Animated.withTiming(initalOffset, { duration: 800 });
+    offsetY.value = Animated.withTiming(initalOffset);
   };
 
   const handleOptionClick = (id: number) => {
