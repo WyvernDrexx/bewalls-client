@@ -97,8 +97,11 @@ const Bundles: React.FC<BundlesProps> = function (props) {
                 itemType={props.itemType}
                 disabled={props.disableClick}
                 style={[
-                  isLastElement(index, props.items!) ? styles.lastBox : {},
+                  isLastElement(index, props.items!) && !props.vertical
+                    ? boxStyles.lastItem
+                    : {},
                   props.vertical ? styles.marginBottom : {},
+                  !props.vertical ? boxStyles.horizantal : {},
                 ]}
                 key={index}
                 onClick={props.onClick}
@@ -118,7 +121,6 @@ const boxStyles = StyleSheet.create({
   box: {
     backgroundColor: 'black',
     borderRadius: hp(2),
-    marginLeft: wp(2),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -134,17 +136,22 @@ const boxStyles = StyleSheet.create({
   image: {
     borderRadius: hp(2),
   },
+  horizantal: {
+    marginLeft: wp(2),
+  },
+  lastItem: {
+    marginRight: wp(2),
+  },
 });
 
 const styles = StyleSheet.create({
   root: {},
-  lastBox: {
-    marginRight: wp(2),
-  },
+
   scrollView: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
   },
   marginBottom: {
     marginBottom: wp(2),

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Keyboard } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -20,6 +21,11 @@ type ResultsProps = {
 const Results: React.FC<ResultsProps> = function (props) {
   const { themedStyles } = useTheme();
   const hide = useSharedValue(props.hide ? 0 : 1);
+
+  const handleClick = (select: Wallpaper) => {
+    Keyboard.dismiss();
+    if (props.onClick) props.onClick(select);
+  };
 
   const uas = useAnimatedStyle(() => {
     return {
@@ -44,7 +50,7 @@ const Results: React.FC<ResultsProps> = function (props) {
           height="34"
           width="47"
           items={props.items}
-          onClick={props.onClick}
+          onClick={handleClick}
           style={styles.marginBottom}
         />
       </View>
