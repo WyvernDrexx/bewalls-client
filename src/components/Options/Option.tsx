@@ -34,12 +34,12 @@ function Option(props: OptionProps) {
       onPress={handleClick}
       style={[
         styles.root,
-        themedStyles.bgDark,
+        themedStyles.bgSecondary,
         props.style,
         props.isFirstElement ? styles.firstElement : {},
         props.isLastElement ? styles.lastElement : {},
       ]}>
-      <Text style={[styles.optionText, themedStyles.text]}>
+      <Text style={[styles.optionText, themedStyles.textLight]}>
         {props.option.title}
       </Text>
       {props.isSelected ? (
@@ -47,7 +47,7 @@ function Option(props: OptionProps) {
           style={styles.checkIcon}
           height={wp(4)}
           width={wp(4)}
-          fill={colors.secondary}
+          fill={colors.primary}
         />
       ) : null}
     </TouchableWithoutFeedback>

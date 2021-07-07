@@ -97,14 +97,12 @@ const styles = StyleSheet.create({
   container: {
     margin: wp(5),
     position: 'absolute',
-    bottom: 0,
-    borderWidth: 1,
+    bottom: hp(10),
     borderRadius: wp(2),
   },
   underLay: {
     height: hp(100),
     width: wp(100),
-    backgroundColor: 'rgba(42, 42, 46, 0.6)',
   },
 });
 
