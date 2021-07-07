@@ -9,7 +9,7 @@ import Animated, {
 import { Tag, Wallpaper } from '../../generated/graphql';
 import { useAlerts, useTheme } from '../../hooks';
 import WallpaperModule from '../../modules/WallpaperModule';
-import { hp, permissions, wp } from '../../utilities';
+import { downloadManager, hp, permissions, wp } from '../../utilities';
 import { Loader } from '../Loader/';
 import CheckSvg from './check.svg';
 import DownloadSvg from './download.svg';
@@ -43,6 +43,10 @@ const BottomDraggable = function (props: BottomDraggableProps) {
         });
       }
     });
+  };
+
+  const handleDownload = async () => {
+    await downloadManager.downloadFile();
   };
 
   const handleSetWallpaperClick = async () => {
@@ -153,6 +157,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
         />
       ),
       backgroundColor: theme.colors.light,
+      onClick: handleDownload,
     },
   ];
 

@@ -6,6 +6,9 @@ import { RootNavigator } from './src/navigation';
 import { store } from './src/store';
 import { apolloClient } from './src/apollo';
 
+import { Constants } from 'react-native-unimodules';
+console.log(Constants.systemFonts);
+
 function App() {
   return (
     <ApolloProvider client={apolloClient}>
