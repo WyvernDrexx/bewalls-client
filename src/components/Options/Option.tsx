@@ -7,12 +7,12 @@ import CheckSvg from './check.svg';
 
 export type OptionType = {
   title: string;
-  id: string | number;
+  id: number;
 };
 
 type OptionProps = {
   option: OptionType;
-  onClick?: (id: string | number) => void;
+  onClick?: (id: number) => void;
   isSelected?: boolean;
   style?: StyleProp<ViewStyle>;
 };

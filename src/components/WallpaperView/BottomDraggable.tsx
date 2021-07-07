@@ -11,6 +11,8 @@ import { useAlerts, useTheme } from '../../hooks';
 import WallpaperModule from '../../modules/WallpaperModule';
 import { downloadManager, hp, permissions, wp } from '../../utilities';
 import { Loader } from '../Loader/';
+import Options from '../Options';
+import { OptionType } from '../Options/Option';
 import CheckSvg from './check.svg';
 import DownloadSvg from './download.svg';
 import EditSvg from './edit.svg';
@@ -23,9 +25,26 @@ type BottomDraggableProps = {
   onTagClick?: (tag: Tag) => void;
 };
 
+const WALLPAPER_SET_ON_OPTIONS: OptionType[] = [
+  {
+    id: 1,
+    title: 'Set on Home Screen',
+  },
+  {
+    id: 2,
+    title: 'Set on Lock Screen',
+  },
+  {
+    id: 3,
+    title: 'Set on Both Home Screen & Lock Screen',
+  },
+];
+
 const BottomDraggable = function (props: BottomDraggableProps) {
   const [settingWallpaper, setSettingWallpaper] = useState(false);
   const [downloadInProgress, setDownloadInProgress] = useState(false);
+  const [showSetWallpaperOptions, setShowSetWallpaperOptions] = useState(false);
+
   const { data } = useWallpaperInfoQuery({
     variables: {
       wallpaperId: props.wallpaper.id,
@@ -40,30 +59,51 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const { themedStyles, theme } = useTheme();
   const { dispatchShowAlert } = useAlerts();
 
-  const setWallpaper = async () => {
+  const setWallpaper = async (destination: number) => {
+    setSettingWallpaper(true);
+    setShowSetWallpaperOptions(false);
+    console.log('destination', destination);
+    const granted = await permissions.isReadWriteStorageGranted();
+    if (granted === false) {
+      const allowed = await permissions.askStorage();
+      if (allowed !== 'GRANTED') {
+        return setSettingWallpaper(false);
+      }
+    }
     let uri = '';
     try {
-      if (!data || !data.wallpaperFile) return;
+      if (!data || !data.wallpaperFile) {
+        return setSettingWallpaper(false);
+      }
       const { wallpaperFile } = data;
       const results = await downloadManager.saveFileToCache(wallpaperFile);
       if (results.cacheUri) {
         uri = results.cacheUri;
       } else {
+        setSettingWallpaper(false);
         return dispatchShowAlert({
           error: 'Unable to set wallpaper. Please try manually setting.',
         });
       }
-    } catch (error) {}
-
-    WallpaperModule.setWallpaper(uri, status => {
-      if (status === 'success') {
-        dispatchShowAlert({ success: 'Wallpaper successfully applied!' });
-      } else {
-        dispatchShowAlert({
-          error: 'Unable to set wallpaper. Please try manually setting.',
-        });
-      }
-    });
+      WallpaperModule.setWallpaper(
+        uri,
+        destination,
+        wp(100),
+        hp(100),
+        status => {
+          if (status === 'success') {
+            dispatchShowAlert({ success: 'Wallpaper successfully applied!' });
+          } else {
+            dispatchShowAlert({
+              error: 'Unable to set wallpaper. Please try manually setting.',
+            });
+          }
+          setSettingWallpaper(false);
+        },
+      );
+    } catch (error) {
+      setSettingWallpaper(false);
+    }
   };
 
   const handleDownload = async () => {
@@ -81,15 +121,8 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   };
 
   const handleSetWallpaperClick = async () => {
-    setSettingWallpaper(true);
-    const granted = await permissions.isReadWriteStorageGranted();
-    if (granted === false) {
-      const allowed = await permissions.askStorage();
-      if (allowed === 'GRANTED') setWallpaper();
-    } else {
-      await setWallpaper();
-    }
-    setSettingWallpaper(false);
+    // setSettingWallpaper(true);
+    setShowSetWallpaperOptions(true);
   };
 
   const eventHandler = useAnimatedGestureHandler({
@@ -196,121 +229,130 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   ];
 
   return (
-    <PanGestureHandler onGestureEvent={eventHandler}>
-      <Animated.View style={[uas, styles.root, themedStyles.bg]}>
-        <View style={styles.flexView}>
-          <View style={[styles.topBar, themedStyles.bgSecondary]} />
-        </View>
-        <View>
-          <View style={styles.headerView}>
-            <View>
-              <Text style={[styles.mainText, themedStyles.text]}>
-                {props.wallpaper.name}
-              </Text>
-              <Text style={[styles.subText, themedStyles.text]}>
-                {props.wallpaper.category?.name}
-              </Text>
-            </View>
-            <TouchableOpacity onPress={handleHeartClick}>
-              <HeartSvg
-                fill={
-                  props.wallpaper.isUsersFavourite
-                    ? '#fc2679'
-                    : theme.colors.dark
-                }
-                height={hp(5)}
-                width={hp(5)}
-              />
-            </TouchableOpacity>
+    <>
+      <PanGestureHandler onGestureEvent={eventHandler}>
+        <Animated.View style={[uas, styles.root, themedStyles.bg]}>
+          <View style={styles.flexView}>
+            <View style={[styles.topBar, themedStyles.bgSecondary]} />
           </View>
-          <View style={styles.tagView}>
-            {props.wallpaper.tags.map(item => {
+          <View>
+            <View style={styles.headerView}>
+              <View>
+                <Text style={[styles.mainText, themedStyles.text]}>
+                  {props.wallpaper.name}
+                </Text>
+                <Text style={[styles.subText, themedStyles.text]}>
+                  {props.wallpaper.category?.name}
+                </Text>
+              </View>
+              <TouchableOpacity onPress={handleHeartClick}>
+                <HeartSvg
+                  fill={
+                    props.wallpaper.isUsersFavourite
+                      ? '#fc2679'
+                      : theme.colors.dark
+                  }
+                  height={hp(5)}
+                  width={hp(5)}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.tagView}>
+              {props.wallpaper.tags.map(item => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => handleTagClick(item!)}
+                    key={item?.id}>
+                    <Text
+                      style={[
+                        styles.tagText,
+                        themedStyles.bgSecondary,
+                        themedStyles.textLight,
+                      ]}>
+                      {item?.name}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
+          <View style={styles.actionsContainer}>
+            {ACTION_BUTTONS.map((item, index) => {
               return (
                 <TouchableOpacity
-                  onPress={() => handleTagClick(item!)}
-                  key={item?.id}>
-                  <Text
-                    style={[
-                      styles.tagText,
-                      themedStyles.bgSecondary,
-                      themedStyles.textLight,
-                    ]}>
-                    {item?.name}
-                  </Text>
+                  disabled={item.disabled}
+                  onPress={item.onClick}
+                  activeOpacity={0.8}
+                  key={index}
+                  style={[
+                    styles.actionView,
+                    { backgroundColor: item.backgroundColor },
+                  ]}>
+                  {item.toggle ? item.toggleIcon : item.icon}
                 </TouchableOpacity>
               );
             })}
           </View>
-        </View>
-        <View style={styles.actionsContainer}>
-          {ACTION_BUTTONS.map((item, index) => {
-            return (
-              <TouchableOpacity
-                disabled={item.disabled}
-                onPress={item.onClick}
-                activeOpacity={0.8}
-                key={index}
-                style={[
-                  styles.actionView,
-                  { backgroundColor: item.backgroundColor },
-                ]}>
-                {item.toggle ? item.toggleIcon : item.icon}
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-        <View style={styles.details}>
-          <Text
-            style={[
-              styles.detailsText,
-              themedStyles.bgLight,
-              themedStyles.text,
-            ]}>
-            {props.wallpaper.downloads} Downloads
-          </Text>
-          <Text
-            style={[
-              styles.detailsText,
-              themedStyles.bgLight,
-              themedStyles.text,
-            ]}>
-            {100} Views
-          </Text>
-          <Text
-            style={[
-              styles.detailsText,
-              themedStyles.bgLight,
-              themedStyles.text,
-            ]}>
-            {100} Shares
-          </Text>
-          <Text
-            style={[
-              styles.detailsText,
-              themedStyles.bgLight,
-              themedStyles.text,
-            ]}>
-            {props.wallpaper.height} x {props.wallpaper.width}
-          </Text>
-          <Text
-            style={[
-              styles.detailsText,
-              themedStyles.bgLight,
-              themedStyles.text,
-            ]}>
-            {props.wallpaper.sizeInKB} KB
-          </Text>
-          <Text
-            style={[
-              styles.detailsText,
-              themedStyles.bgLight,
-              themedStyles.text,
-            ]}>
-            {props.wallpaper.createdAt}
-          </Text>
-        </View>
-      </Animated.View>
-    </PanGestureHandler>
+          <View style={styles.details}>
+            <Text
+              style={[
+                styles.detailsText,
+                themedStyles.bgLight,
+                themedStyles.text,
+              ]}>
+              {props.wallpaper.downloads} Downloads
+            </Text>
+            <Text
+              style={[
+                styles.detailsText,
+                themedStyles.bgLight,
+                themedStyles.text,
+              ]}>
+              {100} Views
+            </Text>
+            <Text
+              style={[
+                styles.detailsText,
+                themedStyles.bgLight,
+                themedStyles.text,
+              ]}>
+              {100} Shares
+            </Text>
+            <Text
+              style={[
+                styles.detailsText,
+                themedStyles.bgLight,
+                themedStyles.text,
+              ]}>
+              {props.wallpaper.height} x {props.wallpaper.width}
+            </Text>
+            <Text
+              style={[
+                styles.detailsText,
+                themedStyles.bgLight,
+                themedStyles.text,
+              ]}>
+              {props.wallpaper.sizeInKB} KB
+            </Text>
+            <Text
+              style={[
+                styles.detailsText,
+                themedStyles.bgLight,
+                themedStyles.text,
+              ]}>
+              {props.wallpaper.createdAt}
+            </Text>
+          </View>
+        </Animated.View>
+      </PanGestureHandler>
+      <Options
+        showOptions={showSetWallpaperOptions}
+        onUnderlayClick={() => setShowSetWallpaperOptions(false)}
+        options={WALLPAPER_SET_ON_OPTIONS}
+        onChange={setWallpaper}
+        initalSelection={-1}
+      />
+    </>
   );
 };
 

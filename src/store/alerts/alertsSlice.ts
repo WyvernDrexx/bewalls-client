@@ -17,7 +17,6 @@ const alertsSlice = createSlice({
       state.push(action.payload);
     },
     removeAlert: state => {
-      console.log('called');
       state.shift();
     },
   },

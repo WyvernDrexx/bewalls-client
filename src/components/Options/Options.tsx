@@ -10,22 +10,22 @@ import Option, { OptionType } from './Option';
 
 type OptionsProps = {
   options: OptionType[];
-  initalSelection?: number | string;
+  initalSelection?: number;
   style?: StyleProp<ViewStyle>;
   showOptions?: boolean;
-  onChange?: (id: string | number) => void;
+  onChange?: (id: number) => void;
   onUnderlayClick?: () => void;
 };
 
 function Options(props: OptionsProps) {
-  const optionHeight = hp(8);
+  const optionHeight = hp(10);
   const initalOffset = hp(100);
   const optionsHeight = optionHeight * props.options?.length;
 
   const offsetY = useSharedValue(initalOffset);
 
-  const [selectedOption, setSelectedOption] = useState<string | number>(
-    props.initalSelection || props.options[0]?.id || '',
+  const [selectedOption, setSelectedOption] = useState<number>(
+    props.initalSelection || props.options[0]?.id || -100,
   );
 
   const handleOptionsShow = () => {
@@ -36,7 +36,7 @@ function Options(props: OptionsProps) {
     offsetY.value = Animated.withTiming(initalOffset, { duration: 800 });
   };
 
-  const handleOptionClick = (id: string | number) => {
+  const handleOptionClick = (id: number) => {
     setSelectedOption(id);
   };
 
