@@ -21,10 +21,13 @@ const downloadManager = {
     const res = await config(options).fetch('GET', fileInfo.uri);
     if (res.data) {
       try {
+        console.log(res.path());
         const asset = await MediaLibrary.createAssetAsync(res.path());
         let album = await MediaLibrary.getAlbumAsync('BeWalls');
         if (album == null) {
-          album = await MediaLibrary.createAlbumAsync('BeWalls', asset, false);
+          await MediaLibrary.createAlbumAsync('BeWalls', asset, false);
+        } else {
+          await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
         }
         await fs.unlink(res.path());
         return {
