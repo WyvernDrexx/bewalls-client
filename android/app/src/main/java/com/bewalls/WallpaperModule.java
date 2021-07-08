@@ -39,6 +39,7 @@ public class WallpaperModule extends ReactContextBaseJavaModule {
         super(context);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @ReactMethod
     public void setWallpaper(String uri, int destination, int width, int height, Callback callback) {
         try {
