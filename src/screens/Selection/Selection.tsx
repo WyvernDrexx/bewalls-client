@@ -42,10 +42,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
       return <LoadingView height={88} />;
     }
 
-    return <Grid />;
-  };
-
-  const Grid = () => {
     return (
       <View style={styles.gridView}>
         <Cards

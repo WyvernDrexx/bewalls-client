@@ -144,6 +144,7 @@ export type Query = {
   wallpaper: Wallpaper;
   wallpapers: Array<Maybe<Wallpaper>>;
   wallpaperFile?: Maybe<WallpaperFile>;
+  recent: Array<Maybe<Wallpaper>>;
   trending: Array<Maybe<Wallpaper>>;
   recommended: Array<Maybe<Wallpaper>>;
   getUserInfo?: Maybe<User>;
@@ -168,6 +169,11 @@ export type QueryWallpapersArgs = {
 
 export type QueryWallpaperFileArgs = {
   wallpaperId: Scalars['String'];
+};
+
+
+export type QueryRecentArgs = {
+  page: Filter;
 };
 
 
@@ -460,6 +466,24 @@ export type RecommendedQueryVariables = Exact<{ [key: string]: never; }>;
 export type RecommendedQuery = (
   { __typename?: 'Query' }
   & { recommended: Array<Maybe<(
+    { __typename?: 'Wallpaper' }
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width'>
+    & { category: (
+      { __typename?: 'Category' }
+      & Pick<Category, 'name' | 'id'>
+    ), tags: Array<Maybe<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'name' | 'id'>
+    )>> }
+  )>> }
+);
+
+export type RecentQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RecentQuery = (
+  { __typename?: 'Query' }
+  & { recent: Array<Maybe<(
     { __typename?: 'Wallpaper' }
     & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width'>
     & { category: (
@@ -1007,6 +1031,55 @@ export function useRecommendedLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type RecommendedQueryHookResult = ReturnType<typeof useRecommendedQuery>;
 export type RecommendedLazyQueryHookResult = ReturnType<typeof useRecommendedLazyQuery>;
 export type RecommendedQueryResult = Apollo.QueryResult<RecommendedQuery, RecommendedQueryVariables>;
+export const RecentDocument = gql`
+    query Recent {
+  recent(page: {}) {
+    name
+    imageUri
+    downloads
+    isUsersFavourite
+    id
+    sizeInKB
+    height
+    width
+    category {
+      name
+      id
+    }
+    tags {
+      name
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useRecentQuery__
+ *
+ * To run a query within a React component, call `useRecentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRecentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRecentQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRecentQuery(baseOptions?: Apollo.QueryHookOptions<RecentQuery, RecentQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RecentQuery, RecentQueryVariables>(RecentDocument, options);
+      }
+export function useRecentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RecentQuery, RecentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RecentQuery, RecentQueryVariables>(RecentDocument, options);
+        }
+export type RecentQueryHookResult = ReturnType<typeof useRecentQuery>;
+export type RecentLazyQueryHookResult = ReturnType<typeof useRecentLazyQuery>;
+export type RecentQueryResult = Apollo.QueryResult<RecentQuery, RecentQueryVariables>;
 export const WallpapersDocument = gql`
     query wallpapers($bundleId: String, $categoryId: String, $tagsId: String, $colorId: String) {
   wallpapers(

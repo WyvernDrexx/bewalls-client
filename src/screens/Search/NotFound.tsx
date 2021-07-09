@@ -3,7 +3,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Cards } from '../../components/Cards';
 import HeadingTitle from '../../components/HeadingTitle';
-import { useRecommendedQuery, Wallpaper } from '../../generated/graphql';
+import {
+  useRecentQuery,
+  useRecommendedQuery,
+  Wallpaper,
+} from '../../generated/graphql';
 import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 
@@ -14,7 +18,8 @@ type NotFoundProps = {
 
 const NotFound: React.FC<NotFoundProps> = function (props) {
   const { themedStyles } = useTheme();
-  const { data: recommendedData } = useRecommendedQuery();
+  const { data: recommended } = useRecommendedQuery();
+  const { data: recent } = useRecentQuery();
 
   const handleMoreClick = () => {
     if (props.onRecentUploadsClick) props.onRecentUploadsClick();
@@ -38,21 +43,27 @@ const NotFound: React.FC<NotFoundProps> = function (props) {
           <Cards
             onClick={handleClick}
             group="category"
-            items={recommendedData?.recommended as Wallpaper[]}
+            items={recommended?.recommended as Wallpaper[]}
             height="35"
             width="42"
           />
         </ScrollView>
       </View>
-      {/* <View style={styles.recentUploads}>
-        <HeadingTitle title="Recent Uploads" />
+      <View style={styles.recentUploads}>
+        <HeadingTitle onClick={handleMoreClick} title="Recent Uploads" />
         <ScrollView
           showsHorizontalScrollIndicator={false}
           overScrollMode="never"
           horizontal>
-          <Cards items={BRANDS} height="35" width="42" />
+          <Cards
+            onClick={handleClick}
+            group="none"
+            items={recent?.recent as Wallpaper[]}
+            height="35"
+            width="42"
+          />
         </ScrollView>
-      </View> */}
+      </View>
     </View>
   );
 };
