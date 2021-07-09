@@ -8,6 +8,7 @@ import HeadingTitle from '../../components/HeadingTitle';
 import NoNetworkAccess from '../../components/NoNetworkAccess';
 import SearchBar from '../../components/SearchBar';
 import SideBar from '../../components/SideBar';
+import WallpaperView from '../../components/WallpaperView';
 import {
   Bundle,
   Category,
@@ -21,6 +22,8 @@ import { hp, wp } from '../../utilities';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
+  const [selected, setSelected] = useState<Wallpaper | undefined>();
+  const [viewSelected, setViewSelected] = useState(false);
   const { themedStyles } = useTheme();
   const { loading, data, error } = useHomeScreenQuery();
   const { dispatchShowAlert } = useAlerts();
@@ -40,12 +43,13 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Categories');
   };
 
-  const handleCardClick = (select: Wallpaper, group: ItemGroup) => {
-    props.navigation.navigate('Selection', {
-      title: select.category.name!,
-      group,
-      groupId: select.category.id,
-    });
+  const handleCardClick = (select: Wallpaper) => {
+    setSelected(select);
+    setViewSelected(true);
+  };
+
+  const handleCloseClick = () => {
+    setViewSelected(false);
   };
 
   const handleBoxClick = (select: Category, group: ItemGroup) => {
@@ -143,6 +147,11 @@ const Home: React.FC<HomeScreenProps> = function (props) {
           </NoNetworkAccess>
         </ScrollView>
       </View>
+      <WallpaperView
+        onCloseClick={handleCloseClick}
+        wallpaper={selected}
+        showWallpaper={viewSelected}
+      />
     </View>
   );
 };

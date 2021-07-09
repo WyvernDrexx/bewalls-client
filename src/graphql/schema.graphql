@@ -1,4 +1,4 @@
-query trending {
+query Trending {
   trending {
     id
     name
@@ -8,13 +8,23 @@ query trending {
     height
     width
     likes
+    views
     publisher
     createdAt
     isUsersFavourite
+    tags {
+      id
+      name
+    }
+    bundle {
+      id
+      name
+      imageUri
+    }
   }
 }
 
-query categories {
+query Categories {
   categories(page: {}) {
     id
     name

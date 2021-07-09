@@ -44,7 +44,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const [downloadInProgress, setDownloadInProgress] = useState(false);
   const [showSetWallpaperOptions, setShowSetWallpaperOptions] = useState(false);
   const startPosition = hp(80);
-  const maxOffset = hp(40);
+  const maxOffset = hp(54);
   const offsetY = useSharedValue(startPosition);
   const driftOffset = hp(75);
   const actionIconSize = hp(3);
@@ -323,16 +323,16 @@ const BottomDraggable = function (props: BottomDraggableProps) {
                 themedStyles.bgLight,
                 themedStyles.text,
               ]}>
-              {100} Views
+              {props.wallpaper.views} Views
             </Text>
-            <Text
+            {/* <Text
               style={[
                 styles.detailsText,
                 themedStyles.bgLight,
                 themedStyles.text,
               ]}>
               {100} Shares
-            </Text>
+            </Text> */}
             <Text
               style={[
                 styles.detailsText,
@@ -349,14 +349,14 @@ const BottomDraggable = function (props: BottomDraggableProps) {
               ]}>
               {props.wallpaper.sizeInKB} KB
             </Text>
-            <Text
+            {/* <Text
               style={[
                 styles.detailsText,
                 themedStyles.bgLight,
                 themedStyles.text,
               ]}>
               {props.wallpaper.createdAt}
-            </Text>
+            </Text> */}
           </View>
         </Animated.View>
       </PanGestureHandler>
@@ -374,7 +374,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
 const styles = StyleSheet.create({
   root: {
     width: wp(100),
-    height: hp(60),
+    height: hp(48),
     paddingHorizontal: wp(2),
     borderTopLeftRadius: hp(4),
     borderTopRightRadius: hp(4),

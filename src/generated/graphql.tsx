@@ -284,6 +284,7 @@ export type Wallpaper = {
   highlightColor: Scalars['String'];
   favouriteOf: Array<Maybe<User>>;
   isUsersFavourite: Scalars['Boolean'];
+  views: Scalars['Int'];
 };
 
 export type WallpaperCreateInput = {
@@ -337,7 +338,14 @@ export type TrendingQuery = (
   { __typename?: 'Query' }
   & { trending: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'publisher' | 'createdAt' | 'isUsersFavourite'>
+    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'views' | 'publisher' | 'createdAt' | 'isUsersFavourite'>
+    & { tags: Array<Maybe<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'id' | 'name'>
+    )>>, bundle: (
+      { __typename?: 'Bundle' }
+      & Pick<Bundle, 'id' | 'name' | 'imageUri'>
+    ) }
   )>> }
 );
 
@@ -409,14 +417,17 @@ export type HomeScreenQuery = (
   { __typename?: 'Query' }
   & { trending: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'id' | 'name' | 'imageUri'>
+    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'views'>
     & { bundle: (
       { __typename?: 'Bundle' }
       & Pick<Bundle, 'id'>
     ), category: (
       { __typename?: 'Category' }
       & Pick<Category, 'id' | 'name'>
-    ) }
+    ), tags: Array<Maybe<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'name' | 'id'>
+    )>> }
   )>>, categories: Array<Maybe<(
     { __typename?: 'Category' }
     & Pick<Category, 'id' | 'name' | 'imageUri' | 'totalNumberOfItems' | 'visits'>
@@ -623,7 +634,7 @@ export type WallpaperInfoQueryHookResult = ReturnType<typeof useWallpaperInfoQue
 export type WallpaperInfoLazyQueryHookResult = ReturnType<typeof useWallpaperInfoLazyQuery>;
 export type WallpaperInfoQueryResult = Apollo.QueryResult<WallpaperInfoQuery, WallpaperInfoQueryVariables>;
 export const TrendingDocument = gql`
-    query trending {
+    query Trending {
   trending {
     id
     name
@@ -633,9 +644,19 @@ export const TrendingDocument = gql`
     height
     width
     likes
+    views
     publisher
     createdAt
     isUsersFavourite
+    tags {
+      id
+      name
+    }
+    bundle {
+      id
+      name
+      imageUri
+    }
   }
 }
     `;
@@ -667,7 +688,7 @@ export type TrendingQueryHookResult = ReturnType<typeof useTrendingQuery>;
 export type TrendingLazyQueryHookResult = ReturnType<typeof useTrendingLazyQuery>;
 export type TrendingQueryResult = Apollo.QueryResult<TrendingQuery, TrendingQueryVariables>;
 export const CategoriesDocument = gql`
-    query categories {
+    query Categories {
   categories(page: {}) {
     id
     name
@@ -845,12 +866,21 @@ export const HomeScreenDocument = gql`
     id
     name
     imageUri
+    sizeInKB
+    downloads
+    height
+    width
+    views
     bundle {
       id
     }
     category {
       id
       name
+    }
+    tags {
+      name
+      id
     }
   }
   categories(page: {}) {

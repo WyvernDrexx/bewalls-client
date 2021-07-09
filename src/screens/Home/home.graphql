@@ -3,12 +3,21 @@ query HomeScreen {
     id
     name
     imageUri
+    sizeInKB
+    downloads
+    height
+    width
+    views
     bundle {
       id
     }
     category {
       id
       name
+    }
+    tags {
+      name
+      id
     }
   }
   categories(page: {}) {

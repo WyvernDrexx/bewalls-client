@@ -35,7 +35,7 @@ const NotFound: React.FC<NotFoundProps> = function (props) {
         Couldn't find any results. Check out our recommendations below.
       </Text>
       <View>
-        <HeadingTitle onClick={handleMoreClick} title="Recommended" />
+        <HeadingTitle hideButton title="Recommended" />
         <ScrollView
           showsHorizontalScrollIndicator={false}
           overScrollMode="never"
