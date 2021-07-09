@@ -1,17 +1,34 @@
 import { PermissionsAndroid } from 'react-native';
 
 const permissions = {
-  async askStorage(): Promise<'GRANTED' | 'NOT_GRANTED' | null> {
+  async askStorage() {
     try {
-      const granted = await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-      ]);
-      const write =
-        granted['android.permission.WRITE_EXTERNAL_STORAGE'] === 'granted';
-      const read =
-        granted['android.permission.READ_EXTERNAL_STORAGE'] === 'granted';
-      return write && read ? 'GRANTED' : 'NOT_GRANTED';
+      const isGranted = await this.isReadWriteStorageGranted();
+
+      if (!isGranted) {
+        const write = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            message:
+              'For downloading wallpaper, we need storage permissions. Please give us the permission.',
+            buttonPositive: "Hmm, Let's go!",
+            title: 'BeWalls Download',
+            buttonNegative: 'Sorry, but no.',
+            buttonNeutral: "I don't know.",
+          },
+        );
+        const read = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          {
+            message:
+              'For downloading wallpaper, we need storage permissions. Please give us the permission.',
+            buttonPositive: "Hmm, Let's go!",
+            title: 'BeWalls Download',
+          },
+        );
+        return write === 'granted' && read === 'granted';
+      }
+      return true;
     } catch (error) {
       return null;
     }

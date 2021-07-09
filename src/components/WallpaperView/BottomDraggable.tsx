@@ -43,13 +43,6 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const [settingWallpaper, setSettingWallpaper] = useState(false);
   const [downloadInProgress, setDownloadInProgress] = useState(false);
   const [showSetWallpaperOptions, setShowSetWallpaperOptions] = useState(false);
-
-  const { data } = useWallpaperInfoQuery({
-    variables: {
-      wallpaperId: props.wallpaper.id,
-    },
-  });
-
   const startPosition = hp(80);
   const maxOffset = hp(40);
   const offsetY = useSharedValue(startPosition);
@@ -57,6 +50,11 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const actionIconSize = hp(3);
   const { themedStyles, theme } = useTheme();
   const { dispatchShowAlert } = useAlerts();
+  const { data } = useWallpaperInfoQuery({
+    variables: {
+      wallpaperId: props.wallpaper.id,
+    },
+  });
 
   const setWallpaper = async (destination: number) => {
     setSettingWallpaper(true);
@@ -64,7 +62,12 @@ const BottomDraggable = function (props: BottomDraggableProps) {
     const granted = await permissions.isReadWriteStorageGranted();
     if (granted === false) {
       const allowed = await permissions.askStorage();
-      if (allowed !== 'GRANTED') {
+      if (!allowed) {
+        if (!granted) {
+          return dispatchShowAlert({
+            error: 'Storage permission denied. Hence, could not apply.',
+          });
+        }
         return setSettingWallpaper(false);
       }
     }
@@ -109,6 +112,13 @@ const BottomDraggable = function (props: BottomDraggableProps) {
     if (!data) return;
     const { wallpaperFile } = data;
     if (!wallpaperFile) return;
+    const granted = await permissions.askStorage();
+    if (!granted) {
+      setDownloadInProgress(false);
+      return dispatchShowAlert({
+        error: 'Storage permission denied. Hence, could not download.',
+      });
+    }
     const result = await downloadManager.saveFileToAlbum(wallpaperFile);
     if (result.error) {
       dispatchShowAlert({ error: result.error });
@@ -119,7 +129,6 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   };
 
   const handleSetWallpaperClick = async () => {
-    // setSettingWallpaper(true);
     setShowSetWallpaperOptions(true);
   };
 
