@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { Cards } from '../../components/Cards';
-import Carousel from '../../components/Carousel/Carousel';
 import { LoadingView } from '../../components/Loader/LoadingView';
 import StackHeader from '../../components/StackHeader';
 import WallpaperView from '../../components/WallpaperView';
@@ -10,14 +9,9 @@ import { useWallpapersQuery, Wallpaper } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
 import { SelectionScreenProps } from '../../navigation/types';
 import { hp, wp } from '../../utilities';
-import CarouselSvg from './carousel.svg';
-import GridSvg from './grid.svg';
-
-type Display = 'carousel' | 'grid';
 
 const Selection: React.FC<SelectionScreenProps> = function (props) {
   const { group: type, groupId: selectorId } = props.route.params;
-  const [displayMode, setDisplayMode] = useState<Display>('carousel');
   const [previewWallpaper, setPreviewWallpaper] = useState(false);
   const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
 
@@ -44,19 +38,10 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
   };
 
   const renderDisplay = () => {
-    if (loading) {
+    if (loading || !data) {
       return <LoadingView height={88} />;
     }
-    if (displayMode === 'carousel') {
-      return (
-        <View style={styles.carousel}>
-          <Carousel
-            onClick={handleCardClick}
-            items={data?.wallpapers as Wallpaper[]}
-          />
-        </View>
-      );
-    }
+
     return <Grid />;
   };
 
@@ -76,36 +61,9 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     );
   };
 
-  const SelectMode: React.FC = () => {
-    return (
-      <View style={styles.displaySelection}>
-        <TouchableOpacity style={styles.sortOptions} />
-        <View style={styles.displayLayout}>
-          <TouchableOpacity
-            onPress={() => setDisplayMode('carousel')}
-            style={styles.modeIcon}>
-            <CarouselSvg
-              fill={displayMode === 'carousel' ? '#9F88FF' : '#C9C9C9'}
-              height={wp(6)}
-              width={wp(6)}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setDisplayMode('grid')}
-            style={styles.modeIcon}>
-            <GridSvg
-              fill={displayMode === 'grid' ? '#9F88FF' : '#C9C9C9'}
-              height={wp(6)}
-              width={wp(6)}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
   return (
     <View style={[styles.root, themedStyles.bg]}>
-      <StackHeader title={props.route.params.title} right={<SelectMode />} />
+      <StackHeader title={props.route.params.title} />
       <Animated.ScrollView>{renderDisplay()}</Animated.ScrollView>
       <WallpaperView
         showWallpaper={previewWallpaper}
