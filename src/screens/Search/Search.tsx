@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Keyboard,
   StyleSheet,
+  Text,
   TextInput,
   View,
 } from 'react-native';
@@ -28,16 +29,13 @@ import SearchSvg from './search.svg';
 const Search: React.FC<SearchScreenProps> = function (props) {
   const [searchText, setSearchText] = useState('');
   const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
-  const [showWallpaper, setShowWallpaper] = useState(false);
-  const {
-    themedStyles,
-    theme: { colors },
-  } = useTheme();
-  const [iskeyboardVisible, setIskeyboardVisible] = useState(true);
   const inputRef = useRef<TextInput>(null);
-
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [searchResults, setSearchResults] = useState<Wallpaper[]>([]);
+  const [showWallpaper, setShowWallpaper] = useState(false);
+  const [iskeyboardVisible, setIskeyboardVisible] = useState(true);
+  const { themedStyles, theme } = useTheme();
+
   const [searchTextString, { loading }] = useSearchTextStringLazyQuery({
     onCompleted: data => {
       setSearchResults((data.search.wallpapers as Wallpaper[]) || []);
@@ -51,7 +49,6 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   }, []);
 
   const handleTextChange = (text: string) => {
-    if (loading) return;
     setIsChanged(true);
     setSearchText(text);
   };
@@ -92,8 +89,8 @@ const Search: React.FC<SearchScreenProps> = function (props) {
   };
 
   const renderContents = () => {
-    if (loading || isChanged) return null;
-    if (!searchText) {
+    if (loading) return null;
+    if (searchText.length < 2) {
       return (
         <Extras
           onColorBoxClick={handleBoxClick}
@@ -113,7 +110,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
       );
     }
 
-    if (!loading && !searchResults.length && searchText) {
+    if (!searchResults.length && searchText.length > 1) {
       return (
         <NotFound
           onClick={handleShowWallpaper}
@@ -132,7 +129,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
 
   const renderSearchBarButtons = () => {
     if (loading || isChanged) {
-      return <ActivityIndicator color="black" />;
+      return <ActivityIndicator color={theme.colors.secondary} />;
     }
     if (searchText.length) {
       return (
@@ -140,7 +137,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
           style={styles.rightIcon}
           onPress={() => handleTextChange('')}>
           <CloseSvg
-            fill={colors.secondary}
+            fill={theme.colors.secondary}
             height={hp('1.8')}
             width={hp('1.8')}
           />
@@ -152,8 +149,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
 
   useEffect(() => {
     if (searchText.length < 2) {
-      setIsChanged(false);
-      return;
+      return setIsChanged(false);
     }
     if (timeoutId) {
       clearTimeout(timeoutId);
@@ -192,7 +188,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
               {iskeyboardVisible ? (
                 <TouchableOpacity onPress={handleSearchClick}>
                   <SearchSvg
-                    fill={colors.secondary}
+                    fill={theme.colors.secondary}
                     height={wp(5)}
                     width={wp(5)}
                   />
@@ -200,7 +196,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
               ) : (
                 <TouchableOpacity onPress={handleBackClick}>
                   <LeftArrowSvg
-                    fill={colors.secondary}
+                    fill={theme.colors.secondary}
                     height={wp(5)}
                     width={wp(5)}
                   />
@@ -210,9 +206,9 @@ const Search: React.FC<SearchScreenProps> = function (props) {
                 value={searchText}
                 onChangeText={handleTextChange}
                 ref={inputRef}
-                selectionColor={colors.secondary}
+                selectionColor={theme.colors.secondary}
                 style={[styles.searchInput, themedStyles.text]}
-                placeholderTextColor={colors.secondary}
+                placeholderTextColor={theme.colors.secondary}
                 placeholder="Search Devices"
                 returnKeyType="search"
               />
@@ -220,7 +216,14 @@ const Search: React.FC<SearchScreenProps> = function (props) {
             {renderSearchBarButtons()}
           </View>
         </View>
-        <MountAnimatedView>{renderContents()}</MountAnimatedView>
+        <MountAnimatedView>
+          {searchText.length > 1 && searchResults.length ? (
+            <Text style={[styles.searchTermText, themedStyles.text]}>
+              "{searchText}"
+            </Text>
+          ) : null}
+          {renderContents()}
+        </MountAnimatedView>
       </ScrollView>
       <WallpaperView
         onCloseClick={handleWallpaperViewClose}
@@ -235,6 +238,13 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
+  searchTermText: {
+    fontSize: wp(6),
+    fontWeight: 'bold',
+    textTransform: 'capitalize',
+    marginVertical: hp(1.5),
+    marginHorizontal: wp(2),
+  },
   searchContainer: {
     paddingHorizontal: wp(2),
     marginVertical: hp(2),
@@ -243,7 +253,7 @@ const styles = StyleSheet.create({
     height: hp(7),
     display: 'flex',
     justifyContent: 'center',
-    marginHorizontal: wp(4),
+    marginHorizontal: wp(2),
   },
   flexView: {
     display: 'flex',

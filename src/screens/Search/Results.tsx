@@ -35,9 +35,6 @@ const Results: React.FC<ResultsProps> = function (props) {
 
   return (
     <Animated.View style={[styles.root, uas]}>
-      <Text style={[styles.searchTermText, themedStyles.text]}>
-        "{props.searchTerm}"
-      </Text>
       <Text style={[styles.subText, themedStyles.text]}>
         {props.numberOfResults} Wallpaper
         {props.numberOfResults > 1 ? 's are ' : ' is '}
@@ -60,19 +57,14 @@ const Results: React.FC<ResultsProps> = function (props) {
 
 const styles = StyleSheet.create({
   root: {
-    marginTop: hp(4),
     paddingHorizontal: wp(2),
   },
-  searchTermText: {
-    fontSize: wp(6),
-    fontWeight: 'bold',
-    textTransform: 'capitalize',
-  },
+
   subText: {
     color: 'gray',
+    marginBottom: wp(4),
   },
   resultsView: {
-    marginTop: hp(3),
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
