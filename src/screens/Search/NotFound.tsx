@@ -5,7 +5,7 @@ import { Cards } from '../../components/Cards';
 import HeadingTitle from '../../components/HeadingTitle';
 import {
   useRecentQuery,
-  useRecommendedQuery,
+  useTrendingQuery,
   Wallpaper,
 } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
@@ -18,7 +18,7 @@ type NotFoundProps = {
 
 const NotFound: React.FC<NotFoundProps> = function (props) {
   const { themedStyles } = useTheme();
-  const { data: recommended } = useRecommendedQuery();
+  const { data: recommended } = useTrendingQuery();
   const { data: recent } = useRecentQuery();
 
   const handleMoreClick = () => {
@@ -35,7 +35,7 @@ const NotFound: React.FC<NotFoundProps> = function (props) {
         Couldn't find any results. Check out our recommendations below.
       </Text>
       <View>
-        <HeadingTitle onClick={handleMoreClick} title="Recent Uploads" />
+        <HeadingTitle onClick={handleMoreClick} title="Recommended" />
         <ScrollView
           showsHorizontalScrollIndicator={false}
           overScrollMode="never"
@@ -43,7 +43,7 @@ const NotFound: React.FC<NotFoundProps> = function (props) {
           <Cards
             onClick={handleClick}
             group="category"
-            items={recommended?.recommended as Wallpaper[]}
+            items={recommended?.trending as Wallpaper[]}
             height="35"
             width="42"
           />
