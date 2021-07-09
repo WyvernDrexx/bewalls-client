@@ -71,7 +71,9 @@ const Card: React.FC<CardProps> = function (props) {
             <LinearGradient
               colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
               style={[styles.textView, { height: height / 2, width }]}>
-              <Text style={styles.title}>{props.wallpaper!.name}</Text>
+              <Text style={styles.title}>
+                {props.wallpaper!.name.slice(0, 16)}
+              </Text>
             </LinearGradient>
           ) : null}
         </Animated.View>

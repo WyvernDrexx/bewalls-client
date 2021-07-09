@@ -8,6 +8,7 @@ query HomeScreen {
     }
     category {
       id
+      name
     }
   }
   categories(page: {}) {

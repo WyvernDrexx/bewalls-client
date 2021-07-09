@@ -43,9 +43,9 @@ const Home: React.FC<HomeScreenProps> = function (props) {
 
   const handleCardClick = (select: Wallpaper, group: ItemGroup) => {
     props.navigation.navigate('Selection', {
-      title: select.name!,
+      title: select.category.name!,
       group,
-      groupId: select.bundle.id,
+      groupId: select.category.id,
     });
   };
 
@@ -110,7 +110,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
               overScrollMode="never">
               <Cards
                 loading={loading}
-                group="bundle"
+                group="category"
                 items={data?.trending! as Wallpaper[]}
                 onClick={handleCardClick}
                 height="35"

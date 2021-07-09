@@ -59,7 +59,9 @@ const Categories: React.FC<CategoryProps> = function (props) {
                   width,
                 },
               ]}
-              source={{ uri: item.imageUri }}
+              source={{
+                uri: item.imageUri,
+              }}
             />
             <View style={[styles.totalNumberOfItems]}>
               <Text style={[styles.numberOfItemsText]}>
