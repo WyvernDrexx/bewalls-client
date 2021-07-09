@@ -9,6 +9,7 @@ import { hp, wp } from '../../utilities';
 
 type NotFoundProps = {
   onRecentUploadsClick?: () => void;
+  onClick?: (select: Wallpaper) => void;
 };
 
 const NotFound: React.FC<NotFoundProps> = function (props) {
@@ -17,6 +18,10 @@ const NotFound: React.FC<NotFoundProps> = function (props) {
 
   const handleMoreClick = () => {
     if (props.onRecentUploadsClick) props.onRecentUploadsClick();
+  };
+
+  const handleClick = (select: Wallpaper) => {
+    if (props.onClick) props.onClick(select);
   };
 
   return (
@@ -31,6 +36,7 @@ const NotFound: React.FC<NotFoundProps> = function (props) {
           overScrollMode="never"
           horizontal>
           <Cards
+            onClick={handleClick}
             group="category"
             items={recommendedData?.recommended as Wallpaper[]}
             height="35"

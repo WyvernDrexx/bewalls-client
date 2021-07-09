@@ -461,7 +461,14 @@ export type RecommendedQuery = (
   { __typename?: 'Query' }
   & { recommended: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'id'>
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width'>
+    & { category: (
+      { __typename?: 'Category' }
+      & Pick<Category, 'name' | 'id'>
+    ), tags: Array<Maybe<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'name' | 'id'>
+    )>> }
   )>> }
 );
 
@@ -957,7 +964,19 @@ export const RecommendedDocument = gql`
     name
     imageUri
     downloads
+    isUsersFavourite
     id
+    sizeInKB
+    height
+    width
+    category {
+      name
+      id
+    }
+    tags {
+      name
+      id
+    }
   }
 }
     `;

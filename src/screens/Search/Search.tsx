@@ -68,7 +68,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     setSearchText(searchTerm.term);
   };
 
-  const handleResultClick = (select: Wallpaper) => {
+  const handleShowWallpaper = (select: Wallpaper) => {
     setSelectedWallpaper(select);
     setShowWallpaper(true);
   };
@@ -105,7 +105,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     if (searchResults.length) {
       return (
         <Results
-          onClick={handleResultClick}
+          onClick={handleShowWallpaper}
           numberOfResults={searchResults.length || 0}
           items={searchResults as Wallpaper[]}
           searchTerm={searchText}
@@ -114,7 +114,12 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     }
 
     if (!loading && !searchResults.length && searchText) {
-      return <NotFound onRecentUploadsClick={handleRecentUploadsClick} />;
+      return (
+        <NotFound
+          onClick={handleShowWallpaper}
+          onRecentUploadsClick={handleRecentUploadsClick}
+        />
+      );
     }
 
     return (
