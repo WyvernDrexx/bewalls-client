@@ -3,7 +3,7 @@ import { setContext } from '@apollo/client/link/context';
 import tokenStorage from './utilities/tokenStorage';
 
 const httpLink = createHttpLink({
-  uri: 'http://192.168.0.120:4000/graphql',
+  uri: 'https://api.bewalls.com/graphql',
 });
 
 const authLink = setContext(async (_, { headers }) => {
