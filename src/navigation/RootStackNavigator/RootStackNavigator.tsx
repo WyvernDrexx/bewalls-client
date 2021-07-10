@@ -64,7 +64,6 @@ function RootNavigator() {
   }, [theme.mode]);
 
   useEffect(() => {
-    console.log(user.token);
     if (user.token) {
       getUserInfo();
     }

@@ -125,7 +125,6 @@ const Search: React.FC<SearchScreenProps> = function (props) {
       />
     );
   };
-  console.log(selectedWallpaper);
   const renderSearchBarButtons = () => {
     if (loading || isChanged) {
       return <ActivityIndicator color={theme.colors.secondary} />;
