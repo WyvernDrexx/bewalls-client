@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Category } from '../../generated/graphql';
+import { useTheme } from '../../hooks';
 import { ItemGroup } from '../../types';
 import { hp, isLastElement, numberToMetricScale, wp } from '../../utilities';
 import { LoadingView } from '../Loader/LoadingView';
@@ -33,6 +34,7 @@ const Categories: React.FC<CategoryProps> = function (props) {
   const height = hp(props.height);
   const width = wp(props.width);
   const [imageLoading, setImageLoading] = useState(true);
+  const { themedStyles } = useTheme();
 
   const handleClick = (category: Category) => {
     if (props.onClick) props.onClick(category, props.group);
@@ -57,6 +59,7 @@ const Categories: React.FC<CategoryProps> = function (props) {
             isLast && props.isVertical ? styles.lastElement : {},
             props.isVertical ? styles.marginBottom : styles.marginLeft,
             isLast && !props.isVertical ? styles.marginRight : {},
+            themedStyles.bgSecondary,
           ]}
           onPress={() => handleClick(item)}
           key={item.id}>
@@ -74,6 +77,12 @@ const Categories: React.FC<CategoryProps> = function (props) {
             source={{
               uri: item.imageUri,
             }}
+          />
+          <LoadingView
+            style={styles.loadingView}
+            loading={!imageLoading}
+            height={height}
+            width={width}
           />
           <View style={[styles.totalNumberOfItems]}>
             <Text style={[styles.numberOfItemsText]}>
@@ -113,7 +122,7 @@ const styles = StyleSheet.create({
   root: {
     display: 'flex',
     alignItems: 'center',
-    borderRadius: wp(1.5),
+    borderRadius: hp(1.5),
   },
   image: {
     borderRadius: hp(1.5),

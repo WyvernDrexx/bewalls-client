@@ -8,7 +8,6 @@ import { useTheme } from '../../hooks';
 import { ItemGroup } from '../../types';
 import { hp, wp } from '../../utilities';
 import { LoadingView } from '../Loader/LoadingView';
-import MountAnimatedView from '../MountAnimatedView';
 
 type CardProps = {
   wallpaper: Wallpaper | null;
@@ -36,49 +35,47 @@ const Card: React.FC<CardProps> = function (props) {
   };
 
   return (
-    <MountAnimatedView>
-      <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
-        <Animated.View
+    <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>
+      <Animated.View
+        style={[
+          {
+            height,
+            width,
+          },
+          styles.imageView,
+          props.style,
+          themedStyles.bgSecondary,
+        ]}>
+        <Image
+          blurRadius={imageLoading ? 5 : 0}
+          onLoadEnd={handleImageLoad}
+          progressiveRenderingEnabled
           style={[
+            styles.image,
             {
               height,
               width,
             },
-            styles.imageView,
-            themedStyles.bg,
-            props.style,
-          ]}>
-          <Image
-            blurRadius={imageLoading ? 5 : 0}
-            onLoadEnd={handleImageLoad}
-            progressiveRenderingEnabled
-            style={[
-              styles.image,
-              {
-                height,
-                width,
-              },
-            ]}
-            source={{ uri: props.wallpaper?.imageUri }}
-          />
-          <LoadingView
-            style={styles.loadingView}
-            loading={!imageLoading}
-            height="60"
-            width="65"
-          />
-          {!props.hideText ? (
-            <LinearGradient
-              colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
-              style={[styles.textView, { height: height / 2, width }]}>
-              <Text style={styles.title}>
-                {props.wallpaper!.name.slice(0, 16)}
-              </Text>
-            </LinearGradient>
-          ) : null}
-        </Animated.View>
-      </TouchableOpacity>
-    </MountAnimatedView>
+          ]}
+          source={{ uri: props.wallpaper?.imageUri }}
+        />
+        <LoadingView
+          style={styles.loadingView}
+          loading={!imageLoading}
+          height={height}
+          width={width}
+        />
+        {!props.hideText ? (
+          <LinearGradient
+            colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
+            style={[styles.textView, { height: height / 2, width }]}>
+            <Text style={styles.title}>
+              {props.wallpaper!.name.slice(0, 16)}
+            </Text>
+          </LinearGradient>
+        ) : null}
+      </Animated.View>
+    </TouchableOpacity>
   );
 };
 

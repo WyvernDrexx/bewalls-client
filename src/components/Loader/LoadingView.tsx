@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { useTheme } from '../../hooks';
 import { hp, wp } from '../../utilities';
 import { Loader } from './Loader';
 
@@ -8,11 +9,14 @@ type LoadingViewProps = {
   height?: string | number;
   width?: string | number;
   loading?: boolean;
+  color?: string;
 };
 
 const LoadingView: React.FC<LoadingViewProps> = function (props) {
   const height = props.height || 10;
   const width = props.width || 100;
+  const { theme } = useTheme();
+  const color = props.color || theme.colors.primary;
   if (props.loading) return null;
   return (
     <View
@@ -21,7 +25,7 @@ const LoadingView: React.FC<LoadingViewProps> = function (props) {
         { height: hp(height), width: wp(width) },
         props.style,
       ]}>
-      <Loader />
+      <Loader color={color} />
     </View>
   );
 };
