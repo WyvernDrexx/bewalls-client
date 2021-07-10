@@ -1,13 +1,8 @@
 import React from 'react';
-import { Keyboard, StyleSheet, Text, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
+import { Keyboard, ScrollView, StyleSheet } from 'react-native';
 import { Cards } from '../../components/Cards';
 import { Wallpaper } from '../../generated/graphql';
-import { useTheme } from '../../hooks';
-import { wp } from '../../utilities';
+import { hp, wp } from '../../utilities';
 
 type ResultsProps = {
   items: Wallpaper[];
@@ -18,55 +13,42 @@ type ResultsProps = {
 };
 
 const Results: React.FC<ResultsProps> = function (props) {
-  const { themedStyles } = useTheme();
-  const hide = useSharedValue(props.hide ? 0 : 1);
-
   const handleClick = (select: Wallpaper) => {
     Keyboard.dismiss();
     if (props.onClick) props.onClick(select);
   };
 
-  const uas = useAnimatedStyle(() => {
-    return {
-      opacity: Animated.withTiming(hide.value),
-    };
-  });
-
   return (
-    <Animated.View style={[styles.root, uas]}>
-      <Text style={[styles.subText, themedStyles.text]}>
-        {props.numberOfResults} Wallpaper
-        {props.numberOfResults > 1 ? 's are ' : ' is '}
-        available.
-      </Text>
-      <View style={styles.resultsView}>
-        <Cards
-          group="category"
-          disableLastMargin
-          height="34"
-          width="47"
-          items={props.items}
-          onClick={handleClick}
-        />
-      </View>
-    </Animated.View>
+    <ScrollView horizontal style={[styles.root]}>
+      <Cards
+        group="category"
+        disableLastMargin
+        height="34"
+        width="47"
+        items={props.items}
+        onClick={handleClick}
+      />
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
-    paddingHorizontal: wp(2),
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: wp(2),
   },
-
   subText: {
     color: 'gray',
+    paddingHorizontal: wp(2),
     marginBottom: wp(4),
   },
-  resultsView: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    marginHorizontal: wp(-2),
+  resultsView: {},
+  searchTermText: {
+    fontSize: wp(6),
+    fontWeight: 'bold',
+    textTransform: 'capitalize',
+    marginVertical: hp(1.5),
   },
 });
 

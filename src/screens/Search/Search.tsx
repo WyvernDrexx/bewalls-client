@@ -3,7 +3,6 @@ import {
   ActivityIndicator,
   Keyboard,
   StyleSheet,
-  Text,
   TextInput,
   View,
 } from 'react-native';
@@ -87,7 +86,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     });
   };
 
-  const RenderContents = () => {
+  const renderContents = () => {
     if (loading) return null;
     if (searchText.length < 2) {
       return (
@@ -210,12 +209,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
           {renderSearchBarButtons()}
         </View>
       </View>
-      {searchText.length > 1 && searchResults.length ? (
-        <Text style={[styles.searchTermText, themedStyles.text]}>
-          "{searchText}"
-        </Text>
-      ) : null}
-      {RenderContents()}
+      {renderContents()}
       <WallpaperView
         onCloseClick={handleWallpaperViewClose}
         showWallpaper={showWallpaper}
@@ -229,13 +223,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
-  searchTermText: {
-    fontSize: wp(6),
-    fontWeight: 'bold',
-    textTransform: 'capitalize',
-    marginVertical: hp(1.5),
-    marginHorizontal: wp(2),
-  },
+
   searchContainer: {
     paddingHorizontal: wp(2),
     marginVertical: hp(2),
