@@ -39,6 +39,7 @@ const Cards: React.FC<CardProps> = function (props) {
         style={[
           props.style,
           isLast && !props.disableLastMargin ? styles.marginRight : {},
+          !props.horizantal ? styles.marginBottom : {},
         ]}
         wallpaper={data.item}
         height={props.height}
@@ -75,6 +76,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  marginBottom: {
+    marginBottom: wp(2),
   },
 });
 
