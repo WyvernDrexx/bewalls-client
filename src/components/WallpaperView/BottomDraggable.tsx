@@ -374,7 +374,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
 const styles = StyleSheet.create({
   root: {
     width: wp(100),
-    height: hp(48),
+    height: hp(100),
     paddingHorizontal: wp(2),
     borderTopLeftRadius: hp(4),
     borderTopRightRadius: hp(4),
