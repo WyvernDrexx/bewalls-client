@@ -12,8 +12,6 @@ const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
   const { themedStyles } = useTheme();
   const { loading, data } = useBundlesScreenQuery();
 
-  if (loading) return null;
-
   const handleBundleClick = (bundle: Bundle, group: ItemGroup) => {
     props.navigation.navigate('Selection', {
       title: bundle.name,
@@ -25,6 +23,8 @@ const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
   const handleSearchButtonClick = () => {
     props.navigation.navigate('Search');
   };
+
+  if (loading) return null;
 
   return (
     <View style={[styles.root, themedStyles.bg]}>

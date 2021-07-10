@@ -7,6 +7,7 @@ import { LoadingView } from '../Loader/LoadingView';
 import { Card } from './Card';
 
 type CardProps = {
+  loaderColor?: string;
   items?: Wallpaper[];
   height: string | number;
   width: string | number;
@@ -28,10 +29,7 @@ type RenderItem = {
 
 const Cards: React.FC<CardProps> = function (props) {
   const numColumns = props.horizantal ? undefined : props.numColumns || 2;
-
-  if (props.loading || typeof props.items === 'undefined') {
-    return <LoadingView height={props.height} />;
-  }
+  const loaderColor = props.loaderColor || 'black';
   const renderItem = (data: RenderItem) => {
     const isLast = isLastElement(data.index, props.items!.length);
     return (
@@ -51,6 +49,10 @@ const Cards: React.FC<CardProps> = function (props) {
       />
     );
   };
+
+  if (props.loading || typeof props.items === 'undefined') {
+    return <LoadingView color={loaderColor} height={props.height} />;
+  }
 
   return (
     <FlatList

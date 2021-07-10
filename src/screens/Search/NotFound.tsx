@@ -17,8 +17,8 @@ type NotFoundProps = {
 
 const NotFound: React.FC<NotFoundProps> = function (props) {
   const { themedStyles } = useTheme();
-  const { data: recommended, loading: recLoading } = useTrendingQuery();
-  const { data: recent, loading: receLoading } = useRecentQuery();
+  const { data: recommended } = useTrendingQuery();
+  const { data: recent } = useRecentQuery();
 
   const handleMoreClick = () => {
     if (props.onRecentUploadsClick) props.onRecentUploadsClick();
@@ -35,28 +35,24 @@ const NotFound: React.FC<NotFoundProps> = function (props) {
           Couldn't find any results. Check out our recommendations below.
         </Text>
         <HeadingTitle hideButton title="Recommended" />
-        {!recLoading && recommended ? (
+        <Cards
+          horizantal
+          onClick={handleClick}
+          group="category"
+          items={recommended?.trending as Wallpaper[]}
+          height="35"
+          width="42"
+        />
+        <View style={styles.recentUploads}>
+          <HeadingTitle onClick={handleMoreClick} title="Recent Uploads" />
           <Cards
             horizantal
             onClick={handleClick}
-            group="category"
-            items={recommended?.trending as Wallpaper[]}
+            group="none"
+            items={recent?.recent as Wallpaper[]}
             height="35"
             width="42"
           />
-        ) : null}
-        <View style={styles.recentUploads}>
-          <HeadingTitle onClick={handleMoreClick} title="Recent Uploads" />
-          {!receLoading && recent ? (
-            <Cards
-              horizantal
-              onClick={handleClick}
-              group="none"
-              items={recent?.recent as Wallpaper[]}
-              height="35"
-              width="42"
-            />
-          ) : null}
         </View>
       </View>
     </ScrollView>

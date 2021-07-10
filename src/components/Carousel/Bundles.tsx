@@ -86,7 +86,7 @@ const Bundles: React.FC<BundlesProps> = function (props) {
   let width = props.width || '30%';
   const numColumns = props.vertical ? props.numColumns || 3 : undefined;
   if (props.loading || typeof props.items === 'undefined') {
-    return <LoadingView height={props.height} />;
+    return <LoadingView color="black" height={props.height} />;
   }
 
   const renderItem: (data: RenderItem) => JSX.Element = ({ item, index }) => {

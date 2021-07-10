@@ -45,7 +45,7 @@ const Categories: React.FC<CategoryProps> = function (props) {
   };
 
   if (props.loading || typeof props.categories === 'undefined') {
-    return <LoadingView height={props.height} width={100} />;
+    return <LoadingView color="black" height={props.height} width={100} />;
   }
 
   const renderItem: (data: RenderItem) => JSX.Element = ({ item, index }) => {
@@ -59,7 +59,6 @@ const Categories: React.FC<CategoryProps> = function (props) {
             isLast && props.isVertical ? styles.lastElement : {},
             props.isVertical ? styles.marginBottom : styles.marginLeft,
             isLast && !props.isVertical ? styles.marginRight : {},
-            themedStyles.bgSecondary,
           ]}
           onPress={() => handleClick(item)}
           key={item.id}>
@@ -73,6 +72,7 @@ const Categories: React.FC<CategoryProps> = function (props) {
                 height,
                 width,
               },
+              themedStyles.bgSecondary,
             ]}
             source={{
               uri: item.imageUri,

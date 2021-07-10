@@ -38,7 +38,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
 
   const renderDisplay = () => {
     if (loading || !data) {
-      return <LoadingView height={88} />;
+      return <LoadingView color="black" height={88} />;
     }
 
     return (
