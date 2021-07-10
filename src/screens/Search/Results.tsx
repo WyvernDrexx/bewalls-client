@@ -1,6 +1,5 @@
 import React from 'react';
-import { Keyboard } from 'react-native';
-import { StyleSheet, Text, View } from 'react-native';
+import { Keyboard, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -8,7 +7,7 @@ import Animated, {
 import { Cards } from '../../components/Cards';
 import { Wallpaper } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
-import { hp, wp } from '../../utilities';
+import { wp } from '../../utilities';
 
 type ResultsProps = {
   items: Wallpaper[];
@@ -48,7 +47,6 @@ const Results: React.FC<ResultsProps> = function (props) {
           width="47"
           items={props.items}
           onClick={handleClick}
-          style={styles.marginBottom}
         />
       </View>
     </Animated.View>
@@ -69,9 +67,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     marginHorizontal: wp(-2),
-  },
-  marginBottom: {
-    marginBottom: hp(2),
   },
 });
 

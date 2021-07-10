@@ -32,14 +32,16 @@ const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
         right={<MiniSearchButton onClick={handleSearchButtonClick} />}
         title="Bundles"
       />
-      <Bundles
-        onClick={handleBundleClick}
-        vertical
-        items={data?.bundles as Bundle[]}
-        itemType="bundle"
-        width="30.7"
-        height="15"
-      />
+      <View>
+        <Bundles
+          onClick={handleBundleClick}
+          vertical
+          items={data?.bundles as Bundle[]}
+          itemType="bundle"
+          width="30.7"
+          height="15"
+        />
+      </View>
     </View>
   );
 };
@@ -47,6 +49,9 @@ const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+  },
+  container: {
+    justifyContent: 'flex-start',
   },
 });
 

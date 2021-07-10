@@ -1,11 +1,10 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import CategoryItems from '../../components/CategoryItems';
 import StackHeader from '../../components/StackHeader';
 import { Category, useCategoriesDataQuery } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
 import { CategoriesScreenProps } from '../../navigation/types';
-import { hp, wp } from '../../utilities';
 
 const Categories: React.FC<CategoriesScreenProps> = function (props) {
   const { themedStyles } = useTheme();
@@ -24,19 +23,15 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
-      <ScrollView showsVerticalScrollIndicator={false} overScrollMode="never">
-        <StackHeader title="Categories" />
-        <View style={styles.categoryItems}>
-          <CategoryItems
-            onClick={handleClick}
-            isVertical
-            group="category"
-            categories={data?.categories as Category[]}
-            height="23"
-            width="96"
-          />
-        </View>
-      </ScrollView>
+      <StackHeader title="Categories" />
+      <CategoryItems
+        onClick={handleClick}
+        isVertical
+        group="category"
+        categories={data?.categories as Category[]}
+        height="23"
+        width="96"
+      />
     </View>
   );
 };
@@ -44,15 +39,6 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-  },
-  brandsView: {
-    marginTop: hp(3),
-  },
-  boxesView: {
-    paddingTop: hp(2),
-  },
-  cards: {
-    marginBottom: wp(2),
   },
   categoryItems: {
     display: 'flex',

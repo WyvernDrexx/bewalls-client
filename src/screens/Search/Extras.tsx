@@ -33,47 +33,46 @@ const Extras: React.FC<ExtrasProps> = function (props) {
   if (loading || typeof data === 'undefined') return null;
 
   return (
-    <>
-      <View style={styles.root}>
-        <View style={styles.instaBannerView}>
-          <Image style={styles.instaImage} source={require('./insta.webp')} />
-          <Text style={[styles.instaText]}>Follow Us On Instagram</Text>
-        </View>
-        <View style={styles.colorsView}>
-          <Text style={themedStyles.text}>Colours</Text>
-          <View style={styles.colorsContainer}>
-            {data?.colors.map((item, index) => {
-              return (
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  key={index}
-                  onPress={() => handleColorBoxClick(item!)}>
-                  <View
-                    style={[
-                      styles.colorBox,
-                      {
-                        backgroundColor: item!.code,
-                        borderColor: colors.secondary,
-                      },
-                    ]}
-                  />
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        </View>
-        <HotSearches
-          onClick={handleSearchTermClick}
-          searchTerms={data?.hotSearches as HotSearchTerm[]}
-        />
+    <View style={styles.root}>
+      <View style={styles.instaBannerView}>
+        <Image style={styles.instaImage} source={require('./insta.webp')} />
+        <Text style={[styles.instaText]}>Follow Us On Instagram</Text>
       </View>
-    </>
+      <View style={styles.colorsView}>
+        <Text style={themedStyles.text}>Colours</Text>
+        <View style={styles.colorsContainer}>
+          {data?.colors.map((item, index) => {
+            return (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                key={index}
+                onPress={() => handleColorBoxClick(item!)}>
+                <View
+                  style={[
+                    styles.colorBox,
+                    {
+                      backgroundColor: item!.code,
+                      borderColor: colors.secondary,
+                    },
+                  ]}
+                />
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </View>
+      <HotSearches
+        onClick={handleSearchTermClick}
+        searchTerms={data?.hotSearches as HotSearchTerm[]}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     paddingHorizontal: wp(2),
+    flex: 1,
   },
   instaBannerView: {
     display: 'flex',
@@ -102,6 +101,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: hp(3),
+    width: wp(100),
   },
   colorBox: {
     padding: hp(1.5),

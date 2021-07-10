@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Image,
-  ScrollView,
+  FlatList,
   StyleProp,
   StyleSheet,
   Text,
@@ -14,6 +14,11 @@ import { ItemGroup } from '../../types';
 import { hp, isLastElement, wp } from '../../utilities';
 import { LoadingView } from '../Loader/LoadingView';
 
+type RenderItem = {
+  item: Bundle;
+  index: number;
+};
+
 type BundlesProps = {
   items?: Bundle[];
   style?: StyleProp<ViewStyle>;
@@ -25,6 +30,7 @@ type BundlesProps = {
   height?: string;
   vertical?: boolean;
   loading?: boolean;
+  numColumns?: number;
 };
 
 type BundleItemProps = {
@@ -78,41 +84,43 @@ const BundleItem: React.FC<BundleItemProps> = function (props) {
 const Bundles: React.FC<BundlesProps> = function (props) {
   let height = props.height || '13%';
   let width = props.width || '30%';
-
+  const numColumns = props.vertical ? props.numColumns || 3 : undefined;
   if (props.loading || typeof props.items === 'undefined') {
     return <LoadingView height={props.height} />;
   }
 
+  const renderItem: (data: RenderItem) => JSX.Element = ({ item, index }) => {
+    return (
+      <BundleItem
+        itemType={props.itemType}
+        disabled={props.disableClick}
+        style={[
+          isLastElement(index, props.items!) && !props.vertical
+            ? boxStyles.lastItem
+            : {},
+          props.vertical ? styles.marginBottom : {},
+          !props.vertical ? boxStyles.horizantal : {},
+        ]}
+        key={index}
+        onClick={props.onClick}
+        item={item}
+        height={height!}
+        width={width!}
+      />
+    );
+  };
+
   return (
     <View style={[styles.root, props.style]}>
-      <ScrollView
-        scrollEnabled={!props.scrollEnabled}
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        numColumns={numColumns}
         horizontal={!props.vertical}
-        overScrollMode="never"
-        showsHorizontalScrollIndicator={false}>
-        <View style={styles.scrollView}>
-          {props.items.map((item, index) => {
-            return (
-              <BundleItem
-                itemType={props.itemType}
-                disabled={props.disableClick}
-                style={[
-                  isLastElement(index, props.items!) && !props.vertical
-                    ? boxStyles.lastItem
-                    : {},
-                  props.vertical ? styles.marginBottom : {},
-                  !props.vertical ? boxStyles.horizantal : {},
-                ]}
-                key={index}
-                onClick={props.onClick}
-                item={item}
-                height={height!}
-                width={width!}
-              />
-            );
-          })}
-        </View>
-      </ScrollView>
+        data={props.items}
+        keyExtractor={i => i.id}
+        renderItem={renderItem}
+      />
     </View>
   );
 };
@@ -124,6 +132,7 @@ const boxStyles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    marginLeft: wp(2),
   },
   text: {
     color: 'white',

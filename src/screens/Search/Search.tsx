@@ -7,8 +7,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import MountAnimatedView from '../../components/MountAnimatedView';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import WallpaperView from '../../components/WallpaperView';
 import {
   Color,
@@ -88,7 +87,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     });
   };
 
-  const renderContents = () => {
+  const RenderContents = () => {
     if (loading) return null;
     if (searchText.length < 2) {
       return (
@@ -178,53 +177,46 @@ const Search: React.FC<SearchScreenProps> = function (props) {
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
-      <ScrollView
-        keyboardShouldPersistTaps="always"
-        overScrollMode="never"
-        showsVerticalScrollIndicator={false}>
-        <View style={[styles.searchContainer, themedStyles.bgLight]}>
-          <View style={styles.flexView}>
-            <View style={[styles.searchTextView]}>
-              {iskeyboardVisible ? (
-                <TouchableOpacity onPress={handleSearchClick}>
-                  <SearchSvg
-                    fill={theme.colors.secondary}
-                    height={wp(5)}
-                    width={wp(5)}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity onPress={handleBackClick}>
-                  <LeftArrowSvg
-                    fill={theme.colors.secondary}
-                    height={wp(5)}
-                    width={wp(5)}
-                  />
-                </TouchableOpacity>
-              )}
-              <TextInput
-                value={searchText}
-                onChangeText={handleTextChange}
-                ref={inputRef}
-                selectionColor={theme.colors.secondary}
-                style={[styles.searchInput, themedStyles.text]}
-                placeholderTextColor={theme.colors.secondary}
-                placeholder="Search Devices"
-                returnKeyType="search"
-              />
-            </View>
-            {renderSearchBarButtons()}
+      <View style={[styles.searchContainer, themedStyles.bgLight]}>
+        <View style={styles.flexView}>
+          <View style={[styles.searchTextView]}>
+            {iskeyboardVisible ? (
+              <TouchableOpacity onPress={handleSearchClick}>
+                <SearchSvg
+                  fill={theme.colors.secondary}
+                  height={wp(5)}
+                  width={wp(5)}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={handleBackClick}>
+                <LeftArrowSvg
+                  fill={theme.colors.secondary}
+                  height={wp(5)}
+                  width={wp(5)}
+                />
+              </TouchableOpacity>
+            )}
+            <TextInput
+              value={searchText}
+              onChangeText={handleTextChange}
+              ref={inputRef}
+              selectionColor={theme.colors.secondary}
+              style={[styles.searchInput, themedStyles.text]}
+              placeholderTextColor={theme.colors.secondary}
+              placeholder="Search Devices"
+              returnKeyType="search"
+            />
           </View>
+          {renderSearchBarButtons()}
         </View>
-        <MountAnimatedView>
-          {searchText.length > 1 && searchResults.length ? (
-            <Text style={[styles.searchTermText, themedStyles.text]}>
-              "{searchText}"
-            </Text>
-          ) : null}
-          {renderContents()}
-        </MountAnimatedView>
-      </ScrollView>
+      </View>
+      {searchText.length > 1 && searchResults.length ? (
+        <Text style={[styles.searchTermText, themedStyles.text]}>
+          "{searchText}"
+        </Text>
+      ) : null}
+      {RenderContents()}
       <WallpaperView
         onCloseClick={handleWallpaperViewClose}
         showWallpaper={showWallpaper}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Cards } from '../../components/Cards';
 import { LoadingView } from '../../components/Loader/LoadingView';
 import MountAnimatedView from '../../components/MountAnimatedView';
@@ -66,9 +66,7 @@ const Favourites: React.FC<FavouritesScreenProps> = () => {
       {loading ? (
         <LoadingView height="85" />
       ) : (
-        <View style={styles.container}>
-          <ScrollView>{renderFavouritesCards()}</ScrollView>
-        </View>
+        <View style={styles.container}>{renderFavouritesCards()}</View>
       )}
       <WallpaperView
         afterFavouriteMutation={handleAfterFavouriteMutation}

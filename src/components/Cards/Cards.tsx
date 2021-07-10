@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, ViewStyle, FlatList } from 'react-native';
 import { Wallpaper } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
 import { isLastElement, wp } from '../../utilities';
@@ -17,35 +17,51 @@ type CardProps = {
   useFlatList?: boolean;
   group: ItemGroup;
   loading?: boolean;
+  horizantal?: boolean;
+  numColumns?: number;
+};
+
+type RenderItem = {
+  item: Wallpaper;
+  index: number;
 };
 
 const Cards: React.FC<CardProps> = function (props) {
+  const numColumns = props.horizantal ? undefined : props.numColumns || 2;
+
   if (props.loading || typeof props.items === 'undefined') {
     return <LoadingView height={props.height} />;
   }
+  const renderItem = (data: RenderItem) => {
+    const isLast = isLastElement(data.index, props.items!.length);
+    return (
+      <Card
+        group={props.group}
+        key={data.item.id}
+        style={[
+          props.style,
+          isLast && !props.disableLastMargin ? styles.marginRight : {},
+        ]}
+        wallpaper={data.item}
+        height={props.height}
+        width={props.width}
+        index={data.index}
+        onClick={props.onClick}
+        hideText={props.disableText}
+      />
+    );
+  };
 
   return (
-    <>
-      {props.items.map((item, index) => {
-        const isLast = isLastElement(index, props.items!.length);
-        return (
-          <Card
-            group={props.group}
-            key={item.id}
-            style={[
-              props.style,
-              isLast && !props.disableLastMargin ? styles.marginRight : {},
-            ]}
-            wallpaper={item}
-            height={props.height}
-            width={props.width}
-            index={index}
-            onClick={props.onClick}
-            hideText={props.disableText}
-          />
-        );
-      })}
-    </>
+    <FlatList
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      numColumns={numColumns}
+      horizontal={props.horizantal}
+      data={props.items!}
+      renderItem={renderItem}
+      keyExtractor={item => item.id}
+    />
   );
 };
 

@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  FlatList,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Category } from '../../generated/graphql';
 import { ItemGroup } from '../../types';
@@ -15,6 +22,11 @@ type CategoryProps = {
   isVertical?: boolean;
   hideVisits?: boolean;
   loading?: boolean;
+};
+
+type RenderItem = {
+  item: Category;
+  index: number;
 };
 
 const Categories: React.FC<CategoryProps> = function (props) {
@@ -34,71 +46,77 @@ const Categories: React.FC<CategoryProps> = function (props) {
     return <LoadingView height={props.height} width={100} />;
   }
 
-  return (
-    <>
-      {props.categories.map((item, index) => {
-        const isLast = isLastElement(index, props.categories.length);
-        return (
-          <TouchableOpacity
-            activeOpacity={0.5}
+  const renderItem: (data: RenderItem) => JSX.Element = ({ item, index }) => {
+    const isLast = isLastElement(index, props.categories.length);
+    return (
+      <>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          style={[
+            styles.root,
+            isLast && props.isVertical ? styles.lastElement : {},
+            props.isVertical ? styles.marginBottom : styles.marginLeft,
+            isLast && !props.isVertical ? styles.marginRight : {},
+          ]}
+          onPress={() => handleClick(item)}
+          key={item.id}>
+          <Image
+            progressiveRenderingEnabled
+            blurRadius={imageLoading ? 5 : 0}
+            onLoadEnd={handleImageLoad}
             style={[
-              styles.root,
-              isLast && !props.isVertical ? styles.marginRight : undefined,
-              props.isVertical ? styles.marginBottom : styles.marginLeft,
+              styles.image,
+              {
+                height,
+                width,
+              },
             ]}
-            onPress={() => handleClick(item)}
-            key={item.id}>
-            <Image
-              progressiveRenderingEnabled
-              blurRadius={imageLoading ? 5 : 0}
-              onLoadEnd={handleImageLoad}
-              style={[
-                styles.image,
-                {
-                  height,
-                  width,
-                },
-              ]}
-              source={{
-                uri: item.imageUri,
-              }}
-            />
-            <View style={[styles.totalNumberOfItems]}>
-              <Text style={[styles.numberOfItemsText]}>
-                {item.totalNumberOfItems}
-              </Text>
+            source={{
+              uri: item.imageUri,
+            }}
+          />
+          <View style={[styles.totalNumberOfItems]}>
+            <Text style={[styles.numberOfItemsText]}>
+              {item.totalNumberOfItems}
+            </Text>
+          </View>
+          <LinearGradient
+            colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
+            style={[styles.textView, { height: height / 1.5, width }]}>
+            <View style={[styles.flex, { width: width - wp(4), left: wp(2) }]}>
+              <Text style={styles.title}>{item!.name}</Text>
+              {!props.hideVisits ? (
+                <Text style={styles.lightText}>
+                  {numberToMetricScale(item.visits)}
+                </Text>
+              ) : null}
             </View>
-            <LinearGradient
-              colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
-              style={[styles.textView, { height: height / 1.5, width }]}>
-              <View
-                style={[styles.flex, { width: width - wp(4), left: wp(2) }]}>
-                <Text style={styles.title}>{item!.name}</Text>
-                {!props.hideVisits ? (
-                  <Text style={styles.lightText}>
-                    {numberToMetricScale(item.visits)}
-                  </Text>
-                ) : null}
-              </View>
-            </LinearGradient>
-          </TouchableOpacity>
-        );
-      })}
-    </>
+          </LinearGradient>
+        </TouchableOpacity>
+      </>
+    );
+  };
+
+  return (
+    <FlatList
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      horizontal={!props.isVertical}
+      data={props.categories}
+      renderItem={renderItem}
+      keyExtractor={item => item.id}
+    />
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
     borderRadius: wp(1.5),
   },
   image: {
     borderRadius: hp(1.5),
-    width: wp('66'),
-    height: hp('60'),
     resizeMode: 'cover',
   },
   textView: {
@@ -112,15 +130,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: wp(4),
   },
-  marginRight: {
-    marginRight: wp(2),
+  lastElement: {
+    marginBottom: hp(6),
   },
   marginLeft: {
     marginLeft: wp(2),
+    marginBottom: wp(2),
+  },
+  marginRight: {
+    marginRight: wp(2),
   },
   marginBottom: {
     marginBottom: wp(2),
   },
+  verticalAndLastElement: {},
   loadingView: {
     display: 'flex',
     justifyContent: 'center',

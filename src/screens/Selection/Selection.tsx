@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Animated from 'react-native-reanimated';
 import { Cards } from '../../components/Cards';
 import { LoadingView } from '../../components/Loader/LoadingView';
 import StackHeader from '../../components/StackHeader';
@@ -43,24 +42,22 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     }
 
     return (
-      <View style={styles.gridView}>
-        <Cards
-          group="category"
-          onClick={handleCardClick}
-          items={data?.wallpapers as Wallpaper[]}
-          height="39"
-          width="47"
-          disableLastMargin
-          style={styles.cards}
-        />
-      </View>
+      <Cards
+        group="category"
+        onClick={handleCardClick}
+        items={data?.wallpapers as Wallpaper[]}
+        height="39"
+        width="47"
+        disableLastMargin
+        style={styles.cards}
+      />
     );
   };
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader title={props.route.params.title} />
-      <Animated.ScrollView>{renderDisplay()}</Animated.ScrollView>
+      {renderDisplay()}
       <WallpaperView
         showWallpaper={previewWallpaper}
         wallpaper={selectedWallpaper}
