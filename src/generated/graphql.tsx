@@ -27,6 +27,9 @@ export type Bundle = {
   totalNumberOfItems: Scalars['Int'];
   visits: Scalars['Int'];
   wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
+  imageSmall: Scalars['String'];
+  imageMedium: Scalars['String'];
+  imageLarge: Scalars['String'];
 };
 
 export type BundleCreateInput = {
@@ -41,6 +44,9 @@ export type Category = {
   id: Scalars['String'];
   name: Scalars['String'];
   imageUri: Scalars['String'];
+  imageSmall: Scalars['String'];
+  imageMedium: Scalars['String'];
+  imageLarge: Scalars['String'];
   totalNumberOfItems: Scalars['Int'];
   visits: Scalars['Int'];
   wallpapers?: Maybe<Array<Maybe<Wallpaper>>>;
@@ -285,6 +291,9 @@ export type Wallpaper = {
   favouriteOf: Array<Maybe<User>>;
   isUsersFavourite: Scalars['Boolean'];
   views: Scalars['Int'];
+  imageSmall: Scalars['String'];
+  imageMedium: Scalars['String'];
+  imageLarge: Scalars['String'];
 };
 
 export type WallpaperCreateInput = {
@@ -367,7 +376,7 @@ export type BundlesScreenQuery = (
   { __typename?: 'Query' }
   & { bundles: Array<Maybe<(
     { __typename?: 'Bundle' }
-    & Pick<Bundle, 'id' | 'name' | 'highlightColor' | 'color' | 'imageUri'>
+    & Pick<Bundle, 'id' | 'name' | 'imageSmall' | 'imageLarge' | 'imageMedium' | 'highlightColor' | 'color' | 'imageUri'>
   )>> }
 );
 
@@ -378,7 +387,7 @@ export type CategoriesDataQuery = (
   { __typename?: 'Query' }
   & { categories: Array<Maybe<(
     { __typename?: 'Category' }
-    & Pick<Category, 'id' | 'name' | 'imageUri' | 'totalNumberOfItems' | 'visits'>
+    & Pick<Category, 'id' | 'name' | 'imageUri' | 'totalNumberOfItems' | 'visits' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
   )>> }
 );
 
@@ -417,7 +426,7 @@ export type HomeScreenQuery = (
   { __typename?: 'Query' }
   & { trending: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'views'>
+    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'views' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
     & { bundle: (
       { __typename?: 'Bundle' }
       & Pick<Bundle, 'id'>
@@ -430,10 +439,10 @@ export type HomeScreenQuery = (
     )>> }
   )>>, categories: Array<Maybe<(
     { __typename?: 'Category' }
-    & Pick<Category, 'id' | 'name' | 'imageUri' | 'totalNumberOfItems' | 'visits'>
+    & Pick<Category, 'id' | 'name' | 'imageUri' | 'totalNumberOfItems' | 'visits' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
   )>>, bundles: Array<Maybe<(
     { __typename?: 'Bundle' }
-    & Pick<Bundle, 'id' | 'imageUri' | 'name' | 'highlightColor' | 'totalNumberOfItems' | 'color'>
+    & Pick<Bundle, 'id' | 'imageUri' | 'name' | 'highlightColor' | 'totalNumberOfItems' | 'color' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
   )>> }
 );
 
@@ -448,7 +457,7 @@ export type SearchTextStringQuery = (
     { __typename?: 'SearchResult' }
     & { wallpapers: Array<Maybe<(
       { __typename?: 'Wallpaper' }
-      & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'id'>
+      & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'imageSmall' | 'imageLarge' | 'imageMedium' | 'id'>
       & { tags: Array<Maybe<(
         { __typename?: 'Tag' }
         & Pick<Tag, 'name' | 'id'>
@@ -478,7 +487,7 @@ export type RecommendedQuery = (
   { __typename?: 'Query' }
   & { recommended: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width'>
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'imageSmall' | 'imageLarge' | 'imageMedium' | 'width'>
     & { category: (
       { __typename?: 'Category' }
       & Pick<Category, 'name' | 'id'>
@@ -496,7 +505,7 @@ export type RecentQuery = (
   { __typename?: 'Query' }
   & { recent: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width'>
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
     & { category: (
       { __typename?: 'Category' }
       & Pick<Category, 'name' | 'id'>
@@ -519,7 +528,7 @@ export type WallpapersQuery = (
   { __typename?: 'Query' }
   & { wallpapers: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width'>
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
     & { category: (
       { __typename?: 'Category' }
       & Pick<Category, 'name' | 'id'>
@@ -539,7 +548,7 @@ export type AddToFavouriteMutation = (
   { __typename?: 'Mutation' }
   & { addToFavourite?: Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width'>
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
     & { category: (
       { __typename?: 'Category' }
       & Pick<Category, 'name' | 'id'>
@@ -728,6 +737,9 @@ export const BundlesScreenDocument = gql`
   bundles(page: {take: 50}) {
     id
     name
+    imageSmall
+    imageLarge
+    imageMedium
     highlightColor
     color
     imageUri
@@ -769,6 +781,9 @@ export const CategoriesDataDocument = gql`
     imageUri
     totalNumberOfItems
     visits
+    imageSmall
+    imageLarge
+    imageMedium
   }
 }
     `;
@@ -871,6 +886,9 @@ export const HomeScreenDocument = gql`
     height
     width
     views
+    imageSmall
+    imageLarge
+    imageMedium
     bundle {
       id
     }
@@ -889,6 +907,9 @@ export const HomeScreenDocument = gql`
     imageUri
     totalNumberOfItems
     visits
+    imageSmall
+    imageLarge
+    imageMedium
   }
   bundles(page: {}) {
     id
@@ -897,6 +918,9 @@ export const HomeScreenDocument = gql`
     highlightColor
     totalNumberOfItems
     color
+    imageSmall
+    imageLarge
+    imageMedium
   }
 }
     `;
@@ -934,6 +958,9 @@ export const SearchTextStringDocument = gql`
       name
       imageUri
       downloads
+      imageSmall
+      imageLarge
+      imageMedium
       tags {
         name
         id
@@ -1022,6 +1049,9 @@ export const RecommendedDocument = gql`
     id
     sizeInKB
     height
+    imageSmall
+    imageLarge
+    imageMedium
     width
     category {
       name
@@ -1072,6 +1102,9 @@ export const RecentDocument = gql`
     sizeInKB
     height
     width
+    imageSmall
+    imageLarge
+    imageMedium
     category {
       name
       id
@@ -1124,6 +1157,9 @@ export const WallpapersDocument = gql`
     sizeInKB
     height
     width
+    imageSmall
+    imageLarge
+    imageMedium
     category {
       name
       id
@@ -1177,6 +1213,9 @@ export const AddToFavouriteDocument = gql`
     sizeInKB
     height
     width
+    imageSmall
+    imageLarge
+    imageMedium
     category {
       name
       id

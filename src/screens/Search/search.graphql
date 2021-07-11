@@ -4,6 +4,9 @@ query SearchTextString($searchText: String!) {
       name
       imageUri
       downloads
+      imageSmall
+      imageLarge
+      imageMedium
       tags {
         name
         id
@@ -35,6 +38,9 @@ query Recommended {
     id
     sizeInKB
     height
+    imageSmall
+    imageLarge
+    imageMedium
     width
     category {
       name
@@ -57,6 +63,9 @@ query Recent {
     sizeInKB
     height
     width
+    imageSmall
+    imageLarge
+    imageMedium
     category {
       name
       id

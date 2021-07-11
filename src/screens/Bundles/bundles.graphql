@@ -2,6 +2,9 @@ query BundlesScreen {
   bundles(page: { take: 50 }) {
     id
     name
+    imageSmall
+    imageLarge
+    imageMedium
     highlightColor
     color
     imageUri

@@ -5,5 +5,8 @@ query CategoriesData {
     imageUri
     totalNumberOfItems
     visits
+    imageSmall
+    imageLarge
+    imageMedium
   }
 }

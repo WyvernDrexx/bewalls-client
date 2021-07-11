@@ -8,6 +8,9 @@ query HomeScreen {
     height
     width
     views
+    imageSmall
+    imageLarge
+    imageMedium
     bundle {
       id
     }
@@ -26,6 +29,9 @@ query HomeScreen {
     imageUri
     totalNumberOfItems
     visits
+    imageSmall
+    imageLarge
+    imageMedium
   }
   bundles(page: {}) {
     id
@@ -34,5 +40,8 @@ query HomeScreen {
     highlightColor
     totalNumberOfItems
     color
+    imageSmall
+    imageLarge
+    imageMedium
   }
 }

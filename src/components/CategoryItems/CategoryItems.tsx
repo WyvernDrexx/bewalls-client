@@ -23,6 +23,7 @@ type CategoryProps = {
   isVertical?: boolean;
   hideVisits?: boolean;
   loading?: boolean;
+  imageSize?: 'imageSmall' | 'imageMedium' | 'imageLarge';
 };
 
 type RenderItem = {
@@ -33,6 +34,7 @@ type RenderItem = {
 const Categories: React.FC<CategoryProps> = function (props) {
   const height = hp(props.height);
   const width = wp(props.width);
+  const imageSize = props.imageSize || 'imageMedium';
   const [imageLoading, setImageLoading] = useState(true);
   const { themedStyles } = useTheme();
 
@@ -75,7 +77,7 @@ const Categories: React.FC<CategoryProps> = function (props) {
               themedStyles.bgSecondary,
             ]}
             source={{
-              uri: item.imageUri,
+              uri: item[imageSize],
             }}
           />
           <LoadingView

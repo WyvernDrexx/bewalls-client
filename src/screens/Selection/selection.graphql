@@ -21,6 +21,9 @@ query wallpapers(
     sizeInKB
     height
     width
+    imageSmall
+    imageLarge
+    imageMedium
     category {
       name
       id
@@ -42,6 +45,9 @@ mutation AddToFavourite($id: String!) {
     sizeInKB
     height
     width
+    imageSmall
+    imageLarge
+    imageMedium
     category {
       name
       id

@@ -71,7 +71,7 @@ const BundleItem: React.FC<BundleItemProps> = function (props) {
             { height: hp(props.height), width: wp(props.width) },
             boxStyles.image,
           ]}
-          source={{ uri: props.item.imageUri }}
+          source={{ uri: props.item.imageSmall }}
         />
         <Text style={[boxStyles.text, { color: props.item.highlightColor }]}>
           {props.item.name}

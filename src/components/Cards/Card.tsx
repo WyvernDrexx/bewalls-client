@@ -57,7 +57,7 @@ const Card: React.FC<CardProps> = function (props) {
               width,
             },
           ]}
-          source={{ uri: props.wallpaper?.imageUri }}
+          source={{ uri: props.wallpaper?.imageSmall }}
         />
         <LoadingView
           style={styles.loadingView}

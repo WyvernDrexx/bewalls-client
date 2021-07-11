@@ -84,7 +84,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
       });
     }
   }, [error]);
-
+  console.log(data?.trending[0]);
   return (
     <View style={[styles.mainContainer, themedStyles.bgSecondary]}>
       <SideBar
