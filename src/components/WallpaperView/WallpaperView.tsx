@@ -20,6 +20,7 @@ import {
 } from '../../generated/graphql';
 import { useAlerts, useUser } from '../../hooks';
 import { hp, wp } from '../../utilities';
+import { LoadingView } from '../Loader/LoadingView';
 import { BottomDraggable } from './BottomDraggable';
 import DownArrowSvg from './down-arrow.svg';
 
@@ -35,6 +36,7 @@ type WallpaperViewProps = {
 export default function WallpaperView(props: WallpaperViewProps) {
   const [wallpaper, setWallpaper] = useState(props.wallpaper);
   const navigation = useNavigation<StackNavigationProp<any>>();
+  const [imageLoaded, setImageLoaded] = useState(false);
   const screenHeight = hp(100);
   const offsetY = useSharedValue(screenHeight);
   const user = useUser();
@@ -50,7 +52,9 @@ export default function WallpaperView(props: WallpaperViewProps) {
     offsetY.value = screenHeight;
     if (props.onCloseClick) props.onCloseClick();
   };
-
+  const handleImageLoadEnd = () => {
+    setImageLoaded(true);
+  };
   const handleTagClick = (tag: Tag) => {
     navigation.push('Selection', {
       title: tag.name,
@@ -108,6 +112,7 @@ export default function WallpaperView(props: WallpaperViewProps) {
   };
 
   useEffect(() => {
+    setImageLoaded(false);
     setWallpaper(props.wallpaper);
   }, [props.wallpaper]);
 
@@ -115,7 +120,13 @@ export default function WallpaperView(props: WallpaperViewProps) {
 
   return (
     <Animated.View style={[animatedStyle, styles.root]}>
-      <Image style={styles.image} source={{ uri: wallpaper.imageUri }} />
+      <Image
+        onLoad={handleImageLoadEnd}
+        progressiveRenderingEnabled
+        style={styles.image}
+        source={{ uri: wallpaper.imageMedium }}
+      />
+      <LoadingView loading={imageLoaded} style={styles.loader} height="96" />
       <TouchableOpacity onPress={handleCloseClick} style={styles.arrow}>
         <DownArrowSvg style={styles.arrowIcon} fill="white" />
       </TouchableOpacity>
@@ -141,6 +152,7 @@ const styles = StyleSheet.create({
     height: hp(100),
     width: wp(100),
     resizeMode: 'cover',
+    backgroundColor: 'black',
   },
   arrow: {
     position: 'absolute',
@@ -151,5 +163,8 @@ const styles = StyleSheet.create({
     height: hp(4),
     width: hp(4),
     opacity: 0.8,
+  },
+  loader: {
+    position: 'absolute',
   },
 });
