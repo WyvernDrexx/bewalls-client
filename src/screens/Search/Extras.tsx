@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: hp(3),
-    width: wp(100),
+    width: wp(96),
   },
   colorBox: {
     padding: hp(1.5),
