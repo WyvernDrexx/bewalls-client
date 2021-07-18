@@ -47,7 +47,6 @@ const Card: React.FC<CardProps> = function (props) {
           themedStyles.bgSecondary,
         ]}>
         <Image
-          blurRadius={imageLoading ? 5 : 0}
           onLoadEnd={handleImageLoad}
           progressiveRenderingEnabled
           style={[
@@ -60,6 +59,7 @@ const Card: React.FC<CardProps> = function (props) {
           source={{ uri: props.wallpaper?.imageSmall }}
         />
         <LoadingView
+          light
           style={styles.loadingView}
           loading={!imageLoading}
           height={height}

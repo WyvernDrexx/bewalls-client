@@ -2,8 +2,8 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import tokenStorage from './utilities/tokenStorage';
 
-// const uri = 'https://api.bewalls.com/graphql';
-const uri = 'http://192.168.0.120:4000/graphql';
+const uri = 'https://api.bewalls.com/graphql';
+// const uri = 'http://192.168.0.120:4000/graphql';
 
 const httpLink = createHttpLink({
   uri,
