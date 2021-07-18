@@ -47,7 +47,7 @@ const Categories: React.FC<CategoryProps> = function (props) {
   };
 
   if (props.loading || typeof props.categories === 'undefined') {
-    return <LoadingView color="black" height={props.height} width={100} />;
+    return <LoadingView height={props.height} width={100} />;
   }
 
   const renderItem: (data: RenderItem) => JSX.Element = ({ item, index }) => {

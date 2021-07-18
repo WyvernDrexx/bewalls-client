@@ -1,12 +1,20 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
+import { useTheme } from '../../hooks';
 
 type LoaderProps = {
-  color?: string;
+  light?: boolean;
 };
 
 const Loader: React.FC<LoaderProps> = function (props) {
-  return <ActivityIndicator color={props.color || 'black'} />;
+  const {
+    theme: { colors },
+  } = useTheme();
+  return (
+    <ActivityIndicator
+      color={props.light ? colors.primary : colors.secondary}
+    />
+  );
 };
 
 export { Loader };

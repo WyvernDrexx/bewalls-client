@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import CategoryItems from '../../components/CategoryItems';
+import { LoadingView } from '../../components/Loader/LoadingView';
 import StackHeader from '../../components/StackHeader';
 import { Category, useCategoriesDataQuery } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
@@ -19,19 +20,21 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
 
   const { loading, data } = useCategoriesDataQuery();
 
-  if (loading) return null;
-
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader title="Categories" />
-      <CategoryItems
-        onClick={handleClick}
-        isVertical
-        group="category"
-        categories={data?.categories as Category[]}
-        height="23"
-        width="96"
-      />
+      {loading ? (
+        <LoadingView height={90} />
+      ) : (
+        <CategoryItems
+          onClick={handleClick}
+          isVertical
+          group="category"
+          categories={data?.categories as Category[]}
+          height="23"
+          width="96"
+        />
+      )}
     </View>
   );
 };

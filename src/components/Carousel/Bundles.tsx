@@ -31,6 +31,7 @@ type BundlesProps = {
   vertical?: boolean;
   loading?: boolean;
   numColumns?: number;
+  loaderLight?: boolean;
 };
 
 type BundleItemProps = {
@@ -86,7 +87,7 @@ const Bundles: React.FC<BundlesProps> = function (props) {
   let width = props.width || '30%';
   const numColumns = props.vertical ? props.numColumns || 3 : undefined;
   if (props.loading || typeof props.items === 'undefined') {
-    return <LoadingView color="black" height={props.height} />;
+    return <LoadingView light={props.loaderLight} height={props.height} />;
   }
 
   const renderItem: (data: RenderItem) => JSX.Element = ({ item, index }) => {

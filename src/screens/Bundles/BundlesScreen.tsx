@@ -10,7 +10,7 @@ import { ItemGroup } from '../../types';
 
 const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
   const { themedStyles } = useTheme();
-  const { loading, data } = useBundlesScreenQuery();
+  const { data } = useBundlesScreenQuery();
 
   const handleBundleClick = (bundle: Bundle, group: ItemGroup) => {
     props.navigation.navigate('Selection', {
@@ -24,8 +24,6 @@ const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
     props.navigation.navigate('Search');
   };
 
-  if (loading) return null;
-
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
@@ -34,6 +32,7 @@ const BundlesScreen: React.FC<BundlesScreenProps> = function (props) {
       />
       <View>
         <Bundles
+          loaderLight
           onClick={handleBundleClick}
           vertical
           items={data?.bundles as Bundle[]}
