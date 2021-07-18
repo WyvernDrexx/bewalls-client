@@ -98,6 +98,11 @@ export default function WallpaperView(props: WallpaperViewProps) {
   });
 
   const handleFavourite = async (id: string) => {
+    if (!user.isVerified) {
+      return dispatchShowAlert({
+        error: 'Please sign in to access favourites.',
+      });
+    }
     if (user.isVerified && !props.onFavouriteClick) {
       return addToFavourite({
         variables: {

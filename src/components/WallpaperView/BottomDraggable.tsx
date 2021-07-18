@@ -56,7 +56,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const startPosition = hp(80);
   const maxOffset = hp(12);
   const offsetY = useSharedValue(startPosition);
-  const driftOffset = hp(50);
+  const driftOffset = hp(70);
   const actionIconSize = hp(3);
   const { themedStyles, theme } = useTheme();
   const { dispatchShowAlert } = useAlerts();
@@ -217,18 +217,21 @@ const BottomDraggable = function (props: BottomDraggableProps) {
       url: 'https://google.com/',
     });
   };
-
+  console.log(props.wallpaper);
   const ACTION_BUTTONS: Action[] = [
-    // {
-    //   icon: (
-    //     <EditSvg
-    //       fill={theme.colors.secondary}
-    //       height={actionIconSize}
-    //       width={actionIconSize}
-    //     />
-    //   ),
-    //   backgroundColor: theme.colors.light,
-    // },
+    {
+      icon: (
+        <HeartSvg
+          fill={
+            props.wallpaper.isUsersFavourite ? '#fc2679' : theme.colors.dark
+          }
+          height={actionIconSize}
+          width={actionIconSize}
+        />
+      ),
+      backgroundColor: theme.colors.secondary,
+      onClick: handleHeartClick,
+    },
     {
       icon: (
         <ShareSvg
@@ -293,7 +296,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
                   {props.wallpaper.category?.name}
                 </Text>
               </View>
-              <TouchableOpacity onPress={handleHeartClick}>
+              {/* <TouchableOpacity onPress={handleHeartClick}>
                 <HeartSvg
                   fill={
                     props.wallpaper.isUsersFavourite
@@ -303,7 +306,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
                   height={hp(5)}
                   width={hp(5)}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             <View style={styles.tagView}>
               {props.wallpaper.tags.map(item => {

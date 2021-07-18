@@ -11,6 +11,7 @@ query HomeScreen {
     imageSmall
     imageLarge
     imageMedium
+    isUsersFavourite
     bundle {
       id
     }

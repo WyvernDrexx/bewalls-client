@@ -426,7 +426,7 @@ export type HomeScreenQuery = (
   { __typename?: 'Query' }
   & { trending: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'views' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
+    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'views' | 'imageSmall' | 'imageLarge' | 'imageMedium' | 'isUsersFavourite'>
     & { bundle: (
       { __typename?: 'Bundle' }
       & Pick<Bundle, 'id'>
@@ -892,6 +892,7 @@ export const HomeScreenDocument = gql`
     imageSmall
     imageLarge
     imageMedium
+    isUsersFavourite
     bundle {
       id
     }
