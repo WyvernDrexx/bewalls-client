@@ -548,7 +548,7 @@ export type AddToFavouriteMutation = (
   { __typename?: 'Mutation' }
   & { addToFavourite?: Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'views' | 'id' | 'sizeInKB' | 'height' | 'width' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
     & { category: (
       { __typename?: 'Category' }
       & Pick<Category, 'name' | 'id'>
@@ -1213,6 +1213,7 @@ export const AddToFavouriteDocument = gql`
     imageUri
     downloads
     isUsersFavourite
+    views
     id
     sizeInKB
     height

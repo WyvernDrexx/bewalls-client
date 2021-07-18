@@ -41,6 +41,7 @@ mutation AddToFavourite($id: String!) {
     imageUri
     downloads
     isUsersFavourite
+    views
     id
     sizeInKB
     height
