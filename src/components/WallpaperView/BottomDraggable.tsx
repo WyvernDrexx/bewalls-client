@@ -18,7 +18,6 @@ import WallpaperModule from '../../modules/WallpaperModule';
 import { downloadManager, hp, permissions, wp } from '../../utilities';
 import { Cards } from '../Cards';
 import HeadingTitle from '../HeadingTitle';
-import { Loader } from '../Loader/';
 import Options from '../Options';
 import { OptionType } from '../Options/Option';
 import CheckSvg from './check.svg';
@@ -51,6 +50,8 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const [settingWallpaper, setSettingWallpaper] = useState(false);
   const [downloadInProgress, setDownloadInProgress] = useState(false);
   const [showSetWallpaperOptions, setShowSetWallpaperOptions] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(0);
+  const [applyProgress, setApplyProgress] = useState(0);
   const navigation = useNavigation();
   const startPosition = hp(80);
   const maxOffset = hp(12);
@@ -67,9 +68,11 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const { data: recommended } = useRecommendedQuery();
 
   const setWallpaper = async (destination: number) => {
+    const granted = await permissions.isReadWriteStorageGranted();
+    let uri = '';
     setSettingWallpaper(true);
     setShowSetWallpaperOptions(false);
-    const granted = await permissions.isReadWriteStorageGranted();
+
     if (granted === false) {
       const allowed = await permissions.askStorage();
       if (!allowed) {
@@ -81,13 +84,15 @@ const BottomDraggable = function (props: BottomDraggableProps) {
         return setSettingWallpaper(false);
       }
     }
-    let uri = '';
     try {
       if (!data || !data.wallpaperFile) {
         return setSettingWallpaper(false);
       }
       const { wallpaperFile } = data;
-      const results = await downloadManager.saveFileToCache(wallpaperFile);
+      const results = await downloadManager.saveFileToCache(
+        wallpaperFile,
+        setApplyProgress,
+      );
       if (results.cacheUri) {
         uri = results.cacheUri;
       } else {
@@ -129,13 +134,17 @@ const BottomDraggable = function (props: BottomDraggableProps) {
         error: 'Storage permission denied. Hence, could not download.',
       });
     }
-    const result = await downloadManager.saveFileToAlbum(wallpaperFile);
+    const result = await downloadManager.saveFileToAlbum(
+      wallpaperFile,
+      setDownloadProgress,
+    );
     if (result.error) {
       dispatchShowAlert({ error: result.error });
     } else {
       dispatchShowAlert({ success: result.message });
     }
     setDownloadInProgress(false);
+    setDownloadProgress(0);
   };
 
   const handleSetWallpaperClick = async () => {
@@ -197,7 +206,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
     icon: any;
     backgroundColor: string;
     onClick?: () => void;
-    toggleIcon?: any;
+    ToggleComp?: any;
     toggle?: boolean;
     disabled?: boolean;
   };
@@ -241,7 +250,11 @@ const BottomDraggable = function (props: BottomDraggableProps) {
       ),
       backgroundColor: '#FC2679',
       onClick: handleSetWallpaperClick,
-      toggleIcon: <Loader color="white" />,
+      ToggleComp: (
+        <Text style={[styles.downloadProgress, themedStyles.textLight]}>
+          {applyProgress}%
+        </Text>
+      ),
       toggle: settingWallpaper,
       disabled: settingWallpaper,
     },
@@ -255,7 +268,9 @@ const BottomDraggable = function (props: BottomDraggableProps) {
       ),
       backgroundColor: theme.colors.light,
       onClick: handleDownload,
-      toggleIcon: <Loader color="#4B75FF" />,
+      ToggleComp: (
+        <Text style={styles.downloadProgress}>{downloadProgress}%</Text>
+      ),
       toggle: downloadInProgress,
       disabled: downloadInProgress,
     },
@@ -321,7 +336,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
                     styles.actionView,
                     { backgroundColor: item.backgroundColor },
                   ]}>
-                  {item.toggle ? item.toggleIcon : item.icon}
+                  {item.toggle ? item.ToggleComp : item.icon}
                 </TouchableOpacity>
               );
             })}
@@ -488,6 +503,11 @@ const styles = StyleSheet.create({
   },
   recommended: {
     marginHorizontal: wp(-2),
+  },
+  downloadProgress: {
+    color: '#4B75FF',
+    fontWeight: 'bold',
+    fontSize: wp(4),
   },
 });
 
