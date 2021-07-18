@@ -16,6 +16,7 @@ import {
   ContactUs,
   Favourites,
   Home,
+  Profile,
   Search,
   Selection,
   Settings,
@@ -85,6 +86,7 @@ function RootNavigator() {
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="ContactUs" component={ContactUs} />
         <Stack.Screen name="Favourites" component={Favourites} />
+        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
       <Alert />
     </NavigationContainer>

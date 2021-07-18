@@ -26,6 +26,7 @@ import FavSvg from './heart.svg';
 import HomeSvg from './home.svg';
 import ProfileSvg from './profile.svg';
 import SlidersSvg from './sliders.svg';
+import LoginNowSvg from './login-now.svg';
 
 type SideBarProps = {
   isShown?: boolean;
@@ -48,6 +49,12 @@ const SIDEBAR_ITEMS: BarItemType[] = [
     route: 'Home',
     title: 'Home',
     icon: HomeSvg,
+  },
+  {
+    route: 'Profile',
+    title: 'Profile',
+    icon: LoginNowSvg,
+    showWhenLoggedIn: true,
   },
   {
     route: 'Categories',

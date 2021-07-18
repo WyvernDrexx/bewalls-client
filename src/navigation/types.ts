@@ -17,6 +17,7 @@ export type RootStackParamList = {
   SignIn: undefined;
   ContactUs: undefined;
   Favourites: undefined;
+  Profile: undefined;
 };
 
 export type SearchScreenProps = StackScreenProps<RootStackParamList, 'Search'>;
@@ -45,4 +46,8 @@ export type SettingsScreenProps = StackScreenProps<
 export type BundlesScreenProps = StackScreenProps<
   RootStackParamList,
   'Bundles'
+>;
+export type ProfileScreenProps = StackScreenProps<
+  RootStackParamList,
+  'Profile'
 >;
