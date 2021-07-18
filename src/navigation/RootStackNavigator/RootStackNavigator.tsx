@@ -61,7 +61,7 @@ function RootNavigator() {
   };
 
   useEffect(() => {
-    changeNavigationBarColor(theme.colors.dark, !theme.isDark, true);
+    changeNavigationBarColor(theme.colors.primary, !theme.isDark, true);
   }, [theme.mode]);
 
   useEffect(() => {

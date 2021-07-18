@@ -347,7 +347,7 @@ export type TrendingQuery = (
   { __typename?: 'Query' }
   & { trending: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'views' | 'publisher' | 'createdAt' | 'isUsersFavourite'>
+    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'imageMedium' | 'imageSmall' | 'imageLarge' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'likes' | 'views' | 'publisher' | 'createdAt' | 'isUsersFavourite'>
     & { tags: Array<Maybe<(
       { __typename?: 'Tag' }
       & Pick<Tag, 'id' | 'name'>
@@ -648,6 +648,9 @@ export const TrendingDocument = gql`
     id
     name
     imageUri
+    imageMedium
+    imageSmall
+    imageLarge
     sizeInKB
     downloads
     height

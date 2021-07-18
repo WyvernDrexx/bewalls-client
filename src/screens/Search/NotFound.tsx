@@ -27,7 +27,7 @@ const NotFound: React.FC<NotFoundProps> = function (props) {
   const handleClick = (select: Wallpaper) => {
     if (props.onClick) props.onClick(select);
   };
-
+  console.log(recommended?.trending[0]);
   return (
     <ScrollView>
       <View style={styles.root}>

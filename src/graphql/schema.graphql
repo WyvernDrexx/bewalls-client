@@ -3,6 +3,9 @@ query Trending {
     id
     name
     imageUri
+    imageMedium
+    imageSmall
+    imageLarge
     sizeInKB
     downloads
     height

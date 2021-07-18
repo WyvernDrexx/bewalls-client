@@ -21,10 +21,10 @@ const LIGHT_THEME: Colors = {
 };
 
 const DARK_THEME: Colors = {
-  primary: '#293064',
-  secondary: '#AFCADE',
-  light: '#505DAC',
-  dark: '#212652',
+  primary: '#121212',
+  secondary: '#e0e0e0',
+  light: '#454545',
+  dark: '#1F1B24',
 };
 
 const initialState: ThemeState = {
