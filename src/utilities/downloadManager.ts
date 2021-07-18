@@ -10,7 +10,8 @@ const resetProgress = (fn?: (progress: number) => void) => {
 
 const setProgress = (fn?: (progress: number) => void, progress?: number) => {
   if (typeof fn === 'function') {
-    fn(progress || 100);
+    if (typeof progress === undefined) fn(100);
+    else fn(progress!);
   }
 };
 
@@ -35,13 +36,13 @@ const downloadManager = {
     };
     const res = await config(options)
       .fetch('GET', fileInfo.uri)
-      .progress({ interval: 2 }, (recvd, total) => {
-        const progress = Math.floor((recvd / total) * 100);
+      .progress({ interval: 10 }, (recvd, total) => {
+        const progress = Math.round((recvd / total) * 100.0);
         setProgress(progressFn, progress);
       });
     if (res.data) {
       try {
-        setProgress(progressFn);
+        setProgress(progressFn, 100);
         const asset = await MediaLibrary.createAssetAsync(res.path());
         let album = await MediaLibrary.getAlbumAsync('BeWalls');
         if (album == null) {
@@ -91,12 +92,12 @@ const downloadManager = {
     const res = await config(options)
       .fetch('GET', fileInfo.uri)
       .progress({ interval: 2 }, (recvd, total) => {
-        const progress = Math.floor((recvd / total) * 100);
+        const progress = Math.round((recvd / total) * 100);
         setProgress(progressFn, progress);
       });
     if (res.data) {
       try {
-        setProgress(progressFn);
+        setProgress(progressFn, 100);
         return { cacheUri: res.path() };
       } catch (error) {
         resetProgress(progressFn);
