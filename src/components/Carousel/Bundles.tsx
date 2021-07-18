@@ -82,7 +82,7 @@ const BundleItem: React.FC<BundleItemProps> = function (props) {
   );
 };
 
-const Bundles: React.FC<BundlesProps> = function (props) {
+const Bundles: React.FC<BundlesProps> = React.memo(function (props) {
   let height = props.height || '13%';
   let width = props.width || '30%';
   const numColumns = props.vertical ? props.numColumns || 3 : undefined;
@@ -124,7 +124,7 @@ const Bundles: React.FC<BundlesProps> = function (props) {
       />
     </View>
   );
-};
+});
 
 const boxStyles = StyleSheet.create({
   box: {

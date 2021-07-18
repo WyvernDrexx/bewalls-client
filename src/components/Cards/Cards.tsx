@@ -28,7 +28,7 @@ type RenderItem = {
   index: number;
 };
 
-const Cards: React.FC<CardProps> = function (props) {
+const Cards = React.memo(function Cards(props: CardProps) {
   const numColumns = props.horizantal ? undefined : props.numColumns || 2;
   const renderItem = (data: RenderItem) => {
     const isLast = isLastElement(data.index, props.items!.length);
@@ -70,7 +70,7 @@ const Cards: React.FC<CardProps> = function (props) {
       keyExtractor={item => item.id}
     />
   );
-};
+});
 
 const styles = StyleSheet.create({
   marginRight: {

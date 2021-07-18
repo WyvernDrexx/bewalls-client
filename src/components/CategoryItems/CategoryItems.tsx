@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
+  FlatList,
   Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  FlatList,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Category } from '../../generated/graphql';
@@ -31,7 +31,7 @@ type RenderItem = {
   index: number;
 };
 
-const Categories: React.FC<CategoryProps> = function (props) {
+const Categories: React.FC<CategoryProps> = React.memo(function (props) {
   const height = hp(props.height);
   const width = wp(props.width);
   const imageSize = props.imageSize || 'imageMedium';
@@ -50,8 +50,8 @@ const Categories: React.FC<CategoryProps> = function (props) {
     return <LoadingView height={props.height} width={100} />;
   }
 
-  const renderItem: (data: RenderItem) => JSX.Element = ({ item, index }) => {
-    const isLast = isLastElement(index, props.categories.length);
+  const renderItem = React.memo(function (data: RenderItem) {
+    const isLast = isLastElement(data.index, props.categories.length);
     return (
       <>
         <TouchableOpacity
@@ -62,8 +62,8 @@ const Categories: React.FC<CategoryProps> = function (props) {
             props.isVertical ? styles.marginBottom : styles.marginLeft,
             isLast && !props.isVertical ? styles.marginRight : {},
           ]}
-          onPress={() => handleClick(item)}
-          key={item.id}>
+          onPress={() => handleClick(data.item)}
+          key={data.item.id}>
           <Image
             progressiveRenderingEnabled
             blurRadius={imageLoading ? 5 : 0}
@@ -77,7 +77,7 @@ const Categories: React.FC<CategoryProps> = function (props) {
               themedStyles.bgSecondary,
             ]}
             source={{
-              uri: item[imageSize],
+              uri: data.item[imageSize],
             }}
           />
           <LoadingView
@@ -88,17 +88,17 @@ const Categories: React.FC<CategoryProps> = function (props) {
           />
           <View style={[styles.totalNumberOfItems]}>
             <Text style={[styles.numberOfItemsText]}>
-              {item.totalNumberOfItems}
+              {data.item.totalNumberOfItems}
             </Text>
           </View>
           <LinearGradient
             colors={['transparent', 'rgba(21, 21, 21, 0.7)']}
             style={[styles.textView, { height: height / 1.5, width }]}>
             <View style={[styles.flex, { width: width - wp(4), left: wp(2) }]}>
-              <Text style={styles.title}>{item!.name}</Text>
+              <Text style={styles.title}>{data.item!.name}</Text>
               {!props.hideVisits ? (
                 <Text style={styles.lightText}>
-                  {numberToMetricScale(item.visits)}
+                  {numberToMetricScale(data.item.visits)}
                 </Text>
               ) : null}
             </View>
@@ -106,7 +106,7 @@ const Categories: React.FC<CategoryProps> = function (props) {
         </TouchableOpacity>
       </>
     );
-  };
+  });
 
   return (
     <FlatList
@@ -118,7 +118,7 @@ const Categories: React.FC<CategoryProps> = function (props) {
       keyExtractor={item => item.id}
     />
   );
-};
+});
 
 const styles = StyleSheet.create({
   root: {
