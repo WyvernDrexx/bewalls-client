@@ -1,6 +1,6 @@
 {
   "name": "bewalls",
-  "version": "0.0.9",
+  "version": "a0.1.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
