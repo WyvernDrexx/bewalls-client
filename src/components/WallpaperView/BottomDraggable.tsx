@@ -217,7 +217,6 @@ const BottomDraggable = function (props: BottomDraggableProps) {
       url: 'https://google.com/',
     });
   };
-  console.log(props.wallpaper);
   const ACTION_BUTTONS: Action[] = [
     {
       icon: (
