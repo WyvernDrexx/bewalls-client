@@ -30,6 +30,7 @@ type RenderItem = {
 
 const Cards = React.memo(function Cards(props: CardProps) {
   const numColumns = props.horizantal ? undefined : props.numColumns || 2;
+
   const renderItem = (data: RenderItem) => {
     const isLast = isLastElement(data.index, props.items!.length);
     return (

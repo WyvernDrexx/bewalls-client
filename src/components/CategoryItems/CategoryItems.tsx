@@ -50,7 +50,7 @@ const Categories: React.FC<CategoryProps> = React.memo(function (props) {
     return <LoadingView height={props.height} width={100} />;
   }
 
-  const renderItem = React.memo(function (data: RenderItem) {
+  const renderItem = function (data: RenderItem) {
     const isLast = isLastElement(data.index, props.categories.length);
     return (
       <>
@@ -106,7 +106,7 @@ const Categories: React.FC<CategoryProps> = React.memo(function (props) {
         </TouchableOpacity>
       </>
     );
-  });
+  };
 
   return (
     <FlatList

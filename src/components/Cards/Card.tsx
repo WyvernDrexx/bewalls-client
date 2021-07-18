@@ -26,9 +26,9 @@ const Card: React.FC<CardProps> = function (props) {
   const width = wp(props.width);
   const { themedStyles } = useTheme();
 
-  const handleClick = () => {
+  const handleClick = React.useCallback(() => {
     if (props.onClick) props.onClick(props.wallpaper!, props.group);
-  };
+  }, [props.wallpaper]);
 
   const handleImageLoad = () => {
     setImageLoading(false);
