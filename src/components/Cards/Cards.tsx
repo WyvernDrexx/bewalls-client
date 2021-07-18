@@ -20,6 +20,7 @@ type CardProps = {
   loading?: boolean;
   horizantal?: boolean;
   numColumns?: number;
+  numberOfItems?: number;
 };
 
 type RenderItem = {
@@ -61,7 +62,11 @@ const Cards: React.FC<CardProps> = function (props) {
       showsVerticalScrollIndicator={false}
       numColumns={numColumns}
       horizontal={props.horizantal}
-      data={props.items!}
+      data={
+        props.numberOfItems
+          ? props.items.slice(0, props.numberOfItems)
+          : props.items
+      }
       renderItem={renderItem}
       keyExtractor={item => item.id}
     />

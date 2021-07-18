@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
@@ -6,10 +7,17 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import { Tag, useWallpaperInfoQuery, Wallpaper } from '../../generated/graphql';
+import {
+  Tag,
+  useRecommendedQuery,
+  useWallpaperInfoQuery,
+  Wallpaper,
+} from '../../generated/graphql';
 import { useAlerts, useTheme } from '../../hooks';
 import WallpaperModule from '../../modules/WallpaperModule';
 import { downloadManager, hp, permissions, wp } from '../../utilities';
+import { Cards } from '../Cards';
+import HeadingTitle from '../HeadingTitle';
 import { Loader } from '../Loader/';
 import Options from '../Options';
 import { OptionType } from '../Options/Option';
@@ -43,10 +51,11 @@ const BottomDraggable = function (props: BottomDraggableProps) {
   const [settingWallpaper, setSettingWallpaper] = useState(false);
   const [downloadInProgress, setDownloadInProgress] = useState(false);
   const [showSetWallpaperOptions, setShowSetWallpaperOptions] = useState(false);
+  const navigation = useNavigation();
   const startPosition = hp(80);
-  const maxOffset = hp(54);
+  const maxOffset = hp(12);
   const offsetY = useSharedValue(startPosition);
-  const driftOffset = hp(75);
+  const driftOffset = hp(50);
   const actionIconSize = hp(3);
   const { themedStyles, theme } = useTheme();
   const { dispatchShowAlert } = useAlerts();
@@ -55,6 +64,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
       wallpaperId: props.wallpaper.id,
     },
   });
+  const { data: recommended } = useRecommendedQuery();
 
   const setWallpaper = async (destination: number) => {
     setSettingWallpaper(true);
@@ -173,6 +183,14 @@ const BottomDraggable = function (props: BottomDraggableProps) {
 
   const handleTagClick = (tag: Tag) => {
     if (props.onTagClick) props.onTagClick(tag);
+  };
+
+  const handleCardClick = (select: Wallpaper) => {
+    navigation.navigate('Selection', {
+      title: select.category.name,
+      group: 'category',
+      groupId: select.category.id,
+    });
   };
 
   type Action = {
@@ -358,6 +376,17 @@ const BottomDraggable = function (props: BottomDraggableProps) {
               {props.wallpaper.createdAt}
             </Text> */}
           </View>
+          <View style={styles.recommended}>
+            <HeadingTitle title="Recommended" hideButton />
+            <Cards
+              onClick={handleCardClick}
+              group="none"
+              height="34"
+              width="47"
+              numberOfItems={2}
+              items={recommended?.recommended as Wallpaper[]}
+            />
+          </View>
         </Animated.View>
       </PanGestureHandler>
       <Options
@@ -456,6 +485,9 @@ const styles = StyleSheet.create({
     borderRadius: wp(2),
     marginRight: hp(0.5),
     marginTop: hp(1),
+  },
+  recommended: {
+    marginHorizontal: wp(-2),
   },
 });
 
