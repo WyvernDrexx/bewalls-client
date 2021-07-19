@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Keyboard } from 'react-native';
 import {
+  Keyboard,
   StyleSheet,
   Text,
   TextInput,
@@ -8,8 +8,11 @@ import {
   View,
 } from 'react-native';
 import StackHeader from '../../components/StackHeader';
-import { useTheme, useUser } from '../../hooks';
+import { User, useUpdateUserMutation } from '../../generated/graphql';
+import { useAlerts, useTheme, useUser } from '../../hooks';
 import { ProfileScreenProps } from '../../navigation/types';
+import { useAppDispatch } from '../../store';
+import { userUpdate } from '../../store/user';
 import { hp, InputErrors, verifyInput, wp } from '../../utilities';
 import ProfileSvg from './profile.svg';
 
@@ -18,11 +21,44 @@ type ProfileForm = {
   email: string;
 };
 
-const Profile: React.FC<ProfileScreenProps> = () => {
+const Profile: React.FC<ProfileScreenProps> = props => {
   const { themedStyles, theme } = useTheme();
   const user = useUser();
   const [form, setForm] = useState<ProfileForm>({ fullName: '', email: '' });
   const [formErrors, setFormErrors] = useState<InputErrors>({});
+  const [hasInfoChanged, setHasInfoChanged] = useState(false);
+  const { dispatchShowAlert } = useAlerts();
+  const dispatch = useAppDispatch();
+
+  const [updateUser] = useUpdateUserMutation({
+    onCompleted: data => {
+      if (data && data.updateUser && data.updateUser.id) {
+        dispatch(userUpdate(data.updateUser as User));
+        dispatchShowAlert({ success: 'Profile successfully updated!' });
+        props.navigation.goBack();
+      }
+    },
+    onError: () => {
+      dispatchShowAlert({ error: 'Unknown error encountered!' });
+    },
+  });
+
+  const handleSave = async () => {
+    Keyboard.dismiss();
+    const err = verifyInput(form);
+    if (err) {
+      return setFormErrors(err);
+    }
+    await updateUser({
+      variables: {
+        data: form,
+      },
+    });
+  };
+
+  const handleInputChange = (target: keyof ProfileForm, value: string) => {
+    setForm({ ...form, [target]: value });
+  };
 
   useEffect(() => {
     if (user.info) {
@@ -30,26 +66,26 @@ const Profile: React.FC<ProfileScreenProps> = () => {
     }
   }, [user.info]);
 
-  const handleSave = async () => {
-    Keyboard.dismiss();
-    const err = verifyInput(form);
-    if (err) {
-      setFormErrors(err);
+  useEffect(() => {
+    if (form.email !== user.info?.email) {
+      return setHasInfoChanged(true);
     }
-  };
-
-  const handleInputChange = (target: keyof ProfileForm, value: string) => {
-    setForm({ ...form, [target]: value });
-  };
+    if (form.fullName !== user.info?.fullName) {
+      return setHasInfoChanged(true);
+    }
+    setHasInfoChanged(false);
+  }, [form.email, form.fullName]);
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
       <StackHeader
         title="Profile"
         right={
-          <TouchableOpacity onPress={handleSave}>
-            <Text style={styles.text}>Save</Text>
-          </TouchableOpacity>
+          hasInfoChanged ? (
+            <TouchableOpacity onPress={handleSave}>
+              <Text style={styles.text}>Save</Text>
+            </TouchableOpacity>
+          ) : undefined
         }
       />
       <View style={styles.container}>

@@ -23,7 +23,7 @@ import {
   SignIn,
 } from '../../screens';
 import { useAppDispatch } from '../../store';
-import { setUserToken, userSignIn } from '../../store/user';
+import { setUserToken, userUpdate } from '../../store/user';
 import { hp, wp } from '../../utilities';
 import tokenStorage from '../../utilities/tokenStorage';
 import { navigationRef } from '../RootNavigation';
@@ -39,7 +39,7 @@ function RootNavigator() {
   const [getUserInfo] = useGetUserInfoLazyQuery({
     onCompleted: data => {
       if (data.getUserInfo) {
-        dispatch(userSignIn(data.getUserInfo as User));
+        dispatch(userUpdate(data.getUserInfo as User));
       }
     },
     onError: err => console.log(err),

@@ -17,7 +17,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    userSignIn(state, action: PayloadAction<User | null | undefined>) {
+    userUpdate(state, action: PayloadAction<User | null | undefined>) {
       if (action.payload) {
         state.info = action.payload;
         state.token = state.token;
@@ -33,6 +33,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { userSignIn, setUserToken, userLogOut } = userSlice.actions;
+export const { userUpdate, setUserToken, userLogOut } = userSlice.actions;
 
 export default userSlice.reducer;
