@@ -8,11 +8,11 @@ import {
   View,
 } from 'react-native';
 import StackHeader from '../../components/StackHeader';
-import { User, useUpdateUserMutation } from '../../generated/graphql';
+import { useUpdateUserMutation } from '../../generated/graphql';
 import { useAlerts, useTheme, useUser } from '../../hooks';
 import { ProfileScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
-import { userUpdate } from '../../store/user';
+import { setToken } from '../../store/user';
 import { hp, InputErrors, verifyInput, wp } from '../../utilities';
 import ProfileSvg from './profile.svg';
 
@@ -32,8 +32,8 @@ const Profile: React.FC<ProfileScreenProps> = props => {
 
   const [updateUser] = useUpdateUserMutation({
     onCompleted: data => {
-      if (data && data.updateUser && data.updateUser.id) {
-        dispatch(userUpdate(data.updateUser as User));
+      if (data && data.updateUser && data.updateUser) {
+        dispatch(setToken(data.updateUser));
         dispatchShowAlert({ success: 'Profile successfully updated!' });
         props.navigation.goBack();
       }

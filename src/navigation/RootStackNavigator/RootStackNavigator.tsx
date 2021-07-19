@@ -8,7 +8,7 @@ import { StatusBar, StyleSheet, View } from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import Alert from '../../components/Alert';
-import { useGetUserInfoLazyQuery, User } from '../../generated/graphql';
+import { useGetUserInfoQuery, User } from '../../generated/graphql';
 import { useTheme, useUser } from '../../hooks';
 import {
   BundlesScreen,
@@ -23,7 +23,7 @@ import {
   SignIn,
 } from '../../screens';
 import { useAppDispatch } from '../../store';
-import { setUserToken, userUpdate } from '../../store/user';
+import { setToken, userUpdate } from '../../store/user';
 import { hp, wp } from '../../utilities';
 import tokenStorage from '../../utilities/tokenStorage';
 import { navigationRef } from '../RootNavigation';
@@ -36,7 +36,7 @@ function RootNavigator() {
   const dispatch = useAppDispatch();
   const statusBarStyle = theme.isDark ? 'light-content' : 'dark-content';
 
-  const [getUserInfo] = useGetUserInfoLazyQuery({
+  const { data: userData, refetch } = useGetUserInfoQuery({
     onCompleted: data => {
       if (data.getUserInfo) {
         dispatch(userUpdate(data.getUserInfo as User));
@@ -57,7 +57,7 @@ function RootNavigator() {
   const handleNavigationReady = async () => {
     RNBootSplash.hide();
     const storageToken = await tokenStorage.getToken();
-    dispatch(setUserToken(storageToken));
+    dispatch(setToken(storageToken));
   };
 
   useEffect(() => {
@@ -65,10 +65,18 @@ function RootNavigator() {
   }, [theme.mode]);
 
   useEffect(() => {
+    console.log(userData);
+    if (userData && userData.getUserInfo) {
+      dispatch(userUpdate(userData.getUserInfo as User));
+    }
+  }, [userData]);
+
+  useEffect(() => {
     if (user.token) {
-      getUserInfo();
+      if (refetch) refetch();
     }
   }, [user.token]);
+
   return (
     <NavigationContainer ref={navigationRef} onReady={handleNavigationReady}>
       <StatusBar

@@ -1,7 +1,3 @@
 mutation UpdateUser($data: UserUpdateInput!) {
-  updateUser(data: $data) {
-    id
-    fullName
-    email
-  }
+  updateUser(data: $data)
 }

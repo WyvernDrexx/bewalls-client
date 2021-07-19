@@ -24,7 +24,7 @@ const userSlice = createSlice({
         state.isVerified = true;
       } else return state;
     },
-    setUserToken(state, action: PayloadAction<string | null>) {
+    setToken(state, action: PayloadAction<string | null>) {
       if (action.payload !== null) state.token = action.payload;
     },
     userLogOut() {
@@ -33,6 +33,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { userUpdate, setUserToken, userLogOut } = userSlice.actions;
+export const { userUpdate, setToken, userLogOut } = userSlice.actions;
 
 export default userSlice.reducer;

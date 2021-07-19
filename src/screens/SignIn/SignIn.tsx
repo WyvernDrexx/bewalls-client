@@ -20,7 +20,7 @@ import {
 import { useAlerts, useTheme, useUser } from '../../hooks';
 import { SignInScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
-import { setUserToken } from '../../store/user';
+import { setToken } from '../../store/user';
 import { hp, verifyUserCreateData, wp } from '../../utilities';
 import tokenStorage from '../../utilities/tokenStorage';
 import CheckSvg from './check.svg';
@@ -52,7 +52,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
       }
       if (data?.createUser?.token) {
         setIsSuccess(true);
-        dispatch(setUserToken(data.createUser.token));
+        dispatch(setToken(data.createUser.token));
         dispatchShowAlert({
           success: 'Account successfully created!',
         });
@@ -75,7 +75,7 @@ const SignIn: React.FC<SignInScreenProps> = props => {
       } else {
         if (data?.signIn?.token) {
           setIsSuccess(true);
-          dispatch(setUserToken(data!.signIn!.token!));
+          dispatch(setToken(data!.signIn!.token!));
           dispatchShowAlert({
             success: 'Sign In successfull!',
           });
