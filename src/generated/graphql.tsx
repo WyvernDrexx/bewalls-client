@@ -93,6 +93,7 @@ export type Mutation = {
   updateUser?: Maybe<Scalars['String']>;
   signIn: UserSignInResponse;
   addToFavourite?: Maybe<Wallpaper>;
+  uploadProfileImage?: Maybe<Scalars['String']>;
   createCategory: Category;
   createBundle: Bundle;
   createTag: Tag;
@@ -128,6 +129,11 @@ export type MutationSignInArgs = {
 
 export type MutationAddToFavouriteArgs = {
   id: Scalars['String'];
+};
+
+
+export type MutationUploadProfileImageArgs = {
+  file: Scalars['Upload'];
 };
 
 
@@ -466,6 +472,16 @@ export type UpdateUserMutationVariables = Exact<{
 export type UpdateUserMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'updateUser'>
+);
+
+export type UploadProfileImageMutationVariables = Exact<{
+  file: Scalars['Upload'];
+}>;
+
+
+export type UploadProfileImageMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'uploadProfileImage'>
 );
 
 export type SearchTextStringQueryVariables = Exact<{
@@ -1008,6 +1024,37 @@ export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
 export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
+export const UploadProfileImageDocument = gql`
+    mutation UploadProfileImage($file: Upload!) {
+  uploadProfileImage(file: $file)
+}
+    `;
+export type UploadProfileImageMutationFn = Apollo.MutationFunction<UploadProfileImageMutation, UploadProfileImageMutationVariables>;
+
+/**
+ * __useUploadProfileImageMutation__
+ *
+ * To run a mutation, you first call `useUploadProfileImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadProfileImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadProfileImageMutation, { data, loading, error }] = useUploadProfileImageMutation({
+ *   variables: {
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useUploadProfileImageMutation(baseOptions?: Apollo.MutationHookOptions<UploadProfileImageMutation, UploadProfileImageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadProfileImageMutation, UploadProfileImageMutationVariables>(UploadProfileImageDocument, options);
+      }
+export type UploadProfileImageMutationHookResult = ReturnType<typeof useUploadProfileImageMutation>;
+export type UploadProfileImageMutationResult = Apollo.MutationResult<UploadProfileImageMutation>;
+export type UploadProfileImageMutationOptions = Apollo.BaseMutationOptions<UploadProfileImageMutation, UploadProfileImageMutationVariables>;
 export const SearchTextStringDocument = gql`
     query SearchTextString($searchText: String!) {
   search(searchText: $searchText) {

@@ -7,14 +7,21 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import DocumentPicker from 'react-native-document-picker';
 import StackHeader from '../../components/StackHeader';
-import { useUpdateUserMutation } from '../../generated/graphql';
+import {
+  useUpdateUserMutation,
+  useUploadProfileImageMutation,
+} from '../../generated/graphql';
 import { useAlerts, useTheme, useUser } from '../../hooks';
 import { ProfileScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
 import { setToken } from '../../store/user';
 import { hp, InputErrors, verifyInput, wp } from '../../utilities';
 import ProfileSvg from './profile.svg';
+import RNFetchBlob from 'rn-fetch-blob';
+import { PermissionsAndroid } from 'react-native';
+import { ReactNativeFile } from 'apollo-upload-client';
 
 type ProfileForm = {
   fullName: string;
@@ -29,7 +36,11 @@ const Profile: React.FC<ProfileScreenProps> = props => {
   const [hasInfoChanged, setHasInfoChanged] = useState(false);
   const { dispatchShowAlert } = useAlerts();
   const dispatch = useAppDispatch();
-
+  const [mutate, {}] = useUploadProfileImageMutation({
+    onError: err => {
+      console.log(err);
+    },
+  });
   const [updateUser] = useUpdateUserMutation({
     onCompleted: data => {
       if (data && data.updateUser && data.updateUser) {
@@ -42,7 +53,6 @@ const Profile: React.FC<ProfileScreenProps> = props => {
       dispatchShowAlert({ error: 'Unknown error encountered!' });
     },
   });
-
   const handleSave = async () => {
     Keyboard.dismiss();
     const err = verifyInput(form);
@@ -54,6 +64,68 @@ const Profile: React.FC<ProfileScreenProps> = props => {
         data: form,
       },
     });
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleProfileImageChange = async () => {
+    try {
+      const pick = await DocumentPicker.pick({
+        type: ['image/*'],
+        copyTo: 'cachesDirectory',
+      });
+      const stat = await RNFetchBlob.fs.stat(pick.uri);
+      const fileInfo = {
+        uri: 'file://' + stat.path,
+        type: stat.type,
+        name: stat.filename,
+      };
+      const file = new ReactNativeFile(fileInfo);
+      console.log('file', file);
+      try {
+        mutate({
+          variables: {
+            file,
+          },
+        });
+      } catch (error) {}
+    } catch (error) {
+      console.log(...error);
+    }
+  };
+
+  const uploadImage = async () => {
+    try {
+      const result = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      );
+      console.log('res', result);
+      const pick = await DocumentPicker.pick({
+        type: ['image/jpeg'],
+        copyTo: 'cachesDirectory',
+      });
+      const stat = await RNFetchBlob.fs.stat(pick.uri);
+      const data = new FormData();
+      const fileInfo = {
+        uri: 'file://' + stat.path,
+        type: 'image/jpeg',
+        name: 'image.jpg',
+      };
+      data.append('name', 'image.jpg');
+      data.append('file', fileInfo);
+      console.log('fileInfo', fileInfo);
+      let res = await fetch('http://localhost:4000/upload/user/profile/image', {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Content-Type': 'multipart/form-data;',
+          Accept: 'application/json',
+        },
+      });
+      let responseJson = await res.json();
+      console.log(responseJson);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleInputChange = (target: keyof ProfileForm, value: string) => {
@@ -95,7 +167,7 @@ const Profile: React.FC<ProfileScreenProps> = props => {
             width={wp(25)}
             fill={theme.colors.secondary}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={uploadImage}>
             <Text style={[styles.text, styles.profileChangeText]}>
               Change Profile Picture
             </Text>
