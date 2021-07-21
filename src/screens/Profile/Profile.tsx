@@ -33,7 +33,6 @@ const Profile: React.FC<ProfileScreenProps> = props => {
   const { dispatchShowAlert } = useAlerts();
   const dispatch = useAppDispatch();
   const localState = useLocal();
-  console.log(localState);
   const [updateUser] = useUpdateUserMutation({
     onCompleted: data => {
       if (data && data.updateUser && data.updateUser) {

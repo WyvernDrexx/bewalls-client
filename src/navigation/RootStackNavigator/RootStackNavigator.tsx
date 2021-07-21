@@ -66,7 +66,6 @@ function RootNavigator() {
   }, [theme.mode]);
 
   useEffect(() => {
-    console.log(userData);
     if (userData && userData.getUserInfo) {
       dispatch(userUpdate(userData.getUserInfo as User));
     }

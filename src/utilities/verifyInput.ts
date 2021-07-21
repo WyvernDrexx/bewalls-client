@@ -38,7 +38,6 @@ export type InputErrors = {
 export const verifyInput = (inputs: Inputs) => {
   let errored = false;
   const errors: InputErrors = {};
-  console.log(inputs);
   for (let key of Object.keys(inputs)) {
     if (key === 'fullName') {
       if (inputs.fullName!.length < 4) {
