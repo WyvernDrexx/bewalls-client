@@ -43,7 +43,7 @@ public class ReactNativeFlipper {
               // builder.addNetworkInterceptor(new FlipperOkhttpInterceptor(networkFlipperPlugin));
             }
           });
-      client.addPlugin(networkFlipperPlugin);
+      // client.addPlugin(networkFlipperPlugin);
       client.start();
 
       // Fresco Plugin needs to ensure that ImagePipelineFactory is initialized

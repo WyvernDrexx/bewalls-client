@@ -3,11 +3,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import alertsReducer from './alerts';
 import themeReducer from './theme';
 import userReducer from './user';
+import localReducer from './local';
 
 const reducer = combineReducers({
   theme: themeReducer,
   user: userReducer,
   alerts: alertsReducer,
+  local: localReducer,
 });
 
 export const store = configureStore({

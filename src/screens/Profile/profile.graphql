@@ -1,9 +1,3 @@
-scalar Upload
-
 mutation UpdateUser($data: UserUpdateInput!) {
   updateUser(data: $data)
-}
-
-mutation UploadProfileImage($file: Upload!) {
-  uploadProfileImage(file: $file)
 }

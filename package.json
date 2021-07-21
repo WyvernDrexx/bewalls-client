@@ -24,6 +24,7 @@
     "apollo-codegen": "^0.20.2",
     "apollo-link-error": "^1.1.13",
     "apollo-upload-client": "^16.0.0",
+    "axios": "^0.21.1",
     "expo-media-library": "^12.1.2",
     "graphql": "^15.5.0",
     "react": "17.0.1",

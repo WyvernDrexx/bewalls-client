@@ -6,22 +6,18 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import StackHeader from '../../components/StackHeader';
-import {
-  useUpdateUserMutation,
-  useUploadProfileImageMutation,
-} from '../../generated/graphql';
-import { useAlerts, useTheme, useUser } from '../../hooks';
+import { useUpdateUserMutation } from '../../generated/graphql';
+import { useAlerts, useLocal, useTheme, useUser } from '../../hooks';
 import { ProfileScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
+import { updateProfileImageUri } from '../../store/local';
 import { setToken } from '../../store/user';
 import { hp, InputErrors, verifyInput, wp } from '../../utilities';
 import ProfileSvg from './profile.svg';
-import RNFetchBlob from 'rn-fetch-blob';
-import { PermissionsAndroid } from 'react-native';
-import { ReactNativeFile } from 'apollo-upload-client';
 
 type ProfileForm = {
   fullName: string;
@@ -36,11 +32,8 @@ const Profile: React.FC<ProfileScreenProps> = props => {
   const [hasInfoChanged, setHasInfoChanged] = useState(false);
   const { dispatchShowAlert } = useAlerts();
   const dispatch = useAppDispatch();
-  const [mutate, {}] = useUploadProfileImageMutation({
-    onError: err => {
-      console.log(err);
-    },
-  });
+  const localState = useLocal();
+  console.log(localState);
   const [updateUser] = useUpdateUserMutation({
     onCompleted: data => {
       if (data && data.updateUser && data.updateUser) {
@@ -66,63 +59,13 @@ const Profile: React.FC<ProfileScreenProps> = props => {
     });
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleProfileImageChange = async () => {
     try {
       const pick = await DocumentPicker.pick({
         type: ['image/*'],
-        copyTo: 'cachesDirectory',
+        copyTo: 'documentDirectory',
       });
-      const stat = await RNFetchBlob.fs.stat(pick.uri);
-      const fileInfo = {
-        uri: 'file://' + stat.path,
-        type: stat.type,
-        name: stat.filename,
-      };
-      const file = new ReactNativeFile(fileInfo);
-      console.log('file', file);
-      try {
-        mutate({
-          variables: {
-            file,
-          },
-        });
-      } catch (error) {}
-    } catch (error) {
-      console.log(...error);
-    }
-  };
-
-  const uploadImage = async () => {
-    try {
-      const result = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-      );
-      console.log('res', result);
-      const pick = await DocumentPicker.pick({
-        type: ['image/jpeg'],
-        copyTo: 'cachesDirectory',
-      });
-      const stat = await RNFetchBlob.fs.stat(pick.uri);
-      const data = new FormData();
-      const fileInfo = {
-        uri: 'file://' + stat.path,
-        type: 'image/jpeg',
-        name: 'image.jpg',
-      };
-      data.append('name', 'image.jpg');
-      data.append('file', fileInfo);
-      console.log('fileInfo', fileInfo);
-      let res = await fetch('http://localhost:4000/upload/user/profile/image', {
-        method: 'POST',
-        body: data,
-        headers: {
-          'Content-Type': 'multipart/form-data;',
-          Accept: 'application/json',
-        },
-      });
-      let responseJson = await res.json();
-      console.log(responseJson);
+      dispatch(updateProfileImageUri(pick.fileCopyUri));
     } catch (error) {
       console.log(error);
     }
@@ -161,13 +104,20 @@ const Profile: React.FC<ProfileScreenProps> = props => {
         }
       />
       <View style={styles.container}>
-        <View style={styles.profileImage}>
-          <ProfileSvg
-            height={wp(25)}
-            width={wp(25)}
-            fill={theme.colors.secondary}
-          />
-          <TouchableOpacity onPress={uploadImage}>
+        <View style={styles.profile}>
+          {localState.profileImageUri ? (
+            <Image
+              style={styles.profileImage}
+              source={{ uri: localState.profileImageUri }}
+            />
+          ) : (
+            <ProfileSvg
+              height={wp(25)}
+              width={wp(25)}
+              fill={theme.colors.secondary}
+            />
+          )}
+          <TouchableOpacity onPress={handleProfileImageChange}>
             <Text style={[styles.text, styles.profileChangeText]}>
               Change Profile Picture
             </Text>
@@ -220,7 +170,7 @@ const styles = StyleSheet.create({
   container: {
     padding: wp(2),
   },
-  profileImage: {
+  profile: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -260,5 +210,10 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'crimson',
     marginBottom: hp(2),
+  },
+  profileImage: {
+    height: wp(25),
+    width: wp(25),
+    borderRadius: wp(50),
   },
 });
