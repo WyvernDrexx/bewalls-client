@@ -99,7 +99,9 @@ const Profile: React.FC<ProfileScreenProps> = props => {
             <TouchableOpacity onPress={handleSave}>
               <Text style={styles.text}>Save</Text>
             </TouchableOpacity>
-          ) : undefined
+          ) : (
+            <View />
+          )
         }
       />
       <View style={styles.container}>
