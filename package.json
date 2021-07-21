@@ -42,6 +42,7 @@
     "react-native-svg-transformer": "^0.14.3",
     "react-native-unimodules": "^0.14.3",
     "react-redux": "^7.2.4",
+    "redux-persist": "^6.0.0",
     "rn-fetch-blob": "git+https://github.com/joltup/rn-fetch-blob.git"
   },
   "devDependencies": {

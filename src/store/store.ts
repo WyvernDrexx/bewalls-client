@@ -1,9 +1,15 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import {
+  combineReducers,
+  configureStore,
+  getDefaultMiddleware,
+} from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { persistStore, persistReducer } from 'redux-persist';
 import alertsReducer from './alerts';
 import themeReducer from './theme';
 import userReducer from './user';
 import localReducer from './local';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const reducer = combineReducers({
   theme: themeReducer,
@@ -12,9 +18,20 @@ const reducer = combineReducers({
   local: localReducer,
 });
 
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+  whitelist: ['local'],
+};
+
+const persistedReducer = persistReducer(persistConfig, reducer);
+
 export const store = configureStore({
-  reducer,
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware({ serializableCheck: false }),
 });
+
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
