@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Image,
   StyleProp,
   StyleSheet,
   Text,
@@ -15,7 +16,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { SvgProps } from 'react-native-svg';
-import { useTheme, useUser } from '../../hooks';
+import { useLocal, useTheme, useUser } from '../../hooks';
 import { RootStackParamList } from '../../navigation/types';
 import { hp, wp } from '../../utilities';
 import BackSvg from './back.svg';
@@ -89,6 +90,7 @@ const SideBar: React.FC<SideBarProps> = function (props) {
   const width = wp(100);
   const isShown = useSharedValue(props.isShown);
   const user = useUser();
+  const { profileImageUri } = useLocal();
   const [toCall, setToCall] = useState<'close' | 'barItem' | null>(null);
   const {
     themedStyles,
@@ -154,7 +156,14 @@ const SideBar: React.FC<SideBarProps> = function (props) {
           <BackSvg height={hp(2)} width={hp(2)} fill={colors.secondary} />
         </TouchableOpacity>
         <View style={[styles.profile]}>
-          <ProfileSvg height={hp(8)} width={hp(8)} fill={colors.secondary} />
+          {profileImageUri ? (
+            <Image
+              style={styles.profileImage}
+              source={{ uri: profileImageUri }}
+            />
+          ) : (
+            <ProfileSvg height={hp(8)} width={hp(8)} fill={colors.secondary} />
+          )}
           <Text style={[styles.profileText, themedStyles.text]}>
             {user.info ? user.info.fullName : 'You'}
           </Text>
@@ -233,6 +242,12 @@ const styles = StyleSheet.create({
   },
   barItems: {
     borderTopWidth: 1,
+  },
+  profileImage: {
+    borderRadius: wp(50),
+    height: hp(8),
+    width: hp(8),
+    backgroundColor: 'black',
   },
 });
 

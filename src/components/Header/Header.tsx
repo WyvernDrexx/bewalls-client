@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Image,
   StyleProp,
   StyleSheet,
   Text,
@@ -8,7 +9,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { useTheme, useUser } from '../../hooks';
+import { useLocal, useTheme, useUser } from '../../hooks';
 import { useAppDispatch } from '../../store';
 import { changeTheme } from '../../store/theme';
 import { hp, wp } from '../../utilities';
@@ -24,6 +25,7 @@ const Header: React.FC<HeaderProps> = function (props) {
   const dispatch = useAppDispatch();
   const { themedStyles, theme } = useTheme();
   const user = useUser();
+  const { profileImageUri } = useLocal();
   const handleThemeChange = () => {
     dispatch(changeTheme(theme.isDark ? 'light' : 'dark'));
   };
@@ -39,11 +41,18 @@ const Header: React.FC<HeaderProps> = function (props) {
       style={[props.animatedStyle, styles.root, themedStyles.bgAndText]}>
       <TouchableOpacity onPress={handleProfileClick} activeOpacity={0.6}>
         <View style={styles.userInfo}>
-          <ProfileImage
-            fill={theme.colors.secondary}
-            width={wp(10)}
-            height={wp(10)}
-          />
+          {profileImageUri ? (
+            <Image
+              style={styles.profileImage}
+              source={{ uri: profileImageUri }}
+            />
+          ) : (
+            <ProfileImage
+              fill={theme.colors.secondary}
+              width={wp(10)}
+              height={wp(10)}
+            />
+          )}
           <View style={styles.welcomeView}>
             <Text style={[styles.welcomeText, themedStyles.text]}>
               Welcome,
@@ -89,6 +98,12 @@ const styles = StyleSheet.create({
   },
   welcomeView: {
     paddingLeft: wp(2),
+  },
+  profileImage: {
+    borderRadius: wp(50),
+    height: wp(10),
+    width: wp(10),
+    backgroundColor: 'black',
   },
 });
 

@@ -215,5 +215,6 @@ const styles = StyleSheet.create({
     height: wp(25),
     width: wp(25),
     borderRadius: wp(50),
+    backgroundColor: 'black',
   },
 });
