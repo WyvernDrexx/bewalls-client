@@ -4,6 +4,8 @@ query GetUserFavourites {
     favourites {
       name
       imageUri
+      imageSmall
+      imageMedium
       isUsersFavourite
       id
       color {

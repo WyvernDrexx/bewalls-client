@@ -413,7 +413,7 @@ export type GetUserFavouritesQuery = (
     & Pick<User, 'id'>
     & { favourites: Array<Maybe<(
       { __typename?: 'Wallpaper' }
-      & Pick<Wallpaper, 'name' | 'imageUri' | 'isUsersFavourite' | 'id' | 'likes' | 'downloads' | 'highlightColor'>
+      & Pick<Wallpaper, 'name' | 'imageUri' | 'imageSmall' | 'imageMedium' | 'isUsersFavourite' | 'id' | 'likes' | 'downloads' | 'highlightColor'>
       & { color: (
         { __typename?: 'Color' }
         & Pick<Color, 'id' | 'name' | 'code'>
@@ -846,6 +846,8 @@ export const GetUserFavouritesDocument = gql`
     favourites {
       name
       imageUri
+      imageSmall
+      imageMedium
       isUsersFavourite
       id
       color {

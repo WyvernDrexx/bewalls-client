@@ -65,6 +65,7 @@ const Profile: React.FC<ProfileScreenProps> = props => {
         copyTo: 'documentDirectory',
       });
       dispatch(updateProfileImageUri(pick.fileCopyUri));
+      dispatchShowAlert({ success: 'Profile picture updated successfully!' });
     } catch (error) {
       console.log(error);
     }

@@ -5,6 +5,7 @@ import StackHeader from '../../components/StackHeader';
 import { useAlerts, useTheme, useUser } from '../../hooks';
 import { SettingsScreenProps } from '../../navigation/types';
 import { useAppDispatch } from '../../store';
+import { updateProfileImageUri } from '../../store/local';
 import { userLogOut } from '../../store/user';
 import { hp, wp } from '../../utilities';
 import tokenStorage from '../../utilities/tokenStorage';
@@ -18,11 +19,13 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
   const dispatch = useAppDispatch();
   const user = useUser();
   const { dispatchShowAlert } = useAlerts();
+
   const handleUserLogout = async () => {
     await tokenStorage.deleteToken();
     dispatch(userLogOut());
     apolloClient.clearStore();
     props.navigation.navigate('Home');
+    dispatch(updateProfileImageUri(null));
     dispatchShowAlert({
       success: 'You have been successfully logged out!',
     });
