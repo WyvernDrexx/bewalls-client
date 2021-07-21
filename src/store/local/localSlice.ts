@@ -13,7 +13,15 @@ const localSlice = createSlice({
   initialState,
   reducers: {
     updateProfileImageUri(state, action: PayloadAction<string | null>) {
-      state.profileImageUri = 'file://' + action.payload;
+      if (action.payload) {
+        if (!action.payload.includes('file://')) {
+          state.profileImageUri = 'file://' + action.payload;
+        } else {
+          state.profileImageUri = action.payload;
+        }
+      } else {
+        state.profileImageUri = null;
+      }
     },
   },
 });

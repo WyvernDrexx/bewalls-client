@@ -23,6 +23,7 @@ import {
   SignIn,
 } from '../../screens';
 import { useAppDispatch } from '../../store';
+import { updateProfileImageUri } from '../../store/local';
 import { setToken, userUpdate } from '../../store/user';
 import { hp, wp } from '../../utilities';
 import tokenStorage from '../../utilities/tokenStorage';
@@ -74,6 +75,9 @@ function RootNavigator() {
   useEffect(() => {
     if (user.token) {
       if (refetch) refetch();
+    }
+    if (!user.token) {
+      dispatch(updateProfileImageUri(null));
     }
   }, [user.token]);
 
