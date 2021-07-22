@@ -15,15 +15,14 @@ import {
   useHomeScreenQuery,
   Wallpaper,
 } from '../../generated/graphql';
-import { useAlerts, useTheme } from '../../hooks';
+import { useAlerts, useTheme, useWallpaperView } from '../../hooks';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
 import { ItemGroup } from '../../types';
 import { hp, wp } from '../../utilities';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
-  const [selected, setSelected] = useState<Wallpaper | undefined>();
-  const [viewSelected, setViewSelected] = useState(false);
+  const { wallpaper, setWallpaper } = useWallpaperView();
   const { themedStyles } = useTheme();
   const { loading, data, error } = useHomeScreenQuery();
   const { dispatchShowAlert } = useAlerts();
@@ -41,15 +40,6 @@ const Home: React.FC<HomeScreenProps> = function (props) {
 
   const goToCategories = () => {
     props.navigation.navigate('Categories');
-  };
-
-  const handleCardClick = (select: Wallpaper) => {
-    setSelected(select);
-    setViewSelected(true);
-  };
-
-  const handleCloseClick = () => {
-    setViewSelected(false);
   };
 
   const handleBoxClick = (select: Category, group: ItemGroup) => {
@@ -110,7 +100,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
               horizantal
               group="category"
               items={data?.trending! as Wallpaper[]}
-              onClick={handleCardClick}
+              onClick={setWallpaper}
               height="35"
               width="42"
             />
@@ -135,9 +125,8 @@ const Home: React.FC<HomeScreenProps> = function (props) {
         </ScrollView>
       </View>
       <WallpaperView
-        onCloseClick={handleCloseClick}
-        wallpaper={selected}
-        showWallpaper={viewSelected}
+        onCloseClick={() => setWallpaper(null)}
+        wallpaper={wallpaper}
       />
     </View>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Cards } from '../../components/Cards';
 import { LoadingView } from '../../components/Loader/LoadingView';
@@ -6,24 +6,14 @@ import MountAnimatedView from '../../components/MountAnimatedView';
 import StackHeader from '../../components/StackHeader';
 import WallpaperView from '../../components/WallpaperView';
 import { useGetUserFavouritesQuery, Wallpaper } from '../../generated/graphql';
-import { useTheme } from '../../hooks';
+import { useTheme, useWallpaperView } from '../../hooks';
 import { FavouritesScreenProps } from '../../navigation/types';
 import { hp, wp } from '../../utilities';
 
 const Favourites: React.FC<FavouritesScreenProps> = () => {
   const { themedStyles } = useTheme();
-  const [wallpaper, setWallpaper] = useState<Wallpaper | undefined>();
-  const [previewWallpaper, setPreviewWallpaper] = useState(false);
   const { data, loading, refetch } = useGetUserFavouritesQuery();
-
-  const handleCardClick = (select: Wallpaper) => {
-    setWallpaper(select);
-    setPreviewWallpaper(true);
-  };
-
-  const handleCloseClick = () => {
-    setPreviewWallpaper(false);
-  };
+  const { wallpaper, setWallpaper } = useWallpaperView();
 
   const handleAfterFavouriteMutation = (_: Wallpaper) => {
     refetch();
@@ -45,7 +35,7 @@ const Favourites: React.FC<FavouritesScreenProps> = () => {
     return (
       <View style={styles.favourites}>
         <Cards
-          onClick={handleCardClick}
+          onClick={setWallpaper}
           group="bundle"
           height="15"
           width="47"
@@ -69,10 +59,9 @@ const Favourites: React.FC<FavouritesScreenProps> = () => {
         <View style={styles.container}>{renderFavouritesCards()}</View>
       )}
       <WallpaperView
-        afterFavouriteMutation={handleAfterFavouriteMutation}
-        onCloseClick={handleCloseClick}
-        showWallpaper={previewWallpaper}
         wallpaper={wallpaper}
+        afterFavouriteMutation={handleAfterFavouriteMutation}
+        onCloseClick={() => setWallpaper(null)}
       />
     </View>
   );

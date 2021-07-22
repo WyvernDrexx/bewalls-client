@@ -9,7 +9,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import Animated, {
-  interpolate,
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
@@ -27,7 +27,7 @@ import DownArrowSvg from './down-arrow.svg';
 type WallpaperViewProps = {
   animatedStyle?: StyleProp<ViewStyle>;
   onCloseClick?: () => void;
-  wallpaper?: Wallpaper;
+  wallpaper: Wallpaper | null;
   showWallpaper?: boolean;
   onFavouriteClick?: (id: string) => void;
   afterFavouriteMutation?: (wallpaper: Wallpaper) => void;
@@ -38,20 +38,35 @@ export default function WallpaperView(props: WallpaperViewProps) {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [imageLoaded, setImageLoaded] = useState(false);
   const screenHeight = hp(100);
+  const { dispatchShowAlert } = useAlerts();
   const offsetY = useSharedValue(screenHeight);
   const user = useUser();
+
+  const hideView = (cb?: () => void) => {
+    offsetY.value = Animated.withTiming(screenHeight, {}, isFinished => {
+      if (isFinished) {
+        if (typeof cb === 'function') {
+          runOnJS(cb)();
+        }
+      }
+    });
+  };
+
+  const showView = (cb?: () => void) => {
+    offsetY.value = Animated.withTiming(0, {}, cb);
+  };
+
   useEffect(() => {
-    if (props.showWallpaper) {
-      offsetY.value = 0;
-    } else {
-      offsetY.value = screenHeight;
-    }
-  }, [props.showWallpaper]);
+    if (wallpaper) showView();
+    else hideView();
+  }, [wallpaper]);
 
   const handleCloseClick = () => {
-    offsetY.value = screenHeight;
-    if (props.onCloseClick) props.onCloseClick();
+    hideView(() => {
+      if (props.onCloseClick) props.onCloseClick();
+    });
   };
+
   const handleImageLoadEnd = () => {
     setImageLoaded(true);
   };
@@ -64,19 +79,15 @@ export default function WallpaperView(props: WallpaperViewProps) {
   };
 
   const animatedStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(offsetY.value, [0, screenHeight], [1, 0]);
-
     return {
       transform: [
         {
-          translateY: Animated.withTiming(offsetY.value),
+          translateY: offsetY.value,
         },
       ],
-      opacity: Animated.withTiming(opacity),
     };
   });
 
-  const { dispatchShowAlert } = useAlerts();
   const [addToFavourite] = useAddToFavouriteMutation({
     onCompleted: data => {
       if (!data || data.addToFavourite !== null) {

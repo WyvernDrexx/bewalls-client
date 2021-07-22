@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Cards } from '../../components/Cards';
 import { LoadingView } from '../../components/Loader/LoadingView';
 import StackHeader from '../../components/StackHeader';
 import WallpaperView from '../../components/WallpaperView';
 import { useWallpapersQuery, Wallpaper } from '../../generated/graphql';
-import { useTheme } from '../../hooks';
+import { useTheme, useWallpaperView } from '../../hooks';
 import { SelectionScreenProps } from '../../navigation/types';
 import { hp, wp } from '../../utilities';
 
 const Selection: React.FC<SelectionScreenProps> = function (props) {
   const { group: type, groupId: selectorId } = props.route.params;
-  const [previewWallpaper, setPreviewWallpaper] = useState(false);
-  const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
-
+  const { wallpaper, setWallpaper } = useWallpaperView();
   const variables = {
     bundleId: type === 'bundle' ? selectorId : '',
     categoryId: type === 'category' ? selectorId : '',
@@ -27,15 +25,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
 
   const { themedStyles } = useTheme();
 
-  const handleCardClick = (wallpaper: Wallpaper) => {
-    setSelectedWallpaper(wallpaper);
-    setPreviewWallpaper(true);
-  };
-
-  const handlePreviewClose = () => {
-    setPreviewWallpaper(false);
-  };
-
   const renderDisplay = () => {
     if (loading || !data) {
       return <LoadingView height={88} />;
@@ -44,7 +33,7 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
     return (
       <Cards
         group="category"
-        onClick={handleCardClick}
+        onClick={setWallpaper}
         items={data?.wallpapers as Wallpaper[]}
         height="39"
         width="47"
@@ -59,9 +48,8 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
       <StackHeader title={props.route.params.title} />
       {renderDisplay()}
       <WallpaperView
-        showWallpaper={previewWallpaper}
-        wallpaper={selectedWallpaper}
-        onCloseClick={handlePreviewClose}
+        wallpaper={wallpaper}
+        onCloseClick={() => setWallpaper(null)}
       />
     </View>
   );

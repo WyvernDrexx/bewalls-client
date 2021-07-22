@@ -8,6 +8,11 @@ query GetUserFavourites {
       imageMedium
       isUsersFavourite
       id
+      downloads
+      height
+      width
+      sizeInKB
+      views
       color {
         id
         name

@@ -14,7 +14,7 @@ import {
   useSearchTextStringLazyQuery,
   Wallpaper,
 } from '../../generated/graphql';
-import { useTheme } from '../../hooks';
+import { useTheme, useWallpaperView } from '../../hooks';
 import { SearchScreenProps } from '../../navigation/types';
 import { hp, wp } from '../../utilities';
 import CloseSvg from './close.svg';
@@ -26,14 +26,12 @@ import SearchSvg from './search.svg';
 
 const Search: React.FC<SearchScreenProps> = function (props) {
   const [searchText, setSearchText] = useState('');
-  const [selectedWallpaper, setSelectedWallpaper] = useState<Wallpaper>();
   const inputRef = useRef<TextInput>(null);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [searchResults, setSearchResults] = useState<Wallpaper[]>([]);
-  const [showWallpaper, setShowWallpaper] = useState(false);
   const [iskeyboardVisible, setIskeyboardVisible] = useState(true);
   const { themedStyles, theme } = useTheme();
-
+  const { wallpaper, setWallpaper } = useWallpaperView();
   const [searchTextString, { loading }] = useSearchTextStringLazyQuery({
     onCompleted: data => {
       setSearchResults((data.search.wallpapers as Wallpaper[]) || []);
@@ -61,15 +59,6 @@ const Search: React.FC<SearchScreenProps> = function (props) {
 
   const handleSearchTermClick = (searchTerm: HotSearchTerm) => {
     setSearchText(searchTerm.term);
-  };
-
-  const handleShowWallpaper = (select: Wallpaper) => {
-    setSelectedWallpaper(select);
-    setShowWallpaper(true);
-  };
-
-  const handleWallpaperViewClose = () => {
-    setShowWallpaper(false);
   };
 
   const handleBackClick = () => {
@@ -100,7 +89,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     if (searchResults.length) {
       return (
         <Results
-          onClick={handleShowWallpaper}
+          onClick={setWallpaper}
           numberOfResults={searchResults.length || 0}
           items={searchResults as Wallpaper[]}
           searchTerm={searchText}
@@ -111,7 +100,7 @@ const Search: React.FC<SearchScreenProps> = function (props) {
     if (!searchResults.length && searchText.length > 1) {
       return (
         <NotFound
-          onClick={handleShowWallpaper}
+          onClick={setWallpaper}
           onRecentUploadsClick={handleRecentUploadsClick}
         />
       );
@@ -211,9 +200,8 @@ const Search: React.FC<SearchScreenProps> = function (props) {
       </View>
       {renderContents()}
       <WallpaperView
-        onCloseClick={handleWallpaperViewClose}
-        showWallpaper={showWallpaper}
-        wallpaper={selectedWallpaper}
+        wallpaper={wallpaper}
+        onCloseClick={() => setWallpaper(null)}
       />
     </View>
   );

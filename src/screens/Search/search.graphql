@@ -4,14 +4,23 @@ query SearchTextString($searchText: String!) {
       name
       imageUri
       downloads
+      isUsersFavourite
+      id
+      sizeInKB
+      height
       imageSmall
       imageLarge
       imageMedium
+      width
+      views
+      category {
+        name
+        id
+      }
       tags {
         name
         id
       }
-      id
     }
   }
 }
@@ -42,6 +51,7 @@ query Recommended {
     imageLarge
     imageMedium
     width
+    views
     category {
       name
       id
@@ -63,6 +73,7 @@ query Recent {
     sizeInKB
     height
     width
+    views
     imageSmall
     imageLarge
     imageMedium

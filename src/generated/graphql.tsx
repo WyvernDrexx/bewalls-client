@@ -363,7 +363,10 @@ export type TrendingQuery = (
     & { tags: Array<Maybe<(
       { __typename?: 'Tag' }
       & Pick<Tag, 'id' | 'name'>
-    )>>, bundle: (
+    )>>, category: (
+      { __typename?: 'Category' }
+      & Pick<Category, 'id' | 'name'>
+    ), bundle: (
       { __typename?: 'Bundle' }
       & Pick<Bundle, 'id' | 'name' | 'imageUri'>
     ) }
@@ -413,7 +416,7 @@ export type GetUserFavouritesQuery = (
     & Pick<User, 'id'>
     & { favourites: Array<Maybe<(
       { __typename?: 'Wallpaper' }
-      & Pick<Wallpaper, 'name' | 'imageUri' | 'imageSmall' | 'imageMedium' | 'isUsersFavourite' | 'id' | 'likes' | 'downloads' | 'highlightColor'>
+      & Pick<Wallpaper, 'name' | 'imageUri' | 'imageSmall' | 'imageMedium' | 'isUsersFavourite' | 'id' | 'downloads' | 'height' | 'width' | 'sizeInKB' | 'views' | 'likes' | 'highlightColor'>
       & { color: (
         { __typename?: 'Color' }
         & Pick<Color, 'id' | 'name' | 'code'>
@@ -479,8 +482,11 @@ export type SearchTextStringQuery = (
     { __typename?: 'SearchResult' }
     & { wallpapers: Array<Maybe<(
       { __typename?: 'Wallpaper' }
-      & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'imageSmall' | 'imageLarge' | 'imageMedium' | 'id'>
-      & { tags: Array<Maybe<(
+      & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'imageSmall' | 'imageLarge' | 'imageMedium' | 'width' | 'views'>
+      & { category: (
+        { __typename?: 'Category' }
+        & Pick<Category, 'name' | 'id'>
+      ), tags: Array<Maybe<(
         { __typename?: 'Tag' }
         & Pick<Tag, 'name' | 'id'>
       )>> }
@@ -509,7 +515,7 @@ export type RecommendedQuery = (
   { __typename?: 'Query' }
   & { recommended: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'imageSmall' | 'imageLarge' | 'imageMedium' | 'width'>
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'imageSmall' | 'imageLarge' | 'imageMedium' | 'width' | 'views'>
     & { category: (
       { __typename?: 'Category' }
       & Pick<Category, 'name' | 'id'>
@@ -527,7 +533,7 @@ export type RecentQuery = (
   { __typename?: 'Query' }
   & { recent: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width' | 'views' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
     & { category: (
       { __typename?: 'Category' }
       & Pick<Category, 'name' | 'id'>
@@ -550,7 +556,7 @@ export type WallpapersQuery = (
   { __typename?: 'Query' }
   & { wallpapers: Array<Maybe<(
     { __typename?: 'Wallpaper' }
-    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
+    & Pick<Wallpaper, 'name' | 'imageUri' | 'downloads' | 'isUsersFavourite' | 'id' | 'sizeInKB' | 'height' | 'width' | 'imageSmall' | 'imageLarge' | 'imageMedium' | 'views'>
     & { category: (
       { __typename?: 'Category' }
       & Pick<Category, 'name' | 'id'>
@@ -683,6 +689,10 @@ export const TrendingDocument = gql`
     createdAt
     isUsersFavourite
     tags {
+      id
+      name
+    }
+    category {
       id
       name
     }
@@ -850,6 +860,11 @@ export const GetUserFavouritesDocument = gql`
       imageMedium
       isUsersFavourite
       id
+      downloads
+      height
+      width
+      sizeInKB
+      views
       color {
         id
         name
@@ -1017,14 +1032,23 @@ export const SearchTextStringDocument = gql`
       name
       imageUri
       downloads
+      isUsersFavourite
+      id
+      sizeInKB
+      height
       imageSmall
       imageLarge
       imageMedium
+      width
+      views
+      category {
+        name
+        id
+      }
       tags {
         name
         id
       }
-      id
     }
   }
 }
@@ -1112,6 +1136,7 @@ export const RecommendedDocument = gql`
     imageLarge
     imageMedium
     width
+    views
     category {
       name
       id
@@ -1161,6 +1186,7 @@ export const RecentDocument = gql`
     sizeInKB
     height
     width
+    views
     imageSmall
     imageLarge
     imageMedium
@@ -1219,6 +1245,7 @@ export const WallpapersDocument = gql`
     imageSmall
     imageLarge
     imageMedium
+    views
     category {
       name
       id
