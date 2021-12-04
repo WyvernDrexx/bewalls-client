@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import CategoryItems from '../../components/CategoryItems';
 import { LoadingView } from '../../components/Loader/LoadingView';
+import MiniSearchButton from '../../components/SearchBar/MiniSearchButton';
 import StackHeader from '../../components/StackHeader';
 import { Category, useCategoriesDataQuery } from '../../generated/graphql';
 import { useTheme } from '../../hooks';
@@ -18,11 +19,18 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
     });
   };
 
+  const handleSearchButtonClick = () => {
+    props.navigation.navigate('Search');
+  };
+
   const { loading, data } = useCategoriesDataQuery();
 
   return (
     <View style={[styles.root, themedStyles.bg]}>
-      <StackHeader title="Categories" />
+      <StackHeader
+        right={<MiniSearchButton onClick={handleSearchButtonClick} />}
+        title="Categories"
+      />
       {loading ? (
         <LoadingView height={90} />
       ) : (
