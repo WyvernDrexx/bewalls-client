@@ -11,12 +11,8 @@ const ContactUs: React.FC<ContactUsScreenProps> = function () {
   return (
     <>
       <StackHeader title="Contact Us" />
-
       <View style={[styles.root, themedStyles.bg]}>
         <View style={styles.container}>
-          <Text style={[styles.heading, themedStyles.text]}>
-            Content Manager
-          </Text>
           <Text style={[styles.text, themedStyles.text]}>
             If you have any queries related with our contents you can contact us
             at
@@ -48,14 +44,16 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: wp(2),
     height: hp(20),
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: hp(2),
   },
   contactEmail: {
     backgroundColor: 'black',
-    width: wp(50),
     borderRadius: wp(1),
     color: 'white',
     padding: wp(2),
-    marginLeft: wp(25),
     textAlign: 'center',
   },
   heading: {

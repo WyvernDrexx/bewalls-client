@@ -53,11 +53,14 @@ const Settings: React.FC<SettingsScreenProps> = function (props) {
           </Text>
         </View>
 
-        <View style={styles.optionsView}>
-          <Text style={[themedStyles.text, styles.optionsText]}>
-            Contact Us
-          </Text>
-        </View>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('ContactUs')}>
+          <View style={styles.optionsView}>
+            <Text style={[themedStyles.text, styles.optionsText]}>
+              Contact Us
+            </Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.optionsView}>
           <Text style={[themedStyles.text, styles.optionsText]}>
             Privacy Policy
