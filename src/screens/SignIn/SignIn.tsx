@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Image,
@@ -8,258 +8,221 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
-} from 'react-native';
-import StackHeader from '../../components/StackHeader';
-import {
-  useCreateUserMutation,
-  UserCreateError,
-  UserCreateInput,
-  useSignInMutation,
-} from '../../generated/graphql';
-import { useAlerts, useTheme, useUser } from '../../hooks';
-import { SignInScreenProps } from '../../navigation/types';
-import { useAppDispatch } from '../../store';
-import { setToken } from '../../store/user';
-import { hp, verifyUserCreateData, wp } from '../../utilities';
-import tokenStorage from '../../utilities/tokenStorage';
-import CheckSvg from './check.svg';
-import EmailSvg from './envelope.svg';
-import FullNameSvg from './full-name.svg';
-import LockSvg from './locks.svg';
+  View
+} from 'react-native'
+import StackHeader from '../../components/StackHeader'
+import { useCreateUserMutation, UserCreateError, UserCreateInput, useSignInMutation } from '../../generated/graphql'
+import { useAlerts, useTheme, useUser } from '../../hooks'
+import { SignInScreenProps } from '../../navigation/types'
+import { useAppDispatch } from '../../store'
+import { setToken } from '../../store/user'
+import { hp, verifyUserCreateData, wp } from '../../utilities'
+import tokenStorage from '../../utilities/tokenStorage'
+import CheckSvg from './check.svg'
+import EmailSvg from './envelope.svg'
+import FullNameSvg from './full-name.svg'
+import LockSvg from './locks.svg'
 
-const SignIn: React.FC<SignInScreenProps> = props => {
-  const { themedStyles, theme } = useTheme();
-  const [isLoginMode, setIsLoginMode] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+const SignIn: React.FC<SignInScreenProps> = (props) => {
+  const { themedStyles, theme } = useTheme()
+  const [isLoginMode, setIsLoginMode] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const [userInputs, setUserInputs] = useState<UserCreateInput>({
     fullName: '',
     email: '',
-    password: '',
-  });
-  const [errors, setErrors] = useState<UserCreateError>({});
-  const [loading, setLoading] = useState(false);
-  const { dispatchShowAlert } = useAlerts();
-  const user = useUser();
-  const dispatch = useAppDispatch();
+    password: ''
+  })
+  const [errors, setErrors] = useState<UserCreateError>({})
+  const [loading, setLoading] = useState(false)
+  const { dispatchShowAlert } = useAlerts()
+  const user = useUser()
+  const dispatch = useAppDispatch()
 
   const [createUser] = useCreateUserMutation({
-    onCompleted: async data => {
+    onCompleted: async (data) => {
       if (data?.createUser?.errors) {
         return setErrors({
-          ...data.createUser.errors,
-        });
+          ...data.createUser.errors
+        })
       }
       if (data?.createUser?.token) {
-        setIsSuccess(true);
-        dispatch(setToken(data.createUser.token));
+        setIsSuccess(true)
+        dispatch(setToken(data.createUser.token))
         dispatchShowAlert({
-          success: 'Account successfully created!',
-        });
-        await tokenStorage.setToken(data.createUser.token);
+          success: 'Account successfully created!'
+        })
+        await tokenStorage.setToken(data.createUser.token)
       }
     },
     onError: () => {
       dispatchShowAlert({
-        error: 'Unknown error encountered!',
-      });
-    },
-  });
+        error: 'Unknown error encountered!'
+      })
+    }
+  })
 
   const [signIn] = useSignInMutation({
-    onCompleted: async data => {
+    onCompleted: async (data) => {
       if (data?.signIn?.error) {
         dispatchShowAlert({
-          error: 'Invalid email/password!',
-        });
+          error: 'Invalid email/password!'
+        })
       } else {
         if (data?.signIn?.token) {
-          setIsSuccess(true);
-          dispatch(setToken(data!.signIn!.token!));
+          setIsSuccess(true)
+          dispatch(setToken(data!.signIn!.token!))
           dispatchShowAlert({
-            success: 'Sign In successfull!',
-          });
-          await tokenStorage.setToken(data!.signIn!.token!);
+            success: 'Sign In successfull!'
+          })
+          await tokenStorage.setToken(data!.signIn!.token!)
         }
       }
     },
     onError: () => {
       dispatchShowAlert({
-        error: 'Unknown error encountered!',
-      });
-    },
-  });
+        error: 'Unknown error encountered!'
+      })
+    }
+  })
 
   const handleInputChange = (target: keyof UserCreateInput, value: string) => {
-    setUserInputs({ ...userInputs, [target]: value });
-  };
+    setUserInputs({ ...userInputs, [target]: value })
+  }
 
   const handleSignUp = () => {
-    const { fullName, email, password } = userInputs;
+    const { fullName, email, password } = userInputs
     createUser({
       variables: {
         fullName,
         email,
-        password,
-      },
-    });
-  };
+        password
+      }
+    })
+  }
 
   const handleSignIn = () => {
-    const { email, password } = userInputs;
+    const { email, password } = userInputs
     signIn({
       variables: {
         email,
-        password,
-      },
-    });
-  };
+        password
+      }
+    })
+  }
 
   const HeaderRightButton = () => {
     return (
       <TouchableOpacity
         onPress={() => setIsLoginMode(!isLoginMode)}
-        style={[styles.rightButton, { borderColor: theme.colors.secondary }]}>
-        <Text style={[styles.rightButtonText, themedStyles.text]}>
-          {isLoginMode ? 'Sign Up' : 'Sign In'}
-        </Text>
+        style={[styles.rightButton, { borderColor: theme.colors.secondary }]}
+      >
+        <Text style={[styles.rightButtonText, themedStyles.text]}>{isLoginMode ? 'Sign Up' : 'Sign In'}</Text>
       </TouchableOpacity>
-    );
-  };
+    )
+  }
 
   const handleSubmit = () => {
-    Keyboard.dismiss();
-    const inputErrors = verifyUserCreateData(userInputs);
-    if (inputErrors && inputErrors.fullName && !isLoginMode)
-      return setErrors(inputErrors);
-    else if (inputErrors && !isLoginMode) return setErrors(inputErrors);
-    setErrors({});
-    setLoading(true);
-    if (isLoginMode) handleSignIn();
-    else handleSignUp();
+    Keyboard.dismiss()
+    const inputErrors = verifyUserCreateData(userInputs)
+    if (inputErrors && inputErrors.fullName && !isLoginMode) return setErrors(inputErrors)
+    else if (inputErrors && !isLoginMode) return setErrors(inputErrors)
+    setErrors({})
+    setLoading(true)
+    if (isLoginMode) handleSignIn()
+    else handleSignUp()
     setTimeout(() => {
-      setLoading(false);
-    }, 500);
-  };
+      setLoading(false)
+    }, 500)
+  }
 
   useEffect(() => {
-    if (user.isVerified) props.navigation.navigate('Home');
-  }, [user.isVerified]);
+    if (user.isVerified) props.navigation.navigate('Home')
+  }, [user.isVerified])
 
   return (
     <>
-      <StackHeader
-        title={isLoginMode ? 'Sign In' : 'Sign Up'}
-        right={<HeaderRightButton />}
-      />
-      <ScrollView
-        keyboardShouldPersistTaps="always"
-        showsVerticalScrollIndicator={false}
-        overScrollMode="never">
-        <View style={[styles.root, themedStyles.bg]}>
-          <Image style={styles.bgImage} source={require('./bg.jpg')} />
-          <View style={[styles.container, themedStyles.bg]}>
-            {!isLoginMode ? (
-              <>
-                <Text style={[styles.inputLabel, themedStyles.text]}>
-                  Full Name
-                </Text>
-                <View style={styles.inputView}>
-                  <View style={styles.inputIcon}>
-                    <FullNameSvg
-                      height={wp(7)}
-                      width={wp(7)}
-                      fill={theme.colors.secondary}
-                    />
-                  </View>
-                  <TextInput
-                    onChangeText={text => handleInputChange('fullName', text)}
-                    value={userInputs.fullName}
-                    selectionColor={theme.colors.light}
-                    style={[styles.input]}
-                    returnKeyType="next"
-                    placeholder="John Doe"
-                    placeholderTextColor="lightgray"
-                  />
+      <StackHeader title={isLoginMode ? 'Sign In' : 'Sign Up'} right={<HeaderRightButton />} />
+      <View style={[styles.root, themedStyles.bg]}>
+        <View style={[styles.container, themedStyles.bg]}>
+          {!isLoginMode ? (
+            <>
+              <Text style={[styles.inputLabel, themedStyles.text]}>Full Name</Text>
+              <View style={styles.inputView}>
+                <View style={styles.inputIcon}>
+                  <FullNameSvg height={wp(5)} width={wp(5)} fill={theme.colors.secondary} />
                 </View>
-                {errors.fullName ? (
-                  <Text style={styles.errorText}>{errors.fullName}</Text>
-                ) : null}
-              </>
-            ) : null}
-            <Text style={[styles.inputLabel, themedStyles.text]}>Email</Text>
-            <View style={styles.inputView}>
-              <View style={styles.inputIcon}>
-                <EmailSvg
-                  height={wp(7)}
-                  width={wp(7)}
-                  fill={theme.colors.secondary}
+                <TextInput
+                  onChangeText={(text) => handleInputChange('fullName', text)}
+                  value={userInputs.fullName}
+                  selectionColor={theme.colors.light}
+                  style={[styles.input]}
+                  returnKeyType='next'
+                  placeholder='John Doe'
+                  placeholderTextColor='lightgray'
                 />
               </View>
-              <TextInput
-                onChangeText={text => handleInputChange('email', text)}
-                value={userInputs.email}
-                keyboardType="email-address"
-                selectionColor="gray"
-                style={styles.input}
-                returnKeyType="next"
-                placeholder="email@example.com"
-                placeholderTextColor="lightgray"
-              />
+              {errors.fullName ? <Text style={styles.errorText}>{errors.fullName}</Text> : null}
+            </>
+          ) : null}
+          <Text style={[styles.inputLabel, themedStyles.text]}>Email</Text>
+          <View style={styles.inputView}>
+            <View style={styles.inputIcon}>
+              <EmailSvg height={wp(5)} width={wp(5)} fill={theme.colors.secondary} />
             </View>
-
-            {errors.email ? (
-              <Text style={styles.errorText}>{errors.email}</Text>
-            ) : null}
-            <Text style={[styles.inputLabel, themedStyles.text]}>Password</Text>
-            <View style={styles.inputView}>
-              <View style={styles.inputIcon}>
-                <LockSvg
-                  height={wp(7)}
-                  width={wp(7)}
-                  fill={theme.colors.secondary}
-                />
-              </View>
-              <TextInput
-                placeholder="Password"
-                onChangeText={text => handleInputChange('password', text)}
-                value={userInputs.password}
-                selectionColor="gray"
-                placeholderTextColor="lightgray"
-                style={styles.input}
-              />
-            </View>
-
-            {errors.password ? (
-              <Text style={styles.errorText}>{errors.password}</Text>
-            ) : null}
-            <TouchableOpacity
-              onPress={handleSubmit}
-              activeOpacity={0.5}
-              style={[
-                styles.actionButton,
-                { borderColor: theme.colors.light },
-                themedStyles.bgSecondary,
-                isSuccess ? styles.isSuccess : {},
-              ]}>
-              {loading ? (
-                <ActivityIndicator color="white" />
-              ) : isSuccess ? (
-                <View style={styles.flex}>
-                  <CheckSvg fill="white" height={hp(2)} width={hp(2)} />
-                </View>
-              ) : (
-                <Text style={[themedStyles.textLight, styles.actionText]}>
-                  {isLoginMode ? 'Sign In' : 'Sign Up'}
-                </Text>
-              )}
-            </TouchableOpacity>
+            <TextInput
+              onChangeText={(text) => handleInputChange('email', text)}
+              value={userInputs.email}
+              keyboardType='email-address'
+              selectionColor='gray'
+              style={styles.input}
+              returnKeyType='next'
+              placeholder='email@example.com'
+              placeholderTextColor='lightgray'
+            />
           </View>
+
+          {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
+          <Text style={[styles.inputLabel, themedStyles.text]}>Password</Text>
+          <View style={styles.inputView}>
+            <View style={styles.inputIcon}>
+              <LockSvg height={wp(5)} width={wp(5)} fill={theme.colors.secondary} />
+            </View>
+            <TextInput
+              placeholder='Password'
+              onChangeText={(text) => handleInputChange('password', text)}
+              value={userInputs.password}
+              selectionColor='gray'
+              placeholderTextColor='lightgray'
+              style={styles.input}
+            />
+          </View>
+
+          {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
+          <TouchableOpacity
+            onPress={handleSubmit}
+            activeOpacity={0.5}
+            style={[
+              styles.actionButton,
+              { borderColor: theme.colors.light },
+              themedStyles.bgSecondary,
+              isSuccess ? styles.isSuccess : {}
+            ]}
+          >
+            {loading ? (
+              <ActivityIndicator color='white' />
+            ) : isSuccess ? (
+              <View style={styles.flex}>
+                <CheckSvg fill='white' height={hp(2)} width={hp(2)} />
+              </View>
+            ) : (
+              <Text style={[themedStyles.textLight, styles.actionText]}>{isLoginMode ? 'Sign In' : 'Sign Up'}</Text>
+            )}
+          </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
     </>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   root: {
@@ -267,35 +230,28 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
   },
   bgImage: {
     height: hp(88.68),
     width: wp(100),
-    resizeMode: 'cover',
+    resizeMode: 'cover'
   },
   container: {
-    backgroundColor: 'white',
     padding: hp(2),
-    borderRadius: hp(1),
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
     shadowOpacity: 0.36,
     shadowRadius: 6.68,
-
-    elevation: 11,
-    position: 'absolute',
+    zIndex: 100,
   },
   inputLabel: {
     fontSize: wp(4),
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   input: {
     padding: hp(2),
     color: 'black',
-    width: wp(80),
+    width: wp(80)
   },
   inputView: {
     display: 'flex',
@@ -305,11 +261,11 @@ const styles = StyleSheet.create({
     marginBottom: hp(1.5),
     marginTop: hp(2),
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   inputIcon: {
     width: wp(6),
-    marginLeft: wp(2),
+    marginLeft: wp(2)
   },
   actionButton: {
     paddingVertical: hp(2),
@@ -323,35 +279,36 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    bottom: 0
   },
   actionText: {
     display: 'flex',
     textAlign: 'center',
-    fontSize: wp(4.5),
+    fontSize: wp(4.5)
   },
   orText: {
     textAlign: 'center',
-    marginTop: hp(2),
+    marginTop: hp(2)
   },
   errorText: {
     color: 'crimson',
-    marginBottom: hp(2),
+    marginBottom: hp(2)
   },
   isSuccess: {
-    backgroundColor: '#84e152',
+    backgroundColor: '#84e152'
   },
   flex: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   rightButton: {
     padding: wp(2),
     borderRadius: wp(2),
     borderColor: 'black',
-    borderWidth: 1,
+    borderWidth: 1
   },
-  rightButtonText: {},
-});
+  rightButtonText: {}
+})
 
-export { SignIn };
+export { SignIn }
