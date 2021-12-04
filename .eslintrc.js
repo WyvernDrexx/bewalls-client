@@ -4,5 +4,6 @@ module.exports = {
   rules: {
     curly: 0,
     'react-hooks/exhaustive-deps': 0,
-  },
+    'comma-dangle': 'never'
+  }
 };
