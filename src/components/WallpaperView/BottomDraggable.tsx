@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedGestureHandler,
@@ -18,6 +18,7 @@ import WallpaperModule from '../../modules/WallpaperModule';
 import { downloadManager, hp, permissions, wp } from '../../utilities';
 import { Cards } from '../Cards';
 import HeadingTitle from '../HeadingTitle';
+import { Loader } from '../Loader';
 import Options from '../Options';
 import { OptionType } from '../Options/Option';
 import CheckSvg from './check.svg';
@@ -271,7 +272,7 @@ const BottomDraggable = function (props: BottomDraggableProps) {
       backgroundColor: theme.colors.light,
       onClick: handleDownload,
       ToggleComp: (
-        <Text style={styles.downloadProgress}>{downloadProgress}%</Text>
+        <Text style={styles.downloadProgress}><ActivityIndicator color='#4B75FF' /></Text>
       ),
       toggle: downloadInProgress,
       disabled: downloadInProgress,
