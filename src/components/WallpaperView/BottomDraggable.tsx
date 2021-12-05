@@ -1,3 +1,4 @@
+import { BannerAd, BannerAdSize } from '@react-native-admob/admob';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { ActivityIndicator, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -344,6 +345,9 @@ const BottomDraggable = function (props: BottomDraggableProps) {
               );
             })}
           </View>
+          <View style={[styles.flex, themedStyles.bg]}>
+            <BannerAd size={BannerAdSize.BANNER} unitId='ca-app-pub-3940256099942544/6300978111' />
+          </View>
           <View style={styles.details}>
             <Text
               style={[
@@ -427,6 +431,12 @@ const styles = StyleSheet.create({
     borderTopRightRadius: hp(4),
     paddingTop: hp(4),
   },
+  flex: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: hp(2.5)
+  },
   topBar: {
     padding: hp(0.5),
     width: wp(40),
@@ -494,7 +504,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: hp(5),
+    marginTop: hp(2.5),
     flexWrap: 'wrap',
   },
   detailsText: {

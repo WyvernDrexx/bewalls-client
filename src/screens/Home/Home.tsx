@@ -19,6 +19,7 @@ import { useAlerts, useTheme, useWallpaperView } from '../../hooks';
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
 import { ItemGroup } from '../../types';
 import { hp, wp } from '../../utilities';
+import { BannerAd, BannerAdSize, TestIds } from '@react-native-admob/admob';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
@@ -124,6 +125,9 @@ const Home: React.FC<HomeScreenProps> = function (props) {
           </NoNetworkAccess>
         </ScrollView>
       </View>
+      <View style={[styles.flex, themedStyles.bg]}>
+        <BannerAd size={BannerAdSize.BANNER} unitId='ca-app-pub-3940256099942544/6300978111' />
+      </View>
       <WallpaperView
         onCloseClick={() => setWallpaper(null)}
         wallpaper={wallpaper}
@@ -144,6 +148,11 @@ const styles = StyleSheet.create({
     borderRadius: wp(10),
   },
   marginBottom: { marginBottom: hp(4) },
+  flex: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
 
 export { Home };
