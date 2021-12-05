@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-  ActivityIndicator,
-  Image,
-  Keyboard,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
-} from 'react-native'
+import { ActivityIndicator, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import StackHeader from '../../components/StackHeader'
 import { useCreateUserMutation, UserCreateError, UserCreateInput, useSignInMutation } from '../../generated/graphql'
 import { useAlerts, useTheme, useUser } from '../../hooks'
@@ -22,6 +12,7 @@ import CheckSvg from './check.svg'
 import EmailSvg from './envelope.svg'
 import FullNameSvg from './full-name.svg'
 import LockSvg from './locks.svg'
+import IoniIcons from 'react-native-vector-icons/Ionicons'
 
 const SignIn: React.FC<SignInScreenProps> = (props) => {
   const { themedStyles, theme } = useTheme()
@@ -149,13 +140,13 @@ const SignIn: React.FC<SignInScreenProps> = (props) => {
               <Text style={[styles.inputLabel, themedStyles.text]}>Full Name</Text>
               <View style={styles.inputView}>
                 <View style={styles.inputIcon}>
-                  <FullNameSvg height={wp(5)} width={wp(5)} fill={theme.colors.secondary} />
+                  <IoniIcons color={theme.colors.secondary} size={wp(5)} name='person' />
                 </View>
                 <TextInput
                   onChangeText={(text) => handleInputChange('fullName', text)}
                   value={userInputs.fullName}
                   selectionColor={theme.colors.light}
-                  style={[styles.input]}
+                  style={[styles.input, themedStyles.text]}
                   returnKeyType='next'
                   placeholder='John Doe'
                   placeholderTextColor='lightgray'
@@ -167,14 +158,14 @@ const SignIn: React.FC<SignInScreenProps> = (props) => {
           <Text style={[styles.inputLabel, themedStyles.text]}>Email</Text>
           <View style={styles.inputView}>
             <View style={styles.inputIcon}>
-              <EmailSvg height={wp(5)} width={wp(5)} fill={theme.colors.secondary} />
+              <IoniIcons color={theme.colors.secondary} size={wp(5)} name='mail' />
             </View>
             <TextInput
               onChangeText={(text) => handleInputChange('email', text)}
               value={userInputs.email}
               keyboardType='email-address'
               selectionColor='gray'
-              style={styles.input}
+              style={[styles.input, themedStyles.text]}
               returnKeyType='next'
               placeholder='email@example.com'
               placeholderTextColor='lightgray'
@@ -185,7 +176,7 @@ const SignIn: React.FC<SignInScreenProps> = (props) => {
           <Text style={[styles.inputLabel, themedStyles.text]}>Password</Text>
           <View style={styles.inputView}>
             <View style={styles.inputIcon}>
-              <LockSvg height={wp(5)} width={wp(5)} fill={theme.colors.secondary} />
+              <IoniIcons color={theme.colors.secondary} size={wp(5)} name='lock-closed' />
             </View>
             <TextInput
               placeholder='Password'
@@ -193,10 +184,9 @@ const SignIn: React.FC<SignInScreenProps> = (props) => {
               value={userInputs.password}
               selectionColor='gray'
               placeholderTextColor='lightgray'
-              style={styles.input}
+              style={[styles.input, themedStyles.text]}
             />
           </View>
-
           {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
           <TouchableOpacity
             onPress={handleSubmit}
@@ -230,7 +220,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative',
+    position: 'relative'
   },
   bgImage: {
     height: hp(88.68),
@@ -242,7 +232,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.36,
     shadowRadius: 6.68,
-    zIndex: 100,
+    zIndex: 100
   },
   inputLabel: {
     fontSize: wp(4),
@@ -273,9 +263,9 @@ const styles = StyleSheet.create({
     marginTop: hp(2),
     borderWidth: 1,
     backgroundColor: 'black',
-    width: wp(40),
-    marginLeft: wp(23),
-    height: hp(7.5),
+    width: wp(30),
+    marginLeft: 'auto',
+    marginRight: 'auto',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -284,7 +274,6 @@ const styles = StyleSheet.create({
   actionText: {
     display: 'flex',
     textAlign: 'center',
-    fontSize: wp(4.5)
   },
   orText: {
     textAlign: 'center',

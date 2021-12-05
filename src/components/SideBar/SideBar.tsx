@@ -5,16 +5,14 @@ import Animated, { interpolate, runOnJS, useAnimatedStyle, useSharedValue } from
 import { SvgProps } from 'react-native-svg'
 import Icon from 'react-native-vector-icons/Ionicons'
 import MUIIcons from 'react-native-vector-icons/MaterialIcons'
+import AntDesignIcons from 'react-native-vector-icons/AntDesign'
 import { useLocal, useTheme, useUser } from '../../hooks'
 import { RootStackParamList } from '../../navigation/types'
 import { hp, wp } from '../../utilities'
 import BackSvg from './back.svg'
 import BarItem from './BarItem'
-import ContactUsSvg from './envelope.svg'
 import FavSvg from './heart.svg'
 import ProfileSvg from './profile.svg'
-import SlidersSvg from './sliders.svg'
-
 
 type SideBarProps = {
   isShown?: boolean
@@ -32,22 +30,22 @@ type BarItemType = {
   icon: React.FC<SvgProps>
 }
 
-const SIDEBAR_ITEMS: BarItemType[] = [
+const SIDEBAR_ITEMS: (theme: ReturnType<typeof useTheme>) => BarItemType[] = ({ theme }) => [
   {
     route: 'Home',
     title: 'Home',
-    icon: () => <Icon name='home-sharp' size={wp(6)} />
+    icon: () => <Icon color={theme.colors.secondary} name='home-sharp' size={wp(6)} />
   },
   {
     route: 'Profile',
     title: 'Profile',
-    icon: () => <Icon name='person' size={wp(6)} />,
+    icon: () => <Icon color={theme.colors.secondary} name='person' size={wp(6)} />,
     showWhenLoggedIn: true
   },
   {
     route: 'Categories',
     title: 'Categories',
-    icon: () => <MUIIcons name='category' size={wp(6)} />
+    icon: () => <MUIIcons color={theme.colors.secondary} name='category' size={wp(6)} />
   },
   {
     route: 'Favourites',
@@ -59,23 +57,24 @@ const SIDEBAR_ITEMS: BarItemType[] = [
     route: 'SignIn',
     title: 'Sign In/Sign Up',
     hideWhenLoggedIn: true,
-    icon: ProfileSvg
+    icon:  () => <AntDesignIcons color={theme.colors.secondary} name='login' size={wp(6)} />
   },
   {
     route: 'Settings',
     title: 'Settings',
-    icon: () => <Icon name='settings' size={wp(6)} />
+    icon: () => <Icon color={theme.colors.secondary} name='settings' size={wp(6)} />
   },
   {
     route: 'ContactUs',
     title: 'Contact Us',
-    icon: () => <Icon name='ios-mail' size={wp(6)} />
+    icon: () => <Icon color={theme.colors.secondary} name='ios-mail' size={wp(6)} />
   }
 ]
 
 const SideBar: React.FC<SideBarProps> = function (props) {
   const width = wp(100)
   const isShown = useSharedValue(props.isShown)
+  const theme = useTheme()
   const user = useUser()
   const { profileImageUri } = useLocal()
   const [toCall, setToCall] = useState<'close' | 'barItem' | null>(null)
@@ -145,7 +144,7 @@ const SideBar: React.FC<SideBarProps> = function (props) {
           <Text style={[styles.profileText, themedStyles.text]}>{user.info ? user.info.fullName : 'You'}</Text>
         </View>
         <View style={[styles.barItems, { borderColor: colors.light }]}>
-          {SIDEBAR_ITEMS.map((item, index) => {
+          {SIDEBAR_ITEMS(theme).map((item, index) => {
             return (
               <BarItem
                 icon={item.icon}
