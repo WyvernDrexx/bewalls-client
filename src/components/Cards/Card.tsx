@@ -44,7 +44,7 @@ const Card: React.FC<CardProps> = function (props) {
           },
           styles.imageView,
           props.style,
-          themedStyles.bgSecondary,
+          themedStyles.bg,
         ]}>
         <Image
           onLoadEnd={handleImageLoad}
