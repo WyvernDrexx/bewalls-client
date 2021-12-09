@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   root: {
     backgroundColor: 'pink',
     paddingHorizontal: wp(2),
-    paddingVertical: hp(3),
+    paddingVertical: hp(2),
   },
   header: {
     display: 'flex',
