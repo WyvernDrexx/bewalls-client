@@ -1,10 +1,9 @@
 import React from 'react'
-import { StyleProp, StyleSheet, ViewStyle, FlatList } from 'react-native'
+import { FlatList, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { Wallpaper } from '../../generated/graphql'
 import { ItemGroup } from '../../types'
 import { isLastElement, wp } from '../../utilities'
 import { LoadingView } from '../Loader/LoadingView'
-import StackHeader from '../StackHeader'
 import { Card } from './Card'
 
 type CardProps = {
@@ -22,6 +21,7 @@ type CardProps = {
   horizantal?: boolean
   numColumns?: number
   numberOfItems?: number
+  HeaderComponent?: React.ReactElement
 }
 
 type RenderItem = {
@@ -58,17 +58,16 @@ const Cards = React.memo(function Cards(props: CardProps) {
   }
 
   return (
-    <>
-      <FlatList
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        numColumns={numColumns}
-        horizontal={props.horizantal}
-        data={props.numberOfItems ? props.items.slice(0, props.numberOfItems) : props.items}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
-    </>
+    <FlatList
+      ListHeaderComponent={props.HeaderComponent}
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      numColumns={numColumns}
+      horizontal={props.horizantal}
+      data={props.numberOfItems ? props.items.slice(0, props.numberOfItems) : props.items}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id}
+    />
   )
 })
 
