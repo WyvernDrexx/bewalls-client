@@ -1,138 +1,124 @@
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
-import {
-  Image,
-  StyleProp,
-  StyleSheet,
-  TouchableOpacity,
-  ViewStyle,
-} from 'react-native';
-import Animated, {
-  runOnJS,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
-import {
-  Tag,
-  useAddToFavouriteMutation,
-  Wallpaper,
-} from '../../generated/graphql';
-import { useAlerts, useUser } from '../../hooks';
-import { hp, wp } from '../../utilities';
-import { LoadingView } from '../Loader/LoadingView';
-import { BottomDraggable } from './BottomDraggable';
-import DownArrowSvg from './down-arrow.svg';
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import React, { useEffect, useState } from 'react'
+import { Image, StyleProp, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native'
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import { Tag, useAddToFavouriteMutation, Wallpaper } from '../../generated/graphql'
+import { useAlerts, useUser } from '../../hooks'
+import { hp, wp } from '../../utilities'
+import { LoadingView } from '../Loader/LoadingView'
+import { BottomDraggable } from './BottomDraggable'
+import DownArrowSvg from './down-arrow.svg'
 
 type WallpaperViewProps = {
-  animatedStyle?: StyleProp<ViewStyle>;
-  onCloseClick?: () => void;
-  wallpaper: Wallpaper | null;
-  showWallpaper?: boolean;
-  onFavouriteClick?: (id: string) => void;
-  afterFavouriteMutation?: (wallpaper: Wallpaper) => void;
-};
+  animatedStyle?: StyleProp<ViewStyle>
+  onCloseClick?: () => void
+  wallpaper: Wallpaper | null
+  showWallpaper?: boolean
+  onFavouriteClick?: (id: string) => void
+  afterFavouriteMutation?: (wallpaper: Wallpaper) => void
+}
 
 export default function WallpaperView(props: WallpaperViewProps) {
-  const [wallpaper, setWallpaper] = useState(props.wallpaper);
-  const navigation = useNavigation<StackNavigationProp<any>>();
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const screenHeight = hp(100);
-  const { dispatchShowAlert } = useAlerts();
-  const offsetY = useSharedValue(screenHeight);
-  const user = useUser();
+  const [wallpaper, setWallpaper] = useState(props.wallpaper)
+  const navigation = useNavigation<StackNavigationProp<any>>()
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const screenHeight = hp(100)
+  const { dispatchShowAlert } = useAlerts()
+  const offsetY = useSharedValue(screenHeight)
+  const user = useUser()
 
   const hideView = (cb?: () => void) => {
-    offsetY.value = Animated.withTiming(screenHeight, {}, isFinished => {
+    offsetY.value = Animated.withTiming(screenHeight, {}, (isFinished) => {
       if (isFinished) {
         if (typeof cb === 'function') {
-          runOnJS(cb)();
+          runOnJS(cb)()
         }
       }
-    });
-  };
+    })
+  }
 
   const showView = (cb?: () => void) => {
-    offsetY.value = Animated.withTiming(0, {}, cb);
-  };
+    offsetY.value = Animated.withTiming(0, {}, cb)
+  }
 
   useEffect(() => {
-    if (wallpaper) showView();
-    else hideView();
-  }, [wallpaper]);
+    if (wallpaper) showView()
+    else hideView()
+  }, [wallpaper])
 
   const handleCloseClick = () => {
     hideView(() => {
-      if (props.onCloseClick) props.onCloseClick();
-    });
-  };
+      if (props.onCloseClick) props.onCloseClick()
+    })
+  }
 
   const handleImageLoadEnd = () => {
-    setImageLoaded(true);
-  };
+    setImageLoaded(true)
+  }
   const handleTagClick = (tag: Tag) => {
     navigation.push('Selection', {
       title: tag.name,
       group: 'tag',
-      groupId: tag.id,
-    });
-  };
+      groupId: tag.id
+    })
+  }
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
         {
-          translateY: offsetY.value,
-        },
-      ],
-    };
-  });
+          translateY: offsetY.value
+        }
+      ]
+    }
+  })
 
   const [addToFavourite] = useAddToFavouriteMutation({
-    onCompleted: data => {
+    onCompleted: (data) => {
       if (!data || data.addToFavourite !== null) {
-        setWallpaper(data.addToFavourite as Wallpaper);
+        setWallpaper(data.addToFavourite as Wallpaper)
         if (data.addToFavourite?.isUsersFavourite) {
           dispatchShowAlert({
-            success: 'Added to your favourites!',
-          });
+            success: 'Added to your favourites!'
+          })
         } else {
           dispatchShowAlert({
-            success: 'Removed from your favourites!',
-          });
+            success: 'Removed from your favourites!'
+          })
         }
         if (props.afterFavouriteMutation) {
-          props.afterFavouriteMutation(data.addToFavourite as Wallpaper);
+          props.afterFavouriteMutation(data.addToFavourite as Wallpaper)
         }
       }
-    },
-  });
+    }
+  })
 
   const handleFavourite = async (id: string) => {
     if (!user.isVerified) {
       return dispatchShowAlert({
-        error: 'Please sign in to access favourites.',
-      });
+        error: 'Please sign in to access favourites.'
+      })
     }
     if (user.isVerified && !props.onFavouriteClick) {
       return addToFavourite({
         variables: {
-          id,
-        },
-      });
+          id
+        }
+      })
     }
     if (user.isVerified && props.onFavouriteClick) {
-      props.onFavouriteClick(id);
-      return;
+      props.onFavouriteClick(id)
+      return
     }
-  };
+  }
 
   useEffect(() => {
-    setImageLoaded(false);
-    setWallpaper(props.wallpaper);
-  }, [props.wallpaper]);
+    setImageLoaded(false)
+    setWallpaper(props.wallpaper)
+  }, [props.wallpaper])
 
-  if (!wallpaper) return null;
+  if (!wallpaper) return null
 
   return (
     <Animated.View style={[animatedStyle, styles.root]}>
@@ -142,22 +128,18 @@ export default function WallpaperView(props: WallpaperViewProps) {
         style={styles.image}
         source={{ uri: wallpaper.imageMedium }}
       />
-      <LoadingView
-        light
-        loading={imageLoaded}
-        style={styles.loader}
-        height="96"
-      />
+      <LoadingView light loading={imageLoaded} style={styles.loader} height='96' />
       <TouchableOpacity onPress={handleCloseClick} style={styles.arrow}>
-        <DownArrowSvg style={styles.arrowIcon} fill="white" />
+        <DownArrowSvg style={styles.arrowIcon} fill='white' />
       </TouchableOpacity>
       <BottomDraggable
+        hideView={hideView}
         onTagClick={handleTagClick}
         onFavourite={handleFavourite}
         wallpaper={wallpaper}
       />
     </Animated.View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -166,26 +148,26 @@ const styles = StyleSheet.create({
     width: wp(100),
     position: 'absolute',
     backgroundColor: 'white',
-    top: 0,
+    top: 0
   },
   image: {
     position: 'absolute',
     height: hp(100),
     width: wp(100),
     resizeMode: 'cover',
-    backgroundColor: 'black',
+    backgroundColor: 'black'
   },
   arrow: {
     position: 'absolute',
     top: hp(4),
-    left: wp(2),
+    left: wp(2)
   },
   arrowIcon: {
     height: hp(4),
     width: hp(4),
-    opacity: 0.8,
+    opacity: 0.8
   },
   loader: {
-    position: 'absolute',
-  },
-});
+    position: 'absolute'
+  }
+})
