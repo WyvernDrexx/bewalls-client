@@ -13,6 +13,7 @@ import EmailSvg from './envelope.svg'
 import FullNameSvg from './full-name.svg'
 import LockSvg from './locks.svg'
 import IoniIcons from 'react-native-vector-icons/Ionicons'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const SignIn: React.FC<SignInScreenProps> = (props) => {
   const { themedStyles, theme } = useTheme()
@@ -134,81 +135,83 @@ const SignIn: React.FC<SignInScreenProps> = (props) => {
     <>
       <StackHeader title={isLoginMode ? 'Sign In' : 'Sign Up'} right={<HeaderRightButton />} />
       <View style={[styles.root, themedStyles.bg]}>
-        <View style={[styles.container, themedStyles.bg]}>
-          {!isLoginMode ? (
-            <>
-              <Text style={[styles.inputLabel, themedStyles.text]}>Full Name</Text>
-              <View style={styles.inputView}>
-                <View style={styles.inputIcon}>
-                  <IoniIcons color={theme.colors.secondary} size={wp(5)} name='person' />
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+          <View style={[styles.container, themedStyles.bg]}>
+            {!isLoginMode ? (
+              <>
+                <Text style={[styles.inputLabel, themedStyles.text]}>Full Name</Text>
+                <View style={styles.inputView}>
+                  <View style={styles.inputIcon}>
+                    <IoniIcons color={theme.colors.secondary} size={wp(5)} name='person' />
+                  </View>
+                  <TextInput
+                    onChangeText={(text) => handleInputChange('fullName', text)}
+                    value={userInputs.fullName}
+                    selectionColor={theme.colors.secondary}
+                    style={[styles.input, themedStyles.text]}
+                    returnKeyType='next'
+                    placeholder='John Doe'
+                    placeholderTextColor='lightgray'
+                  />
                 </View>
-                <TextInput
-                  onChangeText={(text) => handleInputChange('fullName', text)}
-                  value={userInputs.fullName}
-                  selectionColor={theme.colors.light}
-                  style={[styles.input, themedStyles.text]}
-                  returnKeyType='next'
-                  placeholder='John Doe'
-                  placeholderTextColor='lightgray'
-                />
+                {errors.fullName ? <Text style={styles.errorText}>{errors.fullName}</Text> : null}
+              </>
+            ) : null}
+            <Text style={[styles.inputLabel, themedStyles.text]}>Email</Text>
+            <View style={styles.inputView}>
+              <View style={styles.inputIcon}>
+                <IoniIcons color={theme.colors.secondary} size={wp(5)} name='mail' />
               </View>
-              {errors.fullName ? <Text style={styles.errorText}>{errors.fullName}</Text> : null}
-            </>
-          ) : null}
-          <Text style={[styles.inputLabel, themedStyles.text]}>Email</Text>
-          <View style={styles.inputView}>
-            <View style={styles.inputIcon}>
-              <IoniIcons color={theme.colors.secondary} size={wp(5)} name='mail' />
+              <TextInput
+                onChangeText={(text) => handleInputChange('email', text)}
+                value={userInputs.email}
+                keyboardType='email-address'
+                selectionColor={theme.colors.secondary}
+                style={[styles.input, themedStyles.text]}
+                returnKeyType='next'
+                placeholder='email@example.com'
+                placeholderTextColor='lightgray'
+              />
             </View>
-            <TextInput
-              onChangeText={(text) => handleInputChange('email', text)}
-              value={userInputs.email}
-              keyboardType='email-address'
-              selectionColor='gray'
-              style={[styles.input, themedStyles.text]}
-              returnKeyType='next'
-              placeholder='email@example.com'
-              placeholderTextColor='lightgray'
-            />
-          </View>
 
-          {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
-          <Text style={[styles.inputLabel, themedStyles.text]}>Password</Text>
-          <View style={styles.inputView}>
-            <View style={styles.inputIcon}>
-              <IoniIcons color={theme.colors.secondary} size={wp(5)} name='lock-closed' />
-            </View>
-            <TextInput
-              placeholder='Password'
-              onChangeText={(text) => handleInputChange('password', text)}
-              value={userInputs.password}
-              selectionColor='gray'
-              placeholderTextColor='lightgray'
-              style={[styles.input, themedStyles.text]}
-            />
-          </View>
-          {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
-          <TouchableOpacity
-            onPress={handleSubmit}
-            activeOpacity={0.5}
-            style={[
-              styles.actionButton,
-              { borderColor: theme.colors.light },
-              themedStyles.bgSecondary,
-              isSuccess ? styles.isSuccess : {}
-            ]}
-          >
-            {loading ? (
-              <ActivityIndicator color='white' />
-            ) : isSuccess ? (
-              <View style={styles.flex}>
-                <CheckSvg fill='white' height={hp(2)} width={hp(2)} />
+            {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
+            <Text style={[styles.inputLabel, themedStyles.text]}>Password</Text>
+            <View style={styles.inputView}>
+              <View style={styles.inputIcon}>
+                <IoniIcons color={theme.colors.secondary} size={wp(5)} name='lock-closed' />
               </View>
-            ) : (
-              <Text style={[themedStyles.textLight, styles.actionText]}>{isLoginMode ? 'Sign In' : 'Sign Up'}</Text>
-            )}
-          </TouchableOpacity>
-        </View>
+              <TextInput
+                placeholder='Password'
+                onChangeText={(text) => handleInputChange('password', text)}
+                value={userInputs.password}
+                selectionColor={theme.colors.secondary}
+                placeholderTextColor='lightgray'
+                style={[styles.input, themedStyles.text]}
+              />
+            </View>
+            {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
+            <TouchableOpacity
+              onPress={handleSubmit}
+              activeOpacity={0.5}
+              style={[
+                styles.actionButton,
+                { borderColor: theme.colors.light },
+                themedStyles.bgSecondary,
+                isSuccess ? styles.isSuccess : {}
+              ]}
+            >
+              {loading ? (
+                <ActivityIndicator color='white' />
+              ) : isSuccess ? (
+                <View style={styles.flex}>
+                  <CheckSvg fill='white' height={hp(2)} width={hp(2)} />
+                </View>
+              ) : (
+                <Text style={[themedStyles.textLight, styles.actionText]}>{isLoginMode ? 'Sign In' : 'Sign Up'}</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        </KeyboardAwareScrollView>
       </View>
     </>
   )
@@ -273,7 +276,7 @@ const styles = StyleSheet.create({
   },
   actionText: {
     display: 'flex',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   orText: {
     textAlign: 'center',
