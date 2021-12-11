@@ -32,6 +32,7 @@ type BundlesProps = {
   loading?: boolean;
   numColumns?: number;
   loaderLight?: boolean;
+  HeaderComponent?: React.ReactElement
 };
 
 type BundleItemProps = {
@@ -114,6 +115,7 @@ const Bundles: React.FC<BundlesProps> = React.memo(function (props) {
   return (
     <View style={[styles.root, props.style]}>
       <FlatList
+        ListHeaderComponent={props.HeaderComponent}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         numColumns={numColumns}
