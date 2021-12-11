@@ -1,5 +1,5 @@
 import React from 'react';
-import { Keyboard, ScrollView, StyleSheet } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { Cards } from '../../components/Cards';
 import { Wallpaper } from '../../generated/graphql';
 import { hp, wp } from '../../utilities';
@@ -19,7 +19,7 @@ const Results: React.FC<ResultsProps> = function (props) {
   };
 
   return (
-    <ScrollView horizontal style={[styles.root]}>
+    <View style={[styles.root]}>
       <Cards
         group="category"
         disableLastMargin
@@ -28,7 +28,7 @@ const Results: React.FC<ResultsProps> = function (props) {
         items={props.items}
         onClick={handleClick}
       />
-    </ScrollView>
+    </View>
   );
 };
 
