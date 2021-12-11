@@ -24,6 +24,7 @@ type CategoryProps = {
   hideVisits?: boolean;
   loading?: boolean;
   imageSize?: 'imageSmall' | 'imageMedium' | 'imageLarge';
+  HeaderComponent?: React.ReactElement
 };
 
 type RenderItem = {
@@ -110,6 +111,7 @@ const Categories: React.FC<CategoryProps> = React.memo(function (props) {
 
   return (
     <FlatList
+      ListHeaderComponent={props.HeaderComponent}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       horizontal={!props.isVertical}
