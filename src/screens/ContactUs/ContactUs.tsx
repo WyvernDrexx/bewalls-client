@@ -40,6 +40,7 @@ const ContactUs: React.FC<ContactUsScreenProps> = function () {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    marginTop: hp(2)
   },
   container: {
     paddingHorizontal: wp(2),
