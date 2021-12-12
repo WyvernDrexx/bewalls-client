@@ -107,6 +107,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             />
             <HeadingTitle onClick={navigateToBundlesScreen} title="Bundles" />
             <Bundles
+              height='15'
               loading={loading}
               onClick={handleBundleClick}
               itemType="bundle"

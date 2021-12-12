@@ -48,7 +48,7 @@ const Categories: React.FC<CategoryProps> = React.memo(function (props) {
   };
 
   if (props.loading || typeof props.categories === 'undefined') {
-    return <LoadingView height={props.height} width={100} />;
+    return <LoadingView useThemeColor height={props.height} width={100} />;
   }
 
   const renderItem = function (data: RenderItem) {
@@ -82,6 +82,7 @@ const Categories: React.FC<CategoryProps> = React.memo(function (props) {
             }}
           />
           <LoadingView
+            useThemeColor
             style={styles.loadingView}
             loading={!imageLoading}
             height={height}

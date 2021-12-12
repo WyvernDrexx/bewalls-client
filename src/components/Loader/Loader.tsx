@@ -1,20 +1,26 @@
-import React from 'react';
-import { ActivityIndicator } from 'react-native';
-import { useTheme } from '../../hooks';
+import React, { useMemo } from 'react'
+import { ActivityIndicator } from 'react-native'
+import { useTheme } from '../../hooks'
+import theme from '../../store/theme'
+import { getContrastColor } from '../../utilities/colors'
 
 type LoaderProps = {
-  light?: boolean;
-};
+  light?: boolean
+  useTheme?: boolean
+}
 
 const Loader: React.FC<LoaderProps> = function (props) {
-  const {
-    theme: { colors },
-  } = useTheme();
-  return (
-    <ActivityIndicator
-      color={props.light ? colors.primary : colors.secondary}
-    />
-  );
-};
+  const { theme } = useTheme()
 
-export { Loader };
+  const color = useMemo(() => {
+    if (props.useTheme) {
+      console.log(theme.colors)
+      return getContrastColor(theme.colors.primary, true)
+    }
+    return props.light ? '#FFFFFF' : '#000000'
+  }, [props.useTheme, props.light, theme.mode])
+
+  return <ActivityIndicator color={color} />
+}
+
+export { Loader }

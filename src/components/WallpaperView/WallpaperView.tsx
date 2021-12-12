@@ -165,7 +165,7 @@ export default function WallpaperView(props: WallpaperViewProps) {
           style={styles.image}
           source={{ uri: wallpaper.imageMedium }}
         />
-        <LoadingView light loading={imageLoaded} style={styles.loader} height='96' />
+        <LoadingView light loading={!imageLoaded} style={styles.loader} height='96' />
         <TouchableOpacity onPress={handleCloseClick} style={styles.arrow}>
           <DownArrowSvg style={styles.arrowIcon} fill='white' />
         </TouchableOpacity>

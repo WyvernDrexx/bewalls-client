@@ -54,7 +54,7 @@ const Cards = React.memo(function Cards(props: CardProps) {
   }
 
   if (props.loading || typeof props.items === 'undefined') {
-    return <LoadingView light={props.loaderLight} height={props.height} />
+    return <LoadingView useThemeColor height={props.height} />
   }
 
   return (

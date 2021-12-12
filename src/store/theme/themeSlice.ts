@@ -14,8 +14,8 @@ export type ThemeState = {
 };
 
 const LIGHT_THEME: Colors = {
-  primary: 'white',
-  secondary: 'black',
+  primary: '#ffffff',
+  secondary: '#000000',
   light: '#F7F7F7',
   dark: '#f5f5f5',
 };

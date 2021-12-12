@@ -1,94 +1,85 @@
-import React from 'react';
-import {
-  Image,
-  FlatList,
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Bundle } from '../../generated/graphql';
-import { ItemGroup } from '../../types';
-import { hp, isLastElement, wp } from '../../utilities';
-import { LoadingView } from '../Loader/LoadingView';
+import React from 'react'
+import { Image, FlatList, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Bundle } from '../../generated/graphql'
+import { ItemGroup } from '../../types'
+import { hp, isLastElement, wp } from '../../utilities'
+import { LoadingView } from '../Loader/LoadingView'
 
 type RenderItem = {
-  item: Bundle;
-  index: number;
-};
+  item: Bundle
+  index: number
+}
 
 type BundlesProps = {
-  items?: Bundle[];
-  style?: StyleProp<ViewStyle>;
-  onClick?: (bundle: Bundle, itemType: ItemGroup) => void;
-  scrollEnabled?: boolean;
-  disableClick?: boolean;
-  itemType: ItemGroup;
-  width?: string;
-  height?: string;
-  vertical?: boolean;
-  loading?: boolean;
-  numColumns?: number;
-  loaderLight?: boolean;
+  items?: Bundle[]
+  style?: StyleProp<ViewStyle>
+  onClick?: (bundle: Bundle, itemType: ItemGroup) => void
+  scrollEnabled?: boolean
+  disableClick?: boolean
+  itemType: ItemGroup
+  width?: string
+  height?: string
+  vertical?: boolean
+  loading?: boolean
+  numColumns?: number
+  loaderLight?: boolean
   HeaderComponent?: React.ReactElement
-};
+}
 
 type BundleItemProps = {
-  item: Bundle;
-  style?: StyleProp<ViewStyle>;
-  onClick?: (bundle: Bundle, itemType: ItemGroup) => void;
-  disabled?: boolean;
-  itemType: ItemGroup;
-  width: string;
-  height: string;
-};
+  item: Bundle
+  style?: StyleProp<ViewStyle>
+  onClick?: (bundle: Bundle, itemType: ItemGroup) => void
+  disabled?: boolean
+  itemType: ItemGroup
+  width: string
+  height: string
+}
 
 const BundleItem: React.FC<BundleItemProps> = function (props) {
   const handleClick = () => {
-    if (props.onClick) props.onClick(props.item, props.itemType);
-  };
+    if (props.onClick) props.onClick(props.item, props.itemType)
+  }
 
   return (
-    <TouchableOpacity
-      disabled={props.disabled}
-      onPress={handleClick}
-      activeOpacity={0.8}>
+    <TouchableOpacity disabled={props.disabled} onPress={handleClick} activeOpacity={0.8}>
       <View
         style={[
           boxStyles.box,
           {
-            backgroundColor: props.item.color,
+            backgroundColor: props.item.color
           },
           {
             height: hp(props.height),
-            width: wp(props.width),
+            width: wp(props.width)
           },
-          props.style,
-        ]}>
+          props.style
+        ]}
+      >
         <Image
           progressiveRenderingEnabled
-          style={[
-            { height: hp(props.height), width: wp(props.width) },
-            boxStyles.image,
-          ]}
+          style={[{ height: hp(props.height), width: wp(props.width) }, boxStyles.image]}
           source={{ uri: props.item.imageSmall }}
         />
-        <Text style={[boxStyles.text, { color: props.item.highlightColor }]}>
-          {props.item.name}
-        </Text>
+        <Text style={[boxStyles.text, { color: props.item.highlightColor }]}>{props.item.name}</Text>
       </View>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
 const Bundles: React.FC<BundlesProps> = React.memo(function (props) {
-  let height = props.height || '13%';
-  let width = props.width || '30%';
-  const numColumns = props.vertical ? props.numColumns || 3 : undefined;
+  let height = props.height || '13%'
+  let width = props.width || '30%'
+  const numColumns = props.vertical ? props.numColumns || 3 : undefined
+
   if (props.loading || typeof props.items === 'undefined') {
-    return <LoadingView light={props.loaderLight} height={props.height} />;
+    return (
+      <>
+        {props.HeaderComponent}
+        <LoadingView useThemeColor={true} height={props.height} />
+      </>
+    )
   }
 
   const renderItem: (data: RenderItem) => JSX.Element = ({ item, index }) => {
@@ -97,11 +88,9 @@ const Bundles: React.FC<BundlesProps> = React.memo(function (props) {
         itemType={props.itemType}
         disabled={props.disableClick}
         style={[
-          isLastElement(index, props.items!) && !props.vertical
-            ? boxStyles.lastItem
-            : {},
+          isLastElement(index, props.items!) && !props.vertical ? boxStyles.lastItem : {},
           props.vertical ? styles.marginBottom : {},
-          !props.vertical ? boxStyles.horizantal : {},
+          !props.vertical ? boxStyles.horizantal : {}
         ]}
         key={index}
         onClick={props.onClick}
@@ -109,8 +98,8 @@ const Bundles: React.FC<BundlesProps> = React.memo(function (props) {
         height={height!}
         width={width!}
       />
-    );
-  };
+    )
+  }
 
   return (
     <View style={[styles.root, props.style]}>
@@ -121,12 +110,12 @@ const Bundles: React.FC<BundlesProps> = React.memo(function (props) {
         numColumns={numColumns}
         horizontal={!props.vertical}
         data={props.items}
-        keyExtractor={i => i.id}
+        keyExtractor={(i) => i.id}
         renderItem={renderItem}
       />
     </View>
-  );
-});
+  )
+})
 
 const boxStyles = StyleSheet.create({
   box: {
@@ -135,7 +124,7 @@ const boxStyles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: wp(2),
+    marginLeft: wp(2)
   },
   text: {
     color: 'white',
@@ -143,18 +132,18 @@ const boxStyles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginHorizontal: wp(2),
-    position: 'absolute',
+    position: 'absolute'
   },
   image: {
-    borderRadius: hp(2),
+    borderRadius: hp(2)
   },
   horizantal: {
-    marginLeft: wp(2),
+    marginLeft: wp(2)
   },
   lastItem: {
-    marginRight: wp(2),
-  },
-});
+    marginRight: wp(2)
+  }
+})
 
 const styles = StyleSheet.create({
   root: {},
@@ -163,16 +152,16 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-evenly'
   },
   marginBottom: {
-    marginBottom: wp(2),
+    marginBottom: wp(2)
   },
   loadingView: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+    alignItems: 'center'
+  }
+})
 
-export { Bundles };
+export { Bundles }

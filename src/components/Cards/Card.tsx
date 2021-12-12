@@ -59,7 +59,7 @@ const Card: React.FC<CardProps> = function (props) {
           source={{ uri: props.wallpaper?.imageSmall }}
         />
         <LoadingView
-          light
+          useThemeColor
           style={styles.loadingView}
           loading={!imageLoading}
           height={height}
