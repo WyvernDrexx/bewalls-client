@@ -6,13 +6,20 @@ import { SvgProps } from 'react-native-svg'
 import Icon from 'react-native-vector-icons/Ionicons'
 import MUIIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesignIcons from 'react-native-vector-icons/AntDesign'
-import { useLocal, useTheme, useUser } from '../../hooks'
+import { useAlerts, useLocal, useTheme, useUser } from '../../hooks'
 import { RootStackParamList } from '../../navigation/types'
 import { hp, wp } from '../../utilities'
 import BackSvg from './back.svg'
 import BarItem from './BarItem'
 import FavSvg from './heart.svg'
 import ProfileSvg from './profile.svg'
+import { UserState } from '../../store/user'
+import { showAlert } from '../../store/alerts'
+
+type BarItemClickProps = {
+  user: UserState
+  next: () => void
+}
 
 type SideBarProps = {
   isShown?: boolean
@@ -22,54 +29,14 @@ type SideBarProps = {
   currentRoute: keyof RootStackParamList
 }
 
-type BarItemType = {
+export type BarItemType = {
   route: keyof RootStackParamList
   title: string
   hideWhenLoggedIn?: boolean
   showWhenLoggedIn?: boolean
   icon: React.FC<SvgProps>
+  onClick?: (props: BarItemClickProps) => void
 }
-
-const SIDEBAR_ITEMS: (theme: ReturnType<typeof useTheme>) => BarItemType[] = ({ theme }) => [
-  {
-    route: 'Home',
-    title: 'Home',
-    icon: () => <Icon color={theme.colors.secondary} name='home-sharp' size={wp(6)} />
-  },
-  {
-    route: 'Profile',
-    title: 'Profile',
-    icon: () => <Icon color={theme.colors.secondary} name='person' size={wp(6)} />,
-    showWhenLoggedIn: true
-  },
-  {
-    route: 'Categories',
-    title: 'Categories',
-    icon: () => <MUIIcons color={theme.colors.secondary} name='category' size={wp(6)} />
-  },
-  {
-    route: 'Favourites',
-    title: 'Favourites',
-    icon: FavSvg,
-    showWhenLoggedIn: true
-  },
-  {
-    route: 'SignIn',
-    title: 'Sign In/Sign Up',
-    hideWhenLoggedIn: true,
-    icon:  () => <AntDesignIcons color={theme.colors.secondary} name='login' size={wp(6)} />
-  },
-  {
-    route: 'Settings',
-    title: 'Settings',
-    icon: () => <Icon color={theme.colors.secondary} name='settings' size={wp(6)} />
-  },
-  {
-    route: 'ContactUs',
-    title: 'Contact Us',
-    icon: () => <Icon color={theme.colors.secondary} name='ios-mail' size={wp(6)} />
-  }
-]
 
 const SideBar: React.FC<SideBarProps> = function (props) {
   const width = wp(100)
@@ -83,6 +50,58 @@ const SideBar: React.FC<SideBarProps> = function (props) {
     theme: { colors }
   } = useTheme()
   const [activeRoute, setActiveRoute] = useState<keyof RootStackParamList>()
+  const { dispatchShowAlert } = useAlerts()
+  const SIDEBAR_ITEMS: (theme: ReturnType<typeof useTheme>) => BarItemType[] = ({ theme }) => [
+    {
+      route: 'Home',
+      title: 'Home',
+      icon: () => <Icon color={theme.colors.secondary} name='home-sharp' size={wp(6)} />
+    },
+    {
+      route: 'Profile',
+      title: 'Profile',
+      icon: () => <Icon color={theme.colors.secondary} name='person' size={wp(6)} />,
+      showWhenLoggedIn: true
+    },
+    {
+      route: 'Categories',
+      title: 'Categories',
+      icon: () => <MUIIcons color={theme.colors.secondary} name='category' size={wp(6)} />
+    },
+    {
+      route: 'Favourites',
+      title: 'Favourites',
+      icon: FavSvg,
+      showWhenLoggedIn: true
+    },
+    {
+      route: 'Favourites',
+      title: 'Favourites',
+      icon: FavSvg,
+      hideWhenLoggedIn: true,
+      onClick({ next, user }) {
+        if (!user.isVerified) {
+          dispatchShowAlert({ error: 'Please login to continue.' })
+        } else next()
+      }
+    },
+    {
+      route: 'SignIn',
+      title: 'Sign In/Sign Up',
+      hideWhenLoggedIn: true,
+      icon: () => <AntDesignIcons color={theme.colors.secondary} name='login' size={wp(6)} />
+    },
+    {
+      route: 'Settings',
+      title: 'Settings',
+      icon: () => <Icon color={theme.colors.secondary} name='settings' size={wp(6)} />
+    },
+    {
+      route: 'ContactUs',
+      title: 'Contact Us',
+      icon: () => <Icon color={theme.colors.secondary} name='ios-mail' size={wp(6)} />
+    }
+  ]
 
   useEffect(() => {
     isShown.value = props.isShown
@@ -93,9 +112,14 @@ const SideBar: React.FC<SideBarProps> = function (props) {
     isShown.value = false
   }
 
-  const handleBarItemClick = (route: keyof RootStackParamList) => {
+  const handleBarItemClick = (route: keyof RootStackParamList, item: BarItemType) => {
     setToCall('barItem')
-    setActiveRoute(route)
+    if (item.onClick) {
+      item.onClick && item.onClick({ user, next: () => setActiveRoute(route) })
+      handleClose()
+    } else {
+      setActiveRoute(route)
+    }
     isShown.value = false
   }
 
@@ -147,6 +171,7 @@ const SideBar: React.FC<SideBarProps> = function (props) {
           {SIDEBAR_ITEMS(theme).map((item, index) => {
             return (
               <BarItem
+                item={item}
                 icon={item.icon}
                 isActive={props.currentRoute === item.route}
                 key={index}
