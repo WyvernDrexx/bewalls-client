@@ -46,6 +46,7 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
           categories={data?.categories as Category[]}
           height='23'
           width='96'
+          loaderHeight='94'
         />
       </MountOn>
     </View>

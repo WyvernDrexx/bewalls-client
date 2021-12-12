@@ -19,13 +19,9 @@ const LoadingView: React.FC<LoadingViewProps> = function (props) {
   const { theme } = useTheme()
 
   const isLight = useMemo(() => {
-    console.log('change loader', theme)
-    console.log('change loader theme color', props.useThemeColor)
     if (props.useThemeColor) {
-      console.log('isdark')
       return !theme.isDark
     }
-    console.log('notisdark')
 
     return props.light
   }, [props.light, props.useThemeColor, theme])
