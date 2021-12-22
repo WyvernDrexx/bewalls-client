@@ -163,7 +163,7 @@ export default function WallpaperView(props: WallpaperViewProps) {
           onLoad={handleImageLoadEnd}
           progressiveRenderingEnabled
           style={styles.image}
-          source={{ uri: wallpaper.imageMedium }}
+          source={{ uri: wallpaper.imageUri }}
         />
         <LoadingView light loading={imageLoaded} style={styles.loader} height='96' />
         <TouchableOpacity onPress={handleCloseClick} style={styles.arrow}>
