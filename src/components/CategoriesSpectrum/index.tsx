@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import { useCategoriesSpectrumQuery, Wallpaper } from '../../generated/graphql'
+import { CategoriesDataQuery, CategoriesSpectrumQuery, Category, useCategoriesSpectrumQuery, Wallpaper } from '../../generated/graphql'
 import { hp, wp } from '../../utilities'
 import { Cards } from '../Cards'
 import HeadingTitle from '../HeadingTitle'
@@ -15,28 +15,40 @@ const CategoriesSpectrum: React.FC<CategoriesSpectrumProps> = ({ onWallpaperClic
 
   if (loading) return <Loader />
 
+  const renderItems = (mainData: CategoriesSpectrumQuery | undefined) => {
+    if(typeof mainData === 'undefined') return null
+    const myItems = [...mainData?.categoriesSpectrum]
+    myItems!.sort((a, b) => {
+      if (a?.totalNumberOfItems! < b?.totalNumberOfItems!) return 1
+      return -1
+    })
+    return myItems!.map((item) => {
+      return (
+        <View key={item?.id}>
+          <HeadingTitle hideButton title={item?.name || ''} />
+          <Cards
+            loading={loading}
+            horizantal
+            group='category'
+            items={item?.wallpapers as Wallpaper[]}
+            onClick={onWallpaperClick}
+            height='35'
+            width='42'
+          />
+        </View>
+      )
+    })
+  }
+
   return (
     <>
       <View style={styles.header}>
         <Text style={styles.text}>Explore More</Text>
-        <View style={styles.line}><Text></Text></View>
+        <View style={styles.line}>
+          <Text></Text>
+        </View>
       </View>
-      {data?.categoriesSpectrum.map((item) => {
-        return (
-          <>
-            <HeadingTitle hideButton title={item?.name || ''} />
-            <Cards
-              loading={loading}
-              horizantal
-              group='category'
-              items={item?.wallpapers as Wallpaper[]}
-              onClick={onWallpaperClick}
-              height='35'
-              width='42'
-            />
-          </>
-        )
-      })}
+      {renderItems(data)}
     </>
   )
 }
@@ -52,7 +64,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: wp(4.5),
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   line: {
     borderBottomWidth: 2,

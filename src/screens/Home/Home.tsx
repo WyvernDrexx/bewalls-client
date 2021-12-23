@@ -129,7 +129,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
         </ScrollView>
       </View>
       <View style={[styles.flex, themedStyles.bg]}>
-        <BannerAd size={BannerAdSize.BANNER} unitId='ca-app-pub-3940256099942544/6300978111' />
+        {/* <BannerAd size={BannerAdSize.BANNER} unitId='ca-app-pub-3940256099942544/6300978111' /> */}
       </View>
       <WallpaperView
         onCloseClick={() => setWallpaper(null)}

@@ -14,7 +14,6 @@ const Loader: React.FC<LoaderProps> = function (props) {
 
   const color = useMemo(() => {
     if (props.useTheme) {
-      console.log(theme.colors)
       return getContrastColor(theme.colors.primary, true)
     }
     return props.light ? '#FFFFFF' : '#000000'
