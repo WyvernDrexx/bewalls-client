@@ -462,10 +462,21 @@ export type GetUserFavouritesQuery = (
   )> }
 );
 
-export type HomeScreenQueryVariables = Exact<{ [key: string]: never; }>;
+export type HomeCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeScreenQuery = (
+export type HomeCategoriesQuery = (
+  { __typename?: 'Query' }
+  & { categories: Array<Maybe<(
+    { __typename?: 'Category' }
+    & Pick<Category, 'id' | 'name' | 'imageUri' | 'totalNumberOfItems' | 'visits' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
+  )>> }
+);
+
+export type HomeTrendingQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomeTrendingQuery = (
   { __typename?: 'Query' }
   & { trending: Array<Maybe<(
     { __typename?: 'Wallpaper' }
@@ -480,12 +491,6 @@ export type HomeScreenQuery = (
       { __typename?: 'Tag' }
       & Pick<Tag, 'name' | 'id'>
     )>> }
-  )>>, categories: Array<Maybe<(
-    { __typename?: 'Category' }
-    & Pick<Category, 'id' | 'name' | 'imageUri' | 'totalNumberOfItems' | 'visits' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
-  )>>, bundles: Array<Maybe<(
-    { __typename?: 'Bundle' }
-    & Pick<Bundle, 'id' | 'imageUri' | 'name' | 'highlightColor' | 'totalNumberOfItems' | 'color' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
   )>> }
 );
 
@@ -991,8 +996,49 @@ export function useGetUserFavouritesLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type GetUserFavouritesQueryHookResult = ReturnType<typeof useGetUserFavouritesQuery>;
 export type GetUserFavouritesLazyQueryHookResult = ReturnType<typeof useGetUserFavouritesLazyQuery>;
 export type GetUserFavouritesQueryResult = Apollo.QueryResult<GetUserFavouritesQuery, GetUserFavouritesQueryVariables>;
-export const HomeScreenDocument = gql`
-    query HomeScreen {
+export const HomeCategoriesDocument = gql`
+    query HomeCategories {
+  categories(page: {}) {
+    id
+    name
+    imageUri
+    totalNumberOfItems
+    visits
+    imageSmall
+    imageLarge
+    imageMedium
+  }
+}
+    `;
+
+/**
+ * __useHomeCategoriesQuery__
+ *
+ * To run a query within a React component, call `useHomeCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomeCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHomeCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<HomeCategoriesQuery, HomeCategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeCategoriesQuery, HomeCategoriesQueryVariables>(HomeCategoriesDocument, options);
+      }
+export function useHomeCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeCategoriesQuery, HomeCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeCategoriesQuery, HomeCategoriesQueryVariables>(HomeCategoriesDocument, options);
+        }
+export type HomeCategoriesQueryHookResult = ReturnType<typeof useHomeCategoriesQuery>;
+export type HomeCategoriesLazyQueryHookResult = ReturnType<typeof useHomeCategoriesLazyQuery>;
+export type HomeCategoriesQueryResult = Apollo.QueryResult<HomeCategoriesQuery, HomeCategoriesQueryVariables>;
+export const HomeTrendingDocument = gql`
+    query HomeTrending {
   trending {
     id
     name
@@ -1018,56 +1064,35 @@ export const HomeScreenDocument = gql`
       id
     }
   }
-  categories(page: {}) {
-    id
-    name
-    imageUri
-    totalNumberOfItems
-    visits
-    imageSmall
-    imageLarge
-    imageMedium
-  }
-  bundles(page: {}) {
-    id
-    imageUri
-    name
-    highlightColor
-    totalNumberOfItems
-    color
-    imageSmall
-    imageLarge
-    imageMedium
-  }
 }
     `;
 
 /**
- * __useHomeScreenQuery__
+ * __useHomeTrendingQuery__
  *
- * To run a query within a React component, call `useHomeScreenQuery` and pass it any options that fit your needs.
- * When your component renders, `useHomeScreenQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useHomeTrendingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeTrendingQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useHomeScreenQuery({
+ * const { data, loading, error } = useHomeTrendingQuery({
  *   variables: {
  *   },
  * });
  */
-export function useHomeScreenQuery(baseOptions?: Apollo.QueryHookOptions<HomeScreenQuery, HomeScreenQueryVariables>) {
+export function useHomeTrendingQuery(baseOptions?: Apollo.QueryHookOptions<HomeTrendingQuery, HomeTrendingQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<HomeScreenQuery, HomeScreenQueryVariables>(HomeScreenDocument, options);
+        return Apollo.useQuery<HomeTrendingQuery, HomeTrendingQueryVariables>(HomeTrendingDocument, options);
       }
-export function useHomeScreenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeScreenQuery, HomeScreenQueryVariables>) {
+export function useHomeTrendingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeTrendingQuery, HomeTrendingQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<HomeScreenQuery, HomeScreenQueryVariables>(HomeScreenDocument, options);
+          return Apollo.useLazyQuery<HomeTrendingQuery, HomeTrendingQueryVariables>(HomeTrendingDocument, options);
         }
-export type HomeScreenQueryHookResult = ReturnType<typeof useHomeScreenQuery>;
-export type HomeScreenLazyQueryHookResult = ReturnType<typeof useHomeScreenLazyQuery>;
-export type HomeScreenQueryResult = Apollo.QueryResult<HomeScreenQuery, HomeScreenQueryVariables>;
+export type HomeTrendingQueryHookResult = ReturnType<typeof useHomeTrendingQuery>;
+export type HomeTrendingLazyQueryHookResult = ReturnType<typeof useHomeTrendingLazyQuery>;
+export type HomeTrendingQueryResult = Apollo.QueryResult<HomeTrendingQuery, HomeTrendingQueryVariables>;
 export const CategoriesSpectrumDocument = gql`
     query CategoriesSpectrum {
   categoriesSpectrum(key: "ALPINE") {

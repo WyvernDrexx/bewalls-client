@@ -8,7 +8,13 @@ import NoNetworkAccess from '../../components/NoNetworkAccess'
 import SearchBar from '../../components/SearchBar'
 import SideBar from '../../components/SideBar'
 import WallpaperView from '../../components/WallpaperView'
-import { Category, useFeaturedQuery, useHomeScreenQuery, Wallpaper } from '../../generated/graphql'
+import {
+  Category,
+  useFeaturedQuery,
+  useHomeCategoriesQuery,
+  useHomeTrendingQuery,
+  Wallpaper
+} from '../../generated/graphql'
 import { useAlerts, useTheme, useWallpaperView } from '../../hooks'
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types'
 import { ItemGroup } from '../../types'
@@ -18,8 +24,9 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false)
   const { wallpaper, setWallpaper } = useWallpaperView()
   const { themedStyles } = useTheme()
-  const { loading, data, error } = useHomeScreenQuery()
-  const { loading: featuredLoading, data: featured } = useFeaturedQuery()
+  const { loading: trendingLoading, data: trending, error: trendingErr } = useHomeTrendingQuery()
+  const { loading: featuredLoading, data: featured, error: featuredErr } = useFeaturedQuery()
+  const { loading: categoriesLoading, data: categories, error: categoriesErr } = useHomeCategoriesQuery()
   const { dispatchShowAlert } = useAlerts()
   const handleSearchBarClick = () => {
     props.navigation.navigate('Search')
@@ -51,12 +58,13 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   }
 
   useEffect(() => {
-    if (error) {
+    if (trendingErr || categoriesErr || trendingErr) {
       dispatchShowAlert({
         error: 'Unable to retrieve wallpapers. Try again later'
       })
     }
-  }, [error])
+  }, [trendingErr, categoriesErr, trendingErr])
+
   return (
     <View style={[styles.mainContainer, themedStyles.bgSecondary]}>
       <SideBar
@@ -87,10 +95,10 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             />
             <HeadingTitle hideButton title='Trending Now' />
             <Cards
-              loading={loading}
+              loading={trendingLoading}
               horizantal
               group='category'
-              items={data?.trending! as Wallpaper[]}
+              items={trending?.trending! as Wallpaper[]}
               onClick={setWallpaper}
               height='35'
               width='42'
@@ -98,9 +106,9 @@ const Home: React.FC<HomeScreenProps> = function (props) {
             <HeadingTitle onClick={goToCategories} title='Categories' />
             <CategoryItems
               hideVisits
-              loading={loading}
+              loading={categoriesLoading}
               onClick={handleBoxClick}
-              categories={data?.categories as Category[]}
+              categories={categories?.categories as Category[]}
               group='category'
               height='15'
               width='70'

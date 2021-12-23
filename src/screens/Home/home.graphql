@@ -1,4 +1,17 @@
-query HomeScreen {
+query HomeCategories {
+  categories(page: {}) {
+    id
+    name
+    imageUri
+    totalNumberOfItems
+    visits
+    imageSmall
+    imageLarge
+    imageMedium
+  }
+}
+
+query HomeTrending {
   trending {
     id
     name
@@ -23,27 +36,6 @@ query HomeScreen {
       name
       id
     }
-  }
-  categories(page: {}) {
-    id
-    name
-    imageUri
-    totalNumberOfItems
-    visits
-    imageSmall
-    imageLarge
-    imageMedium
-  }
-  bundles(page: {}) {
-    id
-    imageUri
-    name
-    highlightColor
-    totalNumberOfItems
-    color
-    imageSmall
-    imageLarge
-    imageMedium
   }
 }
 
