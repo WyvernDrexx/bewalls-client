@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { Cards } from '../../components/Cards'
-import { Bundles } from '../../components/Carousel'
 import CategoryItems from '../../components/CategoryItems'
 import Header from '../../components/Header'
 import HeadingTitle from '../../components/HeadingTitle'
@@ -9,7 +8,7 @@ import NoNetworkAccess from '../../components/NoNetworkAccess'
 import SearchBar from '../../components/SearchBar'
 import SideBar from '../../components/SideBar'
 import WallpaperView from '../../components/WallpaperView'
-import { Bundle, Category, useFeaturedQuery, useHomeScreenQuery, Wallpaper } from '../../generated/graphql'
+import { Category, useFeaturedQuery, useHomeScreenQuery, Wallpaper } from '../../generated/graphql'
 import { useAlerts, useTheme, useWallpaperView } from '../../hooks'
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types'
 import { ItemGroup } from '../../types'
@@ -49,18 +48,6 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   const handleSideBarItemClick = (route: keyof RootStackParamList) => {
     handleSideBarClose()
     props.navigation.navigate(route)
-  }
-
-  const handleBundleClick = (bundle: Bundle, group: ItemGroup) => {
-    props.navigation.navigate('Selection', {
-      title: bundle.name,
-      group,
-      groupId: bundle.id
-    })
-  }
-
-  const navigateToBundlesScreen = () => {
-    props.navigation.navigate('Bundles')
   }
 
   useEffect(() => {
