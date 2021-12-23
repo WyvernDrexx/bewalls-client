@@ -138,9 +138,9 @@ export default function WallpaperView(props: WallpaperViewProps) {
       key: wallpaper.imageMedium
     })
       .then((results) => {
-        const barStyle = getContrastColor(results.vibrant, true) === '#000000' ? 'dark-content' : 'light-content'
+        const barStyle = getContrastColor(results.average, true) === '#000000' ? 'dark-content' : 'light-content'
         setStatusBarColors({
-          backgroundColor: results.vibrant,
+          backgroundColor: results.average,
           barStyle
         })
       })
