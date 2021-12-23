@@ -1,10 +1,17 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import { CategoriesDataQuery, CategoriesSpectrumQuery, Category, useCategoriesSpectrumQuery, Wallpaper } from '../../generated/graphql'
+import {
+  CategoriesDataQuery,
+  CategoriesSpectrumQuery,
+  Category,
+  useCategoriesSpectrumQuery,
+  Wallpaper
+} from '../../generated/graphql'
 import { hp, wp } from '../../utilities'
 import { Cards } from '../Cards'
 import HeadingTitle from '../HeadingTitle'
 import { Loader } from '../Loader'
+import { LoadingView } from '../Loader/LoadingView'
 
 type CategoriesSpectrumProps = {
   onWallpaperClick: (wallpaper: Wallpaper) => void
@@ -13,10 +20,8 @@ type CategoriesSpectrumProps = {
 const CategoriesSpectrum: React.FC<CategoriesSpectrumProps> = ({ onWallpaperClick }) => {
   const { loading, data } = useCategoriesSpectrumQuery()
 
-  if (loading) return <Loader />
-
   const renderItems = (mainData: CategoriesSpectrumQuery | undefined) => {
-    if(typeof mainData === 'undefined') return null
+    if (typeof mainData === 'undefined') return null
     const myItems = [...mainData?.categoriesSpectrum]
     myItems!.sort((a, b) => {
       if (a?.totalNumberOfItems! < b?.totalNumberOfItems!) return 1
@@ -40,17 +45,9 @@ const CategoriesSpectrum: React.FC<CategoriesSpectrumProps> = ({ onWallpaperClic
     })
   }
 
-  return (
-    <>
-      <View style={styles.header}>
-        <Text style={styles.text}>Explore More</Text>
-        <View style={styles.line}>
-          <Text></Text>
-        </View>
-      </View>
-      {renderItems(data)}
-    </>
-  )
+  if (loading) return <LoadingView height='15' />
+
+  return <>{renderItems(data)}</>
 }
 
 const styles = StyleSheet.create({
