@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { FlatList, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { Wallpaper } from '../../generated/graphql'
 import { ItemGroup } from '../../types'
@@ -32,26 +32,29 @@ type RenderItem = {
 const Cards = React.memo(function Cards(props: CardProps) {
   const numColumns = props.horizantal ? undefined : props.numColumns || 2
 
-  const renderItem = (data: RenderItem) => {
-    const isLast = isLastElement(data.index, props.items!.length)
-    return (
-      <Card
-        group={props.group}
-        key={data.item.id}
-        style={[
-          props.style,
-          isLast && !props.disableLastMargin ? styles.marginRight : {},
-          !props.horizantal ? styles.marginBottom : {}
-        ]}
-        wallpaper={data.item}
-        height={props.height}
-        width={props.width}
-        index={data.index}
-        onClick={props.onClick}
-        hideText={props.disableText}
-      />
-    )
-  }
+  const renderItem = useCallback(
+    (data: RenderItem) => {
+      const isLast = isLastElement(data.index, props.items!.length)
+      return (
+        <Card
+          group={props.group}
+          key={data.item.id}
+          style={[
+            props.style,
+            isLast && !props.disableLastMargin ? styles.marginRight : {},
+            !props.horizantal ? styles.marginBottom : {}
+          ]}
+          wallpaper={data.item}
+          height={props.height}
+          width={props.width}
+          index={data.index}
+          onClick={props.onClick}
+          hideText={props.disableText}
+        />
+      )
+    },
+    [props.style, props.disableText, props.height, props.horizantal, props.group, props.height]
+  )
 
   if (props.loading || typeof props.items === 'undefined') {
     return <LoadingView useThemeColor height={props.height} />
