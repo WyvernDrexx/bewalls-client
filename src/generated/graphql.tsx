@@ -165,6 +165,7 @@ export type Query = {
   recent: Array<Maybe<Wallpaper>>;
   trending: Array<Maybe<Wallpaper>>;
   recommended: Array<Maybe<Wallpaper>>;
+  featured: Array<Maybe<Wallpaper>>;
   getUserInfo?: Maybe<User>;
   categories: Array<Maybe<Category>>;
   categoriesSpectrum: Array<Maybe<Category>>;
@@ -510,6 +511,27 @@ export type CategoriesSpectrumQuery = (
         & Pick<Tag, 'name' | 'id'>
       )>> }
     )>>> }
+  )>> }
+);
+
+export type FeaturedQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FeaturedQuery = (
+  { __typename?: 'Query' }
+  & { featured: Array<Maybe<(
+    { __typename?: 'Wallpaper' }
+    & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'views' | 'imageSmall' | 'imageLarge' | 'imageMedium' | 'isUsersFavourite'>
+    & { bundle: (
+      { __typename?: 'Bundle' }
+      & Pick<Bundle, 'id'>
+    ), category: (
+      { __typename?: 'Category' }
+      & Pick<Category, 'id' | 'name'>
+    ), tags: Array<Maybe<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'name' | 'id'>
+    )>> }
   )>> }
 );
 
@@ -1112,6 +1134,62 @@ export function useCategoriesSpectrumLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type CategoriesSpectrumQueryHookResult = ReturnType<typeof useCategoriesSpectrumQuery>;
 export type CategoriesSpectrumLazyQueryHookResult = ReturnType<typeof useCategoriesSpectrumLazyQuery>;
 export type CategoriesSpectrumQueryResult = Apollo.QueryResult<CategoriesSpectrumQuery, CategoriesSpectrumQueryVariables>;
+export const FeaturedDocument = gql`
+    query Featured {
+  featured {
+    id
+    name
+    imageUri
+    sizeInKB
+    downloads
+    height
+    width
+    views
+    imageSmall
+    imageLarge
+    imageMedium
+    isUsersFavourite
+    bundle {
+      id
+    }
+    category {
+      id
+      name
+    }
+    tags {
+      name
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useFeaturedQuery__
+ *
+ * To run a query within a React component, call `useFeaturedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFeaturedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFeaturedQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFeaturedQuery(baseOptions?: Apollo.QueryHookOptions<FeaturedQuery, FeaturedQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FeaturedQuery, FeaturedQueryVariables>(FeaturedDocument, options);
+      }
+export function useFeaturedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FeaturedQuery, FeaturedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FeaturedQuery, FeaturedQueryVariables>(FeaturedDocument, options);
+        }
+export type FeaturedQueryHookResult = ReturnType<typeof useFeaturedQuery>;
+export type FeaturedLazyQueryHookResult = ReturnType<typeof useFeaturedLazyQuery>;
+export type FeaturedQueryResult = Apollo.QueryResult<FeaturedQuery, FeaturedQueryVariables>;
 export const UpdateUserDocument = gql`
     mutation UpdateUser($data: UserUpdateInput!) {
   updateUser(data: $data)

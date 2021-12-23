@@ -9,19 +9,18 @@ import NoNetworkAccess from '../../components/NoNetworkAccess'
 import SearchBar from '../../components/SearchBar'
 import SideBar from '../../components/SideBar'
 import WallpaperView from '../../components/WallpaperView'
-import { Bundle, Category, useHomeScreenQuery, Wallpaper } from '../../generated/graphql'
+import { Bundle, Category, useFeaturedQuery, useHomeScreenQuery, Wallpaper } from '../../generated/graphql'
 import { useAlerts, useTheme, useWallpaperView } from '../../hooks'
 import { HomeScreenProps, RootStackParamList } from '../../navigation/types'
 import { ItemGroup } from '../../types'
 import { hp, wp } from '../../utilities'
-import { BannerAd, BannerAdSize, TestIds } from '@react-native-admob/admob'
-import CategoriesSpectrum from '../../components/CategoriesSpectrum'
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false)
   const { wallpaper, setWallpaper } = useWallpaperView()
   const { themedStyles } = useTheme()
   const { loading, data, error } = useHomeScreenQuery()
+  const { loading: featuredLoading, data: featured } = useFeaturedQuery()
   const { dispatchShowAlert } = useAlerts()
   const handleSearchBarClick = () => {
     props.navigation.navigate('Search')
@@ -89,6 +88,16 @@ const Home: React.FC<HomeScreenProps> = function (props) {
           <Header onProfileClick={handleSideBarOpen} />
           <NoNetworkAccess>
             <SearchBar disabled={isSideBarShown} onSearchBarActive={handleSearchBarClick} />
+            <HeadingTitle hideButton title='Featured' />
+            <Cards
+              loading={featuredLoading}
+              horizantal
+              group='category'
+              items={featured?.featured! as Wallpaper[]}
+              onClick={setWallpaper}
+              height='25'
+              width='65'
+            />
             <HeadingTitle hideButton title='Trending Now' />
             <Cards
               loading={loading}
@@ -98,14 +107,6 @@ const Home: React.FC<HomeScreenProps> = function (props) {
               onClick={setWallpaper}
               height='35'
               width='42'
-            />
-            <HeadingTitle onClick={navigateToBundlesScreen} title='Bundles' />
-            <Bundles
-              height='15'
-              loading={loading}
-              onClick={handleBundleClick}
-              itemType='bundle'
-              items={data?.bundles! as Bundle[]}
             />
             <HeadingTitle onClick={goToCategories} title='Categories' />
             <CategoryItems
@@ -117,11 +118,6 @@ const Home: React.FC<HomeScreenProps> = function (props) {
               height='15'
               width='70'
             />
-            <View style={styles.header}>
-              <Text style={styles.text}>Explore More</Text>
-              <View style={styles.line}></View>
-            </View>
-            <CategoriesSpectrum onWallpaperClick={setWallpaper} />
           </NoNetworkAccess>
         </ScrollView>
       </View>
@@ -156,7 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: wp(2),
-    marginTop: hp(1),
+    marginTop: hp(1)
   },
   text: {
     fontSize: wp(4.5),

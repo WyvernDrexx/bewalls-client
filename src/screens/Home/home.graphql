@@ -84,3 +84,31 @@ query CategoriesSpectrum {
     }
   }
 }
+
+query Featured {
+  featured {
+    id
+    name
+    imageUri
+    sizeInKB
+    downloads
+    height
+    width
+    views
+    imageSmall
+    imageLarge
+    imageMedium
+    isUsersFavourite
+    bundle {
+      id
+    }
+    category {
+      id
+      name
+    }
+    tags {
+      name
+      id
+    }
+  }
+}
