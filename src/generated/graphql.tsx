@@ -93,6 +93,7 @@ export type Mutation = {
   updateUser?: Maybe<Scalars['String']>;
   signIn: UserSignInResponse;
   addToFavourite?: Maybe<Wallpaper>;
+  uploadProfileImage?: Maybe<Scalars['String']>;
   createCategory: Category;
   createBundle: Bundle;
   createTag: Tag;
@@ -131,6 +132,11 @@ export type MutationAddToFavouriteArgs = {
 };
 
 
+export type MutationUploadProfileImageArgs = {
+  file: Scalars['Upload'];
+};
+
+
 export type MutationCreateCategoryArgs = {
   data?: Maybe<CategoryCreateInput>;
 };
@@ -161,10 +167,12 @@ export type Query = {
   recommended: Array<Maybe<Wallpaper>>;
   getUserInfo?: Maybe<User>;
   categories: Array<Maybe<Category>>;
+  categoriesSpectrum: Array<Maybe<Category>>;
   bundles: Array<Maybe<Bundle>>;
   colors: Array<Maybe<Color>>;
   search: SearchResult;
   hotSearches: Array<Maybe<HotSearchTerm>>;
+  spectrum?: Maybe<Spectrum>;
 };
 
 
@@ -195,6 +203,11 @@ export type QueryCategoriesArgs = {
 };
 
 
+export type QueryCategoriesSpectrumArgs = {
+  key: Scalars['String'];
+};
+
+
 export type QueryBundlesArgs = {
   bundleId?: Maybe<Scalars['String']>;
   page: Filter;
@@ -210,6 +223,11 @@ export type QuerySearchArgs = {
   searchText: Scalars['String'];
 };
 
+
+export type QuerySpectrumArgs = {
+  key: Scalars['String'];
+};
+
 export type SearchResult = {
   __typename?: 'SearchResult';
   wallpapers: Array<Maybe<Wallpaper>>;
@@ -220,6 +238,12 @@ export type SingleUploadInput = {
   wallpaper?: Maybe<Scalars['Boolean']>;
   bundle?: Maybe<Scalars['Boolean']>;
   category?: Maybe<Scalars['Boolean']>;
+};
+
+export type Spectrum = {
+  __typename?: 'Spectrum';
+  key?: Maybe<Scalars['String']>;
+  categories?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type Tag = {
@@ -322,6 +346,9 @@ export type WallpaperCreateInput = {
   categoryId: Scalars['String'];
   highlightColor?: Maybe<Scalars['String']>;
   colorId: Scalars['String'];
+  imageSmall: Scalars['String'];
+  imageMedium: Scalars['String'];
+  imageLarge: Scalars['String'];
 };
 
 export type WallpaperFile = {
@@ -458,6 +485,31 @@ export type HomeScreenQuery = (
   )>>, bundles: Array<Maybe<(
     { __typename?: 'Bundle' }
     & Pick<Bundle, 'id' | 'imageUri' | 'name' | 'highlightColor' | 'totalNumberOfItems' | 'color' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
+  )>> }
+);
+
+export type CategoriesSpectrumQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoriesSpectrumQuery = (
+  { __typename?: 'Query' }
+  & { categoriesSpectrum: Array<Maybe<(
+    { __typename?: 'Category' }
+    & Pick<Category, 'id' | 'name' | 'imageUri' | 'totalNumberOfItems' | 'visits' | 'imageSmall' | 'imageLarge' | 'imageMedium'>
+    & { wallpapers?: Maybe<Array<Maybe<(
+      { __typename?: 'Wallpaper' }
+      & Pick<Wallpaper, 'id' | 'name' | 'imageUri' | 'sizeInKB' | 'downloads' | 'height' | 'width' | 'views' | 'imageSmall' | 'imageLarge' | 'imageMedium' | 'isUsersFavourite'>
+      & { bundle: (
+        { __typename?: 'Bundle' }
+        & Pick<Bundle, 'id'>
+      ), category: (
+        { __typename?: 'Category' }
+        & Pick<Category, 'id' | 'name'>
+      ), tags: Array<Maybe<(
+        { __typename?: 'Tag' }
+        & Pick<Tag, 'name' | 'id'>
+      )>> }
+    )>>> }
   )>> }
 );
 
@@ -994,6 +1046,72 @@ export function useHomeScreenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type HomeScreenQueryHookResult = ReturnType<typeof useHomeScreenQuery>;
 export type HomeScreenLazyQueryHookResult = ReturnType<typeof useHomeScreenLazyQuery>;
 export type HomeScreenQueryResult = Apollo.QueryResult<HomeScreenQuery, HomeScreenQueryVariables>;
+export const CategoriesSpectrumDocument = gql`
+    query CategoriesSpectrum {
+  categoriesSpectrum(key: "ALPINE") {
+    id
+    name
+    imageUri
+    totalNumberOfItems
+    visits
+    imageSmall
+    imageLarge
+    imageMedium
+    wallpapers {
+      id
+      name
+      imageUri
+      sizeInKB
+      downloads
+      height
+      width
+      views
+      imageSmall
+      imageLarge
+      imageMedium
+      isUsersFavourite
+      bundle {
+        id
+      }
+      category {
+        id
+        name
+      }
+      tags {
+        name
+        id
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useCategoriesSpectrumQuery__
+ *
+ * To run a query within a React component, call `useCategoriesSpectrumQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoriesSpectrumQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoriesSpectrumQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCategoriesSpectrumQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesSpectrumQuery, CategoriesSpectrumQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CategoriesSpectrumQuery, CategoriesSpectrumQueryVariables>(CategoriesSpectrumDocument, options);
+      }
+export function useCategoriesSpectrumLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoriesSpectrumQuery, CategoriesSpectrumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CategoriesSpectrumQuery, CategoriesSpectrumQueryVariables>(CategoriesSpectrumDocument, options);
+        }
+export type CategoriesSpectrumQueryHookResult = ReturnType<typeof useCategoriesSpectrumQuery>;
+export type CategoriesSpectrumLazyQueryHookResult = ReturnType<typeof useCategoriesSpectrumLazyQuery>;
+export type CategoriesSpectrumQueryResult = Apollo.QueryResult<CategoriesSpectrumQuery, CategoriesSpectrumQueryVariables>;
 export const UpdateUserDocument = gql`
     mutation UpdateUser($data: UserUpdateInput!) {
   updateUser(data: $data)

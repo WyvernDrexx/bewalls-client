@@ -20,6 +20,7 @@ import { HomeScreenProps, RootStackParamList } from '../../navigation/types';
 import { ItemGroup } from '../../types';
 import { hp, wp } from '../../utilities';
 import { BannerAd, BannerAdSize, TestIds } from '@react-native-admob/admob';
+import CategoriesSpectrum from '../../components/CategoriesSpectrum';
 
 const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false);
@@ -123,6 +124,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
               height="15"
               width="70"
             />
+            <CategoriesSpectrum onWallpaperClick={setWallpaper} />
           </NoNetworkAccess>
         </ScrollView>
       </View>

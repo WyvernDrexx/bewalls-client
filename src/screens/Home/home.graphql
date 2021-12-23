@@ -46,3 +46,41 @@ query HomeScreen {
     imageMedium
   }
 }
+
+query CategoriesSpectrum {
+  categoriesSpectrum(key: "ALPINE") {
+    id
+    name
+    imageUri
+    totalNumberOfItems
+    visits
+    imageSmall
+    imageLarge
+    imageMedium
+    wallpapers {
+      id
+      name
+      imageUri
+      sizeInKB
+      downloads
+      height
+      width
+      views
+      imageSmall
+      imageLarge
+      imageMedium
+      isUsersFavourite
+      bundle {
+        id
+      }
+      category {
+        id
+        name
+      }
+      tags {
+        name
+        id
+      }
+    }
+  }
+}
