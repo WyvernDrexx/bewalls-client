@@ -34,6 +34,7 @@ const Cards = React.memo(function Cards(props: CardProps) {
 
   const renderItem = useCallback(
     (data: RenderItem) => {
+      if(!props.items) return null
       const isLast = isLastElement(data.index, props.items!.length)
       return (
         <Card
@@ -53,7 +54,7 @@ const Cards = React.memo(function Cards(props: CardProps) {
         />
       )
     },
-    [props.style, props.disableText, props.height, props.horizantal, props.group, props.height]
+    [props.style, props.disableText, props.height, props.horizantal, props.group, props.height, props.items]
   )
 
   if (props.loading || typeof props.items === 'undefined') {
