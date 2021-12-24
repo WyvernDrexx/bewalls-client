@@ -32,6 +32,7 @@ const Categories: React.FC<CategoriesScreenProps> = function (props) {
         fallback={
           <>
             <StackHeader right={<MiniSearchButton onClick={handleSearchButtonClick} />} title='Categories' />
+            <LoadingView style={themedStyles.bg} height='95' useThemeColor />
           </>
         }
         on={!loading}

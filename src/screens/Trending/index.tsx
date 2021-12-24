@@ -38,7 +38,7 @@ const Trending: React.FC<TrendingScreenProps> = (props) => {
           }
           title='Trending'
         />
-        <LoadingView style={themedStyles.bg} height='95' />
+        <LoadingView useThemeColor style={themedStyles.bg} height='95' />
       </>
     )
   }
