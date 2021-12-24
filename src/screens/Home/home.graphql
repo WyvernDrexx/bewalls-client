@@ -12,7 +12,7 @@ query HomeCategories {
 }
 
 query HomeTrending {
-  trending {
+  trending(page: { take: 5, skip: 0 }) {
     id
     name
     imageUri

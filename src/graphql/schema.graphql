@@ -1,5 +1,5 @@
-query Trending {
-  trending {
+query Trending($take: Int!, $skip: Int!) {
+  trending(page: { take: $take, skip: $skip }) {
     id
     name
     imageUri

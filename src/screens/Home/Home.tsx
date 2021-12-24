@@ -24,7 +24,16 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   const [isSideBarShown, setIsSideBarShown] = useState(false)
   const { wallpaper, setWallpaper } = useWallpaperView()
   const { themedStyles } = useTheme()
-  const { loading: trendingLoading, data: trending, error: trendingErr } = useHomeTrendingQuery()
+  const {
+    loading: trendingLoading,
+    data: trending,
+    error: trendingErr
+  } = useHomeTrendingQuery({
+    variables: {
+      skip: 0,
+      take: 10
+    }
+  })
   const { loading: featuredLoading, data: featured, error: featuredErr } = useFeaturedQuery()
   const { loading: categoriesLoading, data: categories, error: categoriesErr } = useHomeCategoriesQuery()
   const { dispatchShowAlert } = useAlerts()
@@ -44,6 +53,10 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Categories')
   }
 
+  const goToTrending = () => {
+    props.navigation.navigate('Trending')
+  }
+
   const handleBoxClick = (select: Category, group: ItemGroup) => {
     props.navigation.navigate('Selection', {
       title: select.name,
@@ -58,6 +71,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   }
 
   useEffect(() => {
+    console.log(trendingErr)
     if (trendingErr || categoriesErr || trendingErr) {
       dispatchShowAlert({
         error: 'Unable to retrieve wallpapers. Try again later'
@@ -93,7 +107,7 @@ const Home: React.FC<HomeScreenProps> = function (props) {
               height='25'
               width='65'
             />
-            <HeadingTitle hideButton title='Trending Now' />
+            <HeadingTitle onClick={goToTrending} title='Trending Now' />
             <Cards
               loading={trendingLoading}
               horizantal

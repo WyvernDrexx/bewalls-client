@@ -56,7 +56,6 @@ const Selection: React.FC<SelectionScreenProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: 'red'
   },
   displaySelection: {
     display: 'flex',

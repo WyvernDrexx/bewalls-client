@@ -198,6 +198,11 @@ export type QueryRecentArgs = {
 };
 
 
+export type QueryTrendingArgs = {
+  page: Filter;
+};
+
+
 export type QueryCategoriesArgs = {
   categoryId?: Maybe<Scalars['String']>;
   page: Filter;
@@ -380,7 +385,10 @@ export type WallpaperInfoQuery = (
   )> }
 );
 
-export type TrendingQueryVariables = Exact<{ [key: string]: never; }>;
+export type TrendingQueryVariables = Exact<{
+  take: Scalars['Int'];
+  skip: Scalars['Int'];
+}>;
 
 
 export type TrendingQuery = (
@@ -750,8 +758,8 @@ export type WallpaperInfoQueryHookResult = ReturnType<typeof useWallpaperInfoQue
 export type WallpaperInfoLazyQueryHookResult = ReturnType<typeof useWallpaperInfoLazyQuery>;
 export type WallpaperInfoQueryResult = Apollo.QueryResult<WallpaperInfoQuery, WallpaperInfoQueryVariables>;
 export const TrendingDocument = gql`
-    query Trending {
-  trending {
+    query Trending($take: Int!, $skip: Int!) {
+  trending(page: {take: $take, skip: $skip}) {
     id
     name
     imageUri
@@ -796,10 +804,12 @@ export const TrendingDocument = gql`
  * @example
  * const { data, loading, error } = useTrendingQuery({
  *   variables: {
+ *      take: // value for 'take'
+ *      skip: // value for 'skip'
  *   },
  * });
  */
-export function useTrendingQuery(baseOptions?: Apollo.QueryHookOptions<TrendingQuery, TrendingQueryVariables>) {
+export function useTrendingQuery(baseOptions: Apollo.QueryHookOptions<TrendingQuery, TrendingQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<TrendingQuery, TrendingQueryVariables>(TrendingDocument, options);
       }
@@ -1039,7 +1049,7 @@ export type HomeCategoriesLazyQueryHookResult = ReturnType<typeof useHomeCategor
 export type HomeCategoriesQueryResult = Apollo.QueryResult<HomeCategoriesQuery, HomeCategoriesQueryVariables>;
 export const HomeTrendingDocument = gql`
     query HomeTrending {
-  trending {
+  trending(page: {take: 5, skip: 0}) {
     id
     name
     imageUri

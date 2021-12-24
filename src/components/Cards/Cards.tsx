@@ -63,6 +63,7 @@ const Cards = React.memo(function Cards(props: CardProps) {
 
   return (
     <FlatList
+      onEndReached={() => console.log('END REACHED')}
       ListHeaderComponent={props.HeaderComponent}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}

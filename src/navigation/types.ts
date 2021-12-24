@@ -18,8 +18,10 @@ export type RootStackParamList = {
   ContactUs: undefined;
   Favourites: undefined;
   Profile: undefined;
+  Trending: undefined;
 };
 
+export type TrendingScreenProps = StackScreenProps<RootStackParamList, 'Trending'>
 export type SearchScreenProps = StackScreenProps<RootStackParamList, 'Search'>;
 export type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 export type SignInScreenProps = StackScreenProps<RootStackParamList, 'SignIn'>;
