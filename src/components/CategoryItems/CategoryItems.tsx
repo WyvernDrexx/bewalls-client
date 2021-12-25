@@ -60,14 +60,17 @@ const Categories: React.FC<CategoryProps> = React.memo(function (props) {
             styles.root,
             isLast && props.isVertical ? styles.lastElement : {},
             props.isVertical ? styles.marginBottom : styles.marginLeft,
-            isLast && !props.isVertical ? styles.marginRight : {}
+            isLast && !props.isVertical ? styles.marginRight : {},
+            {
+              height,
+            }
           ]}
           onPress={() => handleClick(data.item)}
           key={data.item.id}
         >
           <Image
             progressiveRenderingEnabled
-            blurRadius={imageLoading ? 5 : 0}
+            blurRadius={imageLoading ? 2 : 0}
             onLoadEnd={handleImageLoad}
             style={[
               styles.image,
@@ -75,13 +78,12 @@ const Categories: React.FC<CategoryProps> = React.memo(function (props) {
                 height,
                 width
               },
-              themedStyles.bgSecondary
+              themedStyles.bg
             ]}
             source={{
               uri: data.item[imageSize]
             }}
           />
-          <LoadingView useThemeColor style={styles.loadingView} loading={!imageLoading} height={height} width={width} />
           <View style={[styles.totalNumberOfItems]}>
             <Text style={[styles.numberOfItemsText]}>{data.item.totalNumberOfItems}</Text>
           </View>
@@ -148,9 +150,7 @@ const styles = StyleSheet.create({
   },
   verticalAndLastElement: {},
   loadingView: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
+    position: 'absolute'
   },
   totalNumberOfItems: {
     position: 'absolute',
