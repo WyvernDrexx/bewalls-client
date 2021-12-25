@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { Cards } from '../../components/Cards'
 import CategoryItems from '../../components/CategoryItems'
@@ -41,13 +41,13 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Search')
   }
 
-  const handleSideBarOpen = () => {
+  const handleSideBarOpen = useCallback(() => {
     setIsSideBarShown(true)
-  }
+  }, [])
 
-  const handleSideBarClose = () => {
+  const handleSideBarClose = useCallback(() => {
     setIsSideBarShown(false)
-  }
+  }, [])
 
   const goToCategories = () => {
     props.navigation.navigate('Categories')
@@ -57,13 +57,13 @@ const Home: React.FC<HomeScreenProps> = function (props) {
     props.navigation.navigate('Trending')
   }
 
-  const handleBoxClick = (select: Category, group: ItemGroup) => {
+  const handleBoxClick = useCallback((select: Category, group: ItemGroup) => {
     props.navigation.navigate('Selection', {
       title: select.name,
       group,
       groupId: select.id
     })
-  }
+  }, [])
 
   const handleSideBarItemClick = (route: keyof RootStackParamList) => {
     handleSideBarClose()
@@ -71,7 +71,6 @@ const Home: React.FC<HomeScreenProps> = function (props) {
   }
 
   useEffect(() => {
-    console.log(trendingErr)
     if (trendingErr || categoriesErr || trendingErr) {
       dispatchShowAlert({
         error: 'Unable to retrieve wallpapers. Try again later'
@@ -94,9 +93,9 @@ const Home: React.FC<HomeScreenProps> = function (props) {
           showsVerticalScrollIndicator={false}
           style={styles.scrollView}
         >
-          <Header onProfileClick={handleSideBarOpen} />
+          <Header onSearchBarClick={handleSearchBarClick} onProfileClick={handleSideBarOpen} />
           <NoNetworkAccess>
-            <SearchBar disabled={isSideBarShown} onSearchBarActive={handleSearchBarClick} />
+            {/* <SearchBar disabled={isSideBarShown} onSearchBarActive={handleSearchBarClick} /> */}
             <HeadingTitle hideButton title='Featured' />
             <Cards
               loading={featuredLoading}
@@ -146,32 +145,12 @@ const styles = StyleSheet.create({
     flex: 1
   },
   scrollView: {
-    margin: 0,
-    borderRadius: wp(10)
+    margin: 0
   },
-  marginBottom: { marginBottom: hp(4) },
   flex: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  header: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: wp(2),
-    marginTop: hp(1)
-  },
-  text: {
-    fontSize: wp(4.5),
-    fontWeight: 'bold'
-  },
-  line: {
-    borderBottomWidth: 2,
-    height: 1,
-    flex: 1,
-    marginLeft: wp(2)
   }
 })
 
