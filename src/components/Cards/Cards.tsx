@@ -22,6 +22,7 @@ type CardProps = {
   numColumns?: number
   numberOfItems?: number
   HeaderComponent?: React.ReactElement
+  imageVariant?: 'imageSmall' | 'imageMedium' | 'imageLarge'
 }
 
 type RenderItem = {
@@ -38,6 +39,7 @@ const Cards = React.memo(function Cards(props: CardProps) {
       const isLast = isLastElement(data.index, props.items!.length)
       return (
         <Card
+          imageVariant={props.imageVariant}
           group={props.group}
           key={data.item.id}
           style={[
