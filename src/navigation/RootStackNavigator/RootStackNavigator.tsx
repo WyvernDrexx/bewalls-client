@@ -5,6 +5,7 @@ import { StatusBar, StyleSheet, View } from 'react-native'
 import RNBootSplash from 'react-native-bootsplash'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import Alert from '../../components/Alert'
+import VersionUpdate from '../../components/VersionUpdate'
 import { useGetUserInfoQuery, User } from '../../generated/graphql'
 import { useTheme, useUser } from '../../hooks'
 import {
@@ -92,6 +93,7 @@ function RootNavigator() {
         <Stack.Screen name='Trending' component={Trending} />
       </Stack.Navigator>
       <Alert />
+      <VersionUpdate />
     </NavigationContainer>
   )
 }
