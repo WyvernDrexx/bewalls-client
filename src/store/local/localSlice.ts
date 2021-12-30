@@ -1,15 +1,27 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppVersion } from '../../generated/graphql';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { AppVersion } from '../../generated/graphql'
+
+export type RevisionsHistory = {
+  meta: {
+    lastShown: number | null
+  }
+  versions: AppVersion | null
+}
 
 type InitialState = {
-  profileImageUri: string | null;
-  appVersion: AppVersion | null
-};
+  profileImageUri: string | null
+  appRevisionsHistory: RevisionsHistory
+}
 
 const initialState: InitialState = {
   profileImageUri: null,
-  appVersion: null
-};
+  appRevisionsHistory: {
+    meta: {
+      lastShown: null
+    },
+    versions: null
+  }
+}
 
 const localSlice = createSlice({
   name: 'local',
@@ -18,19 +30,22 @@ const localSlice = createSlice({
     updateProfileImageUri(state, action: PayloadAction<string | null>) {
       if (action.payload) {
         if (!action.payload.includes('file://')) {
-          state.profileImageUri = 'file://' + action.payload;
+          state.profileImageUri = 'file://' + action.payload
         } else {
-          state.profileImageUri = action.payload;
+          state.profileImageUri = action.payload
         }
       } else {
-        state.profileImageUri = null;
+        state.profileImageUri = null
       }
     },
-    updateAppVersion(state, action: PayloadAction<AppVersion | null>) {
-      state.appVersion = action.payload
+    updateAppRevision(state, action: PayloadAction<RevisionsHistory>) {
+      state.appRevisionsHistory = { ...state.appRevisionsHistory, ...action.payload }
+    },
+    updateAppRevisonDate(state, action: PayloadAction<number>) {
+      state.appRevisionsHistory.meta.lastShown = action.payload
     }
-  },
-});
+  }
+})
 
-export const { updateProfileImageUri, updateAppVersion } = localSlice.actions;
-export default localSlice.reducer;
+export const { updateProfileImageUri, updateAppRevision, updateAppRevisonDate } = localSlice.actions
+export default localSlice.reducer

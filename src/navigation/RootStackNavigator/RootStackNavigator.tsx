@@ -7,7 +7,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import Alert from '../../components/Alert'
 import VersionUpdate from '../../components/VersionUpdate'
 import { useAppVersionsQuery, useGetUserInfoQuery, User } from '../../generated/graphql'
-import { useTheme, useUser } from '../../hooks'
+import { useLocal, useTheme, useUser } from '../../hooks'
 import {
   BundlesScreen,
   Categories,
@@ -22,7 +22,7 @@ import {
 } from '../../screens'
 import Trending from '../../screens/Trending'
 import { useAppDispatch } from '../../store'
-import { updateAppVersion } from '../../store/local'
+import { updateAppRevision } from '../../store/local'
 import { setToken, userUpdate } from '../../store/user'
 import { hp, wp } from '../../utilities'
 import tokenStorage from '../../utilities/tokenStorage'
@@ -35,6 +35,7 @@ function RootNavigator() {
   const user = useUser()
   const dispatch = useAppDispatch()
   const statusBarStyle = theme.isDark ? 'light-content' : 'dark-content'
+  const { appRevisionsHistory } = useLocal()
   const { data, loading } = useAppVersionsQuery()
   const { data: userData, refetch } = useGetUserInfoQuery({
     onCompleted: (data) => {
@@ -78,9 +79,23 @@ function RootNavigator() {
 
   useEffect(() => {
     if (!loading && data?.appVersion) {
-      dispatch(updateAppVersion(data.appVersion))
+      if (
+        appRevisionsHistory.versions == null ||
+        appRevisionsHistory.versions?.current?.versionName !== data?.appVersion.current.versionName
+      ) {
+        const today = new Date()
+        today.setDate(today.getDate() - 3)
+        dispatch(
+          updateAppRevision({
+            meta: {
+              lastShown: today.getTime()
+            },
+            versions: data.appVersion
+          })
+        )
+      }
     }
-  }, [loading, data])
+  }, [loading, data, appRevisionsHistory])
 
   return (
     <NavigationContainer ref={navigationRef} onReady={handleNavigationReady}>
