@@ -1,14 +1,28 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import { CURRENT_APP_VERSION_INFO } from '../../constants'
+import { AppVersion } from '../../generated/graphql'
+import { useLocal } from '../../hooks'
 import { hp, wp } from '../../utilities'
 
 const VersionUpdate = () => {
-  const offsetY = useSharedValue(0)
+  const offsetY = useSharedValue(200)
+  const { appVersion } = useLocal()
 
+  const handleViewShow = useCallback(() => {
+    offsetY.value = Animated.withTiming(0)
+  }, [])
   const handleViewClose = useCallback(() => {
     offsetY.value = Animated.withTiming(200)
   }, [])
+
+  const isAppOutdated = (versions: AppVersion) => {
+    if (versions.current.versionName !== CURRENT_APP_VERSION_INFO.versionName) {
+      return true
+    }
+    return false
+  }
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -19,6 +33,12 @@ const VersionUpdate = () => {
       ]
     }
   })
+
+  useEffect(() => {
+    if (appVersion && isAppOutdated(appVersion)) {
+      handleViewShow()
+    }
+  }, [appVersion])
 
   return (
     <Animated.View style={[animatedStyle,styles.root, styles.flex]}>
