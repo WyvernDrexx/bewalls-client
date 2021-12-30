@@ -1,11 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AppVersion } from '../../generated/graphql';
 
 type InitialState = {
   profileImageUri: string | null;
+  appVersion: AppVersion | null
 };
 
 const initialState: InitialState = {
   profileImageUri: null,
+  appVersion: null
 };
 
 const localSlice = createSlice({
@@ -23,8 +26,11 @@ const localSlice = createSlice({
         state.profileImageUri = null;
       }
     },
+    updateAppVersion(state, action: PayloadAction<AppVersion | null>) {
+      state.appVersion = action.payload
+    }
   },
 });
 
-export const { updateProfileImageUri } = localSlice.actions;
+export const { updateProfileImageUri, updateAppVersion } = localSlice.actions;
 export default localSlice.reducer;

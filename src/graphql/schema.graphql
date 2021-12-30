@@ -38,3 +38,25 @@ query Categories {
     imageUri
   }
 }
+
+query AppVersions {
+  appVersion {
+    appName
+    current {
+      code
+      versionName
+      developmentStage
+      notes
+      severity
+      releaseDate
+    }
+    previous {
+      code
+      versionName
+      developmentStage
+      notes
+      severity
+      releaseDate
+    }
+  }
+}

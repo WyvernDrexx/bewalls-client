@@ -12,9 +12,17 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
   DateTime: any;
   /** The `Upload` scalar type represents a file upload. */
   Upload: any;
+};
+
+export type AppVersion = {
+  __typename?: 'AppVersion';
+  appName: Scalars['String'];
+  current: Version;
+  previous: Version;
 };
 
 export type Bundle = {
@@ -71,6 +79,7 @@ export type ColorCreateInput = {
   name: Scalars['String'];
   code: Scalars['String'];
 };
+
 
 
 export type Filter = {
@@ -174,6 +183,7 @@ export type Query = {
   search: SearchResult;
   hotSearches: Array<Maybe<HotSearchTerm>>;
   spectrum?: Maybe<Spectrum>;
+  appVersion: AppVersion;
 };
 
 
@@ -313,6 +323,16 @@ export type UserUpdateInput = {
   email?: Maybe<Scalars['String']>;
 };
 
+export type Version = {
+  __typename?: 'Version';
+  code: Scalars['Int'];
+  notes: Scalars['String'];
+  versionName: Scalars['String'];
+  developmentStage: Scalars['String'];
+  severity: Scalars['String'];
+  releaseDate: Scalars['Date'];
+};
+
 export type Wallpaper = {
   __typename?: 'Wallpaper';
   id: Scalars['String'];
@@ -418,6 +438,24 @@ export type CategoriesQuery = (
     { __typename?: 'Category' }
     & Pick<Category, 'id' | 'name' | 'imageUri'>
   )>> }
+);
+
+export type AppVersionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AppVersionsQuery = (
+  { __typename?: 'Query' }
+  & { appVersion: (
+    { __typename?: 'AppVersion' }
+    & Pick<AppVersion, 'appName'>
+    & { current: (
+      { __typename?: 'Version' }
+      & Pick<Version, 'code' | 'versionName' | 'developmentStage' | 'notes' | 'severity' | 'releaseDate'>
+    ), previous: (
+      { __typename?: 'Version' }
+      & Pick<Version, 'code' | 'versionName' | 'developmentStage' | 'notes' | 'severity' | 'releaseDate'>
+    ) }
+  ) }
 );
 
 export type BundlesScreenQueryVariables = Exact<{ [key: string]: never; }>;
@@ -856,6 +894,56 @@ export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
 export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
+export const AppVersionsDocument = gql`
+    query AppVersions {
+  appVersion {
+    appName
+    current {
+      code
+      versionName
+      developmentStage
+      notes
+      severity
+      releaseDate
+    }
+    previous {
+      code
+      versionName
+      developmentStage
+      notes
+      severity
+      releaseDate
+    }
+  }
+}
+    `;
+
+/**
+ * __useAppVersionsQuery__
+ *
+ * To run a query within a React component, call `useAppVersionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAppVersionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAppVersionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAppVersionsQuery(baseOptions?: Apollo.QueryHookOptions<AppVersionsQuery, AppVersionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AppVersionsQuery, AppVersionsQueryVariables>(AppVersionsDocument, options);
+      }
+export function useAppVersionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AppVersionsQuery, AppVersionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AppVersionsQuery, AppVersionsQueryVariables>(AppVersionsDocument, options);
+        }
+export type AppVersionsQueryHookResult = ReturnType<typeof useAppVersionsQuery>;
+export type AppVersionsLazyQueryHookResult = ReturnType<typeof useAppVersionsLazyQuery>;
+export type AppVersionsQueryResult = Apollo.QueryResult<AppVersionsQuery, AppVersionsQueryVariables>;
 export const BundlesScreenDocument = gql`
     query BundlesScreen {
   bundles(page: {take: 50}) {

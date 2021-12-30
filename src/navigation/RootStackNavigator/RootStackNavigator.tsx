@@ -6,7 +6,7 @@ import RNBootSplash from 'react-native-bootsplash'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import Alert from '../../components/Alert'
 import VersionUpdate from '../../components/VersionUpdate'
-import { useGetUserInfoQuery, User } from '../../generated/graphql'
+import { useAppVersionsQuery, useGetUserInfoQuery, User } from '../../generated/graphql'
 import { useTheme, useUser } from '../../hooks'
 import {
   BundlesScreen,
@@ -22,6 +22,7 @@ import {
 } from '../../screens'
 import Trending from '../../screens/Trending'
 import { useAppDispatch } from '../../store'
+import { updateAppVersion } from '../../store/local'
 import { setToken, userUpdate } from '../../store/user'
 import { hp, wp } from '../../utilities'
 import tokenStorage from '../../utilities/tokenStorage'
@@ -34,7 +35,7 @@ function RootNavigator() {
   const user = useUser()
   const dispatch = useAppDispatch()
   const statusBarStyle = theme.isDark ? 'light-content' : 'dark-content'
-
+  const { data, loading } = useAppVersionsQuery()
   const { data: userData, refetch } = useGetUserInfoQuery({
     onCompleted: (data) => {
       if (data.getUserInfo) {
@@ -74,6 +75,12 @@ function RootNavigator() {
       if (refetch) refetch()
     }
   }, [user.token])
+
+  useEffect(() => {
+    if (!loading && data?.appVersion) {
+      dispatch(updateAppVersion(data.appVersion))
+    }
+  }, [loading, data])
 
   return (
     <NavigationContainer ref={navigationRef} onReady={handleNavigationReady}>
