@@ -3,8 +3,8 @@ import { setContext } from '@apollo/client/link/context';
 import { createUploadLink } from 'apollo-upload-client';
 import tokenStorage from './utilities/tokenStorage';
 
-// const uri = 'https://api.bewalls.com/graphql';
-const uri = 'http://192.168.0.120:4000/graphql';
+const uri = 'https://api.bewalls.com/graphql';
+// const uri = 'http://192.168.0.120:4000/graphql';
 const authLink = setContext(async (_, {}) => {
   const token = await tokenStorage.getToken();
   return {

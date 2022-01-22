@@ -42,6 +42,7 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
 const styles = StyleSheet.create({
   root: {
     paddingHorizontal: wp(2),
+    marginTop: hp(1)
   },
   searchContainer: {
     display: 'flex',

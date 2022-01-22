@@ -94,39 +94,37 @@ const Home: React.FC<HomeScreenProps> = function (props) {
           style={styles.scrollView}
         >
           <Header onSearchBarClick={handleSearchBarClick} onProfileClick={handleSideBarOpen} />
-          <NoNetworkAccess>
-            {/* <SearchBar disabled={isSideBarShown} onSearchBarActive={handleSearchBarClick} /> */}
-            <HeadingTitle hideButton title='Featured' />
-            <Cards
-              loading={featuredLoading}
-              horizantal
-              group='category'
-              items={featured?.featured! as Wallpaper[]}
-              onClick={setWallpaper}
-              height='25'
-              width='65'
-            />
-            <HeadingTitle onClick={goToTrending} title='Trending Now' />
-            <Cards
-              loading={trendingLoading}
-              horizantal
-              group='category'
-              items={trending?.trending! as Wallpaper[]}
-              onClick={setWallpaper}
-              height='35'
-              width='42'
-            />
-            <HeadingTitle onClick={goToCategories} title='Categories' />
-            <CategoryItems
-              hideVisits
-              loading={categoriesLoading}
-              onClick={handleBoxClick}
-              categories={categories?.categories as Category[]}
-              group='category'
-              height='15'
-              width='70'
-            />
-          </NoNetworkAccess>
+          <SearchBar disabled={isSideBarShown} onSearchBarActive={handleSearchBarClick} />
+          <HeadingTitle hideButton title='Featured' />
+          <Cards
+            loading={featuredLoading}
+            horizantal
+            group='category'
+            items={featured?.featured! as Wallpaper[]}
+            onClick={setWallpaper}
+            height='25'
+            width='65'
+          />
+          <HeadingTitle onClick={goToTrending} title='Trending Now' />
+          <Cards
+            loading={trendingLoading}
+            horizantal
+            group='category'
+            items={trending?.trending! as Wallpaper[]}
+            onClick={setWallpaper}
+            height='35'
+            width='42'
+          />
+          <HeadingTitle onClick={goToCategories} title='Categories' />
+          <CategoryItems
+            hideVisits
+            loading={categoriesLoading}
+            onClick={handleBoxClick}
+            categories={categories?.categories as Category[]}
+            group='category'
+            height='15'
+            width='70'
+          />
         </ScrollView>
       </View>
       <View style={[styles.flex, themedStyles.bg]}>

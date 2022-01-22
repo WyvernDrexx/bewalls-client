@@ -47,9 +47,6 @@ const Header: React.FC<HeaderProps> = function (props) {
         </View>
       </TouchableOpacity>
       <View style={styles.actionsView}>
-        <View style={styles.searchButtonView}>
-          <MiniSearchButton onClick={props.onSearchBarClick} />
-        </View>
         <TouchableOpacity activeOpacity={0.5} onPress={handleThemeChange}>
           {theme.mode === 'light' ? (
             <MoonImage fill='black' width={wp(5)} height={wp(5)} />
