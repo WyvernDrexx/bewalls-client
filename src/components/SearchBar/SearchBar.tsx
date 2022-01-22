@@ -30,7 +30,7 @@ const SearchBar: React.FC<SearchBarProps> = function (props) {
           <View style={[styles.searchTextView]}>
             <SearchSvg fill={colors.secondary} height={wp(5)} width={wp(5)} />
             <Text style={[styles.placeholderText, themedStyles.text]}>
-              Search Devices
+              Search
             </Text>
           </View>
         </View>

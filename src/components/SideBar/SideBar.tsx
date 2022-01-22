@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Image, StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Animated, { interpolate, runOnJS, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
@@ -51,57 +51,59 @@ const SideBar: React.FC<SideBarProps> = function (props) {
   } = useTheme()
   const [activeRoute, setActiveRoute] = useState<keyof RootStackParamList>()
   const { dispatchShowAlert } = useAlerts()
-  const SIDEBAR_ITEMS: (theme: ReturnType<typeof useTheme>) => BarItemType[] = ({ theme }) => [
-    {
-      route: 'Home',
-      title: 'Home',
-      icon: () => <Icon color={theme.colors.secondary} name='home-sharp' size={wp(6)} />
-    },
-    {
-      route: 'Profile',
-      title: 'Profile',
-      icon: () => <Icon color={theme.colors.secondary} name='person' size={wp(6)} />,
-      showWhenLoggedIn: true
-    },
-    {
-      route: 'Categories',
-      title: 'Categories',
-      icon: () => <MUIIcons color={theme.colors.secondary} name='category' size={wp(6)} />
-    },
-    {
-      route: 'Favourites',
-      title: 'Favourites',
-      icon: FavSvg,
-      showWhenLoggedIn: true
-    },
-    {
-      route: 'Favourites',
-      title: 'Favourites',
-      icon: FavSvg,
-      hideWhenLoggedIn: true,
-      onClick({ next, user }) {
-        if (!user.isVerified) {
-          dispatchShowAlert({ error: 'Please login to continue.' })
-        } else next()
+  const SIDEBAR_ITEMS: (theme: ReturnType<typeof useTheme>) => BarItemType[] = useMemo(() => {
+    return ({ theme }) => [
+      {
+        route: 'Home',
+        title: 'Home',
+        icon: () => <Icon color={theme.colors.secondary} name='home-sharp' size={wp(6)} />
+      },
+      {
+        route: 'Profile',
+        title: 'Profile',
+        icon: () => <Icon color={theme.colors.secondary} name='person' size={wp(6)} />,
+        showWhenLoggedIn: true
+      },
+      {
+        route: 'Categories',
+        title: 'Categories',
+        icon: () => <MUIIcons color={theme.colors.secondary} name='category' size={wp(6)} />
+      },
+      {
+        route: 'Favourites',
+        title: 'Favourites',
+        icon: FavSvg,
+        showWhenLoggedIn: true
+      },
+      {
+        route: 'Favourites',
+        title: 'Favourites',
+        icon: FavSvg,
+        hideWhenLoggedIn: true,
+        onClick({ next, user }) {
+          if (!user.isVerified) {
+            dispatchShowAlert({ error: 'Please login to continue.' })
+          } else next()
+        }
+      },
+      {
+        route: 'SignIn',
+        title: 'Sign In/Sign Up',
+        hideWhenLoggedIn: true,
+        icon: () => <MUIIcons color={theme.colors.secondary} name='login' size={wp(6)} />
+      },
+      {
+        route: 'Settings',
+        title: 'Settings',
+        icon: () => <Icon color={theme.colors.secondary} name='settings' size={wp(6)} />
+      },
+      {
+        route: 'ContactUs',
+        title: 'Contact Us',
+        icon: () => <Icon color={theme.colors.secondary} name='ios-mail' size={wp(6)} />
       }
-    },
-    {
-      route: 'SignIn',
-      title: 'Sign In/Sign Up',
-      hideWhenLoggedIn: true,
-      icon: () => <AntDesignIcons color={theme.colors.secondary} name='login' size={wp(6)} />
-    },
-    {
-      route: 'Settings',
-      title: 'Settings',
-      icon: () => <Icon color={theme.colors.secondary} name='settings' size={wp(6)} />
-    },
-    {
-      route: 'ContactUs',
-      title: 'Contact Us',
-      icon: () => <Icon color={theme.colors.secondary} name='ios-mail' size={wp(6)} />
-    }
-  ]
+    ]
+  }, [theme, user])
 
   useEffect(() => {
     isShown.value = props.isShown
