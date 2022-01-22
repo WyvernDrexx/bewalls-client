@@ -11,7 +11,7 @@ query wallpapers(
       tagsId: $tagsId
       colorId: $colorId
     }
-    page: { take: 20 }
+    page: { take: 1000 }
   ) {
     name
     imageUri

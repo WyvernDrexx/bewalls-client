@@ -1551,7 +1551,7 @@ export const WallpapersDocument = gql`
     query wallpapers($bundleId: String, $categoryId: String, $tagsId: String, $colorId: String) {
   wallpapers(
     data: {bundleId: $bundleId, categoryId: $categoryId, tagsId: $tagsId, colorId: $colorId}
-    page: {take: 20}
+    page: {take: 1000}
   ) {
     name
     imageUri
